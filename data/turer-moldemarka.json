@@ -1,7 +1,7 @@
 {
   "omrade": "Moldemarka, Molde kommune",
-  "oppdatert": "2026-10-28",
-  "beskrivelse": "Kuratert tilleggsdatasett for Turplanlegger-MVP. Vanskelighetsgrad er oversatt fra morotur.no-farge (grønn=G, blå=B, rød=R), samme koder som Turrutebasen. Lengde og høydemeter er hentet fra kildene og må kontrolleres mot høydedata før bruk.",
+  "oppdatert": "2026-10-29",
+  "beskrivelse": "Kuratert tilleggsdatasett for Turplanlegger-MVP. Vanskelighetsgrad er oversatt fra morotur.no-farge (grønn=G, blå=B, rød=R), samme koder som Turrutebasen. Lengde og høydemeter er hentet fra kildene og må kontrolleres mot høydedata før bruk. Feltet 'egnet_darlig_vaer' er kun satt (true/false) der kildeteksten i 'merknad' eksplisitt sier noe om forhold i dårlig/vått vær (3 av 12 turer per 2026-10-29); resten er 'null' = ukjent, ikke 'nei'. PRD/rangeringslogikk må ha en uttrykkelig fallback-regel for 'null' — se addendum.md.",
   "turer": [
     {
       "id": "varden-fra-sentrum",
@@ -104,7 +104,7 @@
       "utsikt": true,
       "vann": true,
       "historie": false,
-      "egnet_darlig_vaer": null,
+      "egnet_darlig_vaer": false,
       "turrutebasen_segmenter": [
         "1506_MM_0303",
         "1506_MM_0304",
@@ -151,7 +151,7 @@
       "utsikt": true,
       "vann": true,
       "historie": false,
-      "egnet_darlig_vaer": null,
+      "egnet_darlig_vaer": false,
       "turrutebasen_segmenter": [
         "1506_MM_0303",
         "1506_MM_0304",
