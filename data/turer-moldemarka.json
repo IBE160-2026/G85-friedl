@@ -169,7 +169,7 @@
       "retning": "en_vei",
       "lengde_km_kilde": 4.87,
       "lengde_km_totalt": 9.74,
-      "hoydemeter": null,
+      "hoydemeter": 500,
       "hoyeste_punkt_moh": 584,
       "gradering": "R",
       "gradering_tekst": "Krevende",
@@ -183,7 +183,7 @@
         "F_20170227_2"
       ],
       "kilde": "https://morotur.no/en/tur/fraenavarden",
-      "merknad": "Kilden oppgir 0 høydemeter, som er feil. Må beregnes fra høydedata. Mest over tregrensen."
+      "merknad": "Høydemeter er et anslag (ca. 500 m): topp 584 moh minus start ved Grua ca. 86 moh, utledet fra Tusenårsvarden fra Grua (524 moh, 438 m). Kilden oppgir 0 m, som er feil. Mest over tregrensen."
     },
     {
       "id": "moldevatnet-fra-jensgurilia",
