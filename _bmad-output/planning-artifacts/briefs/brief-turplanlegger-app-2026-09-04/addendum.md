@@ -1,6 +1,6 @@
 # Addendum: Turplanlegger (arbeidstittel)
 
-Utfyllende teknisk detalj til [brief.md](brief.md), til bruk i senere PRD-/arkitekturarbeid. Oppdatert 2026-10-29 etter gjennomgang av Turrutebasen for Molde.
+Utfyllende teknisk detalj til [brief.md](brief.md), til bruk i senere PRD-/arkitekturarbeid. Oppdatert 2026-10-29 etter gjennomgang av Turrutebasen for Molde, og 2026-11-02 etter avklaring av tidsrom, tid til rådighet og kartgeometri.
 
 ## Eksempel på dataobjekter
 
@@ -27,6 +27,8 @@ Utfyllende teknisk detalj til [brief.md](brief.md), til bruk i senere PRD-/arkit
 - Merking og vedlikeholdsansvarlig
 - Vanskelighetsgrad (finnes sjelden)
 
+Segmentene er biter i et stinettverk og følger ikke turene nøyaktig. Målt 2026-11-02 mot GML-filen: Storlihytta fra Vardeveien (0,53 km én vei) er koblet til 4,55 km segmenter, Bergsvatnet (1,57 km) til 5,87 km, og turene fra Damefallet til omtrent 1,7 ganger turlengden. MVP tegner derfor en omtrentlig rute; å klippe ut eksakt trasé er utenfor MVP.
+
 ### Værdata (fra MET Locationforecast, hentet dynamisk)
 
 - Sted/koordinater (maks 4 desimaler)
@@ -38,10 +40,10 @@ Utfyllende teknisk detalj til [brief.md](brief.md), til bruk i senere PRD-/arkit
 
 ### Brukerpreferanse (per søk — ikke lagret i MVP)
 
-- Tid til rådighet
+- Tid til rådighet (tid på selve turen, uten reise til startpunktet)
 - Ønsket vanskelighetsgrad
 - Type opplevelse (utsikt, vann)
-- Tidspunkt for turen (nå eller senere i dag)
+- Tidspunkt for turen (i dag eller i morgen, og når på dagen)
 
 ## Plassering i repoet
 

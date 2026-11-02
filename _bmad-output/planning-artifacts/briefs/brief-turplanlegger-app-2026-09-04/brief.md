@@ -1,8 +1,8 @@
 ---
 title: Turplanlegger (arbeidstittel)
-status: draft
+status: final
 created: 2026-09-04
-updated: 2026-10-29
+updated: 2026-11-02
 ---
 
 # Product Brief: Turplanlegger (arbeidstittel)
@@ -11,7 +11,7 @@ updated: 2026-10-29
 
 Å velge riktig tur for akkurat denne dagen er vanskeligere enn det høres ut som. Værforhold endrer seg, tilgjengelig tid varierer, og ønsket vanskelighetsgrad eller type opplevelse — utsikt, vann, kort tur — er personlig. I dag må man enten forholde seg til statiske turlister og selv krysssjekke dette mot værmeldingen, eller stole på egen lokalkunnskap.
 
-Turplanlegger er en responsiv nettside der brukeren oppgir noen enkle preferanser — tid til rådighet, ønsket vanskelighetsgrad, type opplevelse — og får konkrete turforslag tilbake, basert på faktisk turdata og faktisk værmelding for området. Ikke en statisk liste å bla i, men et verktøy som kobler dagens forhold direkte til et konkret valg. Nettsiden skal fungere like godt på PC hjemme kvelden før som på mobil rett før man drar.
+Turplanlegger er en responsiv nettside der brukeren oppgir når turen skal gå (i dag eller i morgen) og noen enkle preferanser — tid til rådighet, ønsket vanskelighetsgrad, type opplevelse — og får konkrete turforslag tilbake, basert på faktisk turdata og faktisk værmelding for området. Ikke en statisk liste å bla i, men et verktøy som kobler forholdene direkte til et konkret valg. Nettsiden skal fungere like godt på PC hjemme kvelden før som på mobil rett før man drar.
 
 Prosjektet gjennomføres som del av IBE160 og bygger på reelle, gratis og offentlige norske datakilder: Turrutebasen (Kartverket/Geonorge) for turdata, beriket med et eget kuratert datasett, og MET Norway for værdata. MVP-området er Moldemarka i Molde kommune.
 
@@ -23,15 +23,15 @@ UT.no (drevet av DNT) er allerede etablert som en omfattende turplanlegger, men 
 
 ## Løsningen
 
-En responsiv nettside der brukeren oppgir preferanser, og løsningen kombinerer dette med turdata og faktisk værmelding for å foreslå 1–3 konkrete turer — hver med en kort begrunnelse for hvorfor akkurat denne turen passer nå (f.eks. "kort tur i nærheten siden du har begrenset tid, og finvær utover ettermiddagen").
+En responsiv nettside der brukeren oppgir preferanser, og løsningen kombinerer dette med turdata og faktisk værmelding for å foreslå 1–3 konkrete turer — hver med en kort begrunnelse for hvorfor akkurat denne turen passer (f.eks. "kort tur siden du har begrenset tid, og finvær utover ettermiddagen").
 
 Kjernefunksjoner (MVP):
 
-- **Preferanseinput** — tid til rådighet, ønsket vanskelighetsgrad, og eventuelle preferanser (utsikt, vann).
-- **Værintegrasjon** — henter værmelding fra MET Locationforecast for turområdet og vurderer om forholdene passer for tur i den aktuelle perioden.
-- **Turdata** — et kuratert sett med turer i Moldemarka med lengde, høydemeter, vanskelighetsgrad, utsikt og vann. Rutegeometrien kommer fra Turrutebasen.
+- **Preferanseinput** — når turen skal gå (i dag eller i morgen, og når på dagen), tid til rådighet, ønsket vanskelighetsgrad og eventuelle preferanser (utsikt, vann). Tid til rådighet er tiden på selve turen; reisen til og fra startpunktet regnes ikke med.
+- **Værintegrasjon** — henter værmelding fra MET Locationforecast for turområdet og vurderer om forholdene passer for tur i det valgte tidsvinduet.
+- **Turdata** — et kuratert sett med turer i Moldemarka med lengde, høydemeter, vanskelighetsgrad, utsikt og vann. Den omtrentlige rutegeometrien kommer fra Turrutebasen.
 - **Anbefaling** — en regelbasert poengberegning velger og rangerer 1–3 turer. Begrunnelsen genereres fra de samme reglene. En språkmodell kan eventuelt formulere begrunnelsen i mer naturlig språk, men velger aldri turene, og appen fungerer fullt ut uten den.
-- **Kartvisning** — viser anbefalte turer på et kart, med grunnleggende informasjon (lengde, vanskelighetsgrad, startpunkt).
+- **Kartvisning** — viser anbefalte turer på et kart med startpunkt og omtrentlig rute, sammen med lengde og vanskelighetsgrad. Ruten tegnes fra Turrutebasen-segmentene turen går i, og kan derfor vise mer sti enn selve turen.
 
 ### Slik fungerer anbefalingen
 
@@ -39,11 +39,11 @@ Anbefalingen er regelbasert, slik at den kan testes med faste værdata:
 
 1. **Filtrering (harde krav):** Turer med beregnet turtid over tilgjengelig tid fjernes. Turer som er vanskeligere enn valgt vanskelighetsgrad fjernes.
 2. **Turtid** beregnes med Naismiths regel: 5 km/t pluss 1 time per 600 høydemeter.
-3. **Værvurdering:** Værmeldingen for tidsvinduet klassifiseres som god, middels eller dårlig ut fra nedbør, vind og temperatur. Foreløpige terskler, som justeres i PRD: dårlig vær = nedbør over 2 mm/t eller vind over 10 m/s.
-4. **Poeng og rangering:** Turer som matcher ønsket opplevelse (utsikt, vann) får høyere poeng. Ved dårlig vær får turer under tregrensen og turer merket som egnet i dårlig vær høyere poeng, og utsiktsturer lavere.
+3. **Værvurdering:** Værmeldingen for tidsvinduet klassifiseres som god, middels eller dårlig ut fra nedbør, vind og temperatur. Foreløpige terskler, som justeres i PRD: dårlig vær = nedbør over 2 mm/t eller vind over 10 m/s. Tersklene er produktets egne, ikke MET sine farevarselgrenser.
+4. **Poeng og rangering:** Turer som matcher ønsket opplevelse (utsikt, vann) får høyere poeng. Ved dårlig vær får lavtliggende turer (lavt høyeste punkt; grensen settes i PRD) og turer merket som egnet i dårlig vær høyere poeng, og utsiktsturer lavere.
 5. **Begrunnelse:** Hvert forslag viser hvilke regler som slo inn, for eksempel "passer tiden din (1 t 20 min), lite nedbør, utsikt over fjorden".
 
-**Når ingen tur passer** (for eksempel styrtregn hele dagen eller svært kort tid), viser appen en forståelig melding og foreslår det nærmeste alternativet — kortere tur, enklere tur eller et bedre tidsvindu samme dag.
+**Når ingen tur passer** (for eksempel styrtregn hele dagen eller svært kort tid), viser appen en forståelig melding og foreslår det nærmeste alternativet — kortere tur, enklere tur eller et bedre tidsvindu i dag eller i morgen.
 
 ## Teknisk krav: responsivt design
 
@@ -59,7 +59,7 @@ Kjernen i prosjektet er koblingsjobben, ikke oppslagsjobben: fra "her er alt som
 
 ## Målgruppe
 
-**Primærbruker:** En student i Molde som har en ledig ettermiddag og vil på tur samme dag. Hun kjenner ikke nødvendigvis Moldemarka godt, har mellom 1 og 4 timer til rådighet, og vil vite hvilken tur som passer med tiden hun har og været i dag — uten å sammenligne turlister og værmelding selv. Hun bruker mobilen, ofte rett før hun går.
+**Primærbruker:** En student i Molde som har en ledig ettermiddag og vil på tur samme dag. Hun kjenner ikke nødvendigvis Moldemarka godt, har mellom 1 og 4 timer til rådighet, og vil vite hvilken tur som passer med tiden hun har og været i dag — uten å sammenligne turlister og værmelding selv. Hun bruker mobilen, ofte rett før hun går. Kvelden før kan hun planlegge neste dags tur på samme måte.
 
 Lokalbefolkning og besøkende kan også ha nytte av løsningen, men designet og prioriteringene i MVP tas ut fra primærbrukeren.
 
@@ -68,11 +68,12 @@ Lokalbefolkning og besøkende kan også ha nytte av løsningen, men designet og 
 Kriteriene er formulert slik at de kan testes:
 
 - Brukeren kan gå fra å oppgi preferanser til å få et konkret turforslag på under ett minutt.
+- Brukeren kan velge tidspunkt i dag eller i morgen, og værvurderingen gjelder det valgte tidsvinduet.
 - Ved 1 time tilgjengelig foreslås ingen tur med beregnet turtid over 1 time.
 - Ingen tur som er vanskeligere enn valgt vanskelighetsgrad blir foreslått.
-- Ved meldt kraftig nedbør eller sterk vind i tidsvinduet vises en tydelig værvarsling, og turer som er egnet i dårlig vær rangeres høyere.
+- Når værmeldingen for tidsvinduet gir dårlig vær etter appens egne terskler, vises en tydelig værvarsling, og en tur som er merket som egnet i dårlig vær rangeres over en ellers lik tur uten slik merking.
 - Når ingen tur passer, vises en forståelig melding med et alternativ, aldri en tom side eller feilmelding.
-- Hvert forslag har en begrunnelse som nevner tid, vær og minst én preferanse.
+- Hvert forslag har en begrunnelse som nevner tid og vær, og minst én av brukerens preferanser når brukeren har oppgitt noen.
 - Rangeringen gir samme resultat for samme input og samme værdata (testes med faste værdata).
 - Appen fungerer uten API-nøkler, og kan kjøres lokalt etter README.
 - Nettsiden er brukbar på skjermbredder fra 360 px (mobil) til 1440 px (PC), uten horisontal scrolling.
@@ -87,22 +88,24 @@ Kriteriene er formulert slik at de kan testes:
 - Flerdagers turplanlegging/ruteoptimalisering
 - Deling av turforslag (lenke/sosiale medier)
 - Filtrering på aktivitetstype (fottur, skitur, sykkeltur)
-- Kollektivtransport til startpunktet
+- Reisetid og kollektivtransport til startpunktet
+- Eksakt turtrasé på kartet
 - Flere områder enn Moldemarka
 
 **Avgrensninger:**
 
 - MVP er avgrenset til **Moldemarka i Molde kommune**, med et kuratert utvalg på 10–20 fotturer.
 - Kun fotturer i MVP.
+- Turforslag gjelder bare i dag og i morgen.
 - Ingen brukerkontoer/innlogging i MVP.
 - Ingen sanntids GPS-sporing underveis på selve turen — dette er et planleggingsverktøy, ikke en treningsapp.
 - Værvarsel er informativt, ikke en garanti — brukeren har fortsatt selv ansvar for å vurdere forholdene før og under turen.
 
 ## Datakilder
 
-- **Turrutebasen** (Kartverket/Geonorge) — åpne geodata med turruter. Lastet ned for Molde kommune (GML, EPSG:25833). Filen har 94 navngitte fotruter, men vanskelighetsgrad finnes bare på 15 av dem, og høydemeter mangler helt. Ruter i datasettet er ofte segmenter i et nettverk, ikke hele turer. Turrutebasen brukes derfor til rutegeometri på kartet.
-- **Kuratert turdatasett** — 12 turer i Moldemarka med lengde, høydemeter, vanskelighetsgrad, utsikt og vann, hentet fra morotur.no (Møre og Romsdal fylkeskommunes turdatabase) og koblet til segmentene i Turrutebasen. Høydemeter kontrolleres mot høydedata.
-- **MET Norway Locationforecast** — gratis værdata under åpen lisens (CC BY 4.0), uten API-nøkkel. Krever en identifiserende User-Agent og caching. Siden nettleseren ikke kan sette User-Agent, går værkallene via en liten backend-proxy med caching, slik MET anbefaler.
+- **Turrutebasen** (Kartverket/Geonorge) — åpne geodata med turruter. Lastet ned for Molde kommune (GML, EPSG:25833). Filen har 94 navngitte fotruter, men vanskelighetsgrad finnes bare på 15 av dem, og høydemeter mangler helt. Ruter i datasettet er ofte segmenter i et nettverk, ikke hele turer. Turrutebasen brukes derfor bare til omtrentlig rutegeometri på kartet: en tur tegnes som segmentene den går i, og de er ofte lengre enn selve turen.
+- **Kuratert turdatasett** — 12 turer i Moldemarka med lengde, høydemeter, vanskelighetsgrad, utsikt og vann, hentet fra morotur.no (Møre og Romsdal fylkeskommunes turdatabase) for 11 av turene og fra Fjord Norway for én, og koblet til segmentene i Turrutebasen. Høydemeter skal kontrolleres mot høydedata; ett av tallene er foreløpig et anslag.
+- **MET Norway Locationforecast** — gratis værdata under åpne lisenser (NLOD 2.0 og CC BY 4.0), uten API-nøkkel. Krever en identifiserende User-Agent og caching. Siden nettleseren ikke kan sette User-Agent, går værkallene via en liten backend-proxy med caching, slik MET anbefaler.
 
 Detaljer om dataobjektene og hvor dataene ligger i repoet står i [addendum.md](addendum.md).
 
