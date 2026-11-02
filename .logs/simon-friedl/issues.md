@@ -1,8 +1,12 @@
 # Åpne punkter
 
-- [ ] 2026-10-29 [pre-prd-research](999-2026-10-29-21-23-49-pre-prd-research.md) — `_bmad/bmm/config.yaml` sin språkendring (commit `90f55b0`) har ingen effekt; faktisk fix er `_bmad/custom/config.toml`/`config.user.toml` (communication_language/document_output_language = Norwegian)
-- [ ] 2026-10-29 [pre-prd-research](999-2026-10-29-21-23-49-pre-prd-research.md) — `data/turer-moldemarka.json` og `addendum.md` er endret men ikke committet
+- [x] 2026-10-29 [pre-prd-research](999-2026-10-29-21-23-49-pre-prd-research.md) — `_bmad/bmm/config.yaml` sin språkendring (commit `90f55b0`) har ingen effekt; faktisk fix er `_bmad/custom/config.toml`/`config.user.toml` (communication_language/document_output_language = Norwegian) (løst 2026-11-02, var allerede fikset i `c3f186a`)
+- [x] 2026-10-29 [pre-prd-research](999-2026-10-29-21-23-49-pre-prd-research.md) — `data/turer-moldemarka.json` og `addendum.md` er endret men ikke committet (løst 2026-11-02, committet i `c3f186a`)
 - [ ] 2026-10-29 [pre-prd-research](999-2026-10-29-21-23-49-pre-prd-research.md) — `egnet_darlig_vaer` er fortsatt ukjent (`null`) for 9 av 12 turer; PRD må ha en fallback-regel for `null`
 - [ ] 2026-10-29 [pre-prd-research](999-2026-10-29-21-23-49-pre-prd-research.md) — MET-rutenett-oppløsning for Moldemarka og Molde sin farevarselsone ikke bekreftet (lav prioritet)
 - [ ] 2026-10-29 [pre-prd-research](999-2026-10-29-21-23-49-pre-prd-research.md) — lisensrisiko for morotur.no-data (ingen publisert lisens) bør nevnes i PRD som akseptert risiko; kontakt Petter Jenset (petter.jenset@mrfylke.no) hvis prosjektet går forbi MVP/skole-kontekst
 - [ ] 2026-10-29 [pre-prd-research](999-2026-10-29-21-23-49-pre-prd-research.md) — `brief.md` har fortsatt `status: draft`; uklart om brukeren anser briefen som ferdig til PRD-arbeid
+- [ ] 2026-11-02 [brief-gjennomgang-for-prd](997-2026-11-02-15-43-35-brief-gjennomgang-for-prd.md) — Brief: avklar tidsrom («i dag» vs også «i morgen» — sammendraget sier «kvelden før») og om «tid til rådighet» inkluderer transport; legg tidspunkt inn i Preferanseinput
+- [ ] 2026-11-02 [brief-gjennomgang-for-prd](997-2026-11-02-15-43-35-brief-gjennomgang-for-prd.md) — Brief: rett regelen om «under tregrensen» (ingen slikt felt), suksesskriteriene («minst én preferanse», «kraftig nedbør/sterk vind», «egnet i dårlig vær») og faktafeil; logg i `.memlog.md` og sett `status` til ferdig
+- [ ] 2026-11-02 [brief-gjennomgang-for-prd](997-2026-11-02-15-43-35-brief-gjennomgang-for-prd.md) — Kart: Turrutebasen-segmentene dekker langt mer enn turene (Storlihytta fra Vardeveien 0,53 km → 4,55 km segmenter); avklar MVP-ambisjon for rutegeometri
+- [ ] 2026-11-02 [brief-gjennomgang-for-prd](997-2026-11-02-15-43-35-brief-gjennomgang-for-prd.md) — Data: startkoordinater mangler for alle 12 turer; lengde for `tur_retur` er tvetydig (Tusenårsvarden fra Grua); feltet `historie` brukes ikke
