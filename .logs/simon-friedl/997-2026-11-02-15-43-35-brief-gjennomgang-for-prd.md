@@ -20,6 +20,7 @@ Brukeren byttet til Opus 5.5 med max effort og ba om en gjennomgang av om det er
 - Suksesskriteriene om værvarsling og begrunnelse er omskrevet. Faktafeilene er rettet (11 av 12 fra morotur.no, høydemeter «skal kontrolleres», MET-lisens NLOD 2.0 og CC BY 4.0).
 - `.memlog.md` har fått 8 nye oppføringer, blant dem en etterregistrering av den ulogede oppdateringen 2026-10-29 (`ca80853`, `c3f186a`).
 - Den redaksjonelle runden ga én språkfiks. Ikke tatt inn: forslaget om å korte ned Datakilder og flytte detaljene til addendumet (briefen er 1473 ord, over målet på 1–2 sider).
+- Pushet til `origin/main` etter brukerens ønske, sammen med loggcommitene for økten.
 
 Funn fra gjennomgangen (før oppdateringen):
 
