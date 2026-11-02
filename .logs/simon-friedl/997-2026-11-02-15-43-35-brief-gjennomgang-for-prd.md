@@ -3,15 +3,25 @@
 ## 2026-11-02 kl. 15:43 — Simon Friedl
 
 ### Oppgave
-Brukeren byttet til Opus 5.5 med max effort og ba om en gjennomgang av om det er noe mer som bør gjøres med product brief før PRD-arbeidet starter. Avtalt: bare anbefalinger, ingen endringer i briefen uten godkjenning.
+Brukeren byttet til Opus 5.5 med max effort og ba om en gjennomgang av om det er noe mer som bør gjøres med product brief før PRD-arbeidet starter. Avtalt: bare anbefalinger, ingen endringer i briefen uten godkjenning. Etter gjennomgangen godkjente brukeren rettelsene og tok tre valg: turforslag for **i dag og i morgen**, «tid til rådighet» = **bare turtid**, og **omtrentlig** rute på kartet.
 
 ### Plan
 - Leste `brief.md`, `addendum.md`, `.memlog.md`, `tilbakemelding-product-brief.md` (faglærer, 2026-10-06), MET-researchen og `data/turer-moldemarka.json`/`.csv`.
 - Krysssjekket briefen mot faglærers tilbakemelding, mot seg selv og mot dataene.
 - Pakket ut Turrutebasen-GML-en i scratchpad og målte lengden på segmentene hver tur er koblet til, sammenlignet med turens oppgitte lengde (engangsskript i scratchpad, ikke i repoet).
+- Etter godkjenning: oppdaterte briefen etter `bmad-product-brief` sin Update-modus. Beslutningene og endringene ble logget med `memlog.py`, så kom ferdigstillingen med redaksjonell gjennomgang (`bmad-review`, structure+prose, kjørt inline uten subagenter) og `status: final`.
 
 ### Resultat
-Ingen endringer i brief, addendum eller data. Funn:
+**Briefen er oppdatert og ferdigstilt** i commit `97ef01d` (brief.md, addendum.md, .memlog.md):
+- Tidsrom «i dag og i morgen» i sammendrag, Preferanseinput, «når ingen tur passer», Avgrensninger og et nytt suksesskriterium. Målgruppen har fått en setning om planlegging kvelden før.
+- «Tid til rådighet» er definert som tid på selve turen. «I nærheten» er fjernet fra eksempelbegrunnelsen, og «Reisetid og kollektivtransport til startpunktet» står under Utenfor MVP.
+- Kartvisningen beskriver startpunkt og omtrentlig rute, og «Eksakt turtrasé på kartet» står under Utenfor MVP. Segmentmålingene er lagt i addendumet under Rutesegment.
+- Regelen om tregrensen er erstattet med «lavtliggende turer (lavt høyeste punkt; grensen settes i PRD)». Værtersklene er merket som produktets egne.
+- Suksesskriteriene om værvarsling og begrunnelse er omskrevet. Faktafeilene er rettet (11 av 12 fra morotur.no, høydemeter «skal kontrolleres», MET-lisens NLOD 2.0 og CC BY 4.0).
+- `.memlog.md` har fått 8 nye oppføringer, blant dem en etterregistrering av den ulogede oppdateringen 2026-10-29 (`ca80853`, `c3f186a`).
+- Den redaksjonelle runden ga én språkfiks. Ikke tatt inn: forslaget om å korte ned Datakilder og flytte detaljene til addendumet (briefen er 1473 ord, over målet på 1–2 sider).
+
+Funn fra gjennomgangen (før oppdateringen):
 
 - **Faglærers tilbakemelding er i hovedsak innarbeidet** (område valgt, Turrutebasen sjekket, regelbasert anbefaling, én primærbruker, testbare kriterier, «ingen tur passer», BMAD-mappe). Ikke tatt opp: «avstand»/«kjøretid» som faglærer nevnte i rangering og tidsberegning.
 - **Selvmotsigelse om tidsrom:** Sammendraget lover bruk «kvelden før» på PC, mens primærbrukeren og addendumet sier «samme dag» / «nå eller senere i dag». Tidspunkt for turen står i addendumet, men mangler i briefens Preferanseinput.
@@ -26,7 +36,6 @@ Ingen endringer i brief, addendum eller data. Funn:
 - Lukket to punkter i `issues.md` som allerede var løst i commit `c3f186a` (språkfix i `_bmad/custom/config.toml`, og at data/addendum var ukommittert).
 
 ### Åpne punkter
-- Briefen: avklar tidsrom («i dag» eller også «i morgen») og hva «tid til rådighet» omfatter (bare turtid eller også transport). Legg tidspunkt inn i Preferanseinput.
-- Briefen: rett regelen om tregrensen, de tre suksesskriteriene og faktafeilene. Logg endringene i `.memlog.md` og sett `status` til ferdig før PRD.
-- Kart: avklar MVP-ambisjonen for rutegeometri (startpunkt + omtrentlige segmenter, eller kuttet, eksakt trasé).
 - Data: legg inn startkoordinater for de 12 turene, avklar lengdesemantikken for `tur_retur` (Grua, Moldevatnet), og fjern eller bruk feltet `historie`.
+- PRD: sett grensen for «lavtliggende tur» (høyeste punkt) og de endelige værtersklene. Bestem hva appen gjør når MET ikke svarer, og om været hentes for ett punkt eller per tur (høydeforskjell 0–705 moh).
+- Valgfritt: kort ned Datakilder i briefen og flytt detaljene til addendumet (1473 ord).
