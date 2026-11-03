@@ -6,6 +6,7 @@
     {
       "id": "varden-fra-sentrum",
       "navn": "Varden via Den grønne korridor",
+      "mal": "Varden",
       "start": "Kaia i Molde sentrum",
       "retning": "en_vei",
       "lengde_km_kilde": 4.4,
@@ -29,6 +30,7 @@
     {
       "id": "storlihytta-fra-museet",
       "navn": "Storlihytta fra Romsdalsmuseet",
+      "mal": "Storlihytta",
       "start": "Parkering ved Romsdalsmuseet",
       "retning": "en_vei",
       "lengde_km_kilde": 1.73,
@@ -50,6 +52,7 @@
     {
       "id": "storlihytta-fra-vardeveien",
       "navn": "Storlihytta fra Vardeveien",
+      "mal": "Storlihytta",
       "start": "HC-parkering ved Vardeveien",
       "retning": "en_vei",
       "lengde_km_kilde": 0.53,
@@ -67,11 +70,12 @@
         "1506_MM_0312"
       ],
       "kilde": "https://morotur.no/en/tur/Storlihytta-via-Vardeveien",
-      "merknad": "Grusvei, egnet for barnevogn (ikke universelt utformet). Kilden oppgir 58 m i faktaboks, men 25 m i teksten."
+      "merknad": "Grusvei, egnet for barnevogn (ikke universelt utformet). Kilden oppgir 58 m i faktaboks, men 25 m i teksten. 58 m brukes (avklart 2026-11-03): ruta går fra ca. 243 moh opp til 301 moh og ned til hytta på ca. 270 moh, så 58 m er samlet stigning og 25 m er høydeforskjellen fra start til hytta."
     },
     {
       "id": "skihytta-fra-damefallet",
       "navn": "Skihytta fra Damefallet",
+      "mal": "Skihytta",
       "start": "Parkering ved Damefallet, Vardeveien",
       "retning": "en_vei",
       "lengde_km_kilde": 1.53,
@@ -93,6 +97,7 @@
     {
       "id": "tusenarsvarden-fra-damefallet",
       "navn": "Tusenårsvarden fra Damefallet",
+      "mal": "Tusenårsvarden",
       "start": "Parkering ved Damefallet, Vardeveien",
       "retning": "en_vei",
       "lengde_km_kilde": 2.5,
@@ -116,6 +121,7 @@
     {
       "id": "tusenarsvarden-fra-grua",
       "navn": "Tusenårsvarden fra Grua",
+      "mal": "Tusenårsvarden",
       "start": "Parkering ved Hatlelitunnelen/Grua",
       "retning": "tur_retur",
       "lengde_km_kilde": 7.69,
@@ -135,11 +141,12 @@
         "1506_MM_0305"
       ],
       "kilde": "https://morotur.no/en/tur/tusenaarsvarden-fra-grua",
-      "merknad": "Kilden oppgir 438 m som «Elevation» uten å si om det er stigning. Et av Moldes mest besøkte utsiktspunkter."
+      "merknad": "Kilden oppgir 438 m som «Elevation» uten å si om det er stigning. Et av Moldes mest besøkte utsiktspunkter. 7,69 km regnes som hele turen (avklart 2026-11-03, utledet fra Frænavarden fra Grua og Tusenårsvarden fra Damefallet; ikke kontrollert mot kilden)."
     },
     {
       "id": "tusenarsvarden-om-moldedalen",
       "navn": "Tusenårsvarden rundtur om Moldedalen",
+      "mal": "Tusenårsvarden",
       "start": "Fjellbrudammen",
       "retning": "rundtur",
       "lengde_km_kilde": 7.57,
@@ -165,6 +172,7 @@
     {
       "id": "fraenavarden-fra-grua",
       "navn": "Frænavarden fra Grua",
+      "mal": "Frænavarden",
       "start": "Parkering ved Grua",
       "retning": "en_vei",
       "lengde_km_kilde": 4.87,
@@ -188,6 +196,7 @@
     {
       "id": "moldevatnet-fra-jensgurilia",
       "navn": "Moldevatnet fra Jensgurilia",
+      "mal": "Moldevatnet",
       "start": "Turparkering i Jensgurilia, Nordbyen",
       "retning": "tur_retur",
       "lengde_km_kilde": 6.45,
@@ -205,11 +214,12 @@
         "1506_MM_0313"
       ],
       "kilde": "https://morotur.no/en/tur/moldevatnet-fra-jensgurilia",
-      "merknad": "Kilden sier turen passer godt i dårlig vær. Bademulighet i Øverlandsvatnet. Siste bakke kan være våt."
+      "merknad": "Kilden sier turen passer godt i dårlig vær. Bademulighet i Øverlandsvatnet. Siste bakke kan være våt. 6,45 km regnes som hele turen (avklart 2026-11-03, utledet fra stigning, gradering og naboturer; ikke kontrollert mot kilden)."
     },
     {
       "id": "midtveishuken",
       "navn": "Midtveishuken rundt Øverlandsvatnet",
+      "mal": "Midtveishuken",
       "start": "Turparkering i Jensgurilia, Nordbyen",
       "retning": "en_vei",
       "lengde_km_kilde": 2.47,
@@ -231,6 +241,7 @@
     {
       "id": "bergsvatnet",
       "navn": "Bergsvatnet",
+      "mal": "Bergsvatnet",
       "start": "Turparkering i Jensgurilia, Nordbyen",
       "retning": "en_vei",
       "lengde_km_kilde": 1.57,
@@ -253,6 +264,7 @@
     {
       "id": "tusten",
       "navn": "Tusten fra Tusten skisenter",
+      "mal": "Tusten",
       "start": "Parkering ved Tusten skisenter (mulig avgift)",
       "retning": "en_vei",
       "lengde_km_kilde": 4.48,

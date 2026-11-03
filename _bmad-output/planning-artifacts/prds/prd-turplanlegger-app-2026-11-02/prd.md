@@ -2,7 +2,7 @@
 title: "PRD: Turplanlegger"
 status: final
 created: 2026-11-02
-updated: 2026-11-02
+updated: 2026-11-03
 ---
 
 # PRD: Turplanlegger
@@ -14,8 +14,8 @@ updated: 2026-11-02
 Denne PRD-en beskriver hva Turplanlegger skal gjøre i MVP, slik at UX, arkitektur og epics/stories kan bygges direkte på den. Den bygger på [product brief](../../briefs/brief-turplanlegger-app-2026-09-04/brief.md) (status final) med addendum, på [MET-researchen](../../research/technical-met-locationforecast-api-for-turplanlegg-2026-10-29/research.md) og på `data/turer-moldemarka.json`, og gjentar dem ikke.
 
 - Begrepene i §3 brukes ordrett i hele dokumentet, med stor forbokstav.
-- Alt har faste nummer: brukerreiser UJ-1–UJ-3, funksjonelle krav FR-1–FR-29, tverrgående krav NFR-1–NFR-9 og suksessmål SM-1–SM-4.
-- Antakelsene fra utkastet er godkjent (2026-11-02). Det som fortsatt er usikkert, står som åpne spørsmål i §10.
+- Alt har faste nummer: brukerreiser UJ-1–UJ-3, funksjonelle krav FR-1–FR-29, tverrgående krav NFR-1–NFR-10 og suksessmål SM-1–SM-4.
+- Antakelsene fra utkastet er godkjent (2026-11-02). De åpne spørsmålene i §10 ble gått gjennom 2026-11-03; det som gjenstår, står der.
 - Teknisk «hvordan» (mellomtjeneste for MET, caching, kart, solberegning, språkmodell) står i [addendum.md](addendum.md).
 
 ## 1. Visjon
@@ -46,7 +46,7 @@ Personen i reisene er Ingrid, 21 år, førsteårsstudent ved Høgskolen i Molde,
 Klokka er 13:30 en fin dag, og forelesningene er over. Ingrid åpner Turplanlegger på mobilen; Turdag «i dag» og Starttidspunkt «nå» er allerede valgt. Hun setter Tilgjengelig tid til 2 t, Vanskelighetsgrad til Middels, krysser av for utsikt og trykker «Finn tur». Hun får tre Turforslag. Øverst står Tusenårsvarden fra Damefallet med Begrunnelsen «passer tiden din (1 t 32 min av 2 t), oppholdsvær og lite vind, utsikt». Hun trykker på forslaget, ser Startpunktet og den omtrentlige ruten på kartet, og drar. **Edge case:** Svarer ikke MET, får hun likevel Turforslag, med en tydelig melding om at været ikke er vurdert.
 
 **UJ-2. Ingrid planlegger morgendagen kvelden før.**
-En søndag kveld i november sitter Ingrid ved PC-en. Hun velger Turdag «i morgen», Starttidspunkt 10:00, 3 t, Krevende og utsikt. Værmeldingen gir dårlig vær på formiddagen, så appen viser en Værvarsling, rangerer Lavtliggende turer og Turer som er Egnet i dårlig vær øverst, med Moldevatnet fra Jensgurilia først, og opplyser om et Bedre tidsvindu fra kl. 14. Hun tar det i bruk og får Turer med utsikt øverst igjen. De lengste av dem får Mørkevarsel fordi de ender etter solnedgang, så hun velger en kortere. **Edge case:** Finnes det ikke noe Bedre tidsvindu, sier appen det rett ut.
+En søndag kveld i november sitter Ingrid ved PC-en; mandag går sola ned 16:02. Hun velger Turdag «i morgen», Starttidspunkt 10:00, 3 t, Krevende og utsikt. Værmeldingen gir dårlig vær på formiddagen, så appen viser en Værvarsling, rangerer Lavtliggende turer og Turer som er Egnet i dårlig vær øverst, med Moldevatnet fra Jensgurilia først, og opplyser om et Bedre tidsvindu fra kl. 14. Hun tar det i bruk og får Turer med utsikt øverst igjen, men bare slike hun rekker før mørket: Tusenårsvarden fra Damefallet står først. De lengre utsiktsturene ville endt etter 15:32 og havner lenger ned. **Edge case:** Finnes det ikke noe Bedre tidsvindu, sier appen det rett ut.
 
 **UJ-3. Ingrid får beskjed om å vente.**
 En lørdag formiddag er det meldt sterk kuling. Ingrid vil gå før lunsj, men Værklassen for Tidsvinduet er «frarådet». Hun får ingen Turforslag, men en melding om at det er meldt vind opp mot 19 m/s, og et Bedre tidsvindu i morgen fra kl. 11. Hun tar det i bruk og får Turforslag som vanlig. **Edge case:** Med bare 15 minutter passer ingen Tur. Appen viser da den korteste Turen (19 min) og sier hvor mye mer tid hun trenger.
@@ -56,17 +56,18 @@ En lørdag formiddag er det meldt sterk kuling. Ingrid vil gå før lunsj, men V
 - **Tur** — En kuratert fottur i Moldemarka med Startpunkt, lengde totalt, høydemeter, høyeste punkt, Vanskelighetsgrad, utsikt (ja/nei), vann (ja/nei) og Egnet i dårlig vær. Koblet til ett eller flere Rutesegmenter.
 - **Turdatasett** — Alle Turer appen kan foreslå (12 i dag, 10–20 i MVP), lagret i repoet.
 - **Startpunkt** — Navngitt sted med koordinater der Turen starter.
+- **Mål** — Stedet Turen går til, for eksempel Tusenårsvarden eller Storlihytta. Flere Turer kan ha samme Mål fra ulike Startpunkter.
 - **Rutesegment** — En linjebit i stinettverket fra Turrutebasen, identifisert med rutenummer.
 - **Omtrentlig rute** — En Tur tegnet på kartet som alle Rutesegmentene den er koblet til. Kan vise mer sti enn selve Turen.
 - **Søk** — Én forespørsel fra brukeren: Turdag, Starttidspunkt, Tilgjengelig tid, Vanskelighetsgrad og eventuelle Opplevelsespreferanser.
 - **Turdag** — I dag eller i morgen.
 - **Starttidspunkt** — Klokkeslettet på Turdagen da brukeren vil starte.
-- **Tilgjengelig tid** — Tiden brukeren har til selve turen. Reise til og fra Startpunktet er ikke med.
+- **Tilgjengelig tid** — Tiden brukeren har til selve turen. Reise til og fra Startpunktet er ikke med. Pauser må brukeren regne med selv, siden Turtid ikke inkluderer dem; appen sier tydelig at Turtid er uten pauser (ordlyden avgjøres i UX).
 - **Vanskelighetsgrad** — Enkel, Middels eller Krevende (Turrutebasens G, B og R). Brukerens valg er høyeste tillatte grad.
 - **Opplevelsespreferanse** — Utsikt og/eller vann. Valgfri.
-- **Turtid** — Beregnet tid for hele Turen etter Naismiths regel (FR-14).
+- **Turtid** — Beregnet gangtid for hele Turen etter Naismiths regel (FR-14), uten pauser.
 - **Tidsvindu** — Fra Starttidspunktet til Starttidspunktet pluss Tilgjengelig tid.
-- **Værpunkt** — Ett fast punkt med høyde som representerer hele Moldemarka.
+- **Værpunkt** — Ett fast punkt midt i Moldemarka, med høyde 400 moh, som representerer hele området. 400 moh er medianen av høyeste punkt for de 12 Turene og samme grense som for lavtliggende Tur.
 - **Værmelding** — Timesverdier fra MET Locationforecast for Værpunktet: temperatur, nedbør, vind og værsymbol.
 - **Værterskler** — Produktets egne grenser for nedbør, vind og temperatur (§4.2). Ikke MET sine farevarselgrenser.
 - **Værklasse** — God, middels, dårlig eller frarådet. Settes per time og for Tidsvinduet.
@@ -79,7 +80,7 @@ En lørdag formiddag er det meldt sterk kuling. Ingrid vil gå før lunsj, men V
 - **Språkmodelltekst** — Valgfri omformulering av Regelteksten fra en språkmodell.
 - **Alternativ** — Det appen viser i stedet for Turforslag: den korteste Turen eller et Bedre tidsvindu.
 - **Bedre tidsvindu** — Det tidligste Starttidspunktet i dag eller i morgen der Tidsvinduet får en bedre Værklasse.
-- **Mørkevarsel** — Varsel på et Turforslag om at Turen ender etter solnedgang eller starter før soloppgang.
+- **Mørkevarsel** — Varsel på et Turforslag om at Turen ender senere enn 30 min før solnedgang eller starter før soloppgang.
 
 ## 4. Funksjoner
 
@@ -132,7 +133,7 @@ Brukeren kan sende Søket med ett trykk og få Turforslag, et Alternativ, eller 
 
 **Beskrivelse:** Appen henter Værmeldingen for Værpunktet og setter en Værklasse for hver time ut fra Værterskler. Den dårligste timen i Tidsvinduet bestemmer Værklassen for Søket. Tersklene er produktets egne, ikke MET sine farevarselgrenser. Vindgrensene følger Beaufort-skalaen, mens nedbørs- og temperaturgrensene er produktvalg; bakgrunnen står i addendum. Realiserer UJ-1, UJ-2 og UJ-3.
 
-**Værterskler** (kalibreres etter spørsmål 1 i §10)
+**Værterskler** (startverdier; kalibreres etter spørsmål 1 i §10)
 
 | Værklasse | Nedbør | Middelvind | Temperatur |
 |---|---|---|---|
@@ -140,6 +141,8 @@ Brukeren kan sende Søket med ett trykk og få Turforslag, et Alternativ, eller 
 | Dårlig | ≥ 2 mm/t | ≥ 10,8 m/s (liten kuling) | < −10 °C |
 | Middels | ≥ 0,5 mm/t | ≥ 8,0 m/s (frisk bris) | < 0 °C |
 | God | under alle grensene over | | |
+
+Middels påvirker verken utvalg, rangering eller varsler; den vises bare i værsammendraget (FR-10). Det er dårlig og frarådet som endrer hva appen foreslår.
 
 #### FR-7: Hente Værmelding
 
@@ -166,9 +169,14 @@ Systemet setter Værklassen for Tidsvinduet til Værklassen for den dårligste t
 - Én frarådet time i et ellers godt Tidsvindu gir frarådet.
 - En time teller med når den overlapper Tidsvinduet; 13:30–15:30 omfatter timene som starter 13, 14 og 15.
 
+**Merknad:** Værklassen gjelder hele Tidsvinduet, ikke bare Turtiden, slik at hvert Søk har én Værklasse. Det er et bevisst valg: det er enkelt og forutsigbart, men kan være strengere enn nødvendig når Turtiden er mye kortere enn Tilgjengelig tid.
+
 #### FR-10: Vise værsammendrag
 
 For Tidsvinduet viser appen Værklasse, temperaturspenn, høyeste nedbør, høyeste vind og værsymbol. Realiserer UJ-1.
+
+**Konsekvenser:**
+- Sammendraget sier hvilken høyde Værmeldingen gjelder for, for eksempel «Værmelding for ca. 400 moh. På toppene kan det være kaldere og mer vind.»
 
 #### FR-11: Vise Værvarsling
 
@@ -217,28 +225,34 @@ Systemet fjerner Turer med Turtid over Tilgjengelig tid og Turer som er vanskeli
 Systemet rangerer de gjenværende Turene ved å sammenligne dem på kriteriene under, i rekkefølge. Neste kriterium brukes bare når Turene står likt på det forrige.
 
 Ved god eller middels Værklasse, og når Værmeldingen mangler:
-1. Antall av brukerens Opplevelsespreferanser Turen treffer, flest først.
-2. Turtid nærmest Tilgjengelig tid først.
-3. Turens ID, alfabetisk.
+1. Turer uten Mørkevarsel (FR-21) før Turer med.
+2. Antall av brukerens Opplevelsespreferanser Turen treffer, flest først.
+3. Turtid nærmest Tilgjengelig tid først.
+4. Turens ID, alfabetisk.
 
 Ved dårlig Værklasse:
-1. Lavtliggende tur før andre Turer.
-2. Egnet i dårlig vær: ja før ukjent, ukjent før nei.
-3. Antall av brukerens Opplevelsespreferanser Turen treffer, flest først. Utsikt teller ikke.
-4. Turtid nærmest Tilgjengelig tid først.
-5. Turens ID, alfabetisk.
+1. Turer uten Mørkevarsel (FR-21) før Turer med.
+2. Lavtliggende tur før andre Turer.
+3. Egnet i dårlig vær: ja før ukjent, ukjent før nei.
+4. Antall av brukerens Opplevelsespreferanser Turen treffer, flest først. Utsikt teller ikke.
+5. Turtid nærmest Tilgjengelig tid først.
+6. Turens ID, alfabetisk.
 
 **Konsekvenser:**
 - Samme Søk, Værmelding og Turdatasett gir alltid samme rekkefølge.
-- UJ-1 (god Værklasse, 2 t, Middels, utsikt) gir med dagens Turdatasett Tusenårsvarden fra Damefallet, Storlihytta fra Romsdalsmuseet og Skihytta fra Damefallet, i den rekkefølgen.
-- Ved dårlig Værklasse står Moldevatnet fra Jensgurilia (lavtliggende, egnet: ja) over Bergsvatnet (lavtliggende, egnet: ukjent) når begge passer.
+- UJ-1 (god Værklasse, 13:30, 2 t, Middels, utsikt, ingen Mørkevarsel) gir med dagens Turdatasett Tusenårsvarden fra Damefallet, Storlihytta fra Romsdalsmuseet og Skihytta fra Damefallet, i den rekkefølgen.
+- Ved dårlig Værklasse står Moldevatnet fra Jensgurilia (lavtliggende, egnet: ja) over Bergsvatnet (lavtliggende, egnet: ukjent) når begge passer og ingen av dem får Mørkevarsel.
+- UJ-2 med Bedre tidsvindu (god Værklasse, 9. november, start 14:00, 3 t, Krevende, utsikt, solnedgang 16:02) gir Tusenårsvarden fra Damefallet, Storlihytta fra Romsdalsmuseet og Skihytta fra Damefallet. Uten Mørkevarsel-kriteriet ville Tusten, Frænavarden og Varden stått øverst, alle med Mørkevarsel.
 
 #### FR-17: Vise opptil tre Turforslag
 
-Appen viser de tre høyest rangerte Turene som Turforslag, eller færre hvis færre passer.
+Appen viser opptil tre Turforslag. Den går nedover rangeringen fra FR-16 og velger først den høyest rangerte Turen for hvert Mål. Gir det færre enn tre Turforslag, fylles listen med de neste Turene i rangeringen, også om Målet allerede er vist.
 
 **Konsekvenser:**
 - Passer to Turer, vises to; appen fyller ikke på med Turer som ikke passer.
+- Variasjonsregelen gir aldri færre Turforslag enn rangeringen alene ville gitt.
+- God Værklasse, 2 t 30 min, Krevende, utsikt og vann, uten Mørkevarsel, gir med dagens Turdatasett Tusenårsvarden fra Grua, Varden via Den grønne korridor og Moldevatnet fra Jensgurilia, i den rekkefølgen. Uten variasjonsregelen ville alle tre gått til Tusenårsvarden.
+- Passer bare tre Turer, to av dem til samme Mål, vises alle tre, med Turen til det andre Målet som nummer to.
 
 #### FR-18: Når ingen Tur passer
 
@@ -252,10 +266,11 @@ Fjerner FR-15 alle Turer, viser appen en forståelig melding med den korteste Tu
 
 #### FR-19: Foreslå Bedre tidsvindu
 
-Er Værklassen dårlig eller frarådet, leter appen etter et Bedre tidsvindu med samme Tilgjengelig tid. Den prøver hele timer fra 06:00 til 22:00 på Turdagen og, når Turdag er «i dag», også i morgen. Det tidligste Starttidspunktet med bedre Værklasse vises sammen med Turforslagene (dårlig) eller som Alternativ (frarådet). Realiserer UJ-2 og UJ-3.
+Er Værklassen dårlig eller frarådet, leter appen etter et Bedre tidsvindu med samme Tilgjengelig tid. Den prøver hele timer i dagslys, fra soloppgang til 30 min før solnedgang, på Turdagen og, når Turdag er «i dag», også i morgen. Det tidligste Starttidspunktet med bedre Værklasse vises sammen med Turforslagene (dårlig) eller som Alternativ (frarådet). Realiserer UJ-2 og UJ-3.
 
 **Konsekvenser:**
 - Bare Starttidspunkt som ikke har passert, vurderes.
+- 9. november (sol opp 08:28, ned 16:02) prøves 09:00–15:00.
 - Finnes det ikke noe Bedre tidsvindu, sier appen det.
 - Brukeren kan ta i bruk Bedre tidsvindu med ett trykk; det sender et nytt Søk med det nye Starttidspunktet og Turdagen.
 
@@ -277,11 +292,12 @@ Hvert Turforslag har en Regeltekst som nevner:
 
 #### FR-21: Vise Mørkevarsel
 
-Ender Turen etter solnedgang, eller starter den før soloppgang, får Turforslaget et Mørkevarsel med klokkeslettet. Realiserer UJ-2.
+Ender Turen senere enn 30 min før solnedgang, eller starter den før soloppgang, får Turforslaget et Mørkevarsel med klokkeslettet for solnedgang eller soloppgang. Marginen på 30 min veier opp for at Turtid er uten pauser. Realiserer UJ-2.
 
 **Konsekvenser:**
 - Turen ender ved Starttidspunkt + Turtid; sol opp og ned gjelder Turdagen i Moldemarka.
-- Mørkevarselet endrer verken utvalg eller rekkefølge.
+- Med solnedgang 16:00 får en Tur som ender 15:30 ikke Mørkevarsel, mens en Tur som ender 15:31 får det.
+- Mørkevarselet fjerner ingen Turer, men Turer uten Mørkevarsel rangeres først (FR-16).
 - Solnedgang og soloppgang beregnes i appen, uten ekstern tjeneste eller nøkkel.
 
 #### FR-22: Språkmodelltekst (valgfritt, bygges sist)
@@ -323,15 +339,17 @@ Brukeren kan zoome og panorere med mus (rulle og dra) og med berøring (knipe og
 
 #### FR-26: Innhold per Tur
 
-Hver Tur har ID, navn, Startpunkt med navn og koordinater, retning, lengde totalt, høydemeter, høyeste punkt, Vanskelighetsgrad, utsikt, vann, Egnet i dårlig vær, Rutesegmenter og kilde.
+Hver Tur har ID, navn, Mål, Startpunkt med navn og koordinater, retning, lengde totalt, høydemeter, høyeste punkt, Vanskelighetsgrad, utsikt, vann, Egnet i dårlig vær, Rutesegmenter og kilde.
 
 **Konsekvenser:**
 - Lengde totalt betyr alltid hele turen, også for tur–retur og rundtur.
-- Høydemeter er kontrollert mot høydedata eller merket som anslag.
+- Høydemeter er kontrollert mot høydedata eller merket som anslag, og merkingen kan leses maskinelt, slik at testen i FR-27 kan sjekke den.
+- Startpunktet oppgir hvor koordinatene er hentet fra (kilden eller norgeskart.no).
+- Turer som starter på samme sted, har samme Startpunkt med samme navn og koordinater.
 
 #### FR-27: Validere Turdatasettet
 
-En automatisk test feiler når en Tur mangler et påkrevd felt, har en verdi utenfor gyldig område, eller viser til et Rutesegment som ikke finnes i den konverterte rutegeometrien.
+En automatisk test feiler når en Tur mangler et påkrevd felt, har en verdi utenfor gyldig område, viser til et Rutesegment som ikke finnes i den konverterte rutegeometrien, eller har et Startpunkt som ligger mer enn 200 m fra alle Turens Rutesegmenter.
 
 #### FR-28: Konvertert rutegeometri
 
@@ -344,7 +362,7 @@ Hvert Turforslag lenker til kilden for Turen. Appen krediterer MET Norway, Turru
 ## 5. Tverrgående krav
 
 - **NFR-1 Responsivt design.** Appen er brukbar fra 360 px til 1440 px bredde uten horisontal scrolling. På brede skjermer står kart og liste side om side; på smale stables de. Trykkflater er minst 44 × 44 px, og ingen funksjon krever hover. Brytningspunktet avgjøres i UX.
-- **NFR-2 Testbarhet.** Turtid, Værklasse, filtrering, rangering, Regeltekst, Bedre tidsvindu og Mørkevarsel kan testes uten nettverk og uten brukergrensesnitt, med faste værdata og et fast testdatasett.
+- **NFR-2 Testbarhet.** Turtid, Værklasse, filtrering, rangering, Regeltekst, Bedre tidsvindu og Mørkevarsel kan testes uten nettverk og uten brukergrensesnitt, med faste værdata, en fast dato (for sol opp og ned) og et fast testdatasett.
 - **NFR-3 Kjørbar for sensor.** Appen kan startes lokalt etter README uten gruppens nøkler eller betalte kontoer. Uten språkmodellnøkkel virker alt unntatt Språkmodelltekst.
 - **NFR-4 MET-vilkår.** Værkall går via appens egen server med identifiserende User-Agent, følger cache-headerne fra MET og bruker HTTPS og maks fire desimaler i koordinatene. Nettleseren kaller aldri MET direkte.
 - **NFR-5 Ytelse.** Turforslag vises innen 3 s etter trykk, målt med nettleserens nettverksstruping «Fast 4G».
@@ -352,6 +370,7 @@ Hvert Turforslag lenker til kilden for Turen. Appen krediterer MET Norway, Turru
 - **NFR-7 Hemmeligheter.** Nøkler ligger i `.env`, som ikke committes; `.env.example` committes.
 - **NFR-8 Språk.** Brukergrensesnittet er på norsk bokmål.
 - **NFR-9 Grunnleggende tilgjengelighet.** Skjemaet kan brukes med tastatur, alle felt har synlige etiketter, og tekst har en kontrast på minst 4,5:1 mot bakgrunnen.
+- **NFR-10 Justerbare terskler.** Værtersklene kan endres på ett sted uten at filtrering, rangering eller andre regler må endres.
 
 ## 6. Rammer og risiko
 
@@ -362,8 +381,8 @@ Hvert Turforslag lenker til kilden for Turen. Appen krediterer MET Norway, Turru
 | Risiko | Konsekvens | Tiltak |
 |---|---|---|
 | morotur.no har ingen publisert lisens (kilde for 11 av 12 Turer) | Lav i skolesammenheng | Bare fakta, ikke kildetekst; kildelenke per Tur (FR-29); kontakt Møre og Romsdal fylkeskommune før bruk utover IBE160 |
-| Feil i turdata (lengde for tur–retur, høydemeter) | Feil Turtid gir feil filtrering | FR-26 og FR-27; spørsmål 2 og 3 i §10 |
-| Ett Værpunkt for hele Moldemarka | Temperaturen på toppene (opptil 705 moh) kan avvike flere grader | Akseptert i MVP; spørsmål 4 i §10 |
+| Feil i turdata (lengde for tur–retur, høydemeter) | Feil Turtid gir feil filtrering | Lengde og høydemeter avklart 2026-11-03 (§10, spørsmål 2 og 3); FR-26 og FR-27 |
+| Ett Værpunkt for hele Moldemarka | Temperaturen på toppene (opptil 705 moh) kan være ca. 2 °C lavere enn ved Værpunktet, og lavtliggende Turer ca. 2 °C høyere | Akseptert i MVP: Værpunktet ligger på 400 moh, og værsammendraget sier hvilken høyde det gjelder (FR-10) |
 | MET er nede eller endrer API-et | Ingen værvurdering | FR-13 |
 
 ## 7. Ikke-mål
@@ -379,7 +398,7 @@ Dette skal appen ikke gjøre, heller ikke etter MVP. Det som kan komme senere, s
 
 ### 8.1 Med i MVP
 
-- Søk (FR-1–FR-6), Værvurdering (FR-7–FR-13), Anbefaling (FR-14–FR-19), Regeltekst og Mørkevarsel (FR-20–FR-21), Kartvisning (FR-23–FR-25), Turdatasett (FR-26–FR-29) og NFR-1–NFR-9.
+- Søk (FR-1–FR-6), Værvurdering (FR-7–FR-13), Anbefaling (FR-14–FR-19), Regeltekst og Mørkevarsel (FR-20–FR-21), Kartvisning (FR-23–FR-25), Turdatasett (FR-26–FR-29) og NFR-1–NFR-10.
 - Språkmodelltekst (FR-22) bygges sist, etter at kjerneflyten er ferdig og testet.
 
 ### 8.2 Utenfor MVP
@@ -392,7 +411,7 @@ Dette skal appen ikke gjøre, heller ikke etter MVP. Det som kan komme senere, s
 - Reisetid og kollektivtransport til Startpunktet.
 - Eksakt turtrasé på kartet.
 - Flere områder enn Moldemarka.
-- Værmelding per Tur i stedet for ett Værpunkt.
+- Værmelding per Tur i stedet for ett Værpunkt. Oppløsningen i MET-rutenettet for Moldemarka må da sjekkes først.
 - Opplevelsespreferansen «historie»; feltet finnes i datasettet, men brukes ikke.
 
 ## 9. Suksessmål
@@ -411,13 +430,13 @@ Dette skal appen ikke gjøre, heller ikke etter MVP. Det som kan komme senere, s
 
 ## 10. Åpne spørsmål
 
-Ingen av spørsmålene hindrer UX eller arkitektur. Simon eier alle. Spørsmål 2, 3 og 5 må være løst før Turdatasettet regnes som ferdig (FR-26, FR-27), og spørsmål 1 før værtersklene låses i koden. De andre kan vente til implementasjonen.
+Spørsmål 2, 3, 4, 6 og 7 ble avklart og spørsmål 8 lukket 2026-11-03. Samme dag ble fire funn fra gjennomgangen avgjort: Mørkevarsel påvirker rangeringen (FR-16, FR-21), Bedre tidsvindu prøver bare dagslys (FR-19), Værklassen gjelder hele Tidsvinduet (FR-9) og middels er bare informativ (§4.2). To oppgaver gjenstår. Ingen av dem hindrer UX eller arkitektur, og Simon eier begge: spørsmål 5 (startkoordinatene) må være gjort før Turdatasettet regnes som ferdig (FR-26, FR-27), og spørsmål 1 (kalibreringen) før Værvurderingen regnes som ferdig.
 
-1. **Værterskler:** Stemmer tersklene i §4.2 med opplevd turvær? Sjekk dem mot 5–10 virkelige dager før implementasjon.
-2. **Lengde for tur–retur:** Er 7,69 km for Tusenårsvarden fra Grua hele turen eller én vei? Rutesegmentene alene er ca. 5,5 km én vei. Samme sjekk for Moldevatnet fra Jensgurilia.
-3. **Høydemeter:** Frænavarden er et anslag (ca. 500 m), og for Storlihytta fra Vardeveien oppgir kilden både 58 og 25 m.
-4. **Værpunkt:** Holder ett punkt for hele Moldemarka, eller trengs ett per Tur for å treffe temperaturen på toppene?
-5. **Startkoordinater:** Hvor skal koordinatene for de 12 Startpunktene hentes fra (kart, kilden eller endepunktene til Rutesegmentene)?
-6. **Pauser:** Skal Turtid ha et tillegg for pauser? Naismith regner bare gangtid.
-7. **Variasjon:** Skal appen unngå tre Turforslag til samme mål? Tre Turer går til Tusenårsvarden.
-8. **MET-oppløsning:** Rutenettets oppløsning for Moldemarka er ikke bekreftet (lav prioritet).
+1. **Værterskler (kalibreringsoppgave):** Tersklene i §4.2 er startverdier. Logg Værmeldingen for Værpunktet i 7 dager for to Tidsvinduer (formiddag og ettermiddag), og noter egen vurdering hver gang: «ville jeg gått, og ville jeg valgt en lavtliggende Tur?». Juster tersklene hvis Værklassen avviker fra vurderingen i mer enn 2 av 14 tilfeller. Prioriter grensene for dårlig og frarådet, siden middels bare vises (§4.2). Må være gjort før Værvurderingen (§4.2) regnes som ferdig.
+2. **Lengde for tur–retur (avklart 2026-11-03):** 7,69 km for Tusenårsvarden fra Grua og 6,45 km for Moldevatnet fra Jensgurilia regnes som hele turen. Det er utledet fra naboturer i datasettet, ikke kontrollert mot kilden, og står i `merknad` for begge Turene.
+3. **Høydemeter (avklart 2026-11-03):** Storlihytta fra Vardeveien bruker 58 m. Det er samlet stigning, mens kildens 25 m er høydeforskjellen fra start til hytta. Frænavarden beholder anslaget på ca. 500 m, merket som anslag (FR-26); kontroll mot høydedata er en valgfri forbedring.
+4. **Værpunkt (avklart 2026-11-03):** Ett Værpunkt i MVP, på 400 moh midt i Moldemarka (§3). Værsammendraget sier hvilken høyde Værmeldingen gjelder for (FR-10). Den nøyaktige koordinaten avgjøres i arkitekturen. Værmelding per Tur er utenfor MVP (§8.2).
+5. **Startkoordinater (metode avklart 2026-11-03, data gjenstår):** Koordinatene hentes manuelt, fra kilden når turpagen viser startpunkt og ellers fra norgeskart.no, og kilden noteres (FR-26). Endepunktene til Rutesegmentene brukes ikke, fordi segmentene ikke følger Turene. Nøyaktighet innenfor ca. 100 m holder, siden koordinatene bare brukes til kartmarkøren; FR-27 sjekker at Startpunktet ligger innenfor 200 m fra et av Turens Rutesegmenter. Sjekk samtidig om «Parkering ved Hatlelitunnelen/Grua» og «Parkering ved Grua» er samme sted.
+6. **Pauser (avklart 2026-11-03):** Turtid har ikke pausetillegg. Appen sier at Turtid er uten pauser (§3), og Mørkevarselet har en margin på 30 min før solnedgang (FR-21).
+7. **Variasjon (avklart 2026-11-03):** Appen viser først ett Turforslag per Mål og fyller deretter på i rangeringsrekkefølge (FR-17). Mål er nytt felt per Tur (FR-26).
+8. **MET-oppløsning (lukket 2026-11-03):** Ikke relevant for MVP. Med ett Værpunkt brukes én rute i rutenettet, og høyden korrigeres med `altitude`. Oppløsningen må sjekkes hvis Værmelding per Tur blir aktuelt (§8.2).

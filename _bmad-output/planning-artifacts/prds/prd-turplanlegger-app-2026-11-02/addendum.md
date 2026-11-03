@@ -7,7 +7,7 @@ Teknisk detalj og bakgrunn til [prd.md](prd.md), til bruk i arkitektur og storie
 - **Mellomtjeneste:** Nettleseren kan ikke sette `User-Agent`, så værkallene går via appens egen server. Den eier cachen og er det eneste stedet som kaller MET.
 - **User-Agent:** appnavn pluss kontakt, f.eks. repo-URL eller e-post. Mangler den, svarer MET 403; forfalsket kan gi permanent blokkering.
 - **Caching:** Svar lagres per (avrundet koordinat, høyde). `Expires` bestemmer levetiden, og `If-Modified-Since` brukes ved fornyelse (MET svarer 304 når ingenting er endret). Ingen fast TTL.
-- **Koordinater:** maks fire desimaler. Send `altitude` for Værpunktet; da blir temperaturen mer presis.
+- **Koordinater:** maks fire desimaler. Send `altitude=400` for Værpunktet (PRD §3); da blir temperaturen mer presis.
 - **Felt (compact-formatet):** `air_temperature` og `wind_speed` under `instant.details`, `precipitation_amount` og `symbol_code` under `next_1_hours`.
 - **Horisont:** timesoppløsning de første ca. 60 timene, som dekker hele «i dag» og «i morgen».
 - **Kreditering og lisens:** «Data fra MET Norway» med lenke; NLOD 2.0 og CC BY 4.0.
@@ -25,12 +25,13 @@ Kilde: [MET-researchen](../../research/technical-met-locationforecast-api-for-tu
 
 Kriteriene i FR-16 er en ren sortering på en nøkkel per Tur, så det trengs ingen vekter:
 
-- God, middels eller ukjent vær: (−antall treff, |Tilgjengelig tid − Turtid|, ID)
-- Dårlig vær: (ikke lavtliggende, egnet [ja=0, ukjent=1, nei=2], −antall treff uten utsikt, |Tilgjengelig tid − Turtid|, ID)
+- God, middels eller ukjent vær: (mørkevarsel, −antall treff, |Tilgjengelig tid − Turtid|, ID)
+- Dårlig vær: (mørkevarsel, ikke lavtliggende, egnet [ja=0, ukjent=1, nei=2], −antall treff uten utsikt, |Tilgjengelig tid − Turtid|, ID)
+- Variasjon (FR-17): gå gjennom den sorterte listen og ta første Tur per `mal`. Er det færre enn tre, fyll på med de neste i sortert rekkefølge.
 
 ## Turtid for dagens Turdatasett (FR-14)
 
-Regnet ut 2026-11-02 fra `data/turer-moldemarka.json`. Tallene endres når lengde og høydemeter rettes (PRD §10, spørsmål 2 og 3), så testene bør bruke et eget, fast testdatasett.
+Regnet ut 2026-11-02 fra `data/turer-moldemarka.json`. Lengde og høydemeter ble avklart 2026-11-03 uten at tallene endret seg (PRD §10, spørsmål 2 og 3). Datasettet kan likevel endres senere, så testene bør bruke et eget, fast testdatasett.
 
 | Tur | Vanskelighetsgrad | Turtid | Høyeste punkt | Lavtliggende |
 |---|---|---|---|---|
@@ -76,6 +77,6 @@ Beregnes lokalt med en standard algoritme for solposisjon (f.eks. NOAA-formlene 
 | Grense for «lavtliggende tur» | §3 Lavtliggende tur (400 moh) |
 | Endelige værterskler | §4.2 og spørsmål 1 |
 | Når MET ikke svarer | FR-13 |
-| Ett Værpunkt eller ett per Tur | §3 Værpunkt og spørsmål 4 |
+| Ett Værpunkt eller ett per Tur | §3 Værpunkt (400 moh) og spørsmål 4 |
 | Lisensrisiko for morotur.no | §6 Rammer og risiko |
 | Startkoordinater og lengdesemantikk | FR-26, FR-27 og spørsmål 2 og 5 |
