@@ -33,15 +33,15 @@ Kriteriene i FR-16 er en ren sortering på en nøkkel per Tur, så det trengs in
 
 ## Turtid for dagens Turdatasett (FR-14)
 
-Regnet ut 2026-11-02 fra `data/turer-moldemarka.json`. Lengde og høydemeter ble avklart 2026-11-03 uten at tallene endret seg (PRD §10, spørsmål 2 og 3). Datasettet kan likevel endres senere, så testene bør bruke et eget, fast testdatasett.
+Regnet ut 2026-11-02 fra `data/turer-moldemarka.json`. Lengde og høydemeter ble avklart 2026-11-03 uten at tallene endret seg (PRD §10, spørsmål 2 og 3). 2026-11-06 ble Midtveishuken rettet til en rundtur på 2,47 km, så Turtiden gikk fra 1 t 5 min til 35 min. Datasettet kan endres igjen, så testene bør bruke et eget, fast testdatasett.
 
 | Tur | Vanskelighetsgrad | Turtid | Høyeste punkt | Lavtliggende |
 |---|---|---|---|---|
 | Storlihytta fra Vardeveien | Enkel | 19 min | 301 moh | ja |
+| Midtveishuken rundt Øverlandsvatnet | Enkel | 35 min | 266 moh | ja |
 | Bergsvatnet | Enkel | 43 min | 281 moh | ja |
 | Skihytta fra Damefallet | Enkel | 54 min | 391 moh | ja |
 | Storlihytta fra Romsdalsmuseet | Enkel | 1 t 2 min | 270 moh | ja |
-| Midtveishuken rundt Øverlandsvatnet | Enkel | 1 t 5 min | 266 moh | ja |
 | Tusenårsvarden fra Damefallet | Middels | 1 t 32 min | 527 moh | nei |
 | Moldevatnet fra Jensgurilia | Middels | 1 t 33 min | 340 moh | ja |
 | Tusenårsvarden rundtur om Moldedalen | Krevende | 2 t 10 min | 527 moh | nei |
@@ -50,7 +50,7 @@ Regnet ut 2026-11-02 fra `data/turer-moldemarka.json`. Lengde og høydemeter ble
 | Frænavarden fra Grua | Krevende | 2 t 47 min | 584 moh | nei |
 | Tusten fra Tusten skisenter | Middels | 2 t 48 min | 705 moh | nei |
 
-Ved 1 t Tilgjengelig tid passer altså tre Turer, og ved 3 t passer alle.
+Ved 1 t Tilgjengelig tid passer altså fire Turer, og ved 3 t passer alle.
 
 ## Kart (FR-23–FR-25, FR-28)
 
@@ -58,12 +58,18 @@ Ved 1 t Tilgjengelig tid passer altså tre Turer, og ved 3 t passer alle.
 - **Rutegeometri:** GML (EPSG:25833) konverteres til GeoJSON (WGS84) med ett objekt per Rutesegment, nøklet på rutenummer og rutenavn. Linjebitene til hvert Rutesegment slås sammen til ett objekt (MultiLineString), og en linje som hører til flere Rutesegmenter, tas med i hvert av dem. Turene viser til rutenummer og rutenavn.
 - **Omtrentlig rute:** Med rutenavn i nøkkelen (målt 2026-11-06) er Rutesegmentene 4,22 km for Storlihytta fra Vardeveien (turen er 0,53 km én vei) og 2,63 km for Bergsvatnet (1,57 km). For turene fra Damefallet er de omtrent 1,7 ganger turlengden. Målingen 2026-11-02 i briefens addendum (4,55 og 5,87 km) tok med den feile delen av `1506_MM_0312`.
 - **Målt 2026-11-06 mot GML-fila:**
-  - Alle 14 rutenumrene Turene bruker, finnes.
+  - Alle 14 rutenumrene Turene da viste til, finnes.
   - Et rutenummer består av opptil 15 linjebiter, og 39 linjer hører til flere ruter.
   - `1506_MM_0312` brukes for både «Vardenveien» og «Øverlandsvatnet_Bergsvatnet», minst 1,5 km fra hverandre. Tre andre rutenumre i fila, utenfor Moldemarka, har også flere rutenavn.
-  - Med bare rutenummer som nøkkel fikk fem Turer hull eller biter langt unna. Med rutenavn i nøkkelen har to Turer hull: Frænavarden fra Grua (ca. 1,4 km og 100 m) og Tusenårsvarden rundtur om Moldedalen (399 m).
-  - For Frænavarden tetter `1506_MM_0303` og `1506_MM_0304` (Damefallet–Bjørsettjørna) det store hullet, mens hullet på 100 m står igjen. For rundturen om Moldedalen tetter både `1505-1` og `1506_MM_0313` hullet. Hva som er riktig, må sjekkes mot kilden (PRD §10, spørsmål 9).
-  - Rutesegmentene for Varden begynner minst ca. 700 m nord for kaia, så Turen trenger Adkomst (FR-26).
+  - Med bare rutenummer som nøkkel fikk fem Turer hull eller biter langt unna. Med rutenavn i nøkkelen hadde to Turer hull: Frænavarden fra Grua (ca. 1,4 km og 100 m) og Tusenårsvarden rundtur om Moldedalen (399 m).
+- **Sjekket mot kildesporene 2026-11-06 (PRD §10, spørsmål 9):** morotur.no har et GeoJSON-spor per tur (`https://morotur.no/api/v2/geojson/<id>`; id-en står på turpagen). Sporene er sammenlignet med GML-fila: hvilke ruter sporet følger innenfor 25 m, og hvor langt starten ligger fra Rutesegmentene.
+  - Frænavarden fra Grua følger `0302`, `0303`, `0304` og `0306`. `F_20170227_2` (Frænavarden/ Valltua) går videre fra toppen og er ikke del av turen. Det var den som ga hullet på 100 m, og den er byttet med `0303` og `0304`.
+  - Rundturen om Moldedalen følger 1,1 km av `1506_MM_0313` og bare 0,1 km av `1505-1`, så `0313` er lagt til.
+  - For de ni andre Turene fra morotur.no stemmer Rutesegmentene med sporet. Rutesegmentene dekker 59–100 % av hvert spor. Resten er strekninger som ikke finnes i Turrutebasen.
+  - Varden når toppen på de siste ca. 400 m av `0312 Vardenveien` og beholder derfor den. Storlihytta fra Vardeveien trenger den også, siden parkeringen ligger ved den.
+  - Stinettet begynner ved Grua. Strekningen fra Romsdalsmuseet dit (ca. 500 m) og veien fra turparkeringen i Jensgurilia (230–280 m) finnes ikke i fila, så disse fire Turene og Varden har Adkomst (FR-26). For Varden er lengden et anslag: kildens 4,4 km minus ca. 2,4 km langs Rutesegmentene fra Grua til toppen.
+  - Rutesegmentet for Tusten slutter ca. 350 m før toppen, og for Frænavarden ca. 90 m før, så Omtrentlig rute når ikke helt opp for disse to.
+  - Sporene viste også at Midtveishuken er en rundtur på 2,47 km, og de bekreftet tur–retur-lengdene for Tusenårsvarden fra Grua og Moldevatnet (PRD §10, spørsmål 2).
 
 ## Solnedgang og soloppgang (FR-21)
 

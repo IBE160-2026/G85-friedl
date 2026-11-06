@@ -1,7 +1,7 @@
 {
   "omrade": "Moldemarka, Molde kommune",
-  "oppdatert": "2026-10-29",
-  "beskrivelse": "Kuratert tilleggsdatasett for Turplanlegger-MVP. Vanskelighetsgrad er oversatt fra morotur.no-farge (grønn=G, blå=B, rød=R), samme koder som Turrutebasen. Lengde og høydemeter er hentet fra kildene og må kontrolleres mot høydedata før bruk. Feltet 'egnet_darlig_vaer' er kun satt (true/false) der kildeteksten i 'merknad' eksplisitt sier noe om forhold i dårlig/vått vær (3 av 12 turer per 2026-10-29); resten er 'null' = ukjent, ikke 'nei'. PRD/rangeringslogikk må ha en uttrykkelig fallback-regel for 'null' — se addendum.md.",
+  "oppdatert": "2026-11-06",
+  "beskrivelse": "Kuratert tilleggsdatasett for Turplanlegger-MVP. Vanskelighetsgrad er oversatt fra morotur.no-farge (grønn=G, blå=B, rød=R), samme koder som Turrutebasen. Lengde og høydemeter er hentet fra kildene og må kontrolleres mot høydedata før bruk. Feltet 'egnet_darlig_vaer' er kun satt (true/false) der kildeteksten i 'merknad' eksplisitt sier noe om forhold i dårlig/vått vær (3 av 12 turer per 2026-10-29); resten er 'null' = ukjent, ikke 'nei'. PRD/rangeringslogikk må ha en uttrykkelig fallback-regel for 'null' — se addendum.md. Rutesegmentene viser til Turrutebasen med rutenummer og rutenavn sammen, siden samme rutenummer kan brukes for flere ruter (1506_MM_0312). De er sjekket mot kildesporene fra morotur.no 2026-11-06. 'adkomst' er veien fra Startpunktet til stinettet når Startpunktet ligger mer enn 200 m fra Rutesegmentene (PRD FR-26). Lengden er målt langs kildesporet fram til sporet ligger innenfor 25 m av Rutesegmentene, avrundet til 10 m. For Varden er den et anslag (se merknad).",
   "turer": [
     {
       "id": "varden-fra-sentrum",
@@ -19,13 +19,26 @@
       "vann": false,
       "historie": true,
       "egnet_darlig_vaer": null,
-      "turrutebasen_segmenter": [
-        "1506_MM_03111",
-        "1506_MM_0310",
-        "1506_MM_0312"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_03111",
+          "rutenavn": "Grua_Storlihytta"
+        },
+        {
+          "rutenummer": "1506_MM_0310",
+          "rutenavn": "Storlihytta_Varden"
+        },
+        {
+          "rutenummer": "1506_MM_0312",
+          "rutenavn": "Vardenveien"
+        }
       ],
+      "adkomst": {
+        "lengde_m": 2000,
+        "beskrivelse": "Fra kaia til sjøen ved Reknes, forbi Chateauet og gjennom Reknesparken opp til Paviljongen på Rekneshaugen. Videre gjennom Romsdalsmuseet, over Moldeliveien og forbi TRÆFF opp til Grua. Merket «Den grønne korridor»."
+      },
       "kilde": "https://www.fjordnorway.com/no/se-og-gjore/den-gronne-korridor",
-      "merknad": "Kilden oppgir både grønn og blå. Høydemeter beregnet fra havnivå til toppen (407 moh). Passerer Romsdalsmuseet. Ca. 1,5 t opp og 45 min ned."
+      "merknad": "Kilden oppgir både grønn og blå. Høydemeter beregnet fra havnivå til toppen (407 moh). Passerer Romsdalsmuseet. Ca. 1,5 t opp og 45 min ned. Adkomstens lengde er et anslag: kildens 4,4 km minus ca. 2,4 km langs Rutesegmentene fra Grua til toppen. Kontrolleres når Startpunktet får koordinater (PRD §10, spørsmål 5)."
     },
     {
       "id": "storlihytta-fra-museet",
@@ -43,9 +56,16 @@
       "vann": false,
       "historie": true,
       "egnet_darlig_vaer": null,
-      "turrutebasen_segmenter": [
-        "1506_MM_03111"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_03111",
+          "rutenavn": "Grua_Storlihytta"
+        }
       ],
+      "adkomst": {
+        "lengde_m": 500,
+        "beskrivelse": "Fra parkeringen ved Romsdalsmuseet over Moldeliveien, opp mellom Holmarka og fotballbanen til TRÆFF og videre opp til Grua. Merket «Den grønne korridor»."
+      },
       "kilde": "https://morotur.no/en/tur/storlihytta",
       "merknad": "DNT-hytte med kafé onsdag og søndag."
     },
@@ -65,9 +85,15 @@
       "vann": false,
       "historie": false,
       "egnet_darlig_vaer": null,
-      "turrutebasen_segmenter": [
-        "1506_MM_0310",
-        "1506_MM_0312"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0310",
+          "rutenavn": "Storlihytta_Varden"
+        },
+        {
+          "rutenummer": "1506_MM_0312",
+          "rutenavn": "Vardenveien"
+        }
       ],
       "kilde": "https://morotur.no/en/tur/Storlihytta-via-Vardeveien",
       "merknad": "Grusvei, egnet for barnevogn (ikke universelt utformet). Kilden oppgir 58 m i faktaboks, men 25 m i teksten. 58 m brukes (avklart 2026-11-03): ruta går fra ca. 243 moh opp til 301 moh og ned til hytta på ca. 270 moh, så 58 m er samlet stigning og 25 m er høydeforskjellen fra start til hytta."
@@ -88,8 +114,11 @@
       "vann": false,
       "historie": false,
       "egnet_darlig_vaer": null,
-      "turrutebasen_segmenter": [
-        "1506_MM_0303"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0303",
+          "rutenavn": "Damefallet_Skihytta"
+        }
       ],
       "kilde": "https://morotur.no/en/tur/skihytta-moldemarka",
       "merknad": "Gratis parkering. Utsikt over fjorden og fjellene."
@@ -110,10 +139,19 @@
       "vann": true,
       "historie": false,
       "egnet_darlig_vaer": false,
-      "turrutebasen_segmenter": [
-        "1506_MM_0303",
-        "1506_MM_0304",
-        "1506_MM_0305"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0303",
+          "rutenavn": "Damefallet_Skihytta"
+        },
+        {
+          "rutenummer": "1506_MM_0304",
+          "rutenavn": "Skihytta_Bjørsettjørna"
+        },
+        {
+          "rutenummer": "1506_MM_0305",
+          "rutenavn": "Bjørsettjørna_Tusenårsvarden"
+        }
       ],
       "kilde": "https://morotur.no/en/tur/tusenaarsvarden-fra-damefallet",
       "merknad": "Siste stykke er bratt og glatt i vått vær. Bademulighet i Auduntjønna."
@@ -134,14 +172,26 @@
       "vann": true,
       "historie": false,
       "egnet_darlig_vaer": null,
-      "turrutebasen_segmenter": [
-        "1506_MM_0302",
-        "1506_MM_0303",
-        "1506_MM_0304",
-        "1506_MM_0305"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0302",
+          "rutenavn": "Grua_Damefallet"
+        },
+        {
+          "rutenummer": "1506_MM_0303",
+          "rutenavn": "Damefallet_Skihytta"
+        },
+        {
+          "rutenummer": "1506_MM_0304",
+          "rutenavn": "Skihytta_Bjørsettjørna"
+        },
+        {
+          "rutenummer": "1506_MM_0305",
+          "rutenavn": "Bjørsettjørna_Tusenårsvarden"
+        }
       ],
       "kilde": "https://morotur.no/en/tur/tusenaarsvarden-fra-grua",
-      "merknad": "Kilden oppgir 438 m som «Elevation» uten å si om det er stigning. Et av Moldes mest besøkte utsiktspunkter. 7,69 km regnes som hele turen (avklart 2026-11-03, utledet fra Frænavarden fra Grua og Tusenårsvarden fra Damefallet; ikke kontrollert mot kilden)."
+      "merknad": "Kilden oppgir 438 m som «Elevation» uten å si om det er stigning. Et av Moldes mest besøkte utsiktspunkter. 7,69 km regnes som hele turen (avklart 2026-11-03, utledet fra Frænavarden fra Grua og Tusenårsvarden fra Damefallet; bekreftet 2026-11-06 av kildesporet, som går fram og tilbake og er 7,73 km)."
     },
     {
       "id": "tusenarsvarden-om-moldedalen",
@@ -159,12 +209,31 @@
       "vann": true,
       "historie": false,
       "egnet_darlig_vaer": false,
-      "turrutebasen_segmenter": [
-        "1506_MM_0303",
-        "1506_MM_0304",
-        "1506_MM_0305",
-        "1506_MM_0314",
-        "1506411"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0303",
+          "rutenavn": "Damefallet_Skihytta"
+        },
+        {
+          "rutenummer": "1506_MM_0304",
+          "rutenavn": "Skihytta_Bjørsettjørna"
+        },
+        {
+          "rutenummer": "1506_MM_0305",
+          "rutenavn": "Bjørsettjørna_Tusenårsvarden"
+        },
+        {
+          "rutenummer": "1506_MM_0314",
+          "rutenavn": "Moldeheia"
+        },
+        {
+          "rutenummer": "1506411",
+          "rutenavn": "Inntaksdammen - Moldedalen"
+        },
+        {
+          "rutenummer": "1506_MM_0313",
+          "rutenavn": "Øverlandsvatnet_Moldevatnet"
+        }
       ],
       "kilde": "https://morotur.no/en/tur/tusenaarsvarden-om-moldedalen",
       "merknad": "Kilden kaller lengden «one way», men turen ender der den startet. Glatt etter mye regn."
@@ -185,10 +254,23 @@
       "vann": true,
       "historie": false,
       "egnet_darlig_vaer": null,
-      "turrutebasen_segmenter": [
-        "1506_MM_0302",
-        "1506_MM_0306",
-        "F_20170227_2"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0302",
+          "rutenavn": "Grua_Damefallet"
+        },
+        {
+          "rutenummer": "1506_MM_0303",
+          "rutenavn": "Damefallet_Skihytta"
+        },
+        {
+          "rutenummer": "1506_MM_0304",
+          "rutenavn": "Skihytta_Bjørsettjørna"
+        },
+        {
+          "rutenummer": "1506_MM_0306",
+          "rutenavn": "Bjørsettjørna_Frænavarden"
+        }
       ],
       "kilde": "https://morotur.no/en/tur/fraenavarden",
       "merknad": "Høydemeter er et anslag (ca. 500 m): topp 584 moh minus start ved Grua ca. 86 moh, utledet fra Tusenårsvarden fra Grua (524 moh, 438 m). Kilden oppgir 0 m, som er feil. Mest over tregrensen."
@@ -209,21 +291,31 @@
       "vann": true,
       "historie": false,
       "egnet_darlig_vaer": true,
-      "turrutebasen_segmenter": [
-        "1506_MM_0307",
-        "1506_MM_0313"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0307",
+          "rutenavn": "Øverlandsvatnet_rundt"
+        },
+        {
+          "rutenummer": "1506_MM_0313",
+          "rutenavn": "Øverlandsvatnet_Moldevatnet"
+        }
       ],
+      "adkomst": {
+        "lengde_m": 280,
+        "beskrivelse": "Grusveien fra turparkeringen østover forbi vannverket (Hindalsrøra vannanlegg) og bommen, til stiene ved Øverlandsvatnet."
+      },
       "kilde": "https://morotur.no/en/tur/moldevatnet-fra-jensgurilia",
-      "merknad": "Kilden sier turen passer godt i dårlig vær. Bademulighet i Øverlandsvatnet. Siste bakke kan være våt. 6,45 km regnes som hele turen (avklart 2026-11-03, utledet fra stigning, gradering og naboturer; ikke kontrollert mot kilden)."
+      "merknad": "Kilden sier turen passer godt i dårlig vær. Bademulighet i Øverlandsvatnet. Siste bakke kan være våt. 6,45 km regnes som hele turen (avklart 2026-11-03, utledet fra stigning, gradering og naboturer; bekreftet 2026-11-06: kilden oppgir «6,45 km tur/retur», og kildesporet er 6,48 km)."
     },
     {
       "id": "midtveishuken",
       "navn": "Midtveishuken rundt Øverlandsvatnet",
       "mal": "Midtveishuken",
       "start": "Turparkering i Jensgurilia, Nordbyen",
-      "retning": "en_vei",
+      "retning": "rundtur",
       "lengde_km_kilde": 2.47,
-      "lengde_km_totalt": 4.94,
+      "lengde_km_totalt": 2.47,
       "hoydemeter": 58,
       "hoyeste_punkt_moh": 266,
       "gradering": "G",
@@ -232,11 +324,18 @@
       "vann": true,
       "historie": false,
       "egnet_darlig_vaer": null,
-      "turrutebasen_segmenter": [
-        "1506_MM_0307"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0307",
+          "rutenavn": "Øverlandsvatnet_rundt"
+        }
       ],
+      "adkomst": {
+        "lengde_m": 240,
+        "beskrivelse": "Grusveien fra turparkeringen østover forbi vannverket (Hindalsrøra vannanlegg) og bommen, til stiene ved Øverlandsvatnet."
+      },
       "kilde": "https://morotur.no/en/tur/midtveishuken-i-moldemarka",
-      "merknad": "Gapahuk med bålplass. Badeplass i Øverlandsvatnet."
+      "merknad": "Gapahuk med bålplass. Badeplass i Øverlandsvatnet. Kilden kaller lengden «en vei», men turen går rundt Øverlandsvatnet og ender der den startet (kildesporet er 2,48 km). Rettet fra 4,94 km 2026-11-06."
     },
     {
       "id": "bergsvatnet",
@@ -254,10 +353,20 @@
       "vann": true,
       "historie": false,
       "egnet_darlig_vaer": null,
-      "turrutebasen_segmenter": [
-        "1506_MM_0307",
-        "1506_MM_0312"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0307",
+          "rutenavn": "Øverlandsvatnet_rundt"
+        },
+        {
+          "rutenummer": "1506_MM_0312",
+          "rutenavn": "Øverlandsvatnet_Bergsvatnet"
+        }
       ],
+      "adkomst": {
+        "lengde_m": 230,
+        "beskrivelse": "Grusveien fra turparkeringen østover forbi vannverket (Hindalsrøra vannanlegg) og bommen, til stiene ved Øverlandsvatnet."
+      },
       "kilde": "https://morotur.no/en/tur/bergsvatnet-moldemarka",
       "merknad": "Godt opparbeidet sti. Kan kombineres med Midtveishuken."
     },
@@ -277,8 +386,11 @@
       "vann": false,
       "historie": false,
       "egnet_darlig_vaer": null,
-      "turrutebasen_segmenter": [
-        "1506_MM_0309"
+      "rutesegmenter": [
+        {
+          "rutenummer": "1506_MM_0309",
+          "rutenavn": "Tusten"
+        }
       ],
       "kilde": "https://morotur.no/en/tur/tusten",
       "merknad": "Grusvei med noen bratte partier. Utsikt over fjorden og til Hustadvika i klarvær."

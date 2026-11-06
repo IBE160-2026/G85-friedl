@@ -15,7 +15,7 @@ Denne PRD-en beskriver hva Turplanlegger skal gjøre i MVP, slik at UX, arkitekt
 
 - Begrepene i §3 brukes ordrett i hele dokumentet, med stor forbokstav.
 - Alt har faste nummer: brukerreiser UJ-1–UJ-3, funksjonelle krav FR-1–FR-29, tverrgående krav NFR-1–NFR-11, suksessmål SM-1–SM-4 og motmål SM-C1–SM-C2.
-- Antakelsene fra utkastet er godkjent (2026-11-02). De åpne spørsmålene i §10 ble gått gjennom 2026-11-03; det som gjenstår, står der. Gjennomgangen 2026-11-06 rettet soltidene og la til en resultattabell (FR-6), Demomodus (NFR-11), regler for tid og en dataoppgave for Rutesegmentene (§10, spørsmål 9).
+- Antakelsene fra utkastet er godkjent (2026-11-02). De åpne spørsmålene i §10 ble gått gjennom 2026-11-03; det som gjenstår, står der. Gjennomgangen 2026-11-06 rettet soltidene og la til en resultattabell (FR-6), Demomodus (NFR-11), regler for tid og en dataoppgave for Rutesegmentene, som ble gjort samme dag (§10, spørsmål 9).
 - Teknisk «hvordan» (mellomtjeneste for MET, caching, kart, solberegning, språkmodell) står i [addendum.md](addendum.md).
 
 ## 1. Visjon
@@ -257,7 +257,7 @@ Ved dårlig Værklasse:
 - Middels og god Værklasse gir samme Turforslag i samme rekkefølge.
 - UJ-1 (god Værklasse, 9. november, start 13:30, 2 t, Middels, utsikt) gir med dagens Turdatasett Tusenårsvarden fra Damefallet, Storlihytta fra Romsdalsmuseet og Skihytta fra Damefallet, i den rekkefølgen og uten Mørkevarsel.
 - Ved dårlig Værklasse står Moldevatnet fra Jensgurilia (lavtliggende, egnet: ja) over Bergsvatnet (lavtliggende, egnet: ukjent) når begge passer og ingen av dem får Mørkevarsel.
-- UJ-2 med Bedre tidsvindu (god Værklasse, 9. november, start 14:00, 3 t, Krevende, utsikt, solnedgang 15:59) gir Storlihytta fra Romsdalsmuseet, Skihytta fra Damefallet og Midtveishuken rundt Øverlandsvatnet. Tusenårsvarden fra Damefallet ender 15:32, etter grensen på 15:29, og får Mørkevarsel. Uten Mørkevarsel-kriteriet ville Tusten, Frænavarden og Varden stått øverst, alle med Mørkevarsel.
+- UJ-2 med Bedre tidsvindu (god Værklasse, 9. november, start 14:00, 3 t, Krevende, utsikt, solnedgang 15:59) gir Storlihytta fra Romsdalsmuseet, Skihytta fra Damefallet og Bergsvatnet. Tusenårsvarden fra Damefallet ender 15:32, etter grensen på 15:29, og får Mørkevarsel. Uten Mørkevarsel-kriteriet ville Tusten, Frænavarden og Varden stått øverst, alle med Mørkevarsel.
 
 #### FR-17: Vise opptil tre Turforslag
 
@@ -367,7 +367,7 @@ Hver Tur har ID, navn, Mål, Startpunkt med navn og koordinater, retning, lengde
 - Høydemeter er kontrollert mot høydedata eller merket som anslag, og merkingen kan leses maskinelt, slik at testen i FR-27 kan sjekke den.
 - Startpunktet oppgir hvor koordinatene er hentet fra (kilden eller norgeskart.no).
 - Turer som starter på samme sted, har samme Startpunkt med samme navn og koordinater.
-- Ligger Startpunktet mer enn 200 m fra Turens Rutesegmenter, oppgir Turen Adkomst. Varden via Den grønne korridor har Adkomst fra kaia.
+- Ligger Startpunktet mer enn 200 m fra Turens Rutesegmenter, oppgir Turen Adkomst. Det gjelder fem Turer: Varden via Den grønne korridor (fra kaia), Storlihytta fra Romsdalsmuseet (fra museet) og de tre Turene fra Jensgurilia.
 - Turdatasettet ligger i én fil i repoet. Andre formater, som CSV, lages fra den.
 
 #### FR-27: Validere Turdatasettet
@@ -378,7 +378,7 @@ En automatisk test feiler når en Tur:
 - har Rutesegmenter som ikke henger sammen, det vil si hull på mer enn 50 m mellom linjebitene, eller
 - har et Startpunkt for langt fra alle Turens Rutesegmenter: mer enn 200 m, eller mer enn Adkomstens lengde pluss 200 m når Turen har Adkomst.
 
-**Merknad:** Målt 2026-11-06 henger Rutesegmentene sammen for 10 av 12 Turer når rutenavnet er med i nøkkelen. De to siste rettes i spørsmål 9 i §10.
+**Merknad:** Etter spørsmål 9 i §10 består alle 12 Turer sjekken (målt 2026-11-06). Startpunktene har ennå ikke koordinater (spørsmål 5), så avstanden er målt fra starten av kildesporene på morotur.no, og for Varden fra kaiene i sentrum.
 
 #### FR-28: Konvertert rutegeometri
 
@@ -462,14 +462,14 @@ Dette skal appen ikke gjøre, heller ikke etter MVP. Det som kan komme senere, s
 
 ## 10. Åpne spørsmål
 
-Spørsmål 2, 3, 4, 6 og 7 ble avklart og spørsmål 8 lukket 2026-11-03. Samme dag ble fire funn fra gjennomgangen avgjort: Mørkevarsel påvirker rangeringen (FR-16, FR-21), Bedre tidsvindu prøver bare dagslys (FR-19), Værklassen gjelder hele Tidsvinduet (FR-9) og middels er bare informativ (§4.2). Gjennomgangen 2026-11-06 la til spørsmål 9. Tre oppgaver gjenstår. Ingen av dem hindrer UX eller arkitektur, og Simon eier alle tre: spørsmål 5 (startkoordinatene) og 9 (Rutesegmentene) må være gjort før Turdatasettet regnes som ferdig (FR-26, FR-27), og spørsmål 1 (kalibreringen) før Værvurderingen regnes som ferdig.
+Spørsmål 2, 3, 4, 6 og 7 ble avklart og spørsmål 8 lukket 2026-11-03. Samme dag ble fire funn fra gjennomgangen avgjort: Mørkevarsel påvirker rangeringen (FR-16, FR-21), Bedre tidsvindu prøver bare dagslys (FR-19), Værklassen gjelder hele Tidsvinduet (FR-9) og middels er bare informativ (§4.2). Gjennomgangen 2026-11-06 la til spørsmål 9, som ble avklart samme dag. To oppgaver gjenstår. Ingen av dem hindrer UX eller arkitektur, og Simon eier begge: spørsmål 5 (startkoordinatene) må være gjort før Turdatasettet regnes som ferdig (FR-26, FR-27), og spørsmål 1 (kalibreringen) før Værvurderingen regnes som ferdig.
 
 1. **Værterskler (kalibreringsoppgave):** Tersklene i §4.2 er startverdier. Logg Værmeldingen for Værpunktet i 7 dager for to Tidsvinduer (formiddag og ettermiddag), og noter egen vurdering hver gang: «ville jeg gått, og ville jeg valgt en lavtliggende Tur?». Juster tersklene hvis Værklassen avviker fra vurderingen i mer enn 2 av 14 tilfeller. Prioriter grensene for dårlig og frarådet, siden middels bare vises (§4.2). Må være gjort før Værvurderingen (§4.2) regnes som ferdig. Loggingen tar en kalenderuke og bør derfor starte parallelt med UX og arkitektur, straks koordinaten for Værpunktet er valgt (spørsmål 4).
-2. **Lengde for tur–retur (avklart 2026-11-03):** 7,69 km for Tusenårsvarden fra Grua og 6,45 km for Moldevatnet fra Jensgurilia regnes som hele turen. Det er utledet fra naboturer i datasettet, ikke kontrollert mot kilden, og står i `merknad` for begge Turene.
+2. **Lengde for tur–retur (avklart 2026-11-03):** 7,69 km for Tusenårsvarden fra Grua og 6,45 km for Moldevatnet fra Jensgurilia regnes som hele turen. Det ble utledet fra naboturer i datasettet og bekreftet 2026-11-06 av kildesporene på morotur.no, som går fram og tilbake (7,73 og 6,48 km). Det står i `merknad` for begge Turene. Samme sjekk viste at Midtveishuken rundt Øverlandsvatnet er en rundtur på 2,47 km i alt, ikke 2,47 km hver vei. Turdatasettet og eksempelet i FR-16 er rettet.
 3. **Høydemeter (avklart 2026-11-03):** Storlihytta fra Vardeveien bruker 58 m. Det er samlet stigning, mens kildens 25 m er høydeforskjellen fra start til hytta. Frænavarden beholder anslaget på ca. 500 m, merket som anslag (FR-26); kontroll mot høydedata er en valgfri forbedring.
 4. **Værpunkt (avklart 2026-11-03):** Ett Værpunkt i MVP, på 400 moh midt i Moldemarka (§3). Værsammendraget sier hvilken høyde Værmeldingen gjelder for (FR-10). Den nøyaktige koordinaten velges før kalibreringen starter (spørsmål 1) og brukes også for sol opp og ned (FR-21). Værmelding per Tur er utenfor MVP (§8.2).
-5. **Startkoordinater (metode avklart 2026-11-03, data gjenstår):** Koordinatene hentes manuelt, fra kilden når turpagen viser startpunkt og ellers fra norgeskart.no, og kilden noteres (FR-26). Endepunktene til Rutesegmentene brukes ikke, fordi segmentene ikke følger Turene. Nøyaktighet innenfor ca. 100 m holder, siden koordinatene bare brukes til kartmarkøren; FR-27 sjekker at Startpunktet ligger innenfor 200 m fra et av Turens Rutesegmenter, eller innenfor Adkomsten når Turen har det. Sjekk samtidig om «Parkering ved Hatlelitunnelen/Grua» og «Parkering ved Grua» er samme sted. Rutesegmentene for begge Turene starter i samme punkt (sørenden av `1506_MM_0302`), så det er trolig samme sted.
+5. **Startkoordinater (metode avklart 2026-11-03, data gjenstår):** Koordinatene hentes manuelt, fra kilden når turpagen viser startpunkt og ellers fra norgeskart.no, og kilden noteres (FR-26). Kildesporene på morotur.no viser startpunktet for de 11 Turene derfra (addendum, Kart). Endepunktene til Rutesegmentene brukes ikke, fordi segmentene ikke følger Turene. Nøyaktighet innenfor ca. 100 m holder, siden koordinatene bare brukes til kartmarkøren; FR-27 sjekker at Startpunktet ligger innenfor 200 m fra et av Turens Rutesegmenter, eller innenfor Adkomsten når Turen har det. Sjekk samtidig om «Parkering ved Hatlelitunnelen/Grua» og «Parkering ved Grua» er samme sted. Rutesegmentene for begge Turene starter i samme punkt (sørenden av `1506_MM_0302`), så det er trolig samme sted.
 6. **Pauser (avklart 2026-11-03):** Turtid har ikke pausetillegg. Appen sier at Turtid er uten pauser (FR-14), og Mørkevarselet har en margin på 30 min før solnedgang (FR-21).
 7. **Variasjon (avklart 2026-11-03):** Appen viser først ett Turforslag per Mål og fyller deretter på i rangeringsrekkefølge (FR-17). Mål er nytt felt per Tur (FR-26).
 8. **MET-oppløsning (lukket 2026-11-03):** Ikke relevant for MVP. Med ett Værpunkt brukes én rute i rutenettet, og høyden korrigeres med `altitude`. Oppløsningen må sjekkes hvis Værmelding per Tur blir aktuelt (§8.2).
-9. **Rutesegmenter (oppgave, data gjenstår):** Målt 2026-11-06 mot GML-fila brukes `1506_MM_0312` for to ruter, «Vardenveien» og «Øverlandsvatnet_Bergsvatnet», minst 1,5 km fra hverandre. Turdatasettet skal derfor vise til Rutesegmenter med rutenummer og rutenavn (§3, FR-26). Da har to Turer fortsatt hull (FR-27): Frænavarden fra Grua og Tusenårsvarden rundtur om Moldedalen. Hullene kan trolig tettes med ruter som finnes i Turrutebasen (detaljer i addendum), men det må sjekkes mot kilden. Varden via Den grønne korridor trenger Adkomst fra kaia (FR-26). Må være gjort før Turdatasettet regnes som ferdig.
+9. **Rutesegmenter (avklart 2026-11-06):** Turdatasettet viser til Rutesegmenter med rutenummer og rutenavn (§3, FR-26), siden `1506_MM_0312` brukes for to ruter. Rutesegmentene er sjekket mot kildesporene på morotur.no. Frænavarden fra Grua viste til `F_20170227_2` (Frænavarden/ Valltua), som ikke er del av turen. Den er byttet med `1506_MM_0303` og `1506_MM_0304`. Tusenårsvarden rundtur om Moldedalen har fått `1506_MM_0313`, som sporet følger, i stedet for `1505-1`. Fem Turer har fått Adkomst (FR-26), og alle 12 består sjekken i FR-27. Detaljer i addendum.
