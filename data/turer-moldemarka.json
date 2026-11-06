@@ -1,13 +1,18 @@
 {
   "omrade": "Moldemarka, Molde kommune",
   "oppdatert": "2026-11-06",
-  "beskrivelse": "Kuratert tilleggsdatasett for Turplanlegger-MVP. Vanskelighetsgrad er oversatt fra morotur.no-farge (grønn=G, blå=B, rød=R), samme koder som Turrutebasen. Lengde og høydemeter er hentet fra kildene og må kontrolleres mot høydedata før bruk. Feltet 'egnet_darlig_vaer' er kun satt (true/false) der kildeteksten i 'merknad' eksplisitt sier noe om forhold i dårlig/vått vær (3 av 12 turer per 2026-10-29); resten er 'null' = ukjent, ikke 'nei'. PRD/rangeringslogikk må ha en uttrykkelig fallback-regel for 'null' — se addendum.md. Rutesegmentene viser til Turrutebasen med rutenummer og rutenavn sammen, siden samme rutenummer kan brukes for flere ruter (1506_MM_0312). De er sjekket mot kildesporene fra morotur.no 2026-11-06. 'adkomst' er veien fra Startpunktet til stinettet når Startpunktet ligger mer enn 200 m fra Rutesegmentene (PRD FR-26). Lengden er målt langs kildesporet fram til sporet ligger innenfor 25 m av Rutesegmentene, avrundet til 10 m. For Varden er den et anslag (se merknad).",
+  "beskrivelse": "Kuratert tilleggsdatasett for Turplanlegger-MVP. Vanskelighetsgrad er oversatt fra morotur.no-farge (grønn=G, blå=B, rød=R), samme koder som Turrutebasen. Lengde og høydemeter er hentet fra kildene og må kontrolleres mot høydedata før bruk. Feltet 'egnet_darlig_vaer' er kun satt (true/false) der kildeteksten i 'merknad' eksplisitt sier noe om forhold i dårlig/vått vær (3 av 12 turer per 2026-10-29); resten er 'null' = ukjent, ikke 'nei'. PRD/rangeringslogikk må ha en uttrykkelig fallback-regel for 'null' — se addendum.md. Rutesegmentene viser til Turrutebasen med rutenummer og rutenavn sammen, siden samme rutenummer kan brukes for flere ruter (1506_MM_0312). De er sjekket mot kildesporene fra morotur.no 2026-11-06. 'adkomst' er veien fra Startpunktet til stinettet når Startpunktet ligger mer enn 200 m fra Rutesegmentene (PRD FR-26). Lengden er målt fra Startpunktet langs kildesporet fram til sporet ligger innenfor 25 m av Rutesegmentene, avrundet til 10 m. For Varden er den målt med fotruting og avrundet til 100 m (se merknad). 'startpunkt' har navn, koordinater (WGS84) og hvor koordinatene er hentet fra (PRD §10, spørsmål 5). Turer som starter på samme sted, har identisk startpunkt.",
   "turer": [
     {
       "id": "varden-fra-sentrum",
       "navn": "Varden via Den grønne korridor",
       "mal": "Varden",
-      "start": "Kaia i Molde sentrum",
+      "startpunkt": {
+        "navn": "Kaia i Molde sentrum",
+        "lat": 62.73451,
+        "lon": 7.15585,
+        "koordinatkilde": "Kartverkets stedsnavnregister: Storkaia, ved Scandic Hotel Alexandra der skiltingen starter (kilden har ingen koordinater)"
+      },
       "retning": "en_vei",
       "lengde_km_kilde": 4.4,
       "lengde_km_totalt": 8.8,
@@ -34,17 +39,22 @@
         }
       ],
       "adkomst": {
-        "lengde_m": 2000,
-        "beskrivelse": "Fra kaia til sjøen ved Reknes, forbi Chateauet og gjennom Reknesparken opp til Paviljongen på Rekneshaugen. Videre gjennom Romsdalsmuseet, over Moldeliveien og forbi TRÆFF opp til Grua. Merket «Den grønne korridor»."
+        "lengde_m": 1900,
+        "beskrivelse": "Fra kaia ved Scandic Hotel Alexandra til sjøen ved Reknes, forbi Chateauet og gjennom Reknesparken opp til Paviljongen på Rekneshaugen. Videre gjennom Romsdalsmuseet, over Moldeliveien og forbi TRÆFF opp til Grua. Merket «Den grønne korridor»."
       },
       "kilde": "https://www.fjordnorway.com/no/se-og-gjore/den-gronne-korridor",
-      "merknad": "Kilden oppgir både grønn og blå. Høydemeter beregnet fra havnivå til toppen (407 moh). Passerer Romsdalsmuseet. Ca. 1,5 t opp og 45 min ned. Adkomstens lengde er et anslag: kildens 4,4 km minus ca. 2,4 km langs Rutesegmentene fra Grua til toppen. Kontrolleres når Startpunktet får koordinater (PRD §10, spørsmål 5)."
+      "merknad": "Kilden oppgir både grønn og blå. Høydemeter beregnet fra havnivå til toppen (407 moh). Passerer Romsdalsmuseet. Ca. 1,5 t opp og 45 min ned. Adkomsten er målt 2026-11-06: 1,44 km med fotruting langs gangveiene (OpenStreetMap) fra Storkaia via Rekneskaia og Reknesparken til parkeringen ved Romsdalsmuseet, pluss 0,50 km langs kildesporet for Storlihytta derfra til Grua. Det stemmer med kildens 4,4 km minus ca. 2,4 km langs Rutesegmentene fra Grua til toppen."
     },
     {
       "id": "storlihytta-fra-museet",
       "navn": "Storlihytta fra Romsdalsmuseet",
       "mal": "Storlihytta",
-      "start": "Parkering ved Romsdalsmuseet",
+      "startpunkt": {
+        "navn": "Parkering ved Romsdalsmuseet",
+        "lat": 62.73973,
+        "lon": 7.14728,
+        "koordinatkilde": "morotur.no: første punkt i sporet (api/v2/geojson/1280)"
+      },
       "retning": "en_vei",
       "lengde_km_kilde": 1.73,
       "lengde_km_totalt": 3.46,
@@ -73,7 +83,12 @@
       "id": "storlihytta-fra-vardeveien",
       "navn": "Storlihytta fra Vardeveien",
       "mal": "Storlihytta",
-      "start": "HC-parkering ved Vardeveien",
+      "startpunkt": {
+        "navn": "HC-parkering ved Vardeveien",
+        "lat": 62.75124,
+        "lon": 7.1476,
+        "koordinatkilde": "morotur.no: GPS-koordinatene på turpagen (32V 405383E 6959233N)"
+      },
       "retning": "en_vei",
       "lengde_km_kilde": 0.53,
       "lengde_km_totalt": 1.06,
@@ -102,7 +117,12 @@
       "id": "skihytta-fra-damefallet",
       "navn": "Skihytta fra Damefallet",
       "mal": "Skihytta",
-      "start": "Parkering ved Damefallet, Vardeveien",
+      "startpunkt": {
+        "navn": "Parkering ved Damefallet, Vardeveien",
+        "lat": 62.75326,
+        "lon": 7.16193,
+        "koordinatkilde": "morotur.no: første punkt i sporet for Skihytta fra Damefallet (api/v2/geojson/1413)"
+      },
       "retning": "en_vei",
       "lengde_km_kilde": 1.53,
       "lengde_km_totalt": 3.06,
@@ -127,7 +147,12 @@
       "id": "tusenarsvarden-fra-damefallet",
       "navn": "Tusenårsvarden fra Damefallet",
       "mal": "Tusenårsvarden",
-      "start": "Parkering ved Damefallet, Vardeveien",
+      "startpunkt": {
+        "navn": "Parkering ved Damefallet, Vardeveien",
+        "lat": 62.75326,
+        "lon": 7.16193,
+        "koordinatkilde": "morotur.no: første punkt i sporet for Skihytta fra Damefallet (api/v2/geojson/1413)"
+      },
       "retning": "en_vei",
       "lengde_km_kilde": 2.5,
       "lengde_km_totalt": 5.0,
@@ -160,7 +185,12 @@
       "id": "tusenarsvarden-fra-grua",
       "navn": "Tusenårsvarden fra Grua",
       "mal": "Tusenårsvarden",
-      "start": "Parkering ved Hatlelitunnelen/Grua",
+      "startpunkt": {
+        "navn": "Parkering ved Hatlelitunnelen (Grua)",
+        "lat": 62.7428,
+        "lon": 7.15096,
+        "koordinatkilde": "morotur.no: første punkt i sporet for Frænavarden (api/v2/geojson/1948)"
+      },
       "retning": "tur_retur",
       "lengde_km_kilde": 7.69,
       "lengde_km_totalt": 7.69,
@@ -197,7 +227,12 @@
       "id": "tusenarsvarden-om-moldedalen",
       "navn": "Tusenårsvarden rundtur om Moldedalen",
       "mal": "Tusenårsvarden",
-      "start": "Fjellbrudammen",
+      "startpunkt": {
+        "navn": "Fjellbrudammen",
+        "lat": 62.75371,
+        "lon": 7.17102,
+        "koordinatkilde": "morotur.no: første punkt i sporet (api/v2/geojson/1589)"
+      },
       "retning": "rundtur",
       "lengde_km_kilde": 7.57,
       "lengde_km_totalt": 7.57,
@@ -242,7 +277,12 @@
       "id": "fraenavarden-fra-grua",
       "navn": "Frænavarden fra Grua",
       "mal": "Frænavarden",
-      "start": "Parkering ved Grua",
+      "startpunkt": {
+        "navn": "Parkering ved Hatlelitunnelen (Grua)",
+        "lat": 62.7428,
+        "lon": 7.15096,
+        "koordinatkilde": "morotur.no: første punkt i sporet for Frænavarden (api/v2/geojson/1948)"
+      },
       "retning": "en_vei",
       "lengde_km_kilde": 4.87,
       "lengde_km_totalt": 9.74,
@@ -279,7 +319,12 @@
       "id": "moldevatnet-fra-jensgurilia",
       "navn": "Moldevatnet fra Jensgurilia",
       "mal": "Moldevatnet",
-      "start": "Turparkering i Jensgurilia, Nordbyen",
+      "startpunkt": {
+        "navn": "Turparkering i Jensgurilia, Nordbyen",
+        "lat": 62.75497,
+        "lon": 7.2049,
+        "koordinatkilde": "morotur.no: første punkt i sporet for Moldevatnet fra Jensgurilia (api/v2/geojson/198)"
+      },
       "retning": "tur_retur",
       "lengde_km_kilde": 6.45,
       "lengde_km_totalt": 6.45,
@@ -312,7 +357,12 @@
       "id": "midtveishuken",
       "navn": "Midtveishuken rundt Øverlandsvatnet",
       "mal": "Midtveishuken",
-      "start": "Turparkering i Jensgurilia, Nordbyen",
+      "startpunkt": {
+        "navn": "Turparkering i Jensgurilia, Nordbyen",
+        "lat": 62.75497,
+        "lon": 7.2049,
+        "koordinatkilde": "morotur.no: første punkt i sporet for Moldevatnet fra Jensgurilia (api/v2/geojson/198)"
+      },
       "retning": "rundtur",
       "lengde_km_kilde": 2.47,
       "lengde_km_totalt": 2.47,
@@ -331,7 +381,7 @@
         }
       ],
       "adkomst": {
-        "lengde_m": 240,
+        "lengde_m": 260,
         "beskrivelse": "Grusveien fra turparkeringen østover forbi vannverket (Hindalsrøra vannanlegg) og bommen, til stiene ved Øverlandsvatnet."
       },
       "kilde": "https://morotur.no/en/tur/midtveishuken-i-moldemarka",
@@ -341,7 +391,12 @@
       "id": "bergsvatnet",
       "navn": "Bergsvatnet",
       "mal": "Bergsvatnet",
-      "start": "Turparkering i Jensgurilia, Nordbyen",
+      "startpunkt": {
+        "navn": "Turparkering i Jensgurilia, Nordbyen",
+        "lat": 62.75497,
+        "lon": 7.2049,
+        "koordinatkilde": "morotur.no: første punkt i sporet for Moldevatnet fra Jensgurilia (api/v2/geojson/198)"
+      },
       "retning": "en_vei",
       "lengde_km_kilde": 1.57,
       "lengde_km_totalt": 3.14,
@@ -364,7 +419,7 @@
         }
       ],
       "adkomst": {
-        "lengde_m": 230,
+        "lengde_m": 260,
         "beskrivelse": "Grusveien fra turparkeringen østover forbi vannverket (Hindalsrøra vannanlegg) og bommen, til stiene ved Øverlandsvatnet."
       },
       "kilde": "https://morotur.no/en/tur/bergsvatnet-moldemarka",
@@ -374,7 +429,12 @@
       "id": "tusten",
       "navn": "Tusten fra Tusten skisenter",
       "mal": "Tusten",
-      "start": "Parkering ved Tusten skisenter (mulig avgift)",
+      "startpunkt": {
+        "navn": "Parkering ved Tusten skisenter (mulig avgift)",
+        "lat": 62.76412,
+        "lon": 7.27154,
+        "koordinatkilde": "morotur.no: første punkt i sporet (api/v2/geojson/1852)"
+      },
       "retning": "en_vei",
       "lengde_km_kilde": 4.48,
       "lengde_km_totalt": 8.96,
