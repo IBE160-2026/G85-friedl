@@ -2,7 +2,7 @@
 title: "PRD: Turplanlegger"
 status: final
 created: 2026-11-02
-updated: 2026-11-06
+updated: 2026-11-09
 ---
 
 # PRD: Turplanlegger
@@ -15,7 +15,7 @@ Denne PRD-en beskriver hva Turplanlegger skal gjøre i MVP, slik at UX, arkitekt
 
 - Begrepene i §3 brukes ordrett i hele dokumentet, med stor forbokstav.
 - Alt har faste nummer: brukerreiser UJ-1–UJ-3, funksjonelle krav FR-1–FR-29, tverrgående krav NFR-1–NFR-11, suksessmål SM-1–SM-4 og motmål SM-C1–SM-C2.
-- Antakelsene fra utkastet er godkjent (2026-11-02). De åpne spørsmålene i §10 ble gått gjennom 2026-11-03; det som gjenstår, står der. Gjennomgangen 2026-11-06 rettet soltidene og la til en resultattabell (FR-6), Demomodus (NFR-11), regler for tid og en dataoppgave for Rutesegmentene. Den ble gjort samme dag, sammen med startkoordinatene (§10, spørsmål 5 og 9).
+- Antakelsene fra utkastet er godkjent (2026-11-02). De åpne spørsmålene i §10 ble gått gjennom 2026-11-03; det som gjenstår, står der. Gjennomgangen 2026-11-06 rettet soltidene og la til en resultattabell (FR-6), Demomodus (NFR-11), regler for tid og en dataoppgave for Rutesegmentene. Den ble gjort samme dag, sammen med startkoordinatene (§10, spørsmål 5 og 9). 2026-11-09 ble høydemeterne kontrollert mot høydedata, som ga ny Turtid for to Turer (spørsmål 3). Samme dag ble koordinaten for Værpunktet valgt (spørsmål 4).
 - Teknisk «hvordan» (mellomtjeneste for MET, caching, kart, solberegning, språkmodell) står i [addendum.md](addendum.md).
 
 ## 1. Visjon
@@ -49,7 +49,7 @@ Klokka er 13:30 en fin dag, og forelesningene er over. Ingrid åpner Turplanlegg
 En søndag kveld i november sitter Ingrid ved PC-en; mandag går sola ned 15:59. Hun velger Turdag «i morgen», Starttidspunkt 10:00, 3 t, Krevende og utsikt. Værmeldingen gir dårlig vær på formiddagen, så appen viser en Værvarsling, rangerer Lavtliggende turer og Turer som er Egnet i dårlig vær øverst, med Moldevatnet fra Jensgurilia først, og opplyser om et Bedre tidsvindu fra kl. 14. Hun tar det i bruk og får Turer med utsikt øverst igjen, men bare slike hun rekker før mørket: Storlihytta fra Romsdalsmuseet står først. Tusenårsvarden fra Damefallet og de lengre utsiktsturene ville endt etter 15:29 og havner lenger ned. **Edge case:** Finnes det ikke noe Bedre tidsvindu, sier appen det rett ut.
 
 **UJ-3. Ingrid får beskjed om å vente.**
-En lørdag formiddag er det meldt sterk kuling. Ingrid vil gå før lunsj, men Værklassen for Tidsvinduet er «frarådet». Hun får ingen Turforslag, men en melding om at det er meldt vind opp mot 19 m/s, og et Bedre tidsvindu i morgen fra kl. 11. Hun tar det i bruk og får Turforslag som vanlig. **Edge case:** Med bare 15 minutter passer ingen Tur. Appen viser da den korteste Turen (19 min) og sier hvor mye mer tid hun trenger.
+En lørdag formiddag er det meldt sterk kuling. Ingrid vil gå før lunsj, men Værklassen for Tidsvinduet er «frarådet». Hun får ingen Turforslag, men en melding om at det er meldt vind opp mot 19 m/s, og et Bedre tidsvindu i morgen fra kl. 11. Hun tar det i bruk og får Turforslag som vanlig. **Edge case:** Med bare 15 minutter passer ingen Tur. Appen viser da den korteste Turen (16 min) og sier hvor mye mer tid hun trenger.
 
 ## 3. Begreper
 
@@ -68,7 +68,7 @@ En lørdag formiddag er det meldt sterk kuling. Ingrid vil gå før lunsj, men V
 - **Opplevelsespreferanse** — Utsikt og/eller vann. Valgfri.
 - **Turtid** — Beregnet gangtid for hele Turen etter Naismiths regel (FR-14), uten pauser.
 - **Tidsvindu** — Fra Starttidspunktet til Starttidspunktet pluss Tilgjengelig tid.
-- **Værpunkt** — Ett fast punkt midt i Moldemarka, med høyde 400 moh, som representerer hele området. 400 moh er medianen av høyeste punkt for de 12 Turene og samme grense som for lavtliggende Tur.
+- **Værpunkt** — Ett fast punkt midt i Moldemarka (62,7617 N, 7,1679 Ø), med høyde 400 moh, som representerer hele området. 400 moh er medianen av høyeste punkt for de 12 Turene og samme grense som for lavtliggende Tur.
 - **Værmelding** — Timesverdier fra MET Locationforecast for Værpunktet: temperatur, nedbør, vind og værsymbol.
 - **Værscenario** — Faste timesverdier for Værpunktet som erstatter Værmeldingen i tester og Demomodus.
 - **Værterskler** — Produktets egne grenser for nedbør, vind og temperatur (§4.2). Ikke MET sine farevarselgrenser.
@@ -222,7 +222,7 @@ Systemet beregner Turtid med Naismiths regel: lengde totalt ÷ 5 km/t + høydeme
 
 **Konsekvenser:**
 - Tusenårsvarden fra Damefallet (5,0 km, 318 høydemeter) får Turtid 1 t 32 min.
-- Storlihytta fra Vardeveien (1,06 km, 58 høydemeter) får Turtid 19 min.
+- Storlihytta fra Vardeveien (1,06 km, 35 høydemeter) får Turtid 16 min.
 - Der Turtid vises, står det at den er uten pauser. Ordlyden avgjøres i UX.
 
 #### FR-15: Filtrere Turer
@@ -275,7 +275,7 @@ Appen viser opptil tre Turforslag. Den går nedover rangeringen fra FR-16 og vel
 Fjerner FR-15 alle Turer, viser appen en forståelig melding med den korteste Turen innenfor valgt Vanskelighetsgrad som Alternativ, og sier hvor mye mer tid den krever. Realiserer UJ-3 (edge case).
 
 **Konsekvenser:**
-- Med 15 min Tilgjengelig tid og dagens Turdatasett vises Storlihytta fra Vardeveien (19 min), med «trenger 4 min mer».
+- Med 15 min Tilgjengelig tid og dagens Turdatasett vises Storlihytta fra Vardeveien (16 min), med «trenger 1 min mer».
 - Den korteste Turen får Mørkevarsel etter samme regel som Turforslagene (FR-21).
 - Aldri en tom side eller feilmelding.
 
@@ -364,7 +364,7 @@ Hver Tur har ID, navn, Mål, Startpunkt med navn og koordinater, retning, lengde
 
 **Konsekvenser:**
 - Lengde totalt betyr alltid hele turen, også for tur–retur og rundtur.
-- Høydemeter er kontrollert mot høydedata eller merket som anslag, og merkingen kan leses maskinelt, slik at testen i FR-27 kan sjekke den.
+- Høydemeter er samlet stigning for hele turen. Tallet er kontrollert mot høydedata eller merket som anslag, og merkingen kan leses maskinelt, slik at testen i FR-27 kan sjekke den. Et kontrollert tall har den målte verdien ved siden av seg.
 - Startpunktet oppgir hvor koordinatene er hentet fra (kilden eller Kartverket, for eksempel norgeskart.no).
 - Turer som starter på samme sted, har samme Startpunkt med samme navn og koordinater.
 - Ligger Startpunktet mer enn 200 m fra Turens Rutesegmenter, oppgir Turen Adkomst. Det gjelder fem Turer: Varden via Den grønne korridor (fra kaia), Storlihytta fra Romsdalsmuseet (fra museet) og de tre Turene fra Jensgurilia.
@@ -376,9 +376,10 @@ En automatisk test feiler når en Tur:
 - mangler et påkrevd felt eller har en verdi utenfor gyldig område,
 - viser til et Rutesegment som ikke finnes i den konverterte rutegeometrien,
 - har Rutesegmenter som ikke henger sammen, det vil si hull på mer enn 50 m mellom linjebitene, eller
-- har et Startpunkt for langt fra alle Turens Rutesegmenter: mer enn 200 m, eller mer enn Adkomstens lengde pluss 200 m når Turen har Adkomst.
+- har et Startpunkt for langt fra alle Turens Rutesegmenter: mer enn 200 m, eller mer enn Adkomstens lengde pluss 200 m når Turen har Adkomst, eller
+- har høydemeter som verken er kontrollert eller merket som anslag, eller som avviker mer enn 20 m fra den målte verdien.
 
-**Merknad:** Med Rutesegmentene fra spørsmål 9 og Startpunktene fra spørsmål 5 i §10 består alle 12 Turer sjekken av Rutesegmenter og Startpunkt (målt 2026-11-06). Den maskinlesbare merkingen av høydemeter som FR-26 krever, mangler ennå i Turdatasettet.
+**Merknad:** Med Rutesegmentene fra spørsmål 9 og Startpunktene fra spørsmål 5 i §10 består alle 12 Turer sjekken av Rutesegmenter og Startpunkt (målt 2026-11-06). Høydemeterne ble kontrollert 2026-11-09 (spørsmål 3): 11 Turer er kontrollert og innenfor 20 m, og Varden er merket som anslag.
 
 #### FR-28: Konvertert rutegeometri
 
@@ -411,7 +412,7 @@ Hvert Turforslag lenker til kilden for Turen. Appen krediterer MET Norway, Turru
 | Risiko | Konsekvens | Tiltak |
 |---|---|---|
 | morotur.no har ingen publisert lisens (kilde for 11 av 12 Turer) | Lav i skolesammenheng | Bare fakta, ikke kildetekst; kildelenke per Tur (FR-29); kontakt Møre og Romsdal fylkeskommune før bruk utover IBE160 |
-| Feil i turdata (lengde for tur–retur, høydemeter) | Feil Turtid gir feil filtrering | Lengde og høydemeter avklart 2026-11-03 (§10, spørsmål 2 og 3); FR-26 og FR-27 |
+| Feil i turdata (lengde for tur–retur, høydemeter) | Feil Turtid gir feil filtrering | Lengde avklart 2026-11-03 og høydemeter kontrollert mot høydedata 2026-11-09 (§10, spørsmål 2 og 3); FR-26 og FR-27 |
 | Ett Værpunkt for hele Moldemarka | Temperaturen på toppene (opptil 705 moh) kan være ca. 2 °C lavere enn ved Værpunktet, og lavtliggende Turer ca. 2 °C høyere | Akseptert i MVP: Værpunktet ligger på 400 moh, og værsammendraget sier hvilken høyde det gjelder (FR-10) |
 | MET er nede eller endrer API-et | Ingen værvurdering | FR-13 |
 | Feil i rutegeometrien: samme rutenummer for flere ruter, eller hull | Misvisende rute på kartet | Rutesegment med rutenummer og rutenavn (§3); FR-27; spørsmål 9 i §10 |
@@ -462,12 +463,12 @@ Dette skal appen ikke gjøre, heller ikke etter MVP. Det som kan komme senere, s
 
 ## 10. Åpne spørsmål
 
-Spørsmål 2, 3, 4, 6 og 7 ble avklart og spørsmål 8 lukket 2026-11-03. Samme dag ble fire funn fra gjennomgangen avgjort: Mørkevarsel påvirker rangeringen (FR-16, FR-21), Bedre tidsvindu prøver bare dagslys (FR-19), Værklassen gjelder hele Tidsvinduet (FR-9) og middels er bare informativ (§4.2). Gjennomgangen 2026-11-06 la til spørsmål 9, og spørsmål 5 og 9 ble avklart samme dag. Én oppgave gjenstår: spørsmål 1 (kalibreringen). Simon eier den. Den hindrer ikke UX eller arkitektur, men må være gjort før Værvurderingen regnes som ferdig.
+Spørsmål 2, 3, 4, 6 og 7 ble avklart og spørsmål 8 lukket 2026-11-03. Samme dag ble fire funn fra gjennomgangen avgjort: Mørkevarsel påvirker rangeringen (FR-16, FR-21), Bedre tidsvindu prøver bare dagslys (FR-19), Værklassen gjelder hele Tidsvinduet (FR-9) og middels er bare informativ (§4.2). Gjennomgangen 2026-11-06 la til spørsmål 9, og spørsmål 5 og 9 ble avklart samme dag. 2026-11-09 ble høydemeterne kontrollert (spørsmål 3) og koordinaten for Værpunktet valgt (spørsmål 4). Én oppgave gjenstår: spørsmål 1 (kalibreringen). Simon eier den. Den hindrer ikke UX eller arkitektur, men må være gjort før Værvurderingen regnes som ferdig.
 
-1. **Værterskler (kalibreringsoppgave):** Tersklene i §4.2 er startverdier. Logg Værmeldingen for Værpunktet i 7 dager for to Tidsvinduer (formiddag og ettermiddag), og noter egen vurdering hver gang: «ville jeg gått, og ville jeg valgt en lavtliggende Tur?». Juster tersklene hvis Værklassen avviker fra vurderingen i mer enn 2 av 14 tilfeller. Prioriter grensene for dårlig og frarådet, siden middels bare vises (§4.2). Må være gjort før Værvurderingen (§4.2) regnes som ferdig. Loggingen tar en kalenderuke og bør derfor starte parallelt med UX og arkitektur, straks koordinaten for Værpunktet er valgt (spørsmål 4).
+1. **Værterskler (kalibreringsoppgave):** Tersklene i §4.2 er startverdier. Logg Værmeldingen for Værpunktet i 7 dager for to Tidsvinduer (formiddag og ettermiddag), og noter egen vurdering hver gang: «ville jeg gått, og ville jeg valgt en lavtliggende Tur?». Juster tersklene hvis Værklassen avviker fra vurderingen i mer enn 2 av 14 tilfeller. Prioriter grensene for dårlig og frarådet, siden middels bare vises (§4.2). Må være gjort før Værvurderingen (§4.2) regnes som ferdig. Loggingen tar en kalenderuke og bør derfor gå parallelt med UX og arkitektur. Den er klar til å starte (2026-11-09): Tidsvinduene er formiddag 10:00–12:00 og ettermiddag 13:00–15:00, og skriptet `scripts/kalibrering_vaerlogg.py` henter Værmeldingen og fører den i et loggark. Fremgangsmåten står i [kalibreringsmappa](../../kalibrering/README.md).
 2. **Lengde for tur–retur (avklart 2026-11-03):** 7,69 km for Tusenårsvarden fra Grua og 6,45 km for Moldevatnet fra Jensgurilia regnes som hele turen. Det ble utledet fra naboturer i datasettet og bekreftet 2026-11-06 av kildesporene på morotur.no, som går fram og tilbake (7,73 og 6,48 km). Det står i `merknad` for begge Turene. Samme sjekk viste at Midtveishuken rundt Øverlandsvatnet er en rundtur på 2,47 km i alt, ikke 2,47 km hver vei. Turdatasettet og eksempelet i FR-16 er rettet.
-3. **Høydemeter (avklart 2026-11-03):** Storlihytta fra Vardeveien bruker 58 m. Det er samlet stigning, mens kildens 25 m er høydeforskjellen fra start til hytta. Frænavarden beholder anslaget på ca. 500 m, merket som anslag (FR-26); kontroll mot høydedata er en valgfri forbedring.
-4. **Værpunkt (avklart 2026-11-03):** Ett Værpunkt i MVP, på 400 moh midt i Moldemarka (§3). Værsammendraget sier hvilken høyde Værmeldingen gjelder for (FR-10). Den nøyaktige koordinaten velges før kalibreringen starter (spørsmål 1) og brukes også for sol opp og ned (FR-21). Værmelding per Tur er utenfor MVP (§8.2).
+3. **Høydemeter (avklart 2026-11-03, kontrollert 2026-11-09):** Høydemeter er samlet stigning for hele turen. 2026-11-09 ble 11 Turer kontrollert mot Kartverkets terrengmodell (DTM1) langs kildesporene på morotur.no. Ni lå innenfor 20 m og beholder tallet fra kilden, også anslaget på 500 m for Frænavarden (målt 504 m). To lå mer enn 20 m unna og er rettet til målt verdi: Storlihytta fra Vardeveien fra 58 til 35 m (Turtid 19 → 16 min) og Midtveishuken fra 58 til 36 m (35 → 33 min). For Vardeveien bygde valget 2026-11-03 på en starthøyde på ca. 243 moh, men Startpunktet ligger på ca. 298 moh og ruta går ned til hytta. Varden har ikke noe kildespor og er merket som anslag. Turdatasettet merker hvert tall maskinlesbart (FR-26), og FR-27 sjekker merkingen. Rettingene endrer bare eksemplene i FR-14 og FR-18; UJ-1, UJ-2 og eksemplene i FR-16 og FR-17 er kontrollert med skript og gir samme resultat. Metoden står i addendum (Høydemeter).
+4. **Værpunkt (avklart 2026-11-03, koordinat valgt 2026-11-09):** Ett Værpunkt i MVP, på 400 moh midt i Moldemarka (§3). Værsammendraget sier hvilken høyde Værmeldingen gjelder for (FR-10). Koordinaten er 62,7617 N, 7,1679 Ø. Terrenget ligger der på 401 moh, 220 m fra midtpunktet av alle kildesporene. Koordinaten brukes for kalibreringen (spørsmål 1), MET-kallet (med `altitude=400`) og sol opp og ned (FR-21), som gir de samme kontrollverdiene som før, 08:30 og 15:59 for 9. november 2026. Værmelding per Tur er utenfor MVP (§8.2).
 5. **Startkoordinater (avklart 2026-11-06):** Koordinatene er hentet fra kilden, og Startpunktet sier hvor de kommer fra (FR-26). For ti Turer er det første punkt i et kildespor på morotur.no. For Storlihytta fra Vardeveien er sporet tegnet fra hytta, så der brukes GPS-koordinatene på turpagen. Kilden for Varden har ingen koordinater. Kaia er derfor Storkaia fra Kartverkets stedsnavnregister, som norgeskart.no søker i. Den ligger ved Scandic Hotel Alexandra, der skiltingen starter. «Parkering ved Hatlelitunnelen/Grua» og «Parkering ved Grua» er samme parkering: sporet for Frænavarden starter på den, og sporet for Tusenårsvarden 85 m nordvest for den, der turveien begynner. Begge Turene har nå Startpunktet «Parkering ved Hatlelitunnelen (Grua)». De 12 Turene har åtte Startpunkter, og alle ligger innenfor avstandsgrensen i FR-27. Adkomsten er målt på nytt fra Startpunktene: 1,9 km for Varden og 260 m for Midtveishuken og Bergsvatnet (addendum, Kart).
 6. **Pauser (avklart 2026-11-03):** Turtid har ikke pausetillegg. Appen sier at Turtid er uten pauser (FR-14), og Mørkevarselet har en margin på 30 min før solnedgang (FR-21).
 7. **Variasjon (avklart 2026-11-03):** Appen viser først ett Turforslag per Mål og fyller deretter på i rangeringsrekkefølge (FR-17). Mål er nytt felt per Tur (FR-26).

@@ -2,7 +2,7 @@
 title: Turplanlegger (arbeidstittel)
 status: final
 created: 2026-09-04
-updated: 2026-11-02
+updated: 2026-11-09
 ---
 
 # Product Brief: Turplanlegger (arbeidstittel)
@@ -103,11 +103,7 @@ Kriteriene er formulert slik at de kan testes:
 
 ## Datakilder
 
-- **Turrutebasen** (Kartverket/Geonorge) — åpne geodata med turruter. Lastet ned for Molde kommune (GML, EPSG:25833). Filen har 94 navngitte fotruter, men vanskelighetsgrad finnes bare på 15 av dem, og høydemeter mangler helt. Ruter i datasettet er ofte segmenter i et nettverk, ikke hele turer. Turrutebasen brukes derfor bare til omtrentlig rutegeometri på kartet: en tur tegnes som segmentene den går i, og de er ofte lengre enn selve turen.
-- **Kuratert turdatasett** — 12 turer i Moldemarka med lengde, høydemeter, vanskelighetsgrad, utsikt og vann, hentet fra morotur.no (Møre og Romsdal fylkeskommunes turdatabase) for 11 av turene og fra Fjord Norway for én, og koblet til segmentene i Turrutebasen. Høydemeter skal kontrolleres mot høydedata; ett av tallene er foreløpig et anslag.
-- **MET Norway Locationforecast** — gratis værdata under åpne lisenser (NLOD 2.0 og CC BY 4.0), uten API-nøkkel. Krever en identifiserende User-Agent og caching. Siden nettleseren ikke kan sette User-Agent, går værkallene via en liten backend-proxy med caching, slik MET anbefaler.
-
-Detaljer om dataobjektene og hvor dataene ligger i repoet står i [addendum.md](addendum.md).
+Appen bygger på tre åpne eller offentlige kilder: et kuratert turdatasett med 12 turer i Moldemarka (fakta fra morotur.no og Fjord Norway), Turrutebasen fra Kartverket for omtrentlig rute på kartet, og værdata fra MET Norway Locationforecast, som er gratis, åpent lisensiert og hentes via en liten backend-proxy. Detaljer om kildene og dataobjektene, og hvor dataene ligger, står i [addendum.md](addendum.md).
 
 ## Visjon
 

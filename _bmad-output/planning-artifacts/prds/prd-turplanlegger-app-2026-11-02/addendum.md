@@ -7,7 +7,7 @@ Teknisk detalj og bakgrunn til [prd.md](prd.md), til bruk i arkitektur og storie
 - **Mellomtjeneste:** Nettleseren kan ikke sette `User-Agent`, så værkallene går via appens egen server. Den eier cachen og er det eneste stedet som kaller MET.
 - **User-Agent:** appnavn pluss kontakt, f.eks. repo-URL eller e-post. Mangler den, svarer MET 403; forfalsket kan gi permanent blokkering.
 - **Caching:** Svar lagres per (avrundet koordinat, høyde). `Expires` bestemmer levetiden, og `If-Modified-Since` brukes ved fornyelse (MET svarer 304 når ingenting er endret). Ingen fast TTL.
-- **Koordinater:** maks fire desimaler. Send `altitude=400` for Værpunktet (PRD §3); da blir temperaturen mer presis.
+- **Koordinater:** maks fire desimaler. Værpunktet er `lat=62.7617&lon=7.1679` (PRD §3, valgt 2026-11-09). Send `altitude=400`; da blir temperaturen mer presis.
 - **Felt (compact-formatet):** `air_temperature` og `wind_speed` under `instant.details`, `precipitation_amount` og `symbol_code` under `next_1_hours`.
 - **Horisont:** timesoppløsning de første ca. 60 timene, som dekker hele «i dag» og «i morgen».
 - **Tidsgrense:** svarer ikke MET innen 2 s, gjelder FR-13, slik at NFR-5 holder.
@@ -33,12 +33,12 @@ Kriteriene i FR-16 er en ren sortering på en nøkkel per Tur, så det trengs in
 
 ## Turtid for dagens Turdatasett (FR-14)
 
-Regnet ut 2026-11-02 fra `data/turer-moldemarka.json`. Lengde og høydemeter ble avklart 2026-11-03 uten at tallene endret seg (PRD §10, spørsmål 2 og 3). 2026-11-06 ble Midtveishuken rettet til en rundtur på 2,47 km, så Turtiden gikk fra 1 t 5 min til 35 min. Datasettet kan endres igjen, så testene bør bruke et eget, fast testdatasett.
+Regnet ut 2026-11-02 fra `data/turer-moldemarka.json`. Lengde og høydemeter ble avklart 2026-11-03 uten at tallene endret seg (PRD §10, spørsmål 2 og 3). 2026-11-06 ble Midtveishuken rettet til en rundtur på 2,47 km, så Turtiden gikk fra 1 t 5 min til 35 min. 2026-11-09 ble høydemeterne kontrollert (se Høydemeter under), og Turtiden ble 16 min for Storlihytta fra Vardeveien (var 19) og 33 min for Midtveishuken (var 35). Datasettet kan endres igjen, så testene bør bruke et eget, fast testdatasett.
 
 | Tur | Vanskelighetsgrad | Turtid | Høyeste punkt | Lavtliggende |
 |---|---|---|---|---|
-| Storlihytta fra Vardeveien | Enkel | 19 min | 301 moh | ja |
-| Midtveishuken rundt Øverlandsvatnet | Enkel | 35 min | 266 moh | ja |
+| Storlihytta fra Vardeveien | Enkel | 16 min | 301 moh | ja |
+| Midtveishuken rundt Øverlandsvatnet | Enkel | 33 min | 266 moh | ja |
 | Bergsvatnet | Enkel | 43 min | 281 moh | ja |
 | Skihytta fra Damefallet | Enkel | 54 min | 391 moh | ja |
 | Storlihytta fra Romsdalsmuseet | Enkel | 1 t 2 min | 270 moh | ja |
@@ -51,6 +51,35 @@ Regnet ut 2026-11-02 fra `data/turer-moldemarka.json`. Lengde og høydemeter ble
 | Tusten fra Tusten skisenter | Middels | 2 t 48 min | 705 moh | nei |
 
 Ved 1 t Tilgjengelig tid passer altså fire Turer, og ved 3 t passer alle.
+
+## Høydemeter (FR-26, FR-27)
+
+Kontrollert 2026-11-09 (PRD §10, spørsmål 3).
+
+- **Definisjon:** Høydemeter er samlet stigning for hele turen, det vil si den samme strekningen som lengde totalt. For en Tur med retning `en_vei` går man samme vei tilbake, så stigningen er summen av stigning og fall langs sporet én vei. For tur–retur og rundtur er den stigningen langs hele sporet.
+- **Metode:** Kildesporet fra morotur.no (`https://morotur.no/api/v2/geojson/<id>`) deles opp i punkter med 10 m avstand. Høyden for hvert punkt hentes fra Kartverkets terrengmodell (DTM1, `https://ws.geonorge.no/hoydedata/v1/punkt`). En stigning eller et fall telles først når det er minst 3 m, så støy i terrengmodellen ikke summeres opp.
+- **Regel:** Er avviket fra kildens tall maks 20 m, beholdes kildens tall. Er det større, brukes målt verdi. Turdatasettet har `hoydemeter_kontroll` per Tur: `{"status": "kontrollert", "malt_m": <målt>}` eller `{"status": "anslag"}`. FR-27-testen sjekker at feltet finnes og at et kontrollert tall ligger innenfor 20 m av `malt_m`.
+- **Resultat:**
+
+| Tur | Før | Målt | Brukes |
+|---|---|---|---|
+| Storlihytta fra Romsdalsmuseet | 209 | 208 | 209 |
+| Storlihytta fra Vardeveien | 58 | 35 | **35** |
+| Skihytta fra Damefallet | 169 | 171 | 169 |
+| Tusenårsvarden fra Damefallet | 318 | 316 | 318 |
+| Tusenårsvarden fra Grua | 438 | 445 | 438 |
+| Tusenårsvarden rundtur om Moldedalen | 392 | 386 | 392 |
+| Frænavarden fra Grua | 500 (anslag) | 504 | 500 |
+| Moldevatnet fra Jensgurilia | 152 | 150 | 152 |
+| Midtveishuken rundt Øverlandsvatnet | 58 | 36 | **36** |
+| Bergsvatnet | 55 | 62 | 55 |
+| Tusten fra Tusten skisenter | 605 | 621 | 605 |
+| Varden via Den grønne korridor | 407 | – | 407 (anslag) |
+
+- **Følsomhet:** Med 5 m i stedet for 3 m blir de fleste tallene lavere, med opptil 35 m (Tusenårsvarden fra Grua), mest på de lange turene med mye opp og ned. Da ville også Tusenårsvarden fra Grua og rundturen om Moldedalen avvike mer enn 20 m fra kilden. Med 3 m stemmer ni av elleve Turer med kilden innenfor 16 m, så 3 m er valgt.
+- **Storlihytta fra Vardeveien:** Sporet på morotur.no er tegnet fra hytta (ca. 270 moh) til Vardeveien (ca. 298 moh). Startpunktet ligger altså høyere enn hytta, så turen går mest nedover og har stigningen på veien tilbake.
+- **Varden** har ikke noe kildespor (kilden er Fjord Norway). 407 m er høydeforskjellen fra havnivå til toppen og er merket som anslag.
+- **Høyeste punkt** ble målt samtidig og ligger innenfor 5 m av datasettet for alle 11 Turer. Det er ikke endret.
 
 ## Kart (FR-23–FR-25, FR-28)
 
@@ -79,7 +108,7 @@ Ved 1 t Tilgjengelig tid passer altså fire Turer, og ved 3 t passer alle.
 - **Kontrollverdier:** NOAA-formlene for Molde sentrum, regnet ut 2026-11-06 og kontrollert mot kjente tider for Oslo og London:
   - 9. november 2026: sol opp 08:30, ned 15:59.
   - 21. juni 2026: sol opp 03:28, ned 23:37.
-  - Andre punkter i Moldemarka avviker mindre enn ett minutt. PRD-ens tidligere 08:28 og 16:02 var tallene for 8. november.
+  - Andre punkter i Moldemarka avviker mindre enn ett minutt. Værpunktet (62,7617 N, 7,1679 Ø) gir 08:30 og 15:59 for 9. november, regnet ut med de samme formlene 2026-11-09. PRD-ens tidligere 08:28 og 16:02 var tallene for 8. november.
 - **Test:** Testene av rangering, Mørkevarsel og Bedre tidsvindu får sol opp og ned som input (NFR-2). Selve solberegningen testes for seg mot kontrollverdiene, med toleranse ±2 min.
 
 ## Språkmodell (FR-22)

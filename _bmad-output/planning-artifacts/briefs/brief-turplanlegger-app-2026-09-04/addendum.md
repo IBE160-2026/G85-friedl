@@ -1,6 +1,14 @@
 # Addendum: Turplanlegger (arbeidstittel)
 
-Utfyllende teknisk detalj til [brief.md](brief.md), til bruk i senere PRD-/arkitekturarbeid. Oppdatert 2026-10-29 etter gjennomgang av Turrutebasen for Molde, og 2026-11-02 etter avklaring av tidsrom, tid til rådighet og kartgeometri.
+Utfyllende teknisk detalj til [brief.md](brief.md), til bruk i senere PRD-/arkitekturarbeid. Oppdatert 2026-10-29 etter gjennomgang av Turrutebasen for Molde, 2026-11-02 etter avklaring av tidsrom, tid til rådighet og kartgeometri, og 2026-11-09 da Datakilder ble flyttet hit fra briefen.
+
+## Datakilder
+
+Flyttet fra briefen 2026-11-09.
+
+- **Turrutebasen** (Kartverket/Geonorge) — åpne geodata med turruter. Lastet ned for Molde kommune (GML, EPSG:25833). Filen har 94 navngitte fotruter, men vanskelighetsgrad finnes bare på 15 av dem, og høydemeter mangler helt. Ruter i datasettet er ofte segmenter i et nettverk, ikke hele turer. Turrutebasen brukes derfor bare til omtrentlig rutegeometri på kartet: en tur tegnes som segmentene den går i, og de er ofte lengre enn selve turen.
+- **Kuratert turdatasett** — 12 turer i Moldemarka med lengde, høydemeter, vanskelighetsgrad, utsikt og vann, hentet fra morotur.no (Møre og Romsdal fylkeskommunes turdatabase) for 11 av turene og fra Fjord Norway for én, og koblet til segmentene i Turrutebasen. Høydemeter ble kontrollert mot Kartverkets høydedata 2026-11-09. Varden er merket som anslag, siden kilden ikke har noe spor (PRD §10, spørsmål 3).
+- **MET Norway Locationforecast** — gratis værdata under åpne lisenser (NLOD 2.0 og CC BY 4.0), uten API-nøkkel. Krever en identifiserende User-Agent og caching. Siden nettleseren ikke kan sette User-Agent, går værkallene via en liten backend-proxy med caching, slik MET anbefaler.
 
 ## Eksempel på dataobjekter
 
@@ -50,7 +58,7 @@ Segmentene er biter i et stinettverk og følger ikke turene nøyaktig. Målt 202
 | Hva | Hvor |
 | --- | --- |
 | Product brief og addendum | `_bmad-output/planning-artifacts/briefs/brief-turplanlegger-app-2026-09-04/` |
-| Kuratert turdata | `data/turer-moldemarka.json` og `.csv` |
+| Kuratert turdata | `data/turer-moldemarka.json` (CSV-fila er slettet 2026-11-09; andre formater lages fra JSON-fila, PRD FR-26) |
 | Rådata fra Geonorge | `data/raw/` |
 | Konverteringsskript (GML → GeoJSON) | `scripts/` (kommer) |
 | Konvertert rutegeometri | `data/` som GeoJSON (kommer) |
