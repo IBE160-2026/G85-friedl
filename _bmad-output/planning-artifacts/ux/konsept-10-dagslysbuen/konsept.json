@@ -1,0 +1,47 @@
+{
+  "nummer": 10,
+  "slug": "dagslysbuen",
+  "navn": "Dagslysbuen",
+  "slagord": "Se om du rekker turen før mørket",
+  "ide": "Konseptet er laget for november og mørketid. Hver Turdag tegnes som solas bue fra soloppgang 08:30 til solnedgang 15:59, med et skumringsfelt som mørkner mot kvelden og en markert mørkegrense ved 15:29. Ingrid er ny i byen og redd for å bli tatt av mørket, og buen viser henne straks hvor i dagslyset turen hennes ligger.",
+  "anbefalingsoyeblikket": "Tidsvinduet er en stiplet ramme langs buen, og hvert Turforslag er et segment fra Starttidspunktet til der Turen ender. Turtid mot Tilgjengelig tid står både som lengden på segmentet og som en stolpe i kortet. Båndet under buen viser Værklassen med tekst og mønster, små symboler viser hvilke Opplevelsespreferanser som treffes, og et segment som krysser mørkegrensen blir oransje og får Mørkevarsel. Regelteksten står ordrett i hvert kort.",
+  "mobil": "En kompakt felles bue står øverst over listen, med ett segment per Turforslag, og Turforslag nr. 1 med Begrunnelse rekker å vises før skjermkanten. Kartet kommer under listen, og primærknappene er fullbredde og minst 52 px høye.",
+  "styrker": [
+    "Mørkevarselet og «tilbake før mørket» blir synlige uten tall-regning: segmentet slutter enten før eller etter mørkegrensen.",
+    "Samme bildespråk bærer alle tilstander: overskyet og stormfull bue ved frarådet, morgendagens bue for Bedre tidsvindu, prikket bånd når været ikke er vurdert.",
+    "Tidsvindu, Turtid, Værklasse og Opplevelsespreferanser kan leses ut av ett og samme bilde og etterprøves mot Regelteksten.",
+    "Mørk, rolig palett med farger fra en ekte novemberhimmel. Ingen KI-gradienter."
+  ],
+  "risiko": [
+    "Buen er tett på mobil (40 px per time): segmenter som ender nær hverandre kan gi trange etiketter.",
+    "Et buet segment er vanskeligere å lese nøyaktig enn en rett tidslinje. Klokkeslettene må derfor alltid stå som tekst.",
+    "Mørk modus først krever en like gjennomarbeidet lys variant for bruk ute i dagslys."
+  ],
+  "palett": [
+    {"navn": "Novembernatt (bakgrunn)", "hex": "#0C131A"},
+    {"navn": "Skumringsflate", "hex": "#121C25"},
+    {"navn": "Dagshimmel ved horisonten", "hex": "#1B3145"},
+    {"navn": "Snølys (tekst)", "hex": "#EEE8DA"},
+    {"navn": "Dempet tekst", "hex": "#BAC4CB"},
+    {"navn": "Lampegul (sol, primærhandling)", "hex": "#F4C76A"},
+    {"navn": "Nordlysgrønn (Værklasse god, soloppgang)", "hex": "#86D6A9"},
+    {"navn": "Regnblå (Værklasse dårlig)", "hex": "#9DB8D4"},
+    {"navn": "Kulingrød (Værklasse frarådet)", "hex": "#F09276"},
+    {"navn": "Glør (mørkegrense, Mørkevarsel)", "hex": "#F29A5E"}
+  ],
+  "typografi": "Iowan Old Style til overskrifter og turnavn, Optima til brødtekst og Regeltekst (kursiv), og Avenir Next Demi Bold med tabellsiffer til klokkeslett og tall, i trinnene 42/28/22/17/14/12 px på PC.",
+  "bevegelse": "Når et Turforslag velges, glir sola langs buen fra Starttidspunktet til sluttidspunktet, segmentet fylles bak den, og krysser den mørkegrensen, skifter sporet til glør-oransje mens himmelen i skumringsfeltet mørkner litt.",
+  "skjermer": {
+    "pc-1-sok.svg": "Skjemaet til venstre og dagens bue til høyre, der sola står ved «nå 13:30» og Tidsvinduet følger skjemaet, med en forklaring på hvordan buen leses.",
+    "pc-2-godt-vaer.svg": "En felles bue med tre segmenter som alle ender før mørkegrensen 15:29, et grønt bånd for Værklasse god, kort med etterprøvbare celler og et kart der nr. 1 er uthevet.",
+    "pc-3a-darlig-vaer.svg": "Værvarsling og Bedre tidsvindu øverst. Buen har et regnmønstret bånd for formiddagen, et grønt bånd fra 14:00 og en ramme for Bedre tidsvindu. Lavtliggende Turer står først, med «Hvorfor øverst».",
+    "pc-3b-bedre-tidsvindu.svg": "Tidsvinduet 14:00–17:00 går inn i skumringen, tre Turforslag ender før 15:29, og en komponentdetalj viser Mørkevarsel for Tusenårsvarden, som ender 15:32.",
+    "pc-4-fraradet.svg": "Ingen Turforslag. Dagens bue er overskyet og stormfull, med verdiene som utløste frarådet, og morgendagens klare bue viser Bedre tidsvindu 11:00–13:00 med én knapp.",
+    "pc-5-ingen-tur-uten-vaer.svg": "Live-modus uten Demomodus-merke: et prikket bånd sier at været ikke er vurdert, og den korteste Turen vises forstørret mot Tidsvinduet med «trenger 1 min mer».",
+    "mob-1-sok.svg": "En kompakt bue med «nå 13:30» over skjemaet. Alle felt og «Finn tur» står over skjermkanten.",
+    "mob-2-godt-vaer.svg": "En felles kompakt bue over listen og hele Turforslag nr. 1 med Begrunnelse over skjermkanten. Kartet ligger under listen.",
+    "mob-3-darlig-vaer.svg": "Værvarsling og Bedre tidsvindu med knappen «Bruk 14:00» øverst, buen med regnbånd, tre kort og nederst Mørkevarsel-detaljen fra 3b.",
+    "mob-4-fraradet.svg": "En stormfull bue for i dag, frarådet-melding med verdier, og morgendagens bue med knappen «Bruk i morgen 11:00» over skjermkanten.",
+    "mob-5-ingen-tur-uten-vaer.svg": "En melding om at været ikke er vurdert, en bue med prikket bånd og den korteste Turen med en forstørret stolpe for 15 mot 16 min."
+  }
+}

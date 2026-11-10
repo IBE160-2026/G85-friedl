@@ -1,0 +1,49 @@
+{
+  "nummer": 5,
+  "slug": "instrumentpanel",
+  "navn": "Instrumentpanel",
+  "slagord": "Fire målere, ett blikk, klar til å gå",
+  "ide": "Hvert Turforslag får et lite instrumentpanel med fire like målere side om side, slik instrumentene står i en cockpit eller på en seilbåt: tid, vær, dagslys og preferanser. Ingrid trenger ikke lese seg fram til svaret; hun ser på et blikk hvor langt viserne står fra kanten av skalaen, og Regelteksten under sier det samme med ord. Mørk modus, tynne linjer og tabellsiffer gjør panelet datatett, men rolig å lese i gangen med jakka på.",
+  "anbefalingsoyeblikket": "TID-måleren fyller en bue med Turtid av Tilgjengelig tid (1 t 32 min av 2 t, uten pauser), VÆRKLASSE-skiva har nålen på klassen for Tidsvinduet (god, middels, dårlig, frarådet), DAGSLYS-måleren går fra Starttidspunkt til solnedgang 15:59 med et skravert felt fra mørkegrensen 15:29, og PREFERANSER-lampene er tent, slukket eller ikke valgt. Under målerne står Regelteksten, og hvert ledd er understreket og merket TID, VÆR eller PREF, slik at teksten kan etterprøves mot måleren. Mørkevarsel er dagslysnålen i det røde feltet med merket MØRKEVARSEL og teksten med solnedgangen; frarådet er værskiva i ytterste felt mens de andre målerne er slått av.",
+  "mobil": "Nr. 1 får målerne i et 2×2-rutenett så hele panelet og Regelteksten står over brettekanten; nr. 2 og 3 får en kompakt rad med fire små målere. Kart, ansvarsmerknad og kreditering ligger stablet under listen, og alle knapper er minst 44 px høye.",
+  "styrker": [
+    "De fire kriteriene får samme plass og samme form i hvert kort, så tre Turforslag kan sammenlignes måler for måler.",
+    "Regelteksten er koblet til målerne med merker (TID, VÆR, PREF), så Begrunnelsen kan etterprøves og ikke bare leses.",
+    "Frarådet og «ingen Tur passer» får samme panel med målere slått av eller over skalaen, så de ser ut som riktige svar og ikke som feilsider.",
+    "Dagslysmåleren gjør marginen før mørket synlig også når det ikke er Mørkevarsel (27 min før mørkegrensen)."
+  ],
+  "risiko": [
+    "Fire målere per kort er mye å lese for en førstegangsbruker; uten en forklaring på Søk-siden kan skivene bli pynt.",
+    "Små målere på mobil (rad på fire) har lite plass til tekst og hviler på form og glyfer (✓, ×, –) i tillegg til farge.",
+    "Mørk modus som standard kan være mindre lesbar i sterkt dagslys ute; en lys variant må designes og kontrastsjekkes for seg."
+  ],
+  "palett": [
+    {"navn": "Bakgrunn, dyp blågrønn", "hex": "#0C181B"},
+    {"navn": "Panel", "hex": "#11232A"},
+    {"navn": "Instrumentskive", "hex": "#081417"},
+    {"navn": "Linje", "hex": "#3B5960"},
+    {"navn": "Tekst", "hex": "#E6EFEE"},
+    {"navn": "Tekst, dempet", "hex": "#A6BCBF"},
+    {"navn": "Viser og primærknapp, rav", "hex": "#F0B54A"},
+    {"navn": "Måling, isblå", "hex": "#8CCFE0"},
+    {"navn": "Værklasse god", "hex": "#5FC4A8"},
+    {"navn": "Værklasse middels", "hex": "#D6C15C"},
+    {"navn": "Værklasse dårlig", "hex": "#EC9558"},
+    {"navn": "Frarådet og Mørkevarsel (skravert)", "hex": "#F47F8E"}
+  ],
+  "typografi": "DIN Alternate for alle tall, klokkeslett og instrumentetiketter i sperrede versaler, og Avenir Next (Regular, Medium, Demi Bold) for navn, Regeltekst og brødtekst, i en skala på 10/12/14/16/21/28 px.",
+  "bevegelse": "Når svaret kommer, sveiper viserne fra null til sin verdi én gang (ca. 400 ms), og Mørkevarsel-feltet pulserer ikke, det står stille.",
+  "skjermer": {
+    "pc-1-sok.svg": "Søkeskjemaet som et konsoll med steppere, skala for Tilgjengelig tid og preferanselamper, og til høyre «Slik leser du svaret» med de fire målerne slått av.",
+    "pc-2-godt-vaer.svg": "Tre Turforslag med hvert sitt panel av fire målere og koblet Regeltekst, værpanel med Værklasse god og kart med nr. 1 uthevet og merket omtrentlig rute.",
+    "pc-3a-darlig-vaer.svg": "Værvarsling med verdiene øverst og Bedre tidsvindu med «Bruk 14:00»; værskivene viser dårlig, og merkene Lavtliggende tur og Egnet i dårlig vær forklarer rekkefølgen.",
+    "pc-3b-bedre-tidsvindu.svg": "Søket med 14:00, der dagslysmålerne viser marginen mot 15:29, og en merket komponentdetalj ved kartet som viser Mørkevarsel for Tusenårsvarden fra Damefallet (ender 15:32).",
+    "pc-4-fraradet.svg": "Ingen Turforslag: værskiva står i ytterste felt med vind opp mot 19 m/s, de andre målerne er slått av, og Bedre tidsvindu i morgen 11:00 er hovedhandlingen.",
+    "pc-5-ingen-tur-uten-vaer.svg": "Uten Demomodus: værmåleren står som ikke vurdert, og tidsmåleren går over skalaen for den korteste Turen (16 min av 15 min, trenger 1 min mer).",
+    "mob-1-sok.svg": "Skjemaet stablet med store trykkflater og «Finn tur» over brettekanten, med en rad små målere som forklarer svaret.",
+    "mob-2-godt-vaer.svg": "Nr. 1 med målerne i 2×2 og Regelteksten over brettekanten, nr. 2 og 3 med en rad små målere, og kartet stablet under.",
+    "mob-3-darlig-vaer.svg": "Værvarsling og Bedre tidsvindu øverst, tre Turforslag, kart og en merket Mørkevarsel-detalj nederst.",
+    "mob-4-fraradet.svg": "Melding med verdiene, målerne i 2×2 med værskiva i ytterste felt og resten slått av, og knappen «Bruk i morgen 11:00».",
+    "mob-5-ingen-tur-uten-vaer.svg": "Melding om at været ikke er vurdert, og den korteste Turen som Alternativ med tidsmåleren over skalaen, før kartet."
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "nummer": 3,
+  "slug": "hoydekurver",
+  "navn": "Høydekurver",
+  "slagord": "Linja ved 400 moh forklarer turen",
+  "ide": "Kartet og terrenget kommer først: et stilisert topografisk kart med høydekurver fyller skjermen, og 400-moh-kurven er trukket opp i fjordblått. Hvert Turforslag har en høydeprofil der den samme linja går tvers gjennom. Den er både høyden Værmeldingen gjelder for (Værpunktet) og grensen for Lavtliggende tur. Ingrid kjenner ikke Moldemarka, og her ser hun terrenget og hvorfor værvurderingen og den lavtliggende Turen henger sammen: Tusenårsvarden (527 moh) stikker over linja, Moldevatnet (340 moh) ligger under.",
+  "anbefalingsoyeblikket": "Høydeprofilen er tegnet på en tidsakse fra Starttidspunktet. Turtid-stolpen (uten pauser) står over klammen for Tilgjengelig tid, mørkegrensen 15:29 og solnedgangen 15:59 er lilla loddlinjer, og Værklassen sitter som en merkelapp på 400-linja. En faktalinje med Turtid, Værklasse, Opplevelsespreferanser (✓/✗) og Mørkevarsel og Regelteksten ordrett står rett ved profilen, så hvert ledd i Begrunnelsen kan leses av i tegningen.",
+  "mobil": "Kartet står øverst i en avgrenset høyde (150–190 px) med uthevet 400-kurve. Profilkortene er stablet under: nr. 1 er fullt, nr. 2–3 er kompakte (Begrunnelse og profil), slik at svaret, Regelteksten og profilen til nr. 1 står over brettekanten.",
+  "styrker": [
+    "Én visuell idé (400-linja) binder sammen Værpunktet, Lavtliggende tur og Værvarslingen på alle skjermene",
+    "Profilene har samme skala, og på PC går 400-linja sammenhengende gjennom alle tre kortene, så Turene kan sammenlignes på et blikk",
+    "Tidsaksen viser Turtid, Tilgjengelig tid og mørkegrensen i samme figur, så Mørkevarselet blir et regnestykke man kan se",
+    "Kartet gir Ingrid, som er ny i Molde, en følelse av terrenget og hvor Startpunktene ligger"
+  ],
+  "risiko": [
+    "Profilen er skjematisk (bygd fra Startpunkt, høydemeter og høyeste punkt). Uten høydedata per Rutesegment kan formen se mer presis ut enn den er",
+    "Tett informasjon i hvert kort: profil, tidsakse, stolper og faktalinje krever små skriftstørrelser (10–11 px) i figuren",
+    "Topografisk kart med høydekurver krever en kartleverandør som kan tegne kurver og fremheve én bestemt kote",
+    "På mobil blir dårlig vær-skjermen lang (ca. 2900 px) med Værvarsling, tre kort og Mørkevarsel-detaljen"
+  ],
+  "palett": [
+    {
+      "navn": "Kartpapir",
+      "hex": "#F6F2E8"
+    },
+    {
+      "navn": "Side",
+      "hex": "#EFEADD"
+    },
+    {
+      "navn": "Blekk",
+      "hex": "#1F2522"
+    },
+    {
+      "navn": "Granitt",
+      "hex": "#545A54"
+    },
+    {
+      "navn": "Mose (primær, Værklasse god)",
+      "hex": "#3D5A2B"
+    },
+    {
+      "navn": "Mosetone (under 400 moh)",
+      "hex": "#D6DEC0"
+    },
+    {
+      "navn": "Fjordblå (400-linja, vann)",
+      "hex": "#22587A"
+    },
+    {
+      "navn": "Vann",
+      "hex": "#BCD2D9"
+    },
+    {
+      "navn": "Lyng (Mørkevarsel)",
+      "hex": "#6A3862"
+    },
+    {
+      "navn": "Rust (Værklasse dårlig)",
+      "hex": "#8F4318"
+    },
+    {
+      "navn": "Oker (Værklasse middels)",
+      "hex": "#7E5C10"
+    },
+    {
+      "navn": "Frarådet",
+      "hex": "#7A1C1C"
+    },
+    {
+      "navn": "Høydekurve",
+      "hex": "#B6A27E"
+    },
+    {
+      "navn": "Sti (omtrentlig rute)",
+      "hex": "#8C3A28"
+    }
+  ],
+  "typografi": "Palatino for Turnavn, overskrifter og Regelteksten (kursiv), Gill Sans for UI-tekst og sperrede kartetiketter i versaler, og Avenir Next med tabellsiffer for tall, klokkeslett og høyder, i en skala på 10/12/14/16/21/30 px.",
+  "bevegelse": "Når Turforslagene kommer, tegnes profilene fra venstre langs tidsaksen mens 400-kurven i kartet pulserer én gang, og valg av kort tegner ruten i kartet med stiplet strek.",
+  "skjermer": {
+    "pc-1-sok.svg": "Søkeskjemaet som kartkartusj over et helsides topografisk kart med alle åtte Startpunktene og uthevet 400-moh-kurve, med tegnforklaring.",
+    "pc-2-godt-vaer.svg": "Kart med tre omtrentlige ruter og infoboks for nr. 1, Værklasse god som tegnforklaring, og tre profilkort der 400-linja går tvers gjennom og Tusenårsvarden stikker over den.",
+    "pc-3a-darlig-vaer.svg": "Værvarsling-bånd med verdiene og Bedre tidsvindu (Bruk 14:00) øverst, og tre Lavtliggende turer der alle profilene ligger under 400-linja.",
+    "pc-3b-bedre-tidsvindu.svg": "Nytt Søk fra 14:00 med Værklasse god og mørkegrense/solnedgang i profilene, og en komponentdetalj der Tusenårsvardens Turtid-stolpe krysser mørkegrensen 15:29.",
+    "pc-4-fraradet.svg": "Ingen Turforslag: et skravert kart, meldingen om Værklasse frarådet med verdiene, et skjematisk snitt som viser at vinden gjelder over og under 400 moh, og Bedre tidsvindu i morgen 11:00.",
+    "pc-5-ingen-tur-uten-vaer.svg": "Live-modus uten Demomodus-merke: været er ikke vurdert (grå, stiplet 400-linje), ingen Tur passer 15 min, og den korteste Turen som Alternativ, med «trenger 1 min mer» i Turtid-stolpen.",
+    "mob-1-sok.svg": "Mobil: lite kart med Startpunkter øverst, skjemaet under og Finn tur over brettekanten.",
+    "mob-2-godt-vaer.svg": "Mobil: Søk, Værklasse god, avgrenset kart og fullt profilkort for nr. 1 over brettekanten, med kompakte kort for nr. 2–3.",
+    "mob-3-darlig-vaer.svg": "Mobil: Værvarsling med Bedre tidsvindu-knapp øverst, kart, tre lavtliggende profilkort og Mørkevarsel-detaljen nederst.",
+    "mob-4-fraradet.svg": "Mobil: skravert kart, Værklasse frarådet med verdiene, snitt med 400-linja og knappen Bruk i morgen 11:00 over brettekanten.",
+    "mob-5-ingen-tur-uten-vaer.svg": "Mobil: melding om at været ikke er vurdert, nært kart over Storlihytta fra Vardeveien og Alternativ-kortet med 16 min av 15 min."
+  }
+}

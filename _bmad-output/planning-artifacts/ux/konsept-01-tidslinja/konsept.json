@@ -1,0 +1,49 @@
+{
+  "nummer": 1,
+  "slug": "tidslinja",
+  "navn": "Tidslinja",
+  "slagord": "Hele turdagen på én akse",
+  "ide": "Turdagen tegnes som en vannrett tidsakse fra 06 til 22, strukket ut rundt Tidsvinduet og komprimert i endene, med Værklassen per time som et fargebånd, soloppgang, solnedgang og en stiplet mørkegrense 30 min før solnedgang. Hvert Turforslag er en stolpe fra Starttidspunktet til der Turen ender, som et Gantt-diagram for dagen. Ingrid spør egentlig om tid: rekker jeg det, hva slags vær er det i de timene, og er jeg tilbake før det blir mørkt? Alt dette kan hun lese av samme bilde.",
+  "anbefalingsoyeblikket": "Stolpens lengde inne i rammen viser Turtid mot Tilgjengelig tid, båndet over viser Værklassen i akkurat de timene, og avstanden fra stolpens ende til den stiplede mørkegrensen står som en målt klamme (for eksempel «27 min før mørkegrensen»). Er det Mørkevarsel, krysser stolpen mørkegrensen og delen etter er skravert. Opplevelsespreferansene er merker ved stolpen (treffer, mangler, ikke valgt). Under listen deles Regelteksten for det valgte forslaget i ledd, og hvert ledd står ved siden av beviset sitt.",
+  "mobil": "Mobil bruker samme vannrette akse, men sterkt komprimert utenfor Tidsvinduet: øverst er én felles akse med værbånd og sollinjer, og hvert Turforslag har sin egen smale tidsstripe på samme skala, med Begrunnelsen rett under. Svaret og Begrunnelsen for nr. 1 står over brettekanten.",
+  "styrker": [
+    "Mørkevarsel og avstanden til mørket blir geometri, ikke bare tekst. Det er lett å se når en stolpe krysser den stiplede linja.",
+    "Bedre tidsvindu blir et konkret sted på aksen (et lysere, stiplet felt) med én knapp, så det er lett å forstå hvorfor 14:00 er bedre.",
+    "FR-9 (den dårligste timen i Tidsvinduet avgjør) blir synlig: båndet viser timene som Tidsvinduet dekker.",
+    "Samme grammatikk på alle tilstandene: frarådet blir et rødbrunt bånd over to dager, og manglende Værmelding blir et prikket «ikke vurdert»-bånd."
+  ],
+  "risiko": [
+    "Den ikke-lineære aksen kan forvirre: komprimerte endetimer kan leses som korte timer.",
+    "Mye informasjon i hver rad. På 390 px blir stolpene smale, og små forskjeller (3 min over mørkegrensen, 1 min for lite) må forklares med etiketter.",
+    "Fargebåndet krever en forklaring, og Værklassene skilles med lyshet, skravering og tekst. Det må testes med brukere som er fargeblinde."
+  ],
+  "palett": [
+    {"navn": "Papir (bakgrunn)", "hex": "#F5F4F0"},
+    {"navn": "Blekk (tekst)", "hex": "#1C2126"},
+    {"navn": "Blekk 2 (sekundærtekst)", "hex": "#525A62"},
+    {"navn": "Fjordgrønn (stolper, primærknapp, valgt)", "hex": "#1F5F63"},
+    {"navn": "Valgt rad", "hex": "#E4EEEC"},
+    {"navn": "Mørkt (natt på aksen)", "hex": "#E1E4EA"},
+    {"navn": "Skifer (Mørkevarsel)", "hex": "#2E3A52"},
+    {"navn": "Værklasse god", "hex": "#CFE5D7"},
+    {"navn": "Værklasse middels", "hex": "#EAD48C"},
+    {"navn": "Værklasse dårlig (+ skravur)", "hex": "#D39A6D"},
+    {"navn": "Værklasse frarådet (+ kryssskravur)", "hex": "#8C3A2E"},
+    {"navn": "Ikke vurdert (prikker)", "hex": "#EEEDE9"}
+  ],
+  "typografi": "Helvetica Neue for all tekst (30/22/16/15/13/12 px, halvfet for navn og etiketter, tabellsiffer) og DIN Alternate for rangnummer og faktatall som skal sammenlignes.",
+  "bevegelse": "Når Bedre tidsvindu tas i bruk, glir Tidsvindu-rammen og stolpene langs aksen fra 10:00 til 14:00, slik at det er tydelig at det er samme dag, bare senere.",
+  "skjermer": {
+    "pc-1-sok.svg": "Skjemaet med standardverdier og Finn tur, og en forhåndsvisning av dagen der Tidsvinduet 13:30–15:30 står som en ramme mot soloppgang, mørkegrense og solnedgang.",
+    "pc-2-godt-vaer.svg": "Tre Turforslag som stolper fra 13:30, med god Værklasse i båndet og målt avstand til mørkegrensen. Nr. 1 er valgt, og Regelteksten er delt i ledd ved siden av kartet.",
+    "pc-3a-darlig-vaer.svg": "Værvarsling øverst. Båndet er dårlig til 14:00, og et stiplet Bedre tidsvindu 14:00–17:00 med knappen «Bruk 14:00» ligger på aksen. Lavtliggende tur og Egnet i dårlig vær er merker ved stolpene.",
+    "pc-3b-bedre-tidsvindu.svg": "Det nye Søket 14:00. Tidsvinduet går forbi solnedgang, og alle tre stolpene ender før mørkegrensen. Under listen vises komponentdetaljen for Mørkevarsel: Tusenårsvarden krysser grensen og ender 15:32.",
+    "pc-4-fraradet.svg": "Ingen Turforslag. Tidslinja viser i dag og i morgen: i dag er frarådet hele dagen (vind opp mot 19 m/s), i morgen er det et Bedre tidsvindu fra 11:00 med knappen «Bruk i morgen 11:00».",
+    "pc-5-ingen-tur-uten-vaer.svg": "Live-modus uten Demomodus. Båndet er prikket «ikke vurdert», og den korteste Turen er en stolpe som går 1 min forbi Tidsvinduet på 15 min («trenger 1 min mer»). Kartet viser denne ene ruta.",
+    "mob-1-sok.svg": "Skjemaet stablet, med en kompakt dagsakse og Finn tur over brettekanten.",
+    "mob-2-godt-vaer.svg": "Felles akse med værbånd øverst, og hvert Turforslag med sin egen tidsstripe, Turtid, avstand til mørket, preferansemerker og Begrunnelse. Kartet ligger under listen.",
+    "mob-3-darlig-vaer.svg": "Værvarsling og et Bedre tidsvindu-kort festet til det stiplede feltet på aksen, Turforslagene med merker for lavtliggende tur, og Mørkevarsel-detaljen nederst.",
+    "mob-4-fraradet.svg": "En melding om å vente, to dagsbånd (i dag frarådet, i morgen bedre fra 11:00) og én stor knapp: «Bruk i morgen 11:00».",
+    "mob-5-ingen-tur-uten-vaer.svg": "Melding om at været ikke er vurdert, og den korteste Turen som Alternativ, med en stripe som går 1 min forbi Tidsvinduet. Kartet er zoomet inn på ruta."
+  }
+}

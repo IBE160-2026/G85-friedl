@@ -1,0 +1,49 @@
+{
+  "nummer": 9,
+  "slug": "silen",
+  "navn": "Silen",
+  "slagord": "Se hvorfor de andre ni falt fra",
+  "ide": "Full åpenhet om reglene: resultatet viser hvordan alle 12 Turer i Turdatasettet går gjennom silen, trinn for trinn (0 vær, 1 Turtid ≤ Tilgjengelig tid, 2 Vanskelighetsgrad, 3 rangering etter Mørkevarsel, vær og Opplevelsespreferanser, 4 variasjon per Mål). Hver Tur er en linje som stopper ved trinnet som fjernet den, med årsaken, for eksempel «2 t 26 min > 2 t». Ingrid kjenner ikke Moldemarka og vil være sikker på at valget er fornuftig; når hun ser at det ikke finnes et bedre alternativ som ble gjemt bort, kan hun stole på svaret.",
+  "anbefalingsoyeblikket": "Hvert Turforslag har fire celler som speiler trinnene i silen: 1 Turtid (1 t 32 min av 2 t, med en målestav mot Tilgjengelig tid), 2 Vanskelighetsgrad (Middels ≤ Middels), 3 Mørkevarsel (nei, ender 15:02 · sola ned 15:59) og 3 Vær og preferanser (Værklasse god · utsikt ✓, eller utsikt – når den ikke treffes), med Regelteksten under. I «Slik kom vi fram» står de samme tallene på linjen til Turen, ved siden av alle Turene som stoppet, og plassnummeret i rangeringen viser hvorfor nettopp disse tre kom ut nederst.",
+  "mobil": "På mobil er silen sammenfoldet som standard: Turforslag 1 står øverst, og rett under den viser en stripe tallene per trinn (12 › 7 › 7 › 7 › 3) som én trykkflate. Utfoldet blir silen en loddrett liste trinn for trinn, med en rygg til venstre.",
+  "styrker": [
+    "Reglene er helt etterprøvbare. Alle 12 Turer og årsaken til at hver av dem falt fra, står synlig, så FR-15–FR-17 kan testes rett fra skjermen.",
+    "Frarådet og ingen Tur passer blir riktige svar og ikke feil: silen viser en vegg ved vær før trinn 1, eller at alle stoppet på tid og at den korteste manglet 1 min.",
+    "Mørkevarsel får en tydelig plass i rangeringen (ender 15:32, over grensen 15:29), så Ingrid ser hvorfor Tusenårsvarden havner som nr. 11 etter Bedre tidsvindu."
+  ],
+  "risiko": [
+    "Silen er tett og teknisk; for brukere som bare vil ha svaret kan den virke som støy, så det er avgjørende at den er sammenfoldet på mobil og står under Turforslagene på PC.",
+    "Tallkolonnene i rangeringen (Ender, Treff, Igjen, Plass) krever forklaring første gang; «Igjen» (Tilgjengelig tid minus Turtid) må testes for forståelse."
+  ],
+  "palett": [
+    {"navn": "Papir", "hex": "#F5F7F8"},
+    {"navn": "Rutenett", "hex": "#E7ECEF"},
+    {"navn": "Flate", "hex": "#FFFFFF"},
+    {"navn": "Hårstrek", "hex": "#D3DADF"},
+    {"navn": "Linje", "hex": "#86939C"},
+    {"navn": "Blekk", "hex": "#151E26"},
+    {"navn": "Blekk 2", "hex": "#44515B"},
+    {"navn": "Blekk 3", "hex": "#58656F"},
+    {"navn": "Gjennom (aksent)", "hex": "#0A5BC4"},
+    {"navn": "Gjennom mørk", "hex": "#073F8A"},
+    {"navn": "Gjennom lys", "hex": "#E6EFFB"},
+    {"navn": "Varsel (Mørkevarsel, Værvarsling)", "hex": "#8F4A00"},
+    {"navn": "Varsel lys", "hex": "#FBF1E4"},
+    {"navn": "Vann", "hex": "#DCE6EC"}
+  ],
+  "typografi": "Avenir Next (Helvetica Neue som reserve) i seks trinn, 30/22/18/14/12/10 px, med demi for titler og trinn, og SF Mono (Menlo som reserve) for alle tall, klokkeslett og trinnetiketter i versaler.",
+  "bevegelse": "Når Søket sendes, glir de 12 linjene inn fra venstre og stopper en etter en ved sitt trinn; de tre som kommer gjennom fortsetter til «Turforslag 1–3» og løfter seg opp til listen.",
+  "skjermer": {
+    "pc-1-sok.svg": "Skjemaet med standardverdiene til venstre og en skjematisk silen til høyre, der verdiene fra skjemaet (13:30–15:30, 2 t, Middels, 15:29/15:59) står i blått ved hvert trinn før Søket sendes.",
+    "pc-2-godt-vaer.svg": "UJ-1: tre Turforslag med celler per trinn og kart øverst, og utfoldet silen under der 5 Turer stopper på tid, 4 ikke blir valgt og Tusenårsvarden, Storlihytta og Skihytta kommer ut.",
+    "pc-3a-darlig-vaer.svg": "UJ-2 kvelden før: Værvarsling og Bedre tidsvindu øverst, Moldevatnet, Storlihytta og Skihytta som Turforslag, og silen med rangeringskolonner for høyeste punkt og egnet i dårlig vær.",
+    "pc-3b-bedre-tidsvindu.svg": "Etter «Bruk 14:00»: Storlihytta, Skihytta og Bergsvatnet, komponentdetaljen for Mørkevarsel på Tusenårsvarden (ender 15:32, grense 15:29, sola ned 15:59), og silen der Storlihytta fra Vardeveien stopper fordi Målet alt er med.",
+    "pc-4-fraradet.svg": "UJ-3: melding om Værklasse frarådet med 19 m/s, Bedre tidsvindu i morgen kl. 11:00 som Alternativ, og silen der en skravert vegg stopper alle 12 før trinn 1.",
+    "pc-5-ingen-tur-uten-vaer.svg": "Live-modus uten Værmelding og 15 min: alle 12 stopper på tid, den korteste manglet 1 min, og Storlihytta fra Vardeveien føres ut som Alternativ med kart.",
+    "mob-1-sok.svg": "Skjemaet på mobil med «Finn tur» over skjermkanten og en sammenfoldet forklaring av silen under.",
+    "mob-2-godt-vaer.svg": "Turforslag 1 med Begrunnelse og den sammenfoldede silen over skjermkanten, deretter nr. 2 og 3, kart, ansvarsmerknad og silen slik den ser ut etter ett trykk.",
+    "mob-3-darlig-vaer.svg": "Værvarsling og «Bruk 14:00» først, så Turforslagene med sammenfoldet silen, kart og komponentdetaljen for Mørkevarsel nederst.",
+    "mob-4-fraradet.svg": "Frarådet-melding, «Bruk i morgen 11:00» og silen-stripen som viser 12 › 0 ved vær.",
+    "mob-5-ingen-tur-uten-vaer.svg": "Melding om manglende Værmelding, Alternativet Storlihytta fra Vardeveien (trenger 1 min mer), stripen 12 › 0 på tid og kart med ruten."
+  }
+}

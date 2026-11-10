@@ -1,0 +1,308 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="3070" viewBox="0 0 390 3070" lang="nb">
+<title>Turmeldingen – resultat i godt vær (mobil)</title>
+<defs>
+<pattern id="sea" width="8" height="6" patternUnits="userSpaceOnUse"><line x1="0" y1="3" x2="8" y2="3" stroke="#161513" stroke-width="0.6" opacity="0.45"/></pattern>
+<pattern id="lake" width="6" height="4" patternUnits="userSpaceOnUse"><line x1="0" y1="2" x2="6" y2="2" stroke="#161513" stroke-width="0.6" opacity="0.6"/></pattern>
+<pattern id="dark" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#161513" stroke-width="1.4" opacity="0.55"/></pattern>
+<pattern id="dusk" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#161513" stroke-width="0.7" opacity="0.35"/></pattern>
+<pattern id="town" width="7" height="7" patternUnits="userSpaceOnUse"><rect x="1" y="1" width="4" height="4" fill="none" stroke="#161513" stroke-width="0.6" opacity="0.6"/></pattern>
+</defs>
+<rect width="390" height="3070" fill="#F4F0E6"/>
+<rect x="0.0" y="0.0" width="390.0" height="48.0" fill="#EFDDD3"/>
+<line x1="0.0" y1="48.0" x2="390.0" y2="48.0" stroke="#9B2A22" stroke-width="1"/>
+<text x="16.0" y="19.5" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12" fill="#9B2A22" font-weight="600" data-maxw="358">DEMOMODUS · Værscenario: Godt vær</text>
+<text x="16.0" y="37.5" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12" fill="#9B2A22" font-weight="600" data-maxw="358">«nå» = man. 9. nov. 13:30</text>
+<text x="195.0" y="70.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12" fill="#161513" font-weight="600" text-anchor="middle" letter-spacing="1.8">MOLDEMARKA · MANDAG 9. NOVEMBER</text>
+<text x="195.0" y="112.0" font-family="Didot, 'Bodoni 72', 'Iowan Old Style', serif" font-size="40" fill="#161513" text-anchor="middle">Turmeldingen</text>
+<rect x="16.0" y="124.0" width="358.0" height="2.5" fill="#161513"/>
+<line x1="16.0" y1="130.0" x2="374.0" y2="130.0" stroke="#161513" stroke-width="1"/>
+<text x="16.0" y="154.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12" fill="#9B2A22" font-weight="600" letter-spacing="1.2">SØKET</text>
+<text x="16.0" y="176.0" font-family="Charter, Georgia, serif" font-size="15.5" fill="#161513" font-style="italic" data-maxw="270">I dag 13:30 · 2 t · Middels · utsikt</text>
+<text x="16.0" y="197.0" font-family="Charter, Georgia, serif" font-size="15.5" fill="#161513" font-style="italic" data-maxw="270">Tidsvindu 13:30–15:30</text>
+<rect x="296.0" y="146.0" width="78.0" height="44.0" fill="#F4F0E6" stroke="#161513" stroke-width="1.5"/>
+<text x="335.0" y="173.2" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="15" fill="#161513" font-weight="600" text-anchor="middle">Endre</text>
+<line x1="16.0" y1="212.0" x2="374.0" y2="212.0" stroke="#161513" stroke-width="1"/>
+<line x1="16.0" y1="222.0" x2="374.0" y2="222.0" stroke="#161513" stroke-width="1"/>
+<line x1="16.0" y1="265.0" x2="374.0" y2="265.0" stroke="#161513" stroke-width="1"/>
+<text x="28.0" y="247.2" font-family="Charter, Georgia, serif" font-size="15" fill="#161513" data-maxw="336"><tspan fill="#161513" font-weight="700" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5">SISTE NYTT </tspan>Ingen Værvarsling · sol ned 15:59</text>
+<text x="16.0" y="289.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12" fill="#9B2A22" font-weight="600" letter-spacing="1.2">TURFORSLAG 1 AV 3 · HOVEDSAKEN</text>
+<text x="16.0" y="325.0" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="31" fill="#161513" font-weight="700" data-maxw="358">Tusenårsvarden fra</text>
+<text x="16.0" y="361.0" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="31" fill="#161513" font-weight="700" data-maxw="358">Damefallet</text>
+<text x="16.0" y="391.0" font-family="Charter, Georgia, serif" font-size="17" fill="#161513" font-weight="700" data-maxw="358">Passer tiden din (1 t 32 min av</text>
+<text x="16.0" y="415.0" font-family="Charter, Georgia, serif" font-size="17" fill="#161513" font-weight="700" data-maxw="358">2 t)<tspan baseline-shift="super" font-size="9.9" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-weight="600" fill="#9B2A22">1</tspan>, oppholdsvær og lite vind<tspan baseline-shift="super" font-size="9.9" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-weight="600" fill="#9B2A22">2</tspan>,</text>
+<text x="16.0" y="439.0" font-family="Charter, Georgia, serif" font-size="17" fill="#161513" font-weight="700" data-maxw="358">utsikt<tspan baseline-shift="super" font-size="9.9" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-weight="600" fill="#9B2A22">3</tspan>. <tspan font-weight="400">Tilbake ca. 15:02</tspan><tspan baseline-shift="super" font-size="9.9" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-weight="600" fill="#9B2A22">4</tspan><tspan font-weight="400">.</tspan></text>
+<rect x="16" y="457.0" width="358" height="330.0" fill="#E9E2D2"/>
+<rect x="16.0" y="457.0" width="358.0" height="4.0" fill="#161513"/>
+<text x="28.0" y="485.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12" fill="#161513" font-weight="700" letter-spacing="1.2">FAKTA · SLIK PASSER TUREN NÅ</text>
+<line x1="28.0" y1="497.0" x2="362.0" y2="497.0" stroke="#A9A193" stroke-width="0.8"/>
+<circle cx="37" cy="516.0" r="9" fill="#9B2A22"/>
+<text x="37.0" y="520.2" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">1</text>
+<text x="52.0" y="521.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="0.8">TID</text>
+<text x="116.0" y="521.0" font-family="'Avenir Next Condensed', 'Gill Sans', sans-serif" font-size="17" fill="#161513" font-weight="600" style="font-variant-numeric:tabular-nums">1 t 32 min av 2 t</text>
+<text x="362.0" y="521.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#4E4A42" text-anchor="end">uten pauser</text>
+<rect x="116.0" y="531.0" width="246.0" height="10.0" fill="#F4F0E6" stroke="#161513" stroke-width="1.2"/>
+<rect x="116.0" y="531.0" width="188.6" height="10.0" fill="#161513"/>
+<line x1="146.8" y1="541.0" x2="146.8" y2="544.0" stroke="#161513" stroke-width="0.8"/>
+<line x1="177.5" y1="541.0" x2="177.5" y2="544.0" stroke="#161513" stroke-width="0.8"/>
+<line x1="208.2" y1="541.0" x2="208.2" y2="544.0" stroke="#161513" stroke-width="0.8"/>
+<line x1="239.0" y1="541.0" x2="239.0" y2="546.0" stroke="#161513" stroke-width="0.8"/>
+<line x1="269.8" y1="541.0" x2="269.8" y2="544.0" stroke="#161513" stroke-width="0.8"/>
+<line x1="300.5" y1="541.0" x2="300.5" y2="544.0" stroke="#161513" stroke-width="0.8"/>
+<line x1="331.2" y1="541.0" x2="331.2" y2="544.0" stroke="#161513" stroke-width="0.8"/>
+<line x1="28.0" y1="553.0" x2="362.0" y2="553.0" stroke="#A9A193" stroke-width="0.8"/>
+<circle cx="37" cy="572.0" r="9" fill="#9B2A22"/>
+<text x="37.0" y="576.2" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">2</text>
+<text x="52.0" y="577.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="0.8">VÆR</text>
+<text x="116.0" y="577.0" font-family="'Avenir Next Condensed', 'Gill Sans', sans-serif" font-size="17" fill="#161513" font-weight="600">Værklasse god</text>
+<rect x="116.0" y="587.0" width="61.5" height="22.0" fill="#161513" stroke="#161513" stroke-width="1"/>
+<text x="146.8" y="602.1" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">god</text>
+<rect x="177.5" y="587.0" width="61.5" height="22.0" fill="#F4F0E6" stroke="#161513" stroke-width="1"/>
+<text x="208.2" y="602.1" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#4E4A42" text-anchor="middle">middels</text>
+<rect x="239.0" y="587.0" width="61.5" height="22.0" fill="#F4F0E6" stroke="#161513" stroke-width="1"/>
+<text x="269.8" y="602.1" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#4E4A42" text-anchor="middle">dårlig</text>
+<rect x="300.5" y="587.0" width="61.5" height="22.0" fill="#F4F0E6" stroke="#161513" stroke-width="1"/>
+<text x="331.2" y="602.1" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#4E4A42" text-anchor="middle">frarådet</text>
+<path d="M141.75 609.0 L146.75 615.0 L151.75 609.0 Z" fill="#161513" stroke="none" stroke-width="1" />
+<line x1="28.0" y1="629.0" x2="362.0" y2="629.0" stroke="#A9A193" stroke-width="0.8"/>
+<circle cx="37" cy="648.0" r="9" fill="#9B2A22"/>
+<text x="37.0" y="652.2" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">3</text>
+<text x="52.0" y="653.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="0.8">ØNSKER</text>
+<path d="M116 648.05 L120.18 653.0 L127 642.55" fill="none" stroke="#161513" stroke-width="2" />
+<text x="134.0" y="653.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14" fill="#161513" font-weight="600">utsikt, ønsket</text>
+<path d="M117 670.5 L126 670.5 M121.5 666.0 L121.5 675.0" fill="none" stroke="#4E4A42" stroke-width="1.6" />
+<text x="134.0" y="675.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14" fill="#4E4A42">vann (ikke valgt)</text>
+<line x1="28.0" y1="687.0" x2="362.0" y2="687.0" stroke="#A9A193" stroke-width="0.8"/>
+<circle cx="37" cy="706.0" r="9" fill="#9B2A22"/>
+<text x="37.0" y="710.2" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">4</text>
+<text x="52.0" y="711.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="0.8">MØRKET</text>
+<text x="116.0" y="711.0" font-family="'Avenir Next Condensed', 'Gill Sans', sans-serif" font-size="17" fill="#161513" font-weight="600">Tilbake før mørket</text>
+<rect x="226.3" y="747.0" width="50.0" height="12.0" fill="url(#dusk)"/>
+<rect x="276.3" y="747.0" width="85.7" height="12.0" fill="url(#dark)"/>
+<line x1="28.0" y1="753.0" x2="362.0" y2="753.0" stroke="#161513" stroke-width="1"/>
+<rect x="28.0" y="749.0" width="153.3" height="8.0" fill="#161513"/>
+<line x1="28.0" y1="744.0" x2="28.0" y2="762.0" stroke="#161513" stroke-width="1.4"/>
+<line x1="181.3" y1="744.0" x2="181.3" y2="762.0" stroke="#161513" stroke-width="2"/>
+<line x1="226.3" y1="737.0" x2="226.3" y2="763.0" stroke="#161513" stroke-width="1" stroke-dasharray="2 2"/>
+<line x1="276.3" y1="737.0" x2="276.3" y2="763.0" stroke="#161513" stroke-width="1.4"/>
+<text x="28.0" y="740.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#4E4A42" style="font-variant-numeric:tabular-nums">13:30</text>
+<text x="222.3" y="740.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#4E4A42" text-anchor="end" style="font-variant-numeric:tabular-nums">grense 15:29</text>
+<text x="280.3" y="740.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="600" style="font-variant-numeric:tabular-nums">sol ned 15:59</text>
+<text x="181.3" y="777.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="600" text-anchor="middle" style="font-variant-numeric:tabular-nums">ender ca. 15:02</text>
+<text x="16.0" y="813.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12" fill="#161513" font-weight="600" letter-spacing="1.2">OGSÅ I TURMELDINGEN</text>
+<line x1="16.0" y1="823.0" x2="374.0" y2="823.0" stroke="#A9A193" stroke-width="0.8"/>
+<text x="16.0" y="852.0" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="20" fill="#9B2A22" font-weight="700">2</text>
+<text x="40.0" y="851.0" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="15.5" fill="#161513" font-weight="700" data-maxw="244">Storlihytta fra Romsdalsmuseet</text>
+<text x="354.0" y="851.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14" fill="#4E4A42" text-anchor="end" style="font-variant-numeric:tabular-nums">1 t 2 min</text>
+<path d="M364 841.0 l6 6 l-6 6" fill="none" stroke="#161513" stroke-width="1.6" />
+<line x1="16.0" y1="869.0" x2="374.0" y2="869.0" stroke="#A9A193" stroke-width="0.8"/>
+<text x="16.0" y="898.0" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="20" fill="#9B2A22" font-weight="700">3</text>
+<text x="40.0" y="897.0" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="15.5" fill="#161513" font-weight="700" data-maxw="244">Skihytta fra Damefallet</text>
+<text x="354.0" y="897.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14" fill="#4E4A42" text-anchor="end" style="font-variant-numeric:tabular-nums">54 min</text>
+<path d="M364 887.0 l6 6 l-6 6" fill="none" stroke="#161513" stroke-width="1.6" />
+<line x1="16.0" y1="915.0" x2="374.0" y2="915.0" stroke="#A9A193" stroke-width="0.8"/>
+<text x="16.0" y="935.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42" data-maxw="358">Startpunkt: Parkering ved Damefallet, Vardeveien</text>
+<text x="16.0" y="957.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42">Kilde: morotur.no</text>
+<line x1="16.0" y1="960.0" x2="121.6" y2="960.0" stroke="#4E4A42" stroke-width="0.8"/>
+<clipPath id="clip16981358"><rect x="16" y="981.0" width="358" height="300"/></clipPath>
+<g clip-path="url(#clip16981358)">
+<rect x="16.0" y="981.0" width="358.0" height="300.0" fill="#F4F0E6"/>
+<path d="M183.3 1053.0 L183.6 1054.1 L183.5 1055.2 L182.9 1056.3 L182.0 1057.3 L180.7 1058.1 L179.4 1058.8 L178.0 1059.4 L176.6 1060.0 L175.3 1060.5 L174.0 1061.0 L172.8 1061.4 L171.6 1061.9 L170.4 1062.3 L169.1 1062.7 L167.7 1062.9 L166.4 1063.1 L165.0 1063.1 L163.6 1063.1 L162.2 1063.1 L160.8 1063.0 L159.4 1063.0 L157.9 1063.0 L156.3 1063.0 L154.6 1062.9 L152.9 1062.8 L151.1 1062.5 L149.5 1062.0 L148.1 1061.3 L147.0 1060.4 L146.3 1059.4 L146.1 1058.2 L146.3 1057.0 L146.8 1055.9 L147.4 1054.8 L148.2 1053.9 L148.8 1053.0 L149.3 1052.2 L149.5 1051.4 L149.6 1050.6 L149.6 1049.7 L149.5 1048.8 L149.5 1047.8 L149.7 1046.8 L150.2 1045.8 L150.9 1044.9 L151.9 1044.1 L153.1 1043.4 L154.4 1042.8 L155.8 1042.3 L157.3 1041.9 L158.8 1041.6 L160.4 1041.3 L162.0 1041.2 L163.6 1041.1 L165.2 1041.1 L166.8 1041.3 L168.3 1041.7 L169.7 1042.3 L170.9 1043.0 L171.9 1043.8 L172.6 1044.7 L173.3 1045.6 L173.8 1046.4 L174.5 1047.2 L175.2 1047.8 L176.2 1048.4 L177.3 1048.9 L178.7 1049.5 L180.0 1050.2 L181.4 1051.0 L182.5 1051.9 L183.3 1053.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M204.5 1053.0 L204.4 1055.3 L203.3 1057.5 L201.4 1059.5 L198.9 1061.2 L195.9 1062.6 L192.8 1063.8 L189.9 1064.8 L187.2 1065.7 L184.9 1066.6 L182.8 1067.6 L180.8 1068.7 L178.9 1069.9 L176.8 1071.2 L174.6 1072.3 L172.1 1073.3 L169.4 1074.1 L166.6 1074.6 L163.6 1074.9 L160.6 1075.0 L157.5 1075.0 L154.5 1074.8 L151.3 1074.6 L148.1 1074.2 L144.9 1073.7 L141.7 1073.0 L138.6 1072.0 L135.9 1070.7 L133.7 1069.0 L132.2 1067.1 L131.4 1064.9 L131.3 1062.6 L131.8 1060.4 L132.8 1058.3 L133.9 1056.4 L134.9 1054.6 L135.5 1053.0 L135.7 1051.4 L135.5 1049.8 L134.9 1048.1 L134.1 1046.1 L133.4 1044.0 L133.2 1041.8 L133.5 1039.5 L134.4 1037.3 L136.1 1035.4 L138.5 1033.8 L141.3 1032.6 L144.4 1031.7 L147.7 1031.2 L151.0 1030.9 L154.3 1030.7 L157.4 1030.7 L160.5 1030.7 L163.6 1030.8 L166.6 1031.1 L169.5 1031.5 L172.3 1032.2 L174.9 1033.1 L177.3 1034.2 L179.4 1035.5 L181.2 1036.9 L182.9 1038.2 L184.7 1039.5 L186.5 1040.7 L188.6 1041.8 L191.0 1042.9 L193.7 1044.0 L196.6 1045.3 L199.4 1046.9 L201.8 1048.7 L203.5 1050.8 L204.5 1053.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M224.1 1053.0 L222.8 1056.3 L220.3 1059.4 L216.7 1062.1 L212.4 1064.4 L207.9 1066.2 L203.5 1067.8 L199.6 1069.2 L196.4 1070.6 L193.6 1072.2 L191.3 1074.2 L189.2 1076.4 L186.9 1078.9 L184.3 1081.4 L181.1 1083.8 L177.3 1085.8 L173.1 1087.4 L168.4 1088.4 L163.6 1088.8 L158.7 1088.7 L153.9 1088.1 L149.2 1087.3 L144.7 1086.3 L140.2 1085.0 L136.0 1083.6 L131.9 1082.0 L128.1 1080.1 L124.8 1077.9 L122.1 1075.3 L120.2 1072.4 L119.2 1069.4 L118.9 1066.3 L119.3 1063.3 L119.9 1060.5 L120.6 1057.9 L120.9 1055.4 L120.7 1053.0 L119.9 1050.6 L118.5 1047.9 L116.8 1045.0 L115.3 1041.7 L114.2 1038.3 L114.0 1034.7 L115.0 1031.2 L117.2 1028.1 L120.5 1025.4 L124.9 1023.5 L129.9 1022.2 L135.2 1021.6 L140.6 1021.4 L145.7 1021.6 L150.6 1021.9 L155.1 1022.2 L159.4 1022.5 L163.6 1022.6 L167.7 1022.8 L171.9 1023.0 L176.0 1023.4 L180.0 1024.1 L183.9 1025.1 L187.6 1026.3 L191.2 1027.8 L194.5 1029.4 L197.9 1031.1 L201.3 1032.8 L204.9 1034.5 L208.7 1036.3 L212.6 1038.4 L216.4 1040.7 L219.8 1043.4 L222.4 1046.4 L223.9 1049.6 L224.1 1053.0 Z" fill="none" stroke="#161513" stroke-width="0.9" opacity="0.5"/>
+<path d="M239.5 1053.0 L237.0 1057.1 L233.2 1060.9 L228.5 1064.1 L223.3 1066.9 L218.1 1069.3 L213.5 1071.4 L209.6 1073.6 L206.5 1076.0 L204.1 1078.9 L202.0 1082.3 L199.8 1086.1 L197.1 1090.1 L193.5 1094.1 L189.0 1097.7 L183.5 1100.5 L177.2 1102.5 L170.5 1103.4 L163.6 1103.2 L156.9 1102.2 L150.5 1100.5 L144.6 1098.4 L139.1 1096.1 L134.0 1093.7 L129.1 1091.2 L124.5 1088.7 L120.1 1086.2 L116.1 1083.4 L112.7 1080.3 L109.9 1077.1 L107.8 1073.6 L106.3 1070.1 L105.4 1066.5 L104.8 1063.1 L104.1 1059.7 L103.1 1056.4 L101.7 1053.0 L99.7 1049.4 L97.5 1045.5 L95.3 1041.3 L93.8 1036.7 L93.2 1032.0 L94.1 1027.3 L96.7 1023.0 L100.9 1019.3 L106.6 1016.5 L113.4 1014.7 L120.7 1013.8 L128.2 1013.7 L135.3 1014.1 L141.9 1014.8 L147.8 1015.3 L153.3 1015.6 L158.5 1015.5 L163.6 1015.0 L168.9 1014.3 L174.4 1013.6 L180.3 1013.2 L186.2 1013.2 L192.2 1013.7 L198.0 1014.8 L203.5 1016.5 L208.7 1018.6 L213.6 1021.0 L218.3 1023.6 L222.8 1026.5 L227.1 1029.5 L231.3 1032.8 L235.0 1036.4 L237.9 1040.3 L239.9 1044.4 L240.4 1048.7 L239.5 1053.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M250.8 1053.0 L248.0 1057.7 L244.1 1062.1 L239.5 1066.0 L234.6 1069.5 L230.0 1072.8 L226.0 1076.1 L222.7 1079.5 L220.2 1083.4 L218.0 1087.8 L215.9 1092.9 L213.1 1098.2 L209.3 1103.6 L204.1 1108.6 L197.6 1112.8 L189.9 1115.7 L181.3 1117.2 L172.4 1117.2 L163.6 1115.7 L155.4 1113.2 L147.9 1109.9 L141.3 1106.4 L135.3 1102.8 L129.7 1099.5 L124.3 1096.5 L119.0 1093.8 L113.5 1091.2 L108.1 1088.5 L102.8 1085.6 L98.0 1082.4 L93.7 1078.8 L90.2 1074.9 L87.2 1070.8 L84.8 1066.5 L82.7 1062.1 L80.6 1057.6 L78.5 1053.0 L76.4 1048.1 L74.4 1042.9 L73.1 1037.5 L72.7 1031.8 L73.9 1026.2 L76.8 1020.9 L81.6 1016.3 L88.2 1012.5 L96.2 1009.9 L105.1 1008.4 L114.3 1007.9 L123.1 1008.1 L131.3 1008.7 L138.7 1009.2 L145.3 1009.2 L151.4 1008.6 L157.4 1007.3 L163.6 1005.5 L170.4 1003.3 L177.8 1001.3 L185.8 999.9 L194.2 999.2 L202.5 999.6 L210.5 1001.0 L217.8 1003.5 L224.3 1006.7 L229.9 1010.6 L234.8 1014.7 L239.1 1019.2 L242.9 1023.7 L246.3 1028.3 L249.1 1033.1 L251.2 1038.0 L252.4 1043.0 L252.3 1048.0 L250.8 1053.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M261.2 1053.0 L259.7 1058.4 L257.2 1063.6 L254.0 1068.5 L250.4 1073.2 L246.9 1077.9 L243.7 1082.6 L240.8 1087.6 L238.2 1093.0 L235.4 1099.0 L232.1 1105.3 L227.8 1111.6 L221.9 1117.6 L214.5 1122.8 L205.5 1126.6 L195.3 1128.7 L184.5 1129.0 L173.8 1127.5 L163.6 1124.4 L154.4 1120.4 L146.3 1115.8 L139.2 1111.4 L132.7 1107.3 L126.4 1104.0 L120.0 1101.4 L113.0 1099.2 L105.5 1097.3 L97.5 1095.3 L89.4 1092.8 L81.6 1089.7 L74.6 1085.9 L68.6 1081.4 L63.8 1076.2 L60.2 1070.7 L57.6 1065.0 L55.7 1059.0 L54.5 1053.0 L53.7 1046.8 L53.6 1040.6 L54.3 1034.3 L56.2 1028.0 L59.5 1021.9 L64.6 1016.4 L71.4 1011.7 L79.8 1008.0 L89.2 1005.4 L99.2 1003.9 L109.2 1003.3 L118.5 1003.1 L127.1 1002.9 L134.8 1002.3 L141.8 1000.9 L148.6 998.7 L155.8 995.7 L163.6 992.1 L172.4 988.6 L182.2 985.5 L192.7 983.6 L203.4 983.0 L213.8 984.1 L223.4 986.8 L231.6 990.8 L238.4 996.0 L243.7 1001.7 L247.8 1007.8 L251.0 1013.8 L253.6 1019.7 L256.0 1025.4 L258.1 1031.0 L259.9 1036.5 L261.2 1042.0 L261.7 1047.5 L261.2 1053.0 Z" fill="none" stroke="#161513" stroke-width="0.9" opacity="0.5"/>
+<path d="M275.8 1053.0 L276.8 1059.3 L276.5 1065.7 L275.1 1072.1 L272.7 1078.4 L269.7 1084.7 L266.2 1090.9 L262.4 1097.3 L258.3 1103.9 L253.6 1110.6 L247.9 1117.3 L241.0 1123.7 L232.5 1129.4 L222.5 1133.8 L211.1 1136.6 L199.0 1137.5 L186.6 1136.4 L174.6 1133.6 L163.6 1129.6 L153.8 1124.8 L145.1 1120.0 L137.4 1115.7 L129.9 1112.3 L122.1 1109.9 L113.6 1108.4 L104.0 1107.5 L93.3 1106.6 L82.0 1105.2 L70.7 1102.9 L59.9 1099.5 L50.6 1094.8 L43.1 1089.0 L37.7 1082.3 L34.5 1075.1 L33.2 1067.7 L33.4 1060.3 L34.6 1053.0 L36.5 1045.9 L39.0 1038.9 L42.1 1032.2 L46.1 1025.6 L51.1 1019.4 L57.3 1013.7 L64.8 1008.7 L73.5 1004.6 L83.0 1001.4 L92.9 999.1 L102.6 997.3 L111.9 995.7 L120.5 993.9 L128.6 991.5 L136.5 988.4 L144.7 984.4 L153.6 979.8 L163.6 975.2 L174.8 971.0 L187.0 968.0 L199.8 966.6 L212.4 967.2 L224.1 970.0 L234.2 974.8 L242.3 981.0 L248.4 988.3 L252.6 996.0 L255.4 1003.7 L257.5 1010.9 L259.4 1017.6 L261.7 1023.7 L264.4 1029.5 L267.5 1035.2 L270.7 1040.9 L273.6 1046.8 L275.8 1053.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M340.3 1026.0 L340.6 1027.1 L340.5 1028.2 L339.9 1029.3 L339.0 1030.3 L337.8 1031.1 L336.4 1031.8 L335.0 1032.4 L333.6 1033.0 L332.3 1033.5 L331.0 1034.0 L329.8 1034.4 L328.6 1034.9 L327.4 1035.3 L326.1 1035.7 L324.8 1035.9 L323.4 1036.1 L322.0 1036.1 L320.6 1036.1 L319.2 1036.1 L317.9 1036.0 L316.4 1036.0 L314.9 1036.0 L313.3 1036.0 L311.6 1035.9 L309.9 1035.8 L308.1 1035.5 L306.5 1035.0 L305.1 1034.3 L304.0 1033.4 L303.3 1032.4 L303.1 1031.2 L303.3 1030.0 L303.8 1028.9 L304.5 1027.8 L305.2 1026.9 L305.8 1026.0 L306.3 1025.2 L306.6 1024.4 L306.6 1023.6 L306.6 1022.7 L306.5 1021.8 L306.5 1020.8 L306.8 1019.8 L307.2 1018.8 L307.9 1017.9 L308.9 1017.1 L310.1 1016.4 L311.4 1015.8 L312.8 1015.3 L314.3 1014.9 L315.8 1014.6 L317.4 1014.3 L319.0 1014.2 L320.6 1014.1 L322.2 1014.1 L323.8 1014.3 L325.4 1014.7 L326.7 1015.3 L327.9 1016.0 L328.9 1016.8 L329.7 1017.7 L330.3 1018.6 L330.9 1019.4 L331.5 1020.2 L332.2 1020.8 L333.2 1021.4 L334.3 1021.9 L335.7 1022.5 L337.1 1023.2 L338.4 1024.0 L339.5 1024.9 L340.3 1026.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M361.5 1026.0 L361.4 1028.3 L360.4 1030.5 L358.4 1032.5 L355.9 1034.2 L352.9 1035.6 L349.9 1036.8 L346.9 1037.8 L344.2 1038.7 L341.9 1039.6 L339.8 1040.6 L337.8 1041.7 L335.9 1042.9 L333.8 1044.2 L331.6 1045.3 L329.1 1046.3 L326.4 1047.1 L323.6 1047.6 L320.6 1047.9 L317.6 1048.0 L314.6 1048.0 L311.5 1047.8 L308.4 1047.6 L305.2 1047.2 L301.9 1046.7 L298.7 1046.0 L295.7 1045.0 L292.9 1043.7 L290.7 1042.0 L289.2 1040.1 L288.4 1037.9 L288.3 1035.6 L288.9 1033.4 L289.8 1031.3 L290.9 1029.4 L291.9 1027.6 L292.6 1026.0 L292.8 1024.4 L292.5 1022.8 L291.9 1021.1 L291.1 1019.1 L290.5 1017.0 L290.2 1014.8 L290.5 1012.5 L291.5 1010.3 L293.1 1008.4 L295.5 1006.8 L298.3 1005.6 L301.4 1004.7 L304.7 1004.2 L308.0 1003.9 L311.3 1003.7 L314.5 1003.7 L317.6 1003.7 L320.6 1003.8 L323.6 1004.1 L326.5 1004.5 L329.3 1005.2 L331.9 1006.1 L334.3 1007.2 L336.4 1008.5 L338.2 1009.9 L340.0 1011.2 L341.7 1012.5 L343.5 1013.7 L345.6 1014.8 L348.1 1015.9 L350.8 1017.0 L353.6 1018.3 L356.4 1019.9 L358.8 1021.7 L360.6 1023.8 L361.5 1026.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M381.1 1026.0 L379.9 1029.3 L377.3 1032.4 L373.7 1035.1 L369.4 1037.4 L364.9 1039.2 L360.6 1040.8 L356.7 1042.2 L353.4 1043.6 L350.7 1045.2 L348.4 1047.2 L346.2 1049.4 L343.9 1051.9 L341.3 1054.4 L338.1 1056.8 L334.4 1058.8 L330.1 1060.4 L325.4 1061.4 L320.6 1061.8 L315.7 1061.7 L310.9 1061.1 L306.2 1060.3 L301.7 1059.3 L297.3 1058.0 L293.0 1056.6 L288.9 1055.0 L285.1 1053.1 L281.8 1050.9 L279.1 1048.3 L277.2 1045.4 L276.2 1042.4 L275.9 1039.3 L276.3 1036.3 L276.9 1033.5 L277.6 1030.9 L277.9 1028.4 L277.7 1026.0 L276.9 1023.6 L275.5 1020.9 L273.9 1018.0 L272.3 1014.7 L271.2 1011.3 L271.0 1007.7 L272.0 1004.2 L274.2 1001.1 L277.6 998.4 L281.9 996.5 L286.9 995.2 L292.3 994.6 L297.6 994.4 L302.8 994.6 L307.6 994.9 L312.1 995.2 L316.4 995.5 L320.6 995.6 L324.7 995.8 L328.9 996.0 L333.0 996.4 L337.0 997.1 L341.0 998.1 L344.7 999.3 L348.2 1000.8 L351.5 1002.4 L354.9 1004.1 L358.3 1005.8 L361.9 1007.5 L365.7 1009.3 L369.6 1011.4 L373.4 1013.7 L376.8 1016.4 L379.4 1019.4 L380.9 1022.6 L381.1 1026.0 Z" fill="none" stroke="#161513" stroke-width="0.9" opacity="0.5"/>
+<path d="M396.5 1026.0 L394.0 1030.1 L390.2 1033.9 L385.5 1037.1 L380.3 1039.9 L375.1 1042.3 L370.5 1044.4 L366.6 1046.6 L363.5 1049.0 L361.1 1051.9 L359.0 1055.3 L356.8 1059.1 L354.1 1063.1 L350.5 1067.1 L346.0 1070.7 L340.5 1073.5 L334.2 1075.5 L327.5 1076.4 L320.6 1076.2 L313.9 1075.2 L307.5 1073.5 L301.6 1071.4 L296.1 1069.1 L291.0 1066.7 L286.1 1064.2 L281.5 1061.7 L277.2 1059.2 L273.2 1056.4 L269.7 1053.3 L266.9 1050.1 L264.8 1046.6 L263.4 1043.1 L262.5 1039.5 L261.8 1036.1 L261.1 1032.7 L260.2 1029.4 L258.7 1026.0 L256.7 1022.4 L254.5 1018.5 L252.4 1014.3 L250.8 1009.7 L250.2 1005.0 L251.1 1000.3 L253.7 996.0 L257.9 992.3 L263.6 989.5 L270.4 987.7 L277.7 986.8 L285.2 986.7 L292.3 987.1 L298.9 987.8 L304.8 988.3 L310.3 988.6 L315.5 988.5 L320.6 988.0 L325.9 987.3 L331.5 986.6 L337.3 986.2 L343.3 986.2 L349.2 986.7 L355.0 987.8 L360.6 989.5 L365.7 991.6 L370.6 994.0 L375.3 996.6 L379.8 999.5 L384.1 1002.5 L388.3 1005.8 L392.0 1009.4 L395.0 1013.3 L396.9 1017.4 L397.5 1021.7 L396.5 1026.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M407.8 1026.0 L405.0 1030.7 L401.1 1035.1 L396.5 1039.0 L391.6 1042.5 L387.0 1045.8 L383.0 1049.1 L379.7 1052.5 L377.2 1056.4 L375.1 1060.8 L372.9 1065.9 L370.1 1071.2 L366.3 1076.6 L361.2 1081.6 L354.6 1085.8 L346.9 1088.7 L338.3 1090.2 L329.4 1090.2 L320.6 1088.7 L312.4 1086.2 L304.9 1082.9 L298.3 1079.4 L292.3 1075.8 L286.7 1072.5 L281.4 1069.5 L276.0 1066.8 L270.5 1064.2 L265.1 1061.5 L259.9 1058.6 L255.0 1055.4 L250.8 1051.8 L247.2 1047.9 L244.3 1043.8 L241.8 1039.5 L239.7 1035.1 L237.6 1030.6 L235.5 1026.0 L233.4 1021.1 L231.5 1015.9 L230.1 1010.5 L229.8 1004.8 L230.9 999.2 L233.8 993.9 L238.6 989.3 L245.2 985.5 L253.2 982.9 L262.1 981.4 L271.3 980.9 L280.2 981.1 L288.3 981.7 L295.7 982.2 L302.3 982.2 L308.4 981.6 L314.4 980.3 L320.6 978.5 L327.4 976.3 L334.8 974.3 L342.9 972.9 L351.2 972.2 L359.5 972.6 L367.5 974.0 L374.8 976.5 L381.3 979.7 L386.9 983.6 L391.8 987.7 L396.1 992.2 L400.0 996.7 L403.3 1001.3 L406.2 1006.1 L408.3 1011.0 L409.4 1016.0 L409.3 1021.0 L407.8 1026.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M418.3 1026.0 L416.7 1031.4 L414.2 1036.6 L411.0 1041.5 L407.4 1046.2 L403.9 1050.9 L400.7 1055.6 L397.8 1060.6 L395.2 1066.0 L392.5 1072.0 L389.1 1078.3 L384.8 1084.6 L378.9 1090.6 L371.5 1095.8 L362.5 1099.6 L352.3 1101.7 L341.6 1102.0 L330.8 1100.5 L320.6 1097.4 L311.4 1093.4 L303.3 1088.8 L296.2 1084.4 L289.7 1080.3 L283.5 1077.0 L277.0 1074.4 L270.0 1072.2 L262.5 1070.3 L254.5 1068.3 L246.4 1065.8 L238.6 1062.7 L231.6 1058.9 L225.6 1054.4 L220.8 1049.2 L217.2 1043.7 L214.6 1038.0 L212.8 1032.0 L211.5 1026.0 L210.8 1019.8 L210.6 1013.6 L211.3 1007.3 L213.2 1001.0 L216.5 994.9 L221.6 989.4 L228.4 984.7 L236.8 981.0 L246.3 978.4 L256.3 976.9 L266.2 976.3 L275.6 976.1 L284.1 975.9 L291.8 975.3 L298.8 973.9 L305.7 971.7 L312.8 968.7 L320.6 965.1 L329.4 961.6 L339.2 958.5 L349.7 956.6 L360.4 956.0 L370.8 957.1 L380.4 959.8 L388.6 963.8 L395.4 969.0 L400.7 974.7 L404.8 980.8 L408.0 986.8 L410.6 992.7 L413.0 998.4 L415.1 1004.0 L416.9 1009.5 L418.2 1015.0 L418.7 1020.5 L418.3 1026.0 Z" fill="none" stroke="#161513" stroke-width="0.9" opacity="0.5"/>
+<path d="M99.1 1092.0 L99.4 1092.8 L99.3 1093.6 L98.9 1094.4 L98.2 1095.1 L97.3 1095.7 L96.4 1096.2 L95.4 1096.6 L94.4 1097.0 L93.4 1097.3 L92.5 1097.7 L91.7 1098.0 L90.8 1098.4 L89.9 1098.6 L89.0 1098.9 L88.1 1099.1 L87.1 1099.2 L86.1 1099.2 L85.1 1099.2 L84.1 1099.2 L83.1 1099.1 L82.1 1099.1 L81.0 1099.1 L79.9 1099.1 L78.7 1099.1 L77.4 1099.0 L76.2 1098.8 L75.0 1098.5 L74.0 1098.0 L73.2 1097.3 L72.8 1096.6 L72.6 1095.7 L72.7 1094.9 L73.1 1094.1 L73.5 1093.3 L74.1 1092.6 L74.5 1092.0 L74.9 1091.4 L75.0 1090.9 L75.1 1090.3 L75.1 1089.7 L75.0 1089.0 L75.0 1088.3 L75.2 1087.6 L75.5 1086.9 L76.0 1086.2 L76.7 1085.6 L77.6 1085.1 L78.5 1084.7 L79.5 1084.4 L80.6 1084.1 L81.7 1083.9 L82.8 1083.7 L83.9 1083.5 L85.1 1083.5 L86.3 1083.5 L87.4 1083.6 L88.5 1083.9 L89.5 1084.3 L90.3 1084.9 L91.0 1085.5 L91.5 1086.1 L92.0 1086.7 L92.4 1087.3 L92.8 1087.8 L93.4 1088.3 L94.1 1088.7 L94.9 1089.1 L95.8 1089.5 L96.8 1090.0 L97.8 1090.6 L98.6 1091.2 L99.1 1092.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M114.3 1092.0 L114.2 1093.6 L113.5 1095.2 L112.1 1096.6 L110.3 1097.9 L108.2 1098.9 L106.0 1099.7 L103.9 1100.4 L102.0 1101.1 L100.3 1101.7 L98.8 1102.4 L97.4 1103.2 L96.0 1104.1 L94.5 1105.0 L92.9 1105.8 L91.2 1106.5 L89.2 1107.1 L87.2 1107.4 L85.1 1107.7 L82.9 1107.7 L80.8 1107.7 L78.6 1107.6 L76.3 1107.4 L74.0 1107.2 L71.7 1106.8 L69.4 1106.3 L67.3 1105.6 L65.3 1104.7 L63.7 1103.5 L62.6 1102.1 L62.1 1100.5 L62.0 1098.9 L62.4 1097.3 L63.1 1095.8 L63.9 1094.4 L64.6 1093.1 L65.1 1092.0 L65.2 1090.9 L65.0 1089.7 L64.6 1088.5 L64.0 1087.1 L63.6 1085.6 L63.3 1084.0 L63.6 1082.4 L64.3 1080.8 L65.5 1079.4 L67.1 1078.3 L69.1 1077.4 L71.4 1076.8 L73.7 1076.4 L76.1 1076.2 L78.4 1076.1 L80.7 1076.0 L82.9 1076.1 L85.1 1076.2 L87.2 1076.3 L89.3 1076.7 L91.3 1077.1 L93.2 1077.8 L94.9 1078.6 L96.3 1079.5 L97.7 1080.5 L98.9 1081.5 L100.1 1082.4 L101.5 1083.2 L103.0 1084.0 L104.7 1084.8 L106.6 1085.6 L108.7 1086.5 L110.6 1087.6 L112.4 1088.9 L113.6 1090.4 L114.3 1092.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M128.3 1092.0 L127.4 1094.4 L125.6 1096.6 L123.0 1098.5 L120.0 1100.1 L116.7 1101.4 L113.6 1102.5 L110.8 1103.5 L108.5 1104.6 L106.5 1105.7 L104.9 1107.1 L103.4 1108.7 L101.8 1110.5 L99.9 1112.3 L97.6 1114.0 L94.9 1115.4 L91.9 1116.6 L88.5 1117.3 L85.1 1117.6 L81.6 1117.5 L78.2 1117.1 L74.8 1116.5 L71.6 1115.8 L68.4 1114.9 L65.3 1113.9 L62.4 1112.7 L59.7 1111.4 L57.4 1109.8 L55.4 1107.9 L54.1 1105.9 L53.4 1103.7 L53.2 1101.5 L53.4 1099.4 L53.9 1097.3 L54.4 1095.5 L54.6 1093.7 L54.4 1092.0 L53.8 1090.3 L52.9 1088.4 L51.7 1086.3 L50.6 1084.0 L49.8 1081.5 L49.7 1078.9 L50.4 1076.4 L51.9 1074.2 L54.3 1072.3 L57.4 1070.9 L61.0 1070.0 L64.8 1069.5 L68.7 1069.4 L72.3 1069.6 L75.8 1069.8 L79.0 1070.0 L82.1 1070.2 L85.1 1070.3 L88.0 1070.4 L91.0 1070.6 L93.9 1070.9 L96.8 1071.4 L99.6 1072.1 L102.3 1073.0 L104.8 1074.0 L107.2 1075.1 L109.6 1076.3 L112.0 1077.5 L114.6 1078.8 L117.3 1080.1 L120.1 1081.6 L122.8 1083.2 L125.2 1085.1 L127.1 1087.3 L128.2 1089.6 L128.3 1092.0 Z" fill="none" stroke="#161513" stroke-width="0.9" opacity="0.5"/>
+<path d="M139.3 1092.0 L137.5 1094.9 L134.8 1097.6 L131.4 1099.9 L127.7 1101.9 L124.0 1103.6 L120.7 1105.2 L117.9 1106.7 L115.7 1108.5 L114.0 1110.5 L112.5 1112.9 L110.9 1115.6 L109.0 1118.5 L106.5 1121.3 L103.2 1123.9 L99.3 1126.0 L94.8 1127.3 L90.0 1128.0 L85.1 1127.9 L80.3 1127.1 L75.7 1125.9 L71.5 1124.4 L67.6 1122.8 L63.9 1121.0 L60.5 1119.3 L57.2 1117.5 L54.0 1115.7 L51.2 1113.7 L48.7 1111.5 L46.7 1109.2 L45.2 1106.7 L44.2 1104.2 L43.5 1101.7 L43.1 1099.2 L42.6 1096.8 L41.9 1094.4 L40.9 1092.0 L39.5 1089.4 L37.9 1086.7 L36.3 1083.6 L35.2 1080.4 L34.8 1077.0 L35.4 1073.7 L37.3 1070.6 L40.3 1067.9 L44.4 1065.9 L49.2 1064.6 L54.5 1064.0 L59.8 1063.9 L64.9 1064.2 L69.6 1064.7 L73.8 1065.1 L77.7 1065.3 L81.4 1065.2 L85.1 1064.9 L88.9 1064.4 L92.8 1063.9 L97.0 1063.6 L101.3 1063.6 L105.5 1063.9 L109.7 1064.7 L113.6 1065.9 L117.3 1067.4 L120.8 1069.1 L124.1 1071.0 L127.3 1073.1 L130.5 1075.2 L133.4 1077.6 L136.1 1080.1 L138.2 1082.9 L139.6 1085.9 L140.0 1088.9 L139.3 1092.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M147.4 1092.0 L145.4 1095.4 L142.6 1098.5 L139.3 1101.3 L135.8 1103.8 L132.5 1106.2 L129.6 1108.5 L127.3 1110.9 L125.5 1113.7 L124.0 1116.9 L122.4 1120.5 L120.4 1124.3 L117.7 1128.2 L114.0 1131.7 L109.4 1134.7 L103.9 1136.8 L97.7 1137.9 L91.4 1137.8 L85.1 1136.8 L79.2 1135.0 L73.9 1132.7 L69.1 1130.1 L64.8 1127.6 L60.9 1125.2 L57.0 1123.1 L53.2 1121.1 L49.3 1119.3 L45.4 1117.4 L41.7 1115.3 L38.2 1113.0 L35.2 1110.4 L32.6 1107.7 L30.6 1104.7 L28.8 1101.6 L27.3 1098.5 L25.8 1095.3 L24.3 1092.0 L22.8 1088.5 L21.4 1084.8 L20.4 1080.9 L20.2 1076.9 L21.0 1072.9 L23.1 1069.1 L26.5 1065.8 L31.2 1063.1 L37.0 1061.2 L43.3 1060.1 L49.9 1059.8 L56.2 1060.0 L62.0 1060.4 L67.3 1060.7 L72.0 1060.7 L76.4 1060.3 L80.6 1059.4 L85.1 1058.0 L89.9 1056.5 L95.3 1055.1 L101.0 1054.0 L106.9 1053.6 L112.9 1053.8 L118.6 1054.9 L123.8 1056.6 L128.4 1058.9 L132.5 1061.7 L136.0 1064.7 L139.0 1067.8 L141.8 1071.1 L144.2 1074.4 L146.2 1077.8 L147.7 1081.3 L148.5 1084.8 L148.4 1088.5 L147.4 1092.0 Z" fill="none" stroke="#161513" stroke-width="0.5" opacity="0.5"/>
+<path d="M72.5 1238.4 L91.4 1238.4 L122.8 1242.0 L147.9 1237.8 L185.6 1231.2 L235.8 1225.2 L286.1 1218.0 L260.9 1207.2 L185.6 1203.0 L116.5 1210.8 L72.5 1222.8 Z" fill="url(#town)" stroke="none" stroke-width="1" />
+<path d="M16.0 1255.2 L53.7 1243.2 L91.4 1238.4 L122.8 1242.0 L147.9 1237.8 L185.6 1231.2 L235.8 1225.2 L286.1 1218.0 L336.3 1210.8 L374.0 1203.6 L379 1286.0 L11 1286.0 Z" fill="#F4F0E6" stroke="none" stroke-width="1" />
+<path d="M16.0 1255.2 L53.7 1243.2 L91.4 1238.4 L122.8 1242.0 L147.9 1237.8 L185.6 1231.2 L235.8 1225.2 L286.1 1218.0 L336.3 1210.8 L374.0 1203.6 L379 1286.0 L11 1286.0 Z" fill="url(#sea)" stroke="#161513" stroke-width="1.2" />
+<ellipse cx="271.9" cy="1003.2" rx="19.5" ry="10.2" fill="#F4F0E6" stroke="#161513" stroke-width="1"/>
+<ellipse cx="271.9" cy="1003.2" rx="19.5" ry="10.2" fill="url(#lake)"/>
+<ellipse cx="327.5" cy="1066.2" rx="6.9" ry="5.4" fill="#F4F0E6" stroke="#161513" stroke-width="1"/>
+<ellipse cx="327.5" cy="1066.2" rx="6.9" ry="5.4" fill="url(#lake)"/>
+<ellipse cx="191.2" cy="1117.2" rx="3.1" ry="3.0" fill="#F4F0E6" stroke="#161513" stroke-width="1"/>
+<ellipse cx="191.2" cy="1117.2" rx="3.1" ry="3.0" fill="url(#lake)"/>
+<path d="M108.0 1207.8 L103.3 1188.0 L98.3 1165.2 L94.5 1143.0 L92.9 1123.2" fill="none" stroke="#161513" stroke-width="1.4" stroke-dasharray="5 4" />
+<path d="M153.9 1126.2 L145.4 1112.4 L139.1 1093.2" fill="none" stroke="#161513" stroke-width="1.4" stroke-dasharray="5 4" />
+<path d="M153.9 1126.2 L147.3 1108.8 L154.8 1090.8 L164.2 1074.0 L169.2 1054.8" fill="none" stroke="#F4F0E6" stroke-width="7" />
+<path d="M153.9 1126.2 L147.3 1108.8 L154.8 1090.8 L164.2 1074.0 L169.2 1054.8" fill="none" stroke="#9B2A22" stroke-width="3.2" />
+<path d="M163.24912280701756 1059.8000000000136 L169.24912280701756 1048.8000000000136 L175.24912280701756 1059.8000000000136 Z" fill="#161513" stroke="#161513" stroke-width="1" />
+<text x="179.2" y="1058.8" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="10.625" fill="#161513" font-style="italic">Tusenårsvarden 527 moh</text>
+<path d="M86.93859649122734 1128.200000000019 V1122.200000000019 L92.93859649122734 1117.200000000019 L98.93859649122734 1122.200000000019 V1128.200000000019 Z" fill="#F4F0E6" stroke="#161513" stroke-width="1.4" />
+<text x="82.9" y="1127.2" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="10.625" fill="#161513" text-anchor="end" font-style="italic">Storlihytta</text>
+<path d="M133.10175438596264 1098.200000000006 V1092.200000000006 L139.10175438596264 1087.200000000006 L145.10175438596264 1092.200000000006 V1098.200000000006 Z" fill="#F4F0E6" stroke="#161513" stroke-width="1.4" />
+<text x="129.1" y="1097.2" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="10.625" fill="#161513" text-anchor="end" font-style="italic">Skihytta</text>
+<text x="30.3" y="1266.0" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="11.9" fill="#161513" font-style="italic" letter-spacing="2">Moldefjorden</text>
+<rect x="209.8" y="1216.2" width="78.2" height="13.6" fill="#F4F0E6"/>
+<text x="213.8" y="1226.4" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="10.2" fill="#161513" letter-spacing="0.6">Molde sentrum</text>
+<text x="235.8" y="1164.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.049999999999999" fill="#4E4A42" letter-spacing="4">MOLDEMARKA</text>
+<rect x="165.8" y="1080.6" width="81.9" height="13.6" fill="#F4F0E6" stroke="#9B2A22" stroke-width="0.8"/>
+<text x="170.8" y="1090.8" font-family="Charter, Georgia, serif" font-size="10.2" fill="#9B2A22" font-style="italic">omtrentlig rute</text>
+<rect x="131.9" y="1104.2" width="44" height="44" fill="none"/>
+<rect x="133.5" y="1113.4" width="40.6" height="25.5" fill="#161513" stroke="#161513" stroke-width="1.6" rx="12.75"/>
+<text x="153.9" y="1130.1" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.049999999999999" fill="#F4F0E6" font-weight="700" text-anchor="middle">1 · 3</text>
+<rect x="86.0" y="1185.8" width="44" height="44" fill="none"/>
+<rect x="97.0" y="1196.8" width="22.1" height="22.1" fill="#F4F0E6" stroke="#161513" stroke-width="1.6" rx="11.049999999999999"/>
+<text x="108.0" y="1211.7" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.049999999999999" fill="#161513" font-weight="700" text-anchor="middle">2</text>
+</g>
+<rect x="16.0" y="981.0" width="358.0" height="300.0" fill="none" stroke="#161513" stroke-width="1"/>
+<path d="M348 1027.0 L348 999.0 M343 1006.0 L348 997.0 L353 1006.0" fill="none" stroke="#161513" stroke-width="1.3" />
+<text x="348.0" y="1043.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12" fill="#161513" font-weight="600" text-anchor="middle">N</text>
+<rect x="17.0" y="982.0" width="193.9" height="36.0" fill="#F4F0E6"/>
+<text x="23.0" y="996.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#4E4A42">Bakgrunnskart: © Kartverket</text>
+<text x="23.0" y="1012.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#4E4A42">Turstier: Turrutebasen, Kartverket</text>
+<text x="16.0" y="1303.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#161513" font-weight="600" letter-spacing="1.2">KARTET</text>
+<text x="16.0" y="1324.0" font-family="Charter, Georgia, serif" font-size="14" fill="#161513" data-maxw="358">Valgt: Tusenårsvarden fra Damefallet · 5,0 km</text>
+<text x="16.0" y="1345.0" font-family="Charter, Georgia, serif" font-size="14" fill="#161513" data-maxw="358">totalt · Middels · Startpunkt: Parkering ved</text>
+<text x="16.0" y="1366.0" font-family="Charter, Georgia, serif" font-size="14" fill="#161513" data-maxw="358">Damefallet, Vardeveien.</text>
+<text x="16.0" y="1387.0" font-family="Charter, Georgia, serif" font-size="13.5" fill="#4E4A42" font-style="italic" data-maxw="288">Trykk et nummer i kartet eller «Vis på kartet» for å</text>
+<text x="16.0" y="1406.0" font-family="Charter, Georgia, serif" font-size="13.5" fill="#4E4A42" font-style="italic" data-maxw="288">bytte. Den røde streken er omtrentlig rute.</text>
+<line x1="16.0" y1="1443.0" x2="374.0" y2="1443.0" stroke="#161513" stroke-width="1"/>
+<text x="16.0" y="1475.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#9B2A22" font-weight="600" letter-spacing="1.2">TURFORSLAG 2</text>
+<text x="16.0" y="1503.8" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="23" fill="#161513" font-weight="700" data-maxw="358">Storlihytta fra</text>
+<text x="16.0" y="1529.5" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="23" fill="#161513" font-weight="700" data-maxw="358">Romsdalsmuseet</text>
+<text x="16.0" y="1559.3" font-family="Charter, Georgia, serif" font-size="15.5" fill="#161513" data-maxw="358">Passer tiden din (1 t 2 min av 2 t),</text>
+<text x="16.0" y="1581.3" font-family="Charter, Georgia, serif" font-size="15.5" fill="#161513" data-maxw="358">oppholdsvær og lite vind, utsikt.</text>
+<line x1="16.0" y1="1607.3" x2="374.0" y2="1607.3" stroke="#A9A193" stroke-width="0.8"/>
+<circle cx="24" cy="1622.29" r="8" fill="#9B2A22"/>
+<text x="24.0" y="1626.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="10.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">1</text>
+<text x="38.0" y="1627.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="1">TID</text>
+<text x="108.0" y="1627.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" font-weight="600" style="font-variant-numeric:tabular-nums" data-maxw="266">1 t 2 min av 2 t, uten pauser</text>
+<rect x="108.0" y="1635.3" width="266.0" height="8.0" fill="#F4F0E6" stroke="#161513" stroke-width="1.2"/>
+<rect x="108.0" y="1635.3" width="137.4" height="8.0" fill="#161513"/>
+<line x1="141.2" y1="1643.3" x2="141.2" y2="1646.3" stroke="#161513" stroke-width="0.8"/>
+<line x1="174.5" y1="1643.3" x2="174.5" y2="1646.3" stroke="#161513" stroke-width="0.8"/>
+<line x1="207.8" y1="1643.3" x2="207.8" y2="1646.3" stroke="#161513" stroke-width="0.8"/>
+<line x1="241.0" y1="1643.3" x2="241.0" y2="1648.3" stroke="#161513" stroke-width="0.8"/>
+<line x1="274.2" y1="1643.3" x2="274.2" y2="1646.3" stroke="#161513" stroke-width="0.8"/>
+<line x1="307.5" y1="1643.3" x2="307.5" y2="1646.3" stroke="#161513" stroke-width="0.8"/>
+<line x1="340.8" y1="1643.3" x2="340.8" y2="1646.3" stroke="#161513" stroke-width="0.8"/>
+<circle cx="24" cy="1656.29" r="8" fill="#9B2A22"/>
+<text x="24.0" y="1660.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="10.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">2</text>
+<text x="38.0" y="1661.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="1">VÆR</text>
+<text x="108.0" y="1661.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" data-maxw="266">Værklasse god</text>
+<circle cx="24" cy="1680.29" r="8" fill="#9B2A22"/>
+<text x="24.0" y="1684.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="10.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">3</text>
+<text x="38.0" y="1685.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="1">ØNSKER</text>
+<path d="M108 1680.34 L112.18 1685.29 L119 1674.84" fill="none" stroke="#161513" stroke-width="2" />
+<text x="124.0" y="1685.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" font-weight="600">utsikt</text>
+<circle cx="24" cy="1704.29" r="8" fill="#9B2A22"/>
+<text x="24.0" y="1708.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="10.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">4</text>
+<text x="38.0" y="1709.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="1">MØRKET</text>
+<text x="108.0" y="1709.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" style="font-variant-numeric:tabular-nums" data-maxw="266">ender ca. 14:32, sol ned 15:59</text>
+<line x1="16.0" y1="1721.3" x2="374.0" y2="1721.3" stroke="#A9A193" stroke-width="0.8"/>
+<text x="16.0" y="1741.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" style="font-variant-numeric:tabular-nums" data-maxw="358">3,46 km totalt · 209 høydemeter · høyeste punkt 270 moh ·</text>
+<text x="16.0" y="1760.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" style="font-variant-numeric:tabular-nums" data-maxw="358">Enkel</text>
+<text x="16.0" y="1779.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42" data-maxw="358">Startpunkt: Parkering ved Romsdalsmuseet (Adkomst ca. 500</text>
+<text x="16.0" y="1798.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42" data-maxw="358">m)</text>
+<text x="16.0" y="1843.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42">Kilde: morotur.no</text>
+<line x1="16" y1="1846.29" x2="121.57000000000001" y2="1846.29" stroke="#4E4A42" stroke-width="0.8"/>
+<rect x="224.0" y="1821.3" width="150.0" height="44.0" fill="#F4F0E6" stroke="#161513" stroke-width="1.5"/>
+<text x="299.0" y="1848.4" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14.5" fill="#161513" font-weight="600" text-anchor="middle">Vis på kartet</text>
+<line x1="16.0" y1="1883.3" x2="374.0" y2="1883.3" stroke="#161513" stroke-width="1"/>
+<text x="16.0" y="1915.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#9B2A22" font-weight="600" letter-spacing="1.2">TURFORSLAG 3</text>
+<text x="16.0" y="1944.0" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="23" fill="#161513" font-weight="700" data-maxw="358">Skihytta fra Damefallet</text>
+<text x="16.0" y="1973.8" font-family="Charter, Georgia, serif" font-size="15.5" fill="#161513" data-maxw="358">Passer tiden din (54 min av 2 t), oppholdsvær</text>
+<text x="16.0" y="1995.8" font-family="Charter, Georgia, serif" font-size="15.5" fill="#161513" data-maxw="358">og lite vind, utsikt.</text>
+<line x1="16.0" y1="2021.8" x2="374.0" y2="2021.8" stroke="#A9A193" stroke-width="0.8"/>
+<circle cx="24" cy="2036.82" r="8" fill="#9B2A22"/>
+<text x="24.0" y="2040.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="10.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">1</text>
+<text x="38.0" y="2041.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="1">TID</text>
+<text x="108.0" y="2041.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" font-weight="600" style="font-variant-numeric:tabular-nums" data-maxw="266">54 min av 2 t, uten pauser</text>
+<rect x="108.0" y="2049.8" width="266.0" height="8.0" fill="#F4F0E6" stroke="#161513" stroke-width="1.2"/>
+<rect x="108.0" y="2049.8" width="119.7" height="8.0" fill="#161513"/>
+<line x1="141.2" y1="2057.8" x2="141.2" y2="2060.8" stroke="#161513" stroke-width="0.8"/>
+<line x1="174.5" y1="2057.8" x2="174.5" y2="2060.8" stroke="#161513" stroke-width="0.8"/>
+<line x1="207.8" y1="2057.8" x2="207.8" y2="2060.8" stroke="#161513" stroke-width="0.8"/>
+<line x1="241.0" y1="2057.8" x2="241.0" y2="2062.8" stroke="#161513" stroke-width="0.8"/>
+<line x1="274.2" y1="2057.8" x2="274.2" y2="2060.8" stroke="#161513" stroke-width="0.8"/>
+<line x1="307.5" y1="2057.8" x2="307.5" y2="2060.8" stroke="#161513" stroke-width="0.8"/>
+<line x1="340.8" y1="2057.8" x2="340.8" y2="2060.8" stroke="#161513" stroke-width="0.8"/>
+<circle cx="24" cy="2070.8199999999997" r="8" fill="#9B2A22"/>
+<text x="24.0" y="2074.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="10.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">2</text>
+<text x="38.0" y="2075.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="1">VÆR</text>
+<text x="108.0" y="2075.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" data-maxw="266">Værklasse god</text>
+<circle cx="24" cy="2094.8199999999997" r="8" fill="#9B2A22"/>
+<text x="24.0" y="2098.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="10.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">3</text>
+<text x="38.0" y="2099.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="1">ØNSKER</text>
+<path d="M108 2094.87 L112.18 2099.8199999999997 L119 2089.37" fill="none" stroke="#161513" stroke-width="2" />
+<text x="124.0" y="2099.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" font-weight="600">utsikt</text>
+<circle cx="24" cy="2118.8199999999997" r="8" fill="#9B2A22"/>
+<text x="24.0" y="2122.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="10.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">4</text>
+<text x="38.0" y="2123.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#161513" font-weight="700" letter-spacing="1">MØRKET</text>
+<text x="108.0" y="2123.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" style="font-variant-numeric:tabular-nums" data-maxw="266">ender ca. 14:24, sol ned 15:59</text>
+<line x1="16.0" y1="2135.8" x2="374.0" y2="2135.8" stroke="#A9A193" stroke-width="0.8"/>
+<text x="16.0" y="2155.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" style="font-variant-numeric:tabular-nums" data-maxw="358">3,06 km totalt · 169 høydemeter · høyeste punkt 391 moh ·</text>
+<text x="16.0" y="2174.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" style="font-variant-numeric:tabular-nums" data-maxw="358">Enkel</text>
+<text x="16.0" y="2193.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42" data-maxw="358">Startpunkt: Parkering ved Damefallet, Vardeveien</text>
+<text x="16.0" y="2238.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42">Kilde: morotur.no</text>
+<line x1="16" y1="2241.8199999999997" x2="121.57000000000001" y2="2241.8199999999997" stroke="#4E4A42" stroke-width="0.8"/>
+<rect x="224.0" y="2216.8" width="150.0" height="44.0" fill="#F4F0E6" stroke="#161513" stroke-width="1.5"/>
+<text x="299.0" y="2243.9" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14.5" fill="#161513" font-weight="600" text-anchor="middle">Vis på kartet</text>
+<rect x="16.0" y="2296.8" width="358.0" height="34.0" fill="#161513"/>
+<text x="30.0" y="2319.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14" fill="#F4F0E6" font-weight="700" letter-spacing="3">VÆRET</text>
+<text x="360.0" y="2319.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13" fill="#F4F0E6" text-anchor="end" style="font-variant-numeric:tabular-nums">I dag 13:30–15:30</text>
+<circle cx="62.3" cy="2371.5199999999995" r="13.299999999999999" fill="none" stroke="#161513" stroke-width="1.2"/>
+<line x1="78.6" y1="2371.5" x2="86.6" y2="2371.5" stroke="#161513" stroke-width="1.2"/>
+<line x1="73.8" y1="2383.0" x2="79.5" y2="2388.7" stroke="#161513" stroke-width="1.2"/>
+<line x1="62.3" y1="2387.8" x2="62.3" y2="2395.8" stroke="#161513" stroke-width="1.2"/>
+<line x1="50.8" y1="2383.0" x2="45.1" y2="2388.7" stroke="#161513" stroke-width="1.2"/>
+<line x1="46.0" y1="2371.5" x2="38.0" y2="2371.5" stroke="#161513" stroke-width="1.2"/>
+<line x1="50.8" y1="2360.0" x2="45.1" y2="2354.4" stroke="#161513" stroke-width="1.2"/>
+<line x1="62.3" y1="2355.2" x2="62.3" y2="2347.2" stroke="#161513" stroke-width="1.2"/>
+<line x1="73.8" y1="2360.0" x2="79.5" y2="2354.4" stroke="#161513" stroke-width="1.2"/>
+<path d="M58.5 2409.5199999999995 h51.3 a10.26 10.26 0 0 0 -5.13 -18.81 a13.68 13.68 0 0 0 -22.23 -8.55 a11.969999999999999 11.969999999999999 0 0 0 -18.81 6.84 a10.26 10.26 0 0 0 -5.13 20.52 z" fill="#F4F0E6" stroke="#161513" stroke-width="1.4" />
+<text x="134.0" y="2382.8" font-family="'Iowan Old Style', Baskerville, Georgia, serif" font-size="30" fill="#161513" font-weight="700" style="font-variant-numeric:tabular-nums">3–5 °C</text>
+<text x="134.0" y="2408.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14.5" fill="#161513" data-maxw="226">Nedbør 0 mm</text>
+<text x="134.0" y="2428.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14.5" fill="#161513" data-maxw="226">Vind opptil 4 m/s</text>
+<text x="134.0" y="2448.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="14.5" fill="#161513" data-maxw="226">Lettskyet</text>
+<text x="30.0" y="2476.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#4E4A42">Værklasse for Tidsvinduet</text>
+<rect x="30.0" y="2484.8" width="82.5" height="26.0" fill="#161513" stroke="#161513" stroke-width="1"/>
+<text x="71.2" y="2502.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#F4F0E6" font-weight="700" text-anchor="middle">god</text>
+<rect x="112.5" y="2484.8" width="82.5" height="26.0" fill="#F4F0E6" stroke="#161513" stroke-width="1"/>
+<text x="153.8" y="2502.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#4E4A42" text-anchor="middle">middels</text>
+<rect x="195.0" y="2484.8" width="82.5" height="26.0" fill="#F4F0E6" stroke="#161513" stroke-width="1"/>
+<text x="236.2" y="2502.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#4E4A42" text-anchor="middle">dårlig</text>
+<rect x="277.5" y="2484.8" width="82.5" height="26.0" fill="#F4F0E6" stroke="#161513" stroke-width="1"/>
+<text x="318.8" y="2502.3" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#4E4A42" text-anchor="middle">frarådet</text>
+<path d="M66.25 2510.8199999999997 L71.25 2516.8199999999997 L76.25 2510.8199999999997 Z" fill="#161513" stroke="none" stroke-width="1" />
+<text x="30.0" y="2538.8" font-family="Charter, Georgia, serif" font-size="15" fill="#161513" font-style="italic" data-maxw="330">Oppholdsvær og lite vind i hele Tidsvinduet.</text>
+<line x1="30.0" y1="2555.8" x2="360.0" y2="2555.8" stroke="#A9A193" stroke-width="0.8"/>
+<text x="30.0" y="2573.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42" data-maxw="330">Værmelding for ca. 400 moh. På toppene kan det være</text>
+<text x="30.0" y="2592.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42" data-maxw="330">kaldere og mer vind.</text>
+<text x="30.0" y="2615.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#161513" style="font-variant-numeric:tabular-nums">Sola: opp 08:30 · ned 15:59</text>
+<text x="360.0" y="2615.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13.5" fill="#4E4A42" text-anchor="end">Værdata: MET Norway</text>
+<rect x="16.0" y="2330.8" width="358.0" height="301.0" fill="none" stroke="#161513" stroke-width="1"/>
+<line x1="16.0" y1="2659.8" x2="374.0" y2="2659.8" stroke="#161513" stroke-width="1"/>
+<text x="16.0" y="2693.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#161513" font-weight="600" letter-spacing="1.2">MERK</text>
+<text x="16.0" y="2717.8" font-family="Charter, Georgia, serif" font-size="15" fill="#161513" data-maxw="358">Du har selv ansvaret for å vurdere forholdene.</text>
+<text x="16.0" y="2739.6" font-family="Charter, Georgia, serif" font-size="15" fill="#161513" data-maxw="358">Værvurderingen er veiledende og vurderer ikke</text>
+<text x="16.0" y="2761.3" font-family="Charter, Georgia, serif" font-size="15" fill="#161513" data-maxw="358">føre (snø, is, gjørme). Følg MET sine</text>
+<text x="16.0" y="2783.1" font-family="Charter, Georgia, serif" font-size="15" fill="#161513" data-maxw="358">farevarsler.</text>
+<rect x="16.0" y="2828.8" width="358.0" height="3.0" fill="#161513"/>
+<text x="16.0" y="2858.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="13" fill="#161513" font-weight="700" letter-spacing="2.5">KOLOFON</text>
+<text x="16.0" y="2884.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#4E4A42">Værdata</text>
+<text x="126.0" y="2884.8" font-family="Charter, Georgia, serif" font-size="14.5" fill="#161513" data-maxw="248">MET Norway</text>
+<text x="16.0" y="2908.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#4E4A42">Turstier</text>
+<text x="126.0" y="2908.8" font-family="Charter, Georgia, serif" font-size="14.5" fill="#161513" data-maxw="248">Turrutebasen, Kartverket</text>
+<text x="16.0" y="2932.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#4E4A42">Turer</text>
+<text x="126.0" y="2932.8" font-family="Charter, Georgia, serif" font-size="14.5" fill="#161513" data-maxw="248">morotur.no og Fjord Norway</text>
+<text x="16.0" y="2956.8" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="12.5" fill="#4E4A42">Bakgrunnskart</text>
+<text x="126.0" y="2956.8" font-family="Charter, Georgia, serif" font-size="14.5" fill="#161513" data-maxw="248">© Kartverket</text>
+<text x="16.0" y="2994.8" font-family="Charter, Georgia, serif" font-size="13" fill="#4E4A42" font-style="italic" data-maxw="358">Turmeldingen er et studentprosjekt (IBE 160). Samme Søk og</text>
+<text x="16.0" y="3012.8" font-family="Charter, Georgia, serif" font-size="13" fill="#4E4A42" font-style="italic" data-maxw="358">samme Værmelding gir alltid samme svar.</text>
+<line x1="0.0" y1="844.0" x2="390.0" y2="844.0" stroke="#9B2A22" stroke-width="1" stroke-dasharray="6 4"/>
+<rect x="290.3" y="846.0" width="95.7" height="18.0" fill="#F4F0E6"/>
+<text x="380.0" y="859.0" font-family="'Gill Sans', 'Gill Sans MT', 'Avenir Next Condensed', sans-serif" font-size="11.5" fill="#9B2A22" font-weight="600" text-anchor="end">skjermkant 844</text>
+</svg>

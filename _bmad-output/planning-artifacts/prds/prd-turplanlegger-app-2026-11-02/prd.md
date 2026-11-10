@@ -2,7 +2,7 @@
 title: "PRD: Turplanlegger"
 status: final
 created: 2026-11-02
-updated: 2026-11-09
+updated: 2026-11-10
 ---
 
 # PRD: Turplanlegger
@@ -15,7 +15,7 @@ Denne PRD-en beskriver hva Turplanlegger skal gjøre i MVP, slik at UX, arkitekt
 
 - Begrepene i §3 brukes ordrett i hele dokumentet, med stor forbokstav.
 - Alt har faste nummer: brukerreiser UJ-1–UJ-3, funksjonelle krav FR-1–FR-29, tverrgående krav NFR-1–NFR-11, suksessmål SM-1–SM-4 og motmål SM-C1–SM-C2.
-- Antakelsene fra utkastet er godkjent (2026-11-02). De åpne spørsmålene i §10 ble gått gjennom 2026-11-03; det som gjenstår, står der. Gjennomgangen 2026-11-06 rettet soltidene og la til en resultattabell (FR-6), Demomodus (NFR-11), regler for tid og en dataoppgave for Rutesegmentene. Den ble gjort samme dag, sammen med startkoordinatene (§10, spørsmål 5 og 9). 2026-11-09 ble høydemeterne kontrollert mot høydedata, som ga ny Turtid for to Turer (spørsmål 3). Samme dag ble koordinaten for Værpunktet valgt (spørsmål 4).
+- Antakelsene fra utkastet er godkjent (2026-11-02). De åpne spørsmålene i §10 ble gått gjennom 2026-11-03; det som gjenstår, står der. Gjennomgangen 2026-11-06 rettet soltidene og la til en resultattabell (FR-6), Demomodus (NFR-11), regler for tid og en dataoppgave for Rutesegmentene. Den ble gjort samme dag, sammen med startkoordinatene (§10, spørsmål 5 og 9). 2026-11-09 ble høydemeterne kontrollert mot høydedata, som ga ny Turtid for to Turer (spørsmål 3). Samme dag ble koordinaten for Værpunktet valgt (spørsmål 4). 2026-11-10 ble NFR-1 justert etter UX-arbeidet (konseptet Kortstokken): på brede skjermer står kartet over Turforslagene, ikke ved siden av.
 - Teknisk «hvordan» (mellomtjeneste for MET, caching, kart, solberegning, språkmodell) står i [addendum.md](addendum.md).
 
 ## 1. Visjon
@@ -391,7 +391,7 @@ Hvert Turforslag lenker til kilden for Turen. Appen krediterer MET Norway, Turru
 
 ## 5. Tverrgående krav
 
-- **NFR-1 Responsivt design.** Appen er brukbar fra 360 px til 1440 px bredde uten horisontal scrolling. På brede skjermer står kart og liste side om side; på smale stables de. Trykkflater er minst 44 × 44 px, og ingen funksjon krever hover. Brytningspunktet avgjøres i UX.
+- **NFR-1 Responsivt design.** Appen er brukbar fra 360 px til 1440 px bredde uten horisontal scrolling. På brede skjermer står kartet over Turforslagene, og Turforslagene står side om side; på smale stables Turforslag og kart under hverandre. Trykkflater er minst 44 × 44 px, og ingen funksjon krever hover. Brytningspunktet avgjøres i UX.
 - **NFR-2 Testbarhet.** Turtid, Værklasse, filtrering, rangering, Regeltekst, Bedre tidsvindu og Mørkevarsel kan testes uten nettverk og uten brukergrensesnitt, med et fast Værscenario, et fast «nå», faste tider for sol opp og ned og et fast testdatasett. Solberegningen testes for seg (FR-21).
 - **NFR-3 Kjørbar for sensor.** Appen kan startes lokalt etter README uten gruppens nøkler eller betalte kontoer. Uten språkmodellnøkkel virker alt unntatt Språkmodelltekst.
 - **NFR-4 MET-vilkår.** Værkall går via appens egen server med identifiserende User-Agent, følger cache-headerne fra MET og bruker HTTPS og maks fire desimaler i koordinatene. Nettleseren kaller aldri MET direkte.

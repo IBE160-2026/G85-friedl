@@ -1,0 +1,66 @@
+{
+  "nummer": 4,
+  "slug": "ett-svar",
+  "navn": "Ett svar",
+  "slagord": "Én setning du kan etterprøve",
+  "ide": "Resultatet åpner med ett stort, tydelig svar formulert som en setning («Gå til Tusenårsvarden fra Damefallet.»), satt i sveitsisk, redaksjonell typografi med svart, hvitt og én signalrød aksent. Begrunnelsen er én lesbar setning der hvert faktum er en understreket token som kan trykkes opp og viser tallene bak. Ingrid står i gangen med jakka på og trenger et svar, ikke et dashbord; men hun skal kunne sjekke hver påstand før hun går.",
+  "anbefalingsoyeblikket": "Begrunnelsen er én setning med fire trykkbare tokens: «1 t 32 min av 2 t» (stolpe Turtid mot Tilgjengelig tid, uten pauser), «oppholdsvær og lite vind» (Værklasse med fire-trinns glyf og verdiene for Tidsvinduet, inkl. ca. 400 moh), «utsikt» (hvilke Opplevelsespreferanser som treffes og ikke), og «tilbake 15:02, sola går ned 15:59» (tidslinje med grensen 15:29). Et åpnet token blir rødt og folder ut et panel rett under linjen, og den ordrette Regelteksten står i liten tekst under setningen. Mørkevarsel er et svart merke med solnedgangsikon pluss et token med skravert overheng forbi grensen.",
+  "mobil": "Svaret og begrunnelsessetningen står over brettekanten; tokenlinjene har 44 px linjehøyde så hver token er en tommelvennlig trykkflate. Kart, fakta og «Eller:»-alternativene følger stablet under.",
+  "styrker": [
+    "Svaret leses på ett blikk: én stor setning, én primærhandling per skjerm.",
+    "Hvert faktum i Begrunnelsen kan etterprøves der det står, uten å lete i tabeller.",
+    "Frarådet og ingen Tur passer blir rolige, store setninger («Vent til i morgen kl. 11.») i stedet for feilsider.",
+    "Aksentfargen har én betydning (kan trykkes), og Værklasse og Mørkevarsel bruker form, skravur og tekst, ikke farge alene."
+  ],
+  "risiko": [
+    "Setningsgrammatikken må genereres fra reglene for alle kombinasjoner; lange tokens kan bryte setningen klønete på mobil.",
+    "Utfoldet panel midt i en setning avbryter lesingen; må testes om brukerne forstår at teksten fortsetter under panelet.",
+    "Tokens kan forveksles med lenker som leder bort; trenger tydelig åpen/lukket-tilstand og skjermleser-merking.",
+    "Lange mobilsider (opptil ca. 3 400 px i dårlig vær med komponentdetalj)."
+  ],
+  "palett": [
+    {
+      "navn": "Blekk",
+      "hex": "#111111"
+    },
+    {
+      "navn": "Papir",
+      "hex": "#FFFFFF"
+    },
+    {
+      "navn": "Signalrød (kan trykkes)",
+      "hex": "#D0301A"
+    },
+    {
+      "navn": "Grå tekst",
+      "hex": "#5C5C5C"
+    },
+    {
+      "navn": "Panel",
+      "hex": "#F3F3F0"
+    },
+    {
+      "navn": "Linje",
+      "hex": "#CFCFCB"
+    },
+    {
+      "navn": "Vann (kart)",
+      "hex": "#E4E9EC"
+    }
+  ],
+  "typografi": "Helvetica Neue Bold i store snitt (120/84/72 px PC, 56/40 px mobil) for svaret, Helvetica Neue Light for setningsordene i Søket, Avenir Next Regular/Medium for begrunnelsessetningen (34/21 px) og brødtekst, Helvetica Neue Medium versaler med sperring for etiketter.",
+  "bevegelse": "Et trykket token fyller seg rødt og panelet glir ned under linjen mens resten av setningen skyves ned; ved nytt Søk tones det gamle svaret ut og den nye setningen skrives inn ord for ord på 300 ms.",
+  "skjermer": {
+    "pc-1-sok.svg": "Søket som en stor setning med etiketterte, understrekede felt («Jeg vil gå i dag fra 13:30, har 2 t, tåler Middels og vil gjerne ha …»), hjelpetekster og «Finn tur».",
+    "pc-2-godt-vaer.svg": "«Gå til Tusenårsvarden fra Damefallet.» med begrunnelsessetning der vær-tokenet er åpnet (Værklasse god, 3–5 °C, 0 mm, 4 m/s, ca. 400 moh), fakta, «Eller:» nr. 2 og 3 og kart med utfyllingsboks.",
+    "pc-3a-darlig-vaer.svg": "Værvarsling og Bedre tidsvindu («Bruk 14:00») øverst, så «Gå til Moldevatnet fra Jensgurilia.» med åpnet token for Lavtliggende tur (340 mot 400 moh).",
+    "pc-3b-bedre-tidsvindu.svg": "Svaret etter Bedre tidsvindu (Storlihytta, tilbake 15:02) med åpnet lys-token, pluss stiplet komponentdetalj som viser Mørkevarsel for Tusenårsvarden (ender ca. 15:32).",
+    "pc-4-fraradet.svg": "Ingen Turforslag: «Vent til i morgen kl. 11.» med årsaken (sterk kuling, 19 m/s, 10:00–12:00) og Bedre tidsvindu med «Bruk i morgen 11:00».",
+    "pc-5-ingen-tur-uten-vaer.svg": "Live-modus: «Været er ikke vurdert», «Ingen Tur passer 15 min.» og den korteste Turen med åpnet tids-token (16 min av 15 min, trenger 1 min mer).",
+    "mob-1-sok.svg": "Søkesetningen brutt over flere linjer med etiketter over hvert felt og «Finn tur» over brettekanten.",
+    "mob-2-godt-vaer.svg": "Svar og begrunnelse over brettekanten med åpnet lys-token (tidslinje 13:30–15:02, grense 15:29, sol ned 15:59), så kart, fakta og alternativer stablet.",
+    "mob-3-darlig-vaer.svg": "Værvarsling og «Bruk 14:00» øverst, svaret med åpnet utsikt-token (preferansen treffes ikke), og Mørkevarsel som komponentdetalj nederst.",
+    "mob-4-fraradet.svg": "«Vent til i morgen kl. 11.» i stor type, årsaken som én setning og «Bruk i morgen 11:00» over brettekanten.",
+    "mob-5-ingen-tur-uten-vaer.svg": "Uten Demomodus: værvarsel om at været ikke er vurdert, «Ingen Tur passer 15 min.» og den korteste Turen med åpnet tids-token og kart."
+  }
+}

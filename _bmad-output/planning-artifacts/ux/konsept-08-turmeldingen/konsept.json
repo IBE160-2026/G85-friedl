@@ -1,0 +1,65 @@
+{
+  "nummer": 8,
+  "slug": "turmeldingen",
+  "navn": "Turmeldingen",
+  "slagord": "Dagens tur, satt som lokalavisa",
+  "ide": "Resultatet er en avisside: avishode med Moldemarka og dato, Søket som kort ingress, det beste Turforslaget som hovedsak og nr. 2 og 3 som spaltesaker, med værboks, «siste nytt»-stripe for Værvarsling og kolofon for kreditering. Ingrid kan lese et ferdig redigert svar på ett blikk, slik hun leser en værside, og avisformen gir rom for at frarådet og «ingen Tur passer» blir en egen forside og ikke en feilside.",
+  "anbefalingsoyeblikket": "Regelteksten står ordrett som fet ingress med røde fotnotetall 1–4, og faktaboksen under har fire nummererte rader som svarer til dem: 1 TID (Turtid mot Tilgjengelig tid som fylt stolpe, uten pauser), 2 VÆR (fire-trinns Værklasse-skala med verdiene), 3 ØNSKER (avkrysning for truffet, kryss for ikke truffet, pluss for «finnes, ikke valgt») og 4 MØRKET (klokkelinje med sluttid, grensen 30 min før og solnedgang 15:59). Spaltesakene har de samme fire radene i kortform, så alle tre kan etterprøves på samme måte.",
+  "mobil": "Én spalte der avishode, Søket, siste nytt, hovedsakens tittel, ingress og hele faktaboksen ligger over skjermkanten, fulgt av en «Også i Turmeldingen»-liste med nr. 2 og 3. Kart, spaltesaker, værboks og kolofon kommer under.",
+  "styrker": [
+    "Ingressen med fotnoter gjør Regelteksten etterprøvbar uten å skrive den om",
+    "Frarådet og «ingen Tur passer» får en verdig forside med stor tittel og én tydelig handling",
+    "Kjent lesemønster (avis/værside) og tydelig hierarki mellom hovedsak og spaltesaker",
+    "Kreditering og ansvarsmerknad får en naturlig plass som merknad og kolofon"
+  ],
+  "risiko": [
+    "Avisformen kan bli tekst-tung på mobil; siden blir lang under brettekanten",
+    "Seriffer og hårstreker krever god skjerm og fontvalg; Didot/Iowan finnes ikke på alle plattformer",
+    "Spaltesakene kan oppleves som mindre viktige enn de er, selv om de passer like godt"
+  ],
+  "palett": [
+    {
+      "navn": "Avispapir",
+      "hex": "#F4F0E6"
+    },
+    {
+      "navn": "Faktaboks-tone",
+      "hex": "#E9E2D2"
+    },
+    {
+      "navn": "Trykksvart",
+      "hex": "#161513"
+    },
+    {
+      "navn": "Grå brødtekst",
+      "hex": "#4E4A42"
+    },
+    {
+      "navn": "Hårstrek",
+      "hex": "#A9A193"
+    },
+    {
+      "navn": "Oksblod (trykkfarge)",
+      "hex": "#9B2A22"
+    },
+    {
+      "navn": "Oksblod-tone",
+      "hex": "#EFDDD3"
+    }
+  ],
+  "typografi": "Didot til avishodet, Iowan Old Style fet til titler (88/56/50/26 px), Charter til ingress og brødtekst (21/16 px), Gill Sans og Avenir Next Condensed med tabellsiffer til faktabokser, etiketter og knapper (12,5–20 px).",
+  "bevegelse": "Ved nytt Søk «trykkes» siden: avishodet står, mens hovedsaken og spaltesakene tones inn ovenfra og ned som en ny utgave.",
+  "skjermer": {
+    "pc-1-sok.svg": "Forside med lederartikkel som forklarer appen og «Slik leser du svaret», ved siden av en nummerert søkeblankett med standardverdier og «Finn tur».",
+    "pc-2-godt-vaer.svg": "Godt vær: Tusenårsvarden som hovedsak med fotnote-ingress og faktaboks, kartillustrasjon med valgt rute, værboks og to spaltesaker.",
+    "pc-3a-darlig-vaer.svg": "Dårlig vær kvelden før: rød Værvarsling-stripe øverst, Bedre tidsvindu med «Bruk 14:00» og dagstripe, Moldevatnet som hovedsak.",
+    "pc-3b-bedre-tidsvindu.svg": "Etter Bedre tidsvindu (14:00): Storlihytta som hovedsak, og en stiplet komponentdetalj som viser Mørkevarsel for Tusenårsvarden (ender 15:32, sola ned 15:59).",
+    "pc-4-fraradet.svg": "Frarådet som forside: «Bli inne i dag: sterk kuling», verdiene som utløste klassen, vind-illustrasjon og Bedre tidsvindu i morgen kl. 11:00.",
+    "pc-5-ingen-tur-uten-vaer.svg": "Live-modus uten Værmelding: «Ingen Tur passer 15 min», den korteste Turen som Alternativ (trenger 1 min mer) og en værboks som sier at været ikke er vurdert.",
+    "mob-1-sok.svg": "Søkeblanketten på mobil med «Finn tur» over skjermkanten.",
+    "mob-2-godt-vaer.svg": "Godt vær på mobil: hovedsak, ingress og hele faktaboksen over skjermkanten, deretter kart, spaltesaker og værboks stablet.",
+    "mob-3-darlig-vaer.svg": "Dårlig vær på mobil med Værvarsling og kompakt Bedre tidsvindu øverst, og Mørkevarsel-detaljen nederst.",
+    "mob-4-fraradet.svg": "Frarådet-forsiden på mobil med stor tittel og «Bruk i morgen 11:00» over skjermkanten.",
+    "mob-5-ingen-tur-uten-vaer.svg": "Ingen Tur passer og været ikke vurdert på mobil, uten Demomodus-merke, med Alternativet og faktaboksen over skjermkanten."
+  }
+}

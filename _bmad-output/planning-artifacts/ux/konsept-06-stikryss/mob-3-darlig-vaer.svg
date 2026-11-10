@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="2872" viewBox="0 0 390 2872">
+<title>Stikryss – Resultat i dårlig vær (mobil)</title>
+<defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#F2B230"/><line x1="0" y1="0" x2="0" y2="6" stroke="#16201B" stroke-width="2"/></pattern><clipPath id="mm3"><rect x="24" y="1697" width="342" height="300"/></clipPath></defs>
+<rect width="390" height="2872" fill="#EEEBE3"/>
+<rect x="0" y="0" width="390" height="56" fill="#16201B"/>
+<polygon points="16,15 43,15 52,27.6 43,40.2 16,40.2" fill="#FBF9F3"/>
+<rect x="16" y="15" width="9" height="25.2" fill="#1C56A0"/>
+<rect x="18.7" y="9.6" width="3.6" height="41.4" fill="#946A42"/>
+<text x="62" y="37" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="26" font-weight="700" fill="#FFFFFF" letter-spacing="1">TURPLANLEGGER</text>
+<text x="374" y="36" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="15" font-weight="700" fill="#C9D0CB" text-anchor="end" letter-spacing="1">MOLDEMARKA</text>
+<rect x="0" y="56" width="390" height="54" fill="#E3DDCD"/>
+<line x1="0" y1="110" x2="390" y2="110" stroke="#16201B" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="16" y="65" width="92" height="22" rx="2" fill="#16201B"/>
+<text x="62" y="82" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">DEMOMODUS</text>
+<text x="118" y="82" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="600" fill="#16201B">«nå» = søn. 8. nov. 20:15</text>
+<text x="16" y="102" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">Værscenario: Dårlig formiddag, bedre fra kl. 14</text>
+<rect x="16" y="120" width="358" height="56" rx="3" fill="#FBF9F3" stroke="#16201B" stroke-width="2"/>
+<text x="28" y="142" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#3D4741" letter-spacing="1.2">DITT SØK</text>
+<text x="28" y="164" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13.5" font-weight="600" fill="#16201B">I morgen · 10:00 · 3 t · Krevende · utsikt</text>
+<rect x="290" y="126" width="76" height="44" rx="4" fill="#FBF9F3" stroke="#16201B" stroke-width="2"/>
+<text x="328" y="153.25" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="15" font-weight="600" fill="#16201B" text-anchor="middle">Endre</text>
+<rect x="20" y="190" width="358" height="176" rx="4" fill="#16201B" opacity="0.2"/>
+<rect x="16" y="186" width="358" height="176" rx="4" fill="#F2B230" stroke="#16201B" stroke-width="3"/>
+<polygon points="41,198.56 54,221.44 28,221.44" fill="#F2B230" stroke="#16201B" stroke-width="2.5" stroke-linejoin="round"/>
+<line x1="41" y1="206.36" x2="41" y2="213.64" stroke="#16201B" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="41" cy="217.28" r="1.43" fill="#16201B"/>
+<text x="62" y="219" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="22" font-weight="700" fill="#16201B" letter-spacing="1.2">VÆRVARSLING · DÅRLIG</text>
+<text x="28" y="244" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="15" font-weight="600" fill="#16201B">Regn opptil 3,5 mm/t og vind opp mot 9 m/s,</text>
+<text x="28" y="265" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="15" font-weight="600" fill="#16201B">2–4 °C, kl. 10:00–13:00.</text>
+<text x="28" y="286" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="15" font-weight="600" fill="#16201B">Lavtliggende Turer og Turer egnet i dårlig vær</text>
+<text x="28" y="307" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="15" font-weight="600" fill="#16201B">står øverst.</text>
+<text x="28" y="328" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="500" fill="#16201B">Værmelding for ca. 400 moh. På toppene kan det være</text>
+<text x="28" y="345" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="500" fill="#16201B">kaldere og mer vind.</text>
+<rect x="16" y="372" width="358" height="128" rx="3" fill="#FBF9F3" stroke="#16201B" stroke-width="2.5"/>
+<rect x="18" y="374" width="52" height="66" fill="#16201B"/>
+<circle cx="44" cy="407" r="11.2" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M44.0,400.8 L44.0,407.0 L48.4,409.5" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="82" y="396" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#3D4741" letter-spacing="1">BEDRE TIDSVINDU</text>
+<text x="82" y="416" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="700" fill="#16201B">I morgen fra kl. 14:00 er</text>
+<text x="82" y="436" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="700" fill="#16201B">Værklassen god</text>
+<polygon points="29,449 161.7,449 179.7,472 161.7,495 29,495" fill="#000000" opacity="0.18"/>
+<polygon points="26,446 158.7,446 176.7,469 158.7,492 26,492" fill="#16201B"/>
+<text x="42" y="475" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">Bruk 14:00</text>
+<text x="188.7" y="474" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">samme 3 t</text>
+<text x="16" y="530" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="26" font-weight="700" fill="#16201B" letter-spacing="0.8">3 TURFORSLAG</text>
+<text x="153.4" y="529" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">lavtliggende først</text>
+<rect x="37" y="544" width="24" height="1075" fill="#7A5434"/>
+<path d="M37.0,544 L49,532 L61.0,544 Z" fill="#563820"/>
+<line x1="44" y1="550" x2="45" y2="1615" stroke="#563820" stroke-width="1.2" opacity="0.35"/>
+<line x1="52" y1="550" x2="53" y2="1615" stroke="#563820" stroke-width="1.2" opacity="0.25"/>
+<line x1="60" y1="550" x2="61" y2="1615" stroke="#563820" stroke-width="1.2" opacity="0.3"/>
+<rect x="56" y="544" width="5" height="1075" fill="#563820" opacity="0.45"/>
+<polygon points="22,548 350,548 380,598 350,648 22,648" fill="#16201B" opacity="0.22"/>
+<polygon points="16,542 344,542 374,592 344,642 16,642" fill="#FBF9F3" stroke="#16201B" stroke-width="4" stroke-linejoin="round"/>
+<rect x="18" y="544" width="64" height="96" fill="#1C56A0"/>
+<rect x="82" y="544" width="4" height="96" fill="#FFFFFF"/>
+<text x="49" y="592" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="44" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="49" y="622" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.8">MIDDELS</text>
+<text x="98" y="576" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="28" font-weight="700" fill="#16201B" letter-spacing="0.5">MOLDEVATNET</text>
+<text x="98" y="598" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">fra Jensgurilia</text>
+<text x="98" y="626" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="20" font-weight="700" fill="#16201B" style="font-variant-numeric:tabular-nums">1 t 33 min</text>
+<text x="187.3" y="626" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">uten pauser</text>
+<rect x="16" y="678" width="328" height="477" fill="#FBF9F3" stroke="#16201B" stroke-width="2"/>
+<rect x="16" y="650" width="328" height="28" fill="#16201B"/>
+<text x="30" y="671" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="17" font-weight="700" fill="#FFFFFF" letter-spacing="1.2">BEGRUNNELSE</text>
+<text x="330" y="669" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#C9D0CB" text-anchor="end">1 av 3</text>
+<text x="30" y="700" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="400" fill="#16201B" font-style="italic">«passer tiden din (1 t 33 min av 3 t), regn opptil</text>
+<text x="30" y="720" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="400" fill="#16201B" font-style="italic">3,5 mm/t og vind opp mot 9 m/s, lavtliggende</text>
+<text x="30" y="740" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="400" fill="#16201B" font-style="italic">tur (340 moh), egnet i dårlig vær»</text>
+<line x1="30" y1="756" x2="330" y2="756" stroke="#C9C4B6" stroke-width="1"/>
+<rect x="30" y="768" width="34" height="34" rx="3" fill="#FFFFFF" stroke="#16201B" stroke-width="2"/>
+<circle cx="47" cy="785" r="8.2" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M47.0,780.4 L47.0,785.0 L50.2,786.8" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="76" y="778" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#3D4741" letter-spacing="1.2">TID</text>
+<text x="76" y="798" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#16201B">1 t 33 min av 3 t</text>
+<text x="76" y="816" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">uten pauser, 1 t 27 min til overs</text>
+<rect x="76" y="822" width="218" height="10" fill="#FFFFFF" stroke="#16201B" stroke-width="1.5"/>
+<rect x="76" y="822" width="112.633" height="10" fill="#16201B"/>
+<line x1="112.333" y1="832" x2="112.333" y2="836" stroke="#16201B" stroke-width="1"/>
+<line x1="148.667" y1="832" x2="148.667" y2="836" stroke="#16201B" stroke-width="1"/>
+<line x1="185" y1="832" x2="185" y2="836" stroke="#16201B" stroke-width="1"/>
+<line x1="221.333" y1="832" x2="221.333" y2="836" stroke="#16201B" stroke-width="1"/>
+<line x1="257.667" y1="832" x2="257.667" y2="836" stroke="#16201B" stroke-width="1"/>
+<text x="76" y="848" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="11" font-weight="700" fill="#3D4741" style="font-variant-numeric:tabular-nums">0</text>
+<text x="294" y="848" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="11" font-weight="700" fill="#3D4741" text-anchor="end" style="font-variant-numeric:tabular-nums">3 t</text>
+<rect x="304" y="773" width="24" height="24" rx="3" fill="#16201B"/>
+<path d="M310.4,785.4 L314.4,789.4 L321.6,780.6" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="30" y1="848" x2="330" y2="848" stroke="#C9C4B6" stroke-width="1"/>
+<rect x="30" y="860" width="34" height="34" rx="3" fill="#F2B230" stroke="#16201B" stroke-width="2"/>
+<path d="M42.4,878.8 C38.8,878.8 38.8,873.3 42.9,873.3 C43.3,869.7 48.8,868.8 50.2,872.4 C54.3,872.0 55.7,878.8 51.6,878.8 Z" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M43.3,881.6 L42.0,885.2" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M47.0,881.6 L45.6,885.2" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M50.7,881.6 L49.3,885.2" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="76" y="870" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#3D4741" letter-spacing="1.2">VÆR</text>
+<text x="76" y="890" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#16201B">Værklasse dårlig</text>
+<text x="76" y="908" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">Lavtliggende tur (340 moh)</text>
+<text x="76" y="926" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">Egnet i dårlig vær: ja</text>
+<polygon points="316,864.68 330,889.32 302,889.32" fill="#F2B230" stroke="#16201B" stroke-width="2.5" stroke-linejoin="round"/>
+<line x1="316" y1="873.08" x2="316" y2="880.92" stroke="#16201B" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="316" cy="884.84" r="1.54" fill="#16201B"/>
+<line x1="30" y1="930" x2="330" y2="930" stroke="#C9C4B6" stroke-width="1"/>
+<rect x="30" y="942" width="34" height="34" rx="3" fill="#FFFFFF" stroke="#16201B" stroke-width="2"/>
+<path d="M37.8,959.0 C41.5,953.0 52.5,953.0 56.2,959.0 C52.5,965.0 41.5,965.0 37.8,959.0 Z" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="47" cy="959" r="2.8" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="76" y="952" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#3D4741" letter-spacing="1.2">PREFERANSER</text>
+<text x="76" y="972" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#16201B">Treffer ikke utsikt</text>
+<text x="76" y="990" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">har vann (ikke valgt)</text>
+<rect x="304" y="947" width="24" height="24" rx="3" fill="#FBF9F3" stroke="#16201B" stroke-width="2"/>
+<path d="M311.8,954.8 L320.2,963.2 M320.2,954.8 L311.8,963.2" fill="none" stroke="#16201B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="30" y1="994" x2="330" y2="994" stroke="#C9C4B6" stroke-width="1"/>
+<rect x="30" y="1006" width="34" height="34" rx="3" fill="#FFFFFF" stroke="#16201B" stroke-width="2"/>
+<path d="M37.8,1027.6 L56.2,1027.6" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M42.4,1027.6 A4.6,4.6 0 0 1 51.6,1027.6" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M40.5,1025.2 L38.8,1024.6" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M43.6,1021.6 L42.6,1020.0" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M47.0,1020.7 L47.0,1018.9" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M50.4,1021.6 L51.4,1020.0" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M53.5,1025.2 L55.2,1024.6" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M41.5,1031.2 L52.5,1031.2" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="76" y="1016" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#3D4741" letter-spacing="1.2">DAGSLYS</text>
+<text x="76" y="1036" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#16201B">Ender ca. 11:33</text>
+<text x="76" y="1054" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">sola ned 15:59, ingen Mørkevarsel</text>
+<rect x="304" y="1011" width="24" height="24" rx="3" fill="#16201B"/>
+<path d="M310.4,1023.4 L314.4,1027.4 L321.6,1018.6" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="30" y1="1058" x2="330" y2="1058" stroke="#C9C4B6" stroke-width="1"/>
+<text x="30" y="1078" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">Startpunkt: Turparkering i Jensgurilia, Nordbyen</text>
+<text x="30" y="1097" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">(Adkomst 280 m)</text>
+<text x="30" y="1116" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">6,45 km totalt · 340 moh</text>
+<text x="30" y="1143" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="600" fill="#16201B" text-decoration="underline">Kilde: morotur.no</text>
+<polygon points="16,1173 344,1173 374,1223 344,1273 16,1273" fill="#FBF9F3" stroke="#16201B" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="18" y="1175" width="64" height="96" fill="#1C7139"/>
+<rect x="82" y="1175" width="4" height="96" fill="#FFFFFF"/>
+<text x="49" y="1223" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="44" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="49" y="1253" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.8">ENKEL</text>
+<text x="98" y="1207" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="28" font-weight="700" fill="#16201B" letter-spacing="0.5">STORLIHYTTA</text>
+<text x="98" y="1229" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">fra Romsdalsmuseet</text>
+<text x="98" y="1257" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="20" font-weight="700" fill="#16201B" style="font-variant-numeric:tabular-nums">1 t 2 min</text>
+<text x="177.7" y="1257" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">uten pauser</text>
+<rect x="16" y="1279" width="328" height="93" rx="2" fill="#FBF9F3" stroke="#16201B" stroke-width="1.5"/>
+<text x="28" y="1302" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="400" fill="#16201B">«passer tiden din (1 t 2 min av 3 t), regn opptil 3,5</text>
+<text x="28" y="1321" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="400" fill="#16201B">mm/t og vind opp mot 9 m/s, lavtliggende tur (270</text>
+<text x="28" y="1340" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="400" fill="#16201B">moh), utsikt»</text>
+<text x="28" y="1360" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="600" fill="#16201B" text-decoration="underline">Kilde: morotur.no</text>
+<polygon points="16,1390 344,1390 374,1440 344,1490 16,1490" fill="#FBF9F3" stroke="#16201B" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="18" y="1392" width="64" height="96" fill="#1C7139"/>
+<rect x="82" y="1392" width="4" height="96" fill="#FFFFFF"/>
+<text x="49" y="1440" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="44" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="49" y="1470" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.8">ENKEL</text>
+<text x="98" y="1424" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="28" font-weight="700" fill="#16201B" letter-spacing="0.5">SKIHYTTA</text>
+<text x="98" y="1446" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">fra Damefallet</text>
+<text x="98" y="1474" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="20" font-weight="700" fill="#16201B" style="font-variant-numeric:tabular-nums">54 min</text>
+<text x="162.5" y="1474" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">uten pauser</text>
+<rect x="16" y="1496" width="328" height="93" rx="2" fill="#FBF9F3" stroke="#16201B" stroke-width="1.5"/>
+<text x="28" y="1519" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="400" fill="#16201B">«passer tiden din (54 min av 3 t), regn opptil 3,5</text>
+<text x="28" y="1538" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="400" fill="#16201B">mm/t og vind opp mot 9 m/s, lavtliggende tur (391</text>
+<text x="28" y="1557" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="400" fill="#16201B">moh), utsikt»</text>
+<text x="28" y="1577" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="600" fill="#16201B" text-decoration="underline">Kilde: morotur.no</text>
+<rect x="0" y="1619" width="390" height="6" fill="#B8B09C"/>
+<rect x="16" y="1645" width="358" height="574" rx="3" fill="#7A5434" stroke="#563820" stroke-width="2"/>
+<line x1="20" y1="1648" x2="370" y2="1648" stroke="#563820" stroke-width="0.8" opacity="0.3"/>
+<line x1="20" y1="1651" x2="370" y2="1651" stroke="#563820" stroke-width="0.8" opacity="0.3"/>
+<line x1="20" y1="1654" x2="370" y2="1654" stroke="#563820" stroke-width="0.8" opacity="0.3"/>
+<rect x="24" y="1653" width="342" height="44" fill="#16201B"/>
+<text x="38" y="1681.84" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="19" font-weight="700" fill="#FFFFFF" letter-spacing="1.6">OVERSIKTSSKILT</text>
+<text x="168.573" y="1681.84" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#C9D0CB">kart over Turforslagene</text>
+<g clip-path="url(#mm3)">
+<rect x="24" y="1697" width="342" height="300" fill="#E4E6D4"/>
+<ellipse cx="195.0" cy="1793.8" rx="17.1" ry="10.5" transform="rotate(-25 195.0 1793.8)" fill="none" stroke="#BCC3A6" stroke-width="1.4"/>
+<ellipse cx="195.0" cy="1793.8" rx="32.5" ry="21.9" transform="rotate(-25 195.0 1793.8)" fill="none" stroke="#BCC3A6" stroke-width="0.9"/>
+<ellipse cx="195.0" cy="1793.8" rx="47.9" ry="33.3" transform="rotate(-25 195.0 1793.8)" fill="none" stroke="#BCC3A6" stroke-width="1.4"/>
+<ellipse cx="195.0" cy="1793.8" rx="63.3" ry="44.7" transform="rotate(-25 195.0 1793.8)" fill="none" stroke="#BCC3A6" stroke-width="0.9"/>
+<ellipse cx="195.0" cy="1793.8" rx="78.7" ry="56.1" transform="rotate(-25 195.0 1793.8)" fill="none" stroke="#BCC3A6" stroke-width="1.4"/>
+<ellipse cx="195.0" cy="1793.8" rx="94.0" ry="67.5" transform="rotate(-25 195.0 1793.8)" fill="none" stroke="#BCC3A6" stroke-width="0.9"/>
+<ellipse cx="303.8" cy="1728.5" rx="23.9" ry="15.0" transform="rotate(10 303.8 1728.5)" fill="none" stroke="#BCC3A6" stroke-width="1.4"/>
+<ellipse cx="303.8" cy="1728.5" rx="39.3" ry="26.4" transform="rotate(10 303.8 1728.5)" fill="none" stroke="#BCC3A6" stroke-width="0.9"/>
+<ellipse cx="303.8" cy="1728.5" rx="54.7" ry="37.8" transform="rotate(10 303.8 1728.5)" fill="none" stroke="#BCC3A6" stroke-width="1.4"/>
+<ellipse cx="303.8" cy="1728.5" rx="70.1" ry="49.2" transform="rotate(10 303.8 1728.5)" fill="none" stroke="#BCC3A6" stroke-width="0.9"/>
+<ellipse cx="95.5" cy="1861.5" rx="10.3" ry="6.6" transform="rotate(15 95.5 1861.5)" fill="none" stroke="#BCC3A6" stroke-width="1.4"/>
+<ellipse cx="95.5" cy="1861.5" rx="25.6" ry="18.0" transform="rotate(15 95.5 1861.5)" fill="none" stroke="#BCC3A6" stroke-width="0.9"/>
+<ellipse cx="95.5" cy="1861.5" rx="41.0" ry="29.4" transform="rotate(15 95.5 1861.5)" fill="none" stroke="#BCC3A6" stroke-width="1.4"/>
+<ellipse cx="255.6" cy="1739.6" rx="23.9" ry="6.6" transform="rotate(-18 255.6 1739.6)" fill="#B3CEDA" stroke="#7E9FB0" stroke-width="1"/>
+<ellipse cx="314.7" cy="1807.3" rx="12.0" ry="4.2" transform="rotate(25 314.7 1807.3)" fill="#B3CEDA" stroke="#7E9FB0" stroke-width="1"/>
+<ellipse cx="168.9" cy="1867.8" rx="5.5" ry="2.1" transform="rotate(0 168.9 1867.8)" fill="#B3CEDA" stroke="#7E9FB0" stroke-width="1"/>
+<path d="M24.0,1959.5 Q58.2,1964.0 75.3,1966.2 Q92.4,1968.5 112.9,1967.8 Q133.4,1967.0 155.7,1965.2 Q177.9,1963.4 203.6,1960.7 Q229.2,1958.0 254.8,1956.2 Q280.5,1954.4 302.7,1951.0 Q325.0,1947.5 345.5,1944.5 L366.0,1941.5 L368,1999 L22,1999 Z" fill="#A3C0CE" stroke="#7E9FB0" stroke-width="1.2"/>
+<path d="M37.7,1958.0 Q65.0,1946.0 95.8,1944.5 Q126.6,1943.0 160.8,1942.2 Q195.0,1941.5 229.2,1939.2 Q263.4,1937.0 290.8,1935.5 Q318.1,1934.0 321.5,1940.8 Q325.0,1947.5 302.7,1951.0 Q280.5,1954.4 254.8,1956.2 Q229.2,1958.0 203.6,1960.7 Q177.9,1963.4 155.7,1965.2 Q133.4,1967.0 112.9,1967.8 Q92.4,1968.5 75.3,1966.2 L58.2,1964.0 Z" fill="#D6D2C6" opacity="0.9"/>
+<text x="147.12" y="1954.4" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="10.8" font-weight="700" fill="#3D4741" text-anchor="middle" letter-spacing="1.5">MOLDE SENTRUM</text>
+<text x="222.36" y="1983.5" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="11.7" font-weight="700" fill="#2F4F5E" text-anchor="middle" letter-spacing="3">MOLDEFJORDEN</text>
+<path d="M138.7,1874.6 Q149.9,1854.3 156.9,1843.9 Q163.9,1833.5 170.9,1823.3 Q177.9,1813.1 186.4,1803.5 L195.0,1793.8" fill="none" stroke="#8C7D63" stroke-width="1.2" stroke-dasharray="2 3" opacity="0.7"/>
+<path d="M93.3,1940.4 Q84.6,1919.6 80.4,1909.9 Q76.2,1900.2 72.2,1892.5 Q68.1,1884.7 68.6,1876.8 L69.1,1868.8" fill="none" stroke="#8C7D63" stroke-width="1.2" stroke-dasharray="2 3" opacity="0.7"/>
+<path d="M138.7,1874.6 Q130.3,1857.6 127.2,1849.2 Q124.1,1840.7 125.0,1831.8 L126.0,1822.8" fill="none" stroke="#8C7D63" stroke-width="1.2" stroke-dasharray="2 3" opacity="0.7"/>
+<path d="M272.4,1866.4 Q265.9,1837.3 260.3,1823.3 Q254.7,1809.3 252.5,1794.7 Q250.3,1780.2 252.5,1767.2 L254.7,1754.1" fill="none" stroke="#8C7D63" stroke-width="1.2" stroke-dasharray="2 3" opacity="0.7"/>
+<path d="M272.4,1866.4 Q284.5,1848.0 290.3,1839.0 Q296.0,1830.1 301.5,1823.5 L306.9,1817.0" fill="none" stroke="#8C7D63" stroke-width="1.2" stroke-dasharray="2 3" opacity="0.7"/>
+<path d="M94.3,1884.7 Q83.1,1878.9 76.1,1873.9 L69.1,1868.8" fill="none" stroke="#8C7D63" stroke-width="1.2" stroke-dasharray="2 3" opacity="0.7"/>
+</g>
+<g clip-path="url(#mm3)">
+<path d="M93.3,1940.4 Q84.6,1919.6 80.4,1909.9 Q76.2,1900.2 72.2,1892.5 Q68.1,1884.7 68.6,1876.8 L69.1,1868.8" fill="none" stroke="#FFFFFF" stroke-width="5.1" stroke-linecap="round" opacity="0.8"/>
+<path d="M93.3,1940.4 Q84.6,1919.6 80.4,1909.9 Q76.2,1900.2 72.2,1892.5 Q68.1,1884.7 68.6,1876.8 L69.1,1868.8" fill="none" stroke="#3D4741" stroke-width="2.55" stroke-linecap="round" stroke-dasharray="7 5"/>
+<line x1="69.0818" y1="1868.77" x2="69.0818" y2="1855.17" stroke="#16201B" stroke-width="2"/>
+<polygon points="69.0818,1855.17 78.4318,1858.57 69.0818,1861.97" fill="#16201B"/>
+<path d="M138.7,1874.6 Q130.3,1857.6 127.2,1849.2 Q124.1,1840.7 125.0,1831.8 L126.0,1822.8" fill="none" stroke="#FFFFFF" stroke-width="5.1" stroke-linecap="round" opacity="0.8"/>
+<path d="M138.7,1874.6 Q130.3,1857.6 127.2,1849.2 Q124.1,1840.7 125.0,1831.8 L126.0,1822.8" fill="none" stroke="#3D4741" stroke-width="2.55" stroke-linecap="round" stroke-dasharray="7 5"/>
+<line x1="125.978" y1="1822.81" x2="125.978" y2="1809.21" stroke="#16201B" stroke-width="2"/>
+<polygon points="125.978,1809.21 135.328,1812.61 125.978,1816.01" fill="#16201B"/>
+<path d="M272.4,1866.4 Q265.9,1837.3 260.3,1823.3 Q254.7,1809.3 252.5,1794.7 Q250.3,1780.2 252.5,1767.2 L254.7,1754.1" fill="none" stroke="#FFFFFF" stroke-width="7.6499999999999995" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M272.4,1866.4 Q265.9,1837.3 260.3,1823.3 Q254.7,1809.3 252.5,1794.7 Q250.3,1780.2 252.5,1767.2 L254.7,1754.1" fill="none" stroke="#16201B" stroke-width="4.25" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="254.695" y1="1754.1" x2="254.695" y2="1740.5" stroke="#16201B" stroke-width="2"/>
+<polygon points="254.695,1740.5 264.045,1743.9 254.695,1747.3" fill="#16201B"/>
+<circle cx="93.3327" cy="1940.39" r="10.2" fill="#FBF9F3" stroke="#16201B" stroke-width="2.5"/>
+<text x="93.3327" y="1944.67" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="12.75" font-weight="700" fill="#16201B" text-anchor="middle">2</text>
+<circle cx="138.725" cy="1874.58" r="10.2" fill="#FBF9F3" stroke="#16201B" stroke-width="2.5"/>
+<text x="138.725" y="1878.86" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="12.75" font-weight="700" fill="#16201B" text-anchor="middle">3</text>
+<circle cx="272.416" cy="1866.35" r="16.15" fill="#FFFFFF" stroke="#16201B" stroke-width="2"/>
+<circle cx="272.416" cy="1866.35" r="12.75" fill="#16201B" stroke="#16201B" stroke-width="2.5"/>
+<text x="272.416" y="1871.71" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="15.9375" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<rect x="81.0818" y="1838.77" width="71.1953" height="19" rx="2" fill="#FFFFFF" stroke="#16201B" stroke-width="1" opacity="0.92"/>
+<text x="86.0818" y="1852.77" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="700" fill="#16201B">Storlihytta</text>
+<rect x="137.978" y="1792.81" width="57.7953" height="19" rx="2" fill="#FFFFFF" stroke="#16201B" stroke-width="1" opacity="0.92"/>
+<text x="142.978" y="1806.81" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="700" fill="#16201B">Skihytta</text>
+<rect x="266.695" y="1724.1" width="85" height="19" rx="2" fill="#FFFFFF" stroke="#16201B" stroke-width="1" opacity="0.92"/>
+<text x="271.695" y="1738.1" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="700" fill="#16201B">Moldevatnet</text>
+<rect x="268.695" y="1798.26" width="93.1" height="22" rx="11" fill="#FBF9F3" stroke="#16201B" stroke-width="1.2"/>
+<text x="274.695" y="1813.26" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="600" fill="#16201B" font-style="italic">omtrentlig rute</text>
+</g>
+<g>
+<rect x="24" y="1997" width="342" height="214" fill="#FBF9F3"/>
+<rect x="35" y="2010" width="326" height="114" rx="3" fill="#16201B" opacity="0.2"/>
+<rect x="32" y="2007" width="326" height="114" rx="3" fill="#FBF9F3" stroke="#16201B" stroke-width="2"/>
+<rect x="32" y="2007" width="8" height="114" fill="#1C56A0"/>
+<text x="50" y="2031" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="18" font-weight="700" fill="#16201B" letter-spacing="0.5">1  MOLDEVATNET</text>
+<text x="50" y="2049" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="600" fill="#16201B">fra Jensgurilia</text>
+<rect x="50" y="2057" width="61.4" height="18" rx="2" fill="#1C56A0"/>
+<text x="57" y="2070" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">Middels</text>
+<text x="119.4" y="2070" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="600" fill="#16201B">6,45 km totalt</text>
+<text x="50" y="2093" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="500" fill="#3D4741">Startpunkt: Turparkering</text>
+<text x="50" y="2111" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="500" fill="#3D4741">i Jensgurilia, Nordbyen</text>
+</g>
+<rect x="24" y="1697" width="342" height="300" fill="none" stroke="#16201B" stroke-width="1.5"/>
+<line x1="36" y1="2139" x2="62" y2="2139" stroke="#16201B" stroke-width="5"/>
+<text x="70" y="2144" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="600" fill="#16201B">valgt Turforslag</text>
+<line x1="173.178" y1="2139" x2="199.178" y2="2139" stroke="#3D4741" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="207.178" y="2144" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="600" fill="#16201B">andre</text>
+<text x="36" y="2163" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="500" fill="#3D4741" font-style="italic">Alle ruter er omtrentlige.</text>
+<text x="36" y="2183" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="500" fill="#3D4741">Bakgrunnskart: © Kartverket</text>
+<text x="36" y="2201" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="500" fill="#3D4741">Turstier: Turrutebasen, Kartverket</text>
+<text x="16" y="2281" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">Etter Bedre tidsvindu (14:00). Tusenårsvarden</text>
+<text x="16" y="2299" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">fra Damefallet er rangert lenger ned.</text>
+<polygon points="16,2313 344,2313 374,2363 344,2413 16,2413" fill="#FBF9F3" stroke="#16201B" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="18" y="2315" width="64" height="96" fill="#1C56A0"/>
+<rect x="82" y="2315" width="4" height="96" fill="#FFFFFF"/>
+<text x="49" y="2363" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="44" font-weight="700" fill="#FFFFFF" text-anchor="middle"></text>
+<text x="49" y="2393" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.8">MIDDELS</text>
+<text x="98" y="2347" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="28" font-weight="700" fill="#16201B" letter-spacing="0.5">TUSENÅRSVARDEN</text>
+<text x="98" y="2369" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">fra Damefallet</text>
+<text x="98" y="2397" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="20" font-weight="700" fill="#16201B" style="font-variant-numeric:tabular-nums">1 t 32 min</text>
+<text x="187.3" y="2397" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">uten pauser</text>
+<text x="49" y="2363" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="44" font-weight="700" fill="#FFFFFF" text-anchor="middle">!</text>
+<rect x="20" y="2425" width="328" height="182" rx="4" fill="#16201B" opacity="0.2"/>
+<rect x="16" y="2421" width="328" height="182" rx="4" fill="#F2B230" stroke="#16201B" stroke-width="3"/>
+<rect x="22" y="2427" width="316" height="170" rx="2" fill="none" stroke="#16201B" stroke-width="1"/>
+<polygon points="43,2433.56 56,2456.44 30,2456.44" fill="#F2B230" stroke="#16201B" stroke-width="2.5" stroke-linejoin="round"/>
+<line x1="43" y1="2441.36" x2="43" y2="2448.64" stroke="#16201B" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="43" cy="2452.28" r="1.43" fill="#16201B"/>
+<text x="64" y="2453" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="22" font-weight="700" fill="#16201B" letter-spacing="1.5">MØRKEVARSEL</text>
+<text x="330" y="2452" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="14" font-weight="700" fill="#16201B" text-anchor="end" style="font-variant-numeric:tabular-nums">Sol ned 15:59</text>
+<text x="30" y="2477" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="600" fill="#16201B">Sola går ned 15:59. Turen ender ca. 15:32</text>
+<text x="30" y="2497" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="600" fill="#16201B">uten pauser, etter grensen 30 min før</text>
+<text x="30" y="2517" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="600" fill="#16201B">solnedgang.</text>
+<rect x="26" y="2531" width="308" height="62" rx="2" fill="#FBF9F3" stroke="#16201B" stroke-width="1.5"/>
+<rect x="38" y="2551" width="284" height="10" fill="#FFFFFF" stroke="#16201B" stroke-width="1"/>
+<rect x="268.642" y="2551" width="53.3576" height="10" fill="#3D4741"/>
+<rect x="63.8182" y="2551" width="158.352" height="10" fill="#F2B230"/>
+<rect x="63.8182" y="2551" width="158.352" height="10" fill="none" stroke="#16201B" stroke-width="1.5"/>
+<line x1="217.006" y1="2546" x2="217.006" y2="2566" stroke="#16201B" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="222.17" y="2546" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="11" font-weight="700" fill="#16201B" text-anchor="middle" style="font-variant-numeric:tabular-nums">15:32</text>
+<text x="63.8182" y="2576" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="11" font-weight="700" fill="#3D4741" style="font-variant-numeric:tabular-nums">14:00</text>
+<text x="217.006" y="2576" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="11" font-weight="700" fill="#3D4741" text-anchor="middle" style="font-variant-numeric:tabular-nums">15:29</text>
+<text x="270.642" y="2576" font-family="'DIN Alternate', 'Avenir Next', sans-serif" font-size="11" font-weight="700" fill="#3D4741" style="font-variant-numeric:tabular-nums">15:59</text>
+<rect x="8" y="2249" width="374" height="374" rx="6" fill="none" stroke="#16201B" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="16" y="2238" width="250" height="22" fill="#EEEBE3"/>
+<text x="20" y="2255" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="17" font-weight="700" fill="#16201B" letter-spacing="1">KOMPONENTDETALJ: MØRKEVARSEL</text>
+<rect x="16" y="2643" width="358" height="77" rx="3" fill="#F5F2EA" stroke="#16201B" stroke-width="1.5"/>
+<rect x="16" y="2643" width="5" height="77" fill="#16201B"/>
+<circle cx="40" cy="2665" r="7.5" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M40.0,2664.2 L40.0,2669.2" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="40" cy="2661.2" r="1.0" fill="#16201B"/>
+<text x="58" y="2669" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#16201B">Du har selv ansvaret for å vurdere forholdene.</text>
+<text x="58" y="2688" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#16201B">Værvurderingen er veiledende og vurderer ikke</text>
+<text x="58" y="2707" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#16201B">føre (snø, is, gjørme). Følg MET sine farevarsler.</text>
+<rect x="0" y="2740" width="390" height="132" fill="#16201B"/>
+<text x="16" y="2768" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#C9D0CB" letter-spacing="1.2">KREDITERING</text>
+<text x="16" y="2792" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Værdata: MET Norway</text>
+<text x="16" y="2812" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Turstier: Turrutebasen, Kartverket</text>
+<text x="16" y="2832" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Turer: morotur.no og Fjord Norway</text>
+<text x="16" y="2852" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Bakgrunnskart: © Kartverket</text>
+<line x1="0" y1="844" x2="390" y2="844" stroke="#16201B" stroke-width="1" stroke-dasharray="4 4"/>
+<rect x="295" y="835" width="91" height="18" rx="9" fill="#FFFFFF" stroke="#16201B" stroke-width="1"/>
+<text x="340.5" y="848" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="11" font-weight="600" fill="#16201B" text-anchor="middle">skjermkant 844</text>
+</svg>

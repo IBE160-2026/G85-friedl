@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="1069" viewBox="0 0 390 1069">
+<title>Stikryss – Frarådet (mobil)</title>
+<defs><pattern id="bom" patternUnits="userSpaceOnUse" width="24" height="24" patternTransform="rotate(45)"><rect width="12.0" height="24" fill="#B3242B"/><rect x="12.0" width="12.0" height="24" fill="#FFFFFF"/></pattern></defs>
+<rect width="390" height="1069" fill="#EEEBE3"/>
+<rect x="0" y="0" width="390" height="56" fill="#16201B"/>
+<polygon points="16,15 43,15 52,27.6 43,40.2 16,40.2" fill="#FBF9F3"/>
+<rect x="16" y="15" width="9" height="25.2" fill="#1C56A0"/>
+<rect x="18.7" y="9.6" width="3.6" height="41.4" fill="#946A42"/>
+<text x="62" y="37" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="26" font-weight="700" fill="#FFFFFF" letter-spacing="1">TURPLANLEGGER</text>
+<text x="374" y="36" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="15" font-weight="700" fill="#C9D0CB" text-anchor="end" letter-spacing="1">MOLDEMARKA</text>
+<rect x="0" y="56" width="390" height="54" fill="#E3DDCD"/>
+<line x1="0" y1="110" x2="390" y2="110" stroke="#16201B" stroke-width="1.5" stroke-dasharray="6 4"/>
+<rect x="16" y="65" width="92" height="22" rx="2" fill="#16201B"/>
+<text x="62" y="82" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">DEMOMODUS</text>
+<text x="118" y="82" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="600" fill="#16201B">«nå» = lør. 14. nov. 09:40</text>
+<text x="16" y="102" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">Værscenario: Sterk kuling</text>
+<rect x="16" y="120" width="358" height="56" rx="3" fill="#FBF9F3" stroke="#16201B" stroke-width="2"/>
+<text x="28" y="142" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#3D4741" letter-spacing="1.2">DITT SØK</text>
+<text x="28" y="164" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="15" font-weight="600" fill="#16201B">I dag · 10:00 · 2 t · Middels · ingen</text>
+<rect x="290" y="126" width="76" height="44" rx="4" fill="#FBF9F3" stroke="#16201B" stroke-width="2"/>
+<text x="328" y="153.25" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="15" font-weight="600" fill="#16201B" text-anchor="middle">Endre</text>
+<rect x="37" y="192" width="24" height="502" fill="#7A5434"/>
+<path d="M37.0,192 L49,180 L61.0,192 Z" fill="#563820"/>
+<line x1="44" y1="198" x2="45" y2="690" stroke="#563820" stroke-width="1.2" opacity="0.35"/>
+<line x1="52" y1="198" x2="53" y2="690" stroke="#563820" stroke-width="1.2" opacity="0.25"/>
+<line x1="60" y1="198" x2="61" y2="690" stroke="#563820" stroke-width="1.2" opacity="0.3"/>
+<rect x="56" y="192" width="5" height="502" fill="#563820" opacity="0.45"/>
+<rect x="39" y="216" width="318" height="26" rx="13.0" fill="#16201B" opacity="0.2"/>
+<rect x="36" y="212" width="318" height="26" rx="13.0" fill="url(#bom)" stroke="#16201B" stroke-width="2.5"/>
+<circle cx="341" cy="225" r="19.5" fill="#FFFFFF" stroke="#B3242B" stroke-width="5"/>
+<rect x="329.3" y="221.5" width="23.4" height="7" fill="#B3242B"/>
+<rect x="20" y="258" width="358" height="266" fill="#16201B" opacity="0.18"/>
+<rect x="16" y="254" width="358" height="266" fill="#FBF9F3" stroke="#16201B" stroke-width="3"/>
+<rect x="16" y="254" width="358" height="12" fill="url(#bom)"/>
+<line x1="16" y1="266" x2="374" y2="266" stroke="#16201B" stroke-width="2"/>
+<text x="30" y="322" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="60" font-weight="700" fill="#16201B" letter-spacing="1.5">VENT.</text>
+<text x="30" y="354" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="30" font-weight="700" fill="#16201B" letter-spacing="0.8">VIND OPP MOT 19 M/S.</text>
+<text x="30" y="386" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#16201B">Værklasse frarådet: det er meldt sterk</text>
+<text x="30" y="408" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#16201B">kuling, vind opp mot 19 m/s i Tidsvinduet</text>
+<text x="30" y="430" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#16201B">ditt (10:00–12:00).</text>
+<text x="30" y="456" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">Derfor foreslår vi ingen Tur nå, heller ikke den</text>
+<text x="30" y="476" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#3D4741">korteste. Frarådet går foran alt annet.</text>
+<text x="30" y="504" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="14" font-weight="700" fill="#16201B">Sjekk også MET sine farevarsler.</text>
+<rect x="16" y="536" width="358" height="128" rx="3" fill="#FBF9F3" stroke="#16201B" stroke-width="2.5"/>
+<rect x="18" y="538" width="52" height="66" fill="#16201B"/>
+<circle cx="44" cy="571" r="11.2" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M44.0,564.8 L44.0,571.0 L48.4,573.5" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="82" y="560" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#3D4741" letter-spacing="1">ALTERNATIV · BEDRE TIDSVINDU</text>
+<text x="82" y="580" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="700" fill="#16201B">I morgen (søn. 15. nov.) fra kl.</text>
+<text x="82" y="600" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="700" fill="#16201B">11:00</text>
+<polygon points="29,613 235.495,613 253.495,636 235.495,659 29,659" fill="#000000" opacity="0.18"/>
+<polygon points="26,610 232.495,610 250.495,633 232.495,656 26,656" fill="#16201B"/>
+<text x="42" y="639" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">Bruk i morgen 11:00</text>
+<rect x="0" y="694" width="390" height="6" fill="#B8B09C"/>
+<rect x="16" y="720" width="358" height="104" rx="3" fill="#FBF9F3" stroke="#16201B" stroke-width="2"/>
+<rect x="26" y="730" width="64" height="64" rx="3" fill="#FFFFFF" stroke="#16201B" stroke-width="2.5"/>
+<rect x="28.5" y="780" width="59" height="11.5" fill="url(#bom)"/>
+<path d="M48.2,748.8 L61.2,748.8 C65.6,748.8 65.6,743.3 61.8,743.9" fill="none" stroke="#16201B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M48.2,754.2 L65.6,754.2 C69.9,754.2 69.9,760.1 65.6,759.6" fill="none" stroke="#16201B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="58" y="774" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="12" font-weight="700" fill="#16201B" text-anchor="middle">FRARÅDET</text>
+<text x="102" y="746" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#3D4741" letter-spacing="1">VÆR I TIDSVINDUET 10:00–12:00</text>
+<text x="102" y="768" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="17" font-weight="700" fill="#16201B">Vind opp mot 19 m/s</text>
+<text x="102" y="786" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#3D4741">sterk kuling, avgjorde Værklassen</text>
+<text x="102" y="804" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="500" fill="#3D4741">Værmelding for ca. 400 moh. På toppene</text>
+<text x="102" y="818" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="12" font-weight="500" fill="#3D4741">kan det være kaldere og mer vind.</text>
+<rect x="16" y="840" width="358" height="77" rx="3" fill="#F5F2EA" stroke="#16201B" stroke-width="1.5"/>
+<rect x="16" y="840" width="5" height="77" fill="#16201B"/>
+<circle cx="40" cy="862" r="7.5" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M40.0,861.2 L40.0,866.2" fill="none" stroke="#16201B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="40" cy="858.2" r="1.0" fill="#16201B"/>
+<text x="58" y="866" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#16201B">Du har selv ansvaret for å vurdere forholdene.</text>
+<text x="58" y="885" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#16201B">Værvurderingen er veiledende og vurderer ikke</text>
+<text x="58" y="904" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#16201B">føre (snø, is, gjørme). Følg MET sine farevarsler.</text>
+<rect x="0" y="937" width="390" height="132" fill="#16201B"/>
+<text x="16" y="965" font-family="'DIN Condensed', 'Avenir Next Condensed', sans-serif" font-size="14" font-weight="700" fill="#C9D0CB" letter-spacing="1.2">KREDITERING</text>
+<text x="16" y="989" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Værdata: MET Norway</text>
+<text x="16" y="1009" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Turstier: Turrutebasen, Kartverket</text>
+<text x="16" y="1029" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Turer: morotur.no og Fjord Norway</text>
+<text x="16" y="1049" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Bakgrunnskart: © Kartverket</text>
+<line x1="0" y1="844" x2="390" y2="844" stroke="#16201B" stroke-width="1" stroke-dasharray="4 4"/>
+<rect x="295" y="835" width="91" height="18" rx="9" fill="#FFFFFF" stroke="#16201B" stroke-width="1"/>
+<text x="340.5" y="848" font-family="'Avenir Next', 'Helvetica Neue', sans-serif" font-size="11" font-weight="600" fill="#16201B" text-anchor="middle">skjermkant 844</text>
+</svg>

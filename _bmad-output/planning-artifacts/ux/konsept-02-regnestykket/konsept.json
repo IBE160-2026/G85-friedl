@@ -1,0 +1,45 @@
+{
+  "nummer": 2,
+  "slug": "regnestykket",
+  "navn": "Regnestykket",
+  "slagord": "Hver tur er et regnestykke som går opp",
+  "ide": "Hvert Turforslag er en kvittering: Regelteksten står øverst som en setning, og under den står regnestykket linje for linje (TID, VÆR, GRAD, ØNSKER, LYS) med ✓, ✗ eller – i en egen kolonne, en dobbel sumstrek og konklusjonen under. Ingrid kjenner ikke Moldemarka og vil være sikker på at valget er fornuftig, og regnestykket gir henne tall hun kan føre etter selv, i stedet for et svar hun må stole blindt på.",
+  "anbefalingsoyeblikket": "Hver linje setter et tall opp mot en grense: «Turtid 1 t 32 min (uten pauser) ≤ 2 t», «Værklasse 13:30–15:30: god (0 mm, 4 m/s)», «Utsikt: treffer · Vann: ikke valgt», «Ender 15:02 ≤ mørkegrense 15:29». Felles forutsetninger (Tidsvindu, Værklasse, mørkegrense 15:29 = solnedgang 15:59 minus 30 min) står én gang i en «Gitt»-blokk. Mørkevarsel er en LYS-linje som ikke går opp («Ender 15:32 > grense 15:29 ✗ Mørkevarsel»), dårlig vær gir linjene LAVT og EGNET, og ved frarådet stopper regnestykket på VÆR-linja mens resten står som «ikke regnet».",
+  "mobil": "Kvittering nr. 1 står helt utbrettet med sumstreken over brettekanten, mens nr. 2 og 3 er brettet sammen til tittel, nøkkeltall og en rad med ✓-er, med «Vis regnestykket». Kartet følger etter som et vedlegg, og ved frarådet står Bedre tidsvindu øverst.",
+  "styrker": [
+    "Begrunnelsen er etterprøvbar: hver regel er en synlig ulikhet med de ekte tallene, ikke en score",
+    "Samme oppstilling i alle tilstander gjør unntakene lesbare: Mørkevarsel, dårlig vær, frarådet og «trenger 1 min mer» er bare linjer som ikke går opp",
+    "Frarådet og ingen Tur passer ser ut som et ferdig regnestykke med et svar, ikke som en feilside",
+    "Tydelig og egen visuell identitet (papir, blekk, monospace-tall og varm seriff) uten KI-klisjeer"
+  ],
+  "risiko": [
+    "Tett med tall: noen brukere vil oppleve fem til sju linjer per Turforslag som mye å lese rett før de går",
+    "Sidene blir lange på PC fordi alle tre kvitteringene er brettet ut; på mobil må 2 og 3 brettes for at nr. 1 skal stå over brettekanten",
+    "Kvitteringsmetaforen kan bli pynt hvis linjene ikke holdes strengt til reglene i PRD-en"
+  ],
+  "palett": [
+    {"navn": "Papir (bakgrunn)", "hex": "#F3EDE1"},
+    {"navn": "Kvitteringspapir", "hex": "#FCFAF5"},
+    {"navn": "Blekk", "hex": "#1D2B4A"},
+    {"navn": "Dempet blekk (sekundærtekst)", "hex": "#4F5770"},
+    {"navn": "Signal (går ikke opp, varsel)", "hex": "#B5321A"},
+    {"navn": "Signal-tone (bakgrunn for linje som ikke går opp)", "hex": "#F7E4DB"},
+    {"navn": "Blekk-tone (Bedre tidsvindu)", "hex": "#E4E6EA"},
+    {"navn": "Linjer", "hex": "#CBC2AF"}
+  ],
+  "typografi": "Iowan Old Style (reserve Charter, Georgia) i 44–50 / 28 / 22 / 19 kursiv (Regeltekst) / 15 til overskrifter, titler og løpende tekst, og Menlo i 15 / 13 / 11 versaler til tallene, regnestykke-linjene og etikettene, slik at tallene står i faste kolonner.",
+  "bevegelse": "Når resultatet kommer, skrives linjene ut én etter én ovenfra som en kvitteringsskriver (ca. 60 ms per linje), før sumstreken og konklusjonen kommer til slutt.",
+  "skjermer": {
+    "pc-1-sok.svg": "Søket som et regnestykke som skal fylles ut, med «Finn tur» under sumstreken og en blank blankett som viser de fem linjene alle Turforslag regnes etter.",
+    "pc-2-godt-vaer.svg": "Tre utbrettede kvitteringer med «Går opp.» under sumstreken, en Gitt-blokk med Værklasse god og mørkegrense 15:29, og kartet som vedlegg A med nr. 1 uthevet.",
+    "pc-3a-darlig-vaer.svg": "Værvarsling og Bedre tidsvindu («Bruk 14:00») øverst, og kvitteringer med de ekstra linjene LAVT og EGNET og VÆR-linja merket «! dårlig». Kartet har en uthevet 400 moh-kurve.",
+    "pc-3b-bedre-tidsvindu.svg": "Resultatet kl. 14:00 med tre kvitteringer som går opp, og komponentdetaljen der LYS-linja ikke går opp: Tusenårsvarden ender 15:32 > 15:29, ✗ Mørkevarsel.",
+    "pc-4-fraradet.svg": "En kvittering der regnestykket stopper på VÆR-linja (frarådet, 19 m/s) og resten står «ikke regnet», med Bedre tidsvindu i morgen 11:00 som Alternativ.",
+    "pc-5-ingen-tur-uten-vaer.svg": "Live-modus uten Demomodus: melding om at været ikke er vurdert, og den korteste Turen som Alternativ med TID-linja «16 min > 15 min ✗ trenger 1 min mer».",
+    "mob-1-sok.svg": "Søk-skjemaet på mobil med «Finn tur» over brettekanten og blanketten «Slik regner vi» under.",
+    "mob-2-godt-vaer.svg": "Kvittering nr. 1 utbrettet med sumstreken over brettekanten, nr. 2 og 3 brettet sammen og kartet stablet under som vedlegg.",
+    "mob-3-darlig-vaer.svg": "Værvarsling med Bedre tidsvindu, kvittering nr. 1 med LAVT- og EGNET-linjer, sammenbrettede nr. 2 og 3, Mørkevarsel-detaljen og kart med 400 moh-kurven.",
+    "mob-4-fraradet.svg": "Bedre tidsvindu med «Bruk i morgen 11:00» øverst, og under den kvitteringen som stopper på værlinja.",
+    "mob-5-ingen-tur-uten-vaer.svg": "Melding om at været ikke er vurdert, og den korteste Turen som kvittering med «trenger 1 min mer», med kartet under."
+  }
+}

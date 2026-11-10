@@ -1,0 +1,369 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1693" viewBox="0 0 1440 1693">
+<title>Tidslinja – PC – Resultat i godt vær (UJ-1)</title>
+<defs>
+<pattern id="hatchD" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#D39A6D"/><line x1="0" y1="0" x2="0" y2="7" stroke="#A86F45" stroke-width="2.4"/></pattern>
+<pattern id="hatchF" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#8C3A2E"/><line x1="0" y1="0" x2="0" y2="7" stroke="#6A2419" stroke-width="2.4"/><line x1="0" y1="3.5" x2="7" y2="3.5" stroke="#6A2419" stroke-width="1.6"/></pattern>
+<pattern id="dotsU" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#EEEDE9"/><circle cx="4" cy="4" r="1.1" fill="#A9A59B"/></pattern>
+<pattern id="twi" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="6" height="6" fill="#ECEEF2"/><line x1="0" y1="0" x2="0" y2="6" stroke="#CDD2DB" stroke-width="2"/></pattern>
+<pattern id="over" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#2E3A52"/><line x1="0" y1="0" x2="0" y2="6" stroke="#FFFFFF" stroke-width="2"/></pattern>
+<pattern id="betterP" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#FFFFFF" fill-opacity="0.55"/></pattern>
+</defs>
+<rect width="1440" height="1693" fill="#F5F4F0"/>
+<rect x="0.0" y="0.0" width="1440.0" height="34.0" fill="#1C2126"/>
+<text x="64.0" y="22.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#FFFFFF" font-weight="700" letter-spacing="1.4" style="font-variant-numeric: tabular-nums">DEMOMODUS</text>
+<text x="168.0" y="22.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#FFFFFF" style="font-variant-numeric: tabular-nums">· Værscenario: Godt vær · «nå» = man. 9. nov. 13:30</text>
+<text x="64.0" y="76.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="24" fill="#1C2126" font-weight="700" letter-spacing="-0.4" style="font-variant-numeric: tabular-nums">Turplanlegger</text>
+<text x="236.0" y="76.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" fill="#525A62" style="font-variant-numeric: tabular-nums">Fotturer i Moldemarka, veid mot været og tiden du har</text>
+<line x1="64.0" y1="100.0" x2="1376.0" y2="100.0" stroke="#D3D0C8" stroke-width="1"/>
+<text x="64.0" y="138.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" font-weight="700" letter-spacing="1.4" style="font-variant-numeric: tabular-nums">SØK</text>
+<text x="112.0" y="136.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Turdag</text>
+<text x="112.0" y="158.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">I dag, man. 9. nov.</text>
+<line x1="276.5" y1="122.0" x2="276.5" y2="162.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="294.5" y="136.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Starttidspunkt</text>
+<text x="294.5" y="158.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">13:30</text>
+<line x1="387.2" y1="122.0" x2="387.2" y2="162.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="405.2" y="136.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Tilgjengelig tid</text>
+<text x="405.2" y="158.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">2 t</text>
+<line x1="503.6" y1="122.0" x2="503.6" y2="162.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="521.6" y="136.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Vanskelighetsgrad</text>
+<text x="521.6" y="158.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Middels</text>
+<line x1="639.9" y1="122.0" x2="639.9" y2="162.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="657.9" y="136.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Opplevelsespreferanser</text>
+<text x="657.9" y="158.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">utsikt</text>
+<line x1="804.3" y1="122.0" x2="804.3" y2="162.0" stroke="#E4E1DA" stroke-width="1"/>
+<rect x="1244.0" y="120.0" width="132.0" height="44.0" fill="#FFFFFF" rx="6" stroke="#1C2126" stroke-width="1.5"/>
+<text x="1310.0" y="147.4" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#1C2126" font-weight="700" text-anchor="middle" style="font-variant-numeric: tabular-nums">Endre søk</text>
+<rect x="64.0" y="192.0" width="147.5" height="29.0" fill="#FFFFFF" rx="14.5" stroke="#1C2126" stroke-width="1.2"/>
+<rect x="72.0" y="199.5" width="18.0" height="14.0" fill="#CFE5D7" rx="3"/>
+<rect x="72.0" y="199.5" width="18.0" height="14.0" fill="none" rx="3" stroke="#00000030" stroke-width="1"/>
+<text x="96.0" y="211.9" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Værklasse god</text>
+<text x="227.5" y="213.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#1C2126" style="font-variant-numeric: tabular-nums">3–5 °C  ·  0 mm nedbør  ·  vind opptil 4 m/s  ·  lettskyet</text>
+<text x="64.0" y="244.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Oppholdsvær og lite vind.</text>
+<text x="243.5" y="244.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" fill="#525A62" style="font-variant-numeric: tabular-nums">Værmelding for ca. 400 moh. På toppene kan det være kaldere og mer vind.</text>
+<text x="1376.0" y="244.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="end" style="font-variant-numeric: tabular-nums">Værdata: MET Norway</text>
+<line x1="64.0" y1="264.0" x2="1376.0" y2="264.0" stroke="#D3D0C8" stroke-width="1"/>
+<text x="64.0" y="314.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="30" fill="#1C2126" font-weight="700" letter-spacing="-0.4" style="font-variant-numeric: tabular-nums">Tre Turforslag for i dag</text>
+<text x="64.0" y="340.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#525A62" style="font-variant-numeric: tabular-nums">Hver stolpe er en Tur: fra Starttidspunktet ditt til der du er tilbake. Rammen er Tidsvinduet, den stiplede linja er mørkegrensen.</text>
+<text x="64.0" y="422.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">I dag, man. 9. nov.</text>
+<text x="64.0" y="449.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Værklasse per time</text>
+<text x="64.0" y="465.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Tidsvinduet: god</text>
+<rect x="400.0" y="468.0" width="40.7" height="350.0" fill="#E1E4EA"/>
+<rect x="1068.6" y="468.0" width="103.2" height="350.0" fill="url(#twi)"/>
+<rect x="1171.8" y="468.0" width="204.2" height="350.0" fill="#E1E4EA"/>
+<rect x="48.0" y="482.0" width="1344.0" height="106.0" fill="#E4EEEC" fill-opacity="0.85"/>
+<rect x="48.0" y="482.0" width="4.0" height="106.0" fill="#1F5F63"/>
+<rect x="400.0" y="434.0" width="976.0" height="34.0" fill="#CFE5D7"/>
+<line x1="416.3" y1="434.0" x2="416.3" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="432.5" y1="434.0" x2="432.5" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="448.8" y1="434.0" x2="448.8" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="465.1" y1="434.0" x2="465.1" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="481.3" y1="434.0" x2="481.3" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="497.6" y1="434.0" x2="497.6" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="556.2" y1="434.0" x2="556.2" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="762.5" y1="434.0" x2="762.5" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="968.9" y1="434.0" x2="968.9" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="1175.2" y1="434.0" x2="1175.2" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="1287.3" y1="434.0" x2="1287.3" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="1305.0" y1="434.0" x2="1305.0" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="1322.8" y1="434.0" x2="1322.8" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="1340.5" y1="434.0" x2="1340.5" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<line x1="1358.3" y1="434.0" x2="1358.3" y2="468.0" stroke="#FFFFFF" stroke-width="1"/>
+<rect x="400.0" y="434.0" width="976.0" height="34.0" fill="none" stroke="#00000033" stroke-width="1"/>
+<line x1="440.7" y1="400.0" x2="440.7" y2="818.0" stroke="#525A62" stroke-width="1.2"/>
+<line x1="1171.8" y1="400.0" x2="1171.8" y2="818.0" stroke="#1C2126" stroke-width="1.4"/>
+<line x1="1068.6" y1="400.0" x2="1068.6" y2="818.0" stroke="#1C2126" stroke-width="1.4" stroke-dasharray="5 4"/>
+<text x="444.7" y="382.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">soloppgang 08:30</text>
+<text x="1064.6" y="382.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" font-weight="700" text-anchor="end" style="font-variant-numeric: tabular-nums">mørkegrense 15:29</text>
+<path d="M1178.7,380.8 A5.0,5.0 0 0 1 1188.8,380.8" fill="none" stroke="#1C2126" stroke-width="1.6"/>
+<line x1="1176.8" y1="380.8" x2="1190.8" y2="380.8" stroke="#1C2126" stroke-width="1.6"/>
+<line x1="1183.8" y1="371.8" x2="1183.8" y2="374.3" stroke="#1C2126" stroke-width="1.4"/>
+<line x1="1175.7" y1="376.8" x2="1177.7" y2="378.3" stroke="#1C2126" stroke-width="1.4"/>
+<line x1="1191.8" y1="376.8" x2="1189.8" y2="378.3" stroke="#1C2126" stroke-width="1.4"/>
+<text x="1194.8" y="382.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">solnedgang 15:59</text>
+<line x1="400.0" y1="426.0" x2="400.0" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="416.3" y1="426.0" x2="416.3" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="432.5" y1="426.0" x2="432.5" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="448.8" y1="426.0" x2="448.8" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="465.1" y1="426.0" x2="465.1" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="481.3" y1="426.0" x2="481.3" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="497.6" y1="426.0" x2="497.6" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="556.2" y1="426.0" x2="556.2" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="762.5" y1="426.0" x2="762.5" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="968.9" y1="426.0" x2="968.9" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="1175.2" y1="426.0" x2="1175.2" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="1287.3" y1="426.0" x2="1287.3" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="1305.0" y1="426.0" x2="1305.0" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="1322.8" y1="426.0" x2="1322.8" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="1340.5" y1="426.0" x2="1340.5" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="1358.3" y1="426.0" x2="1358.3" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="1376.0" y1="426.0" x2="1376.0" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="659.3" y1="429.0" x2="659.3" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="865.7" y1="429.0" x2="865.7" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="1072.0" y1="429.0" x2="1072.0" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<line x1="1278.4" y1="429.0" x2="1278.4" y2="432.0" stroke="#525A62" stroke-width="1"/>
+<rect x="397.0" y="408.0" width="19.4" height="16.0" fill="#F5F4F0"/>
+<text x="400.0" y="420.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">06</text>
+<rect x="439.1" y="408.0" width="19.4" height="16.0" fill="#F5F4F0"/>
+<text x="448.8" y="420.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="middle" style="font-variant-numeric: tabular-nums">09</text>
+<rect x="487.9" y="408.0" width="19.4" height="16.0" fill="#F5F4F0"/>
+<text x="497.6" y="420.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="middle" style="font-variant-numeric: tabular-nums">12</text>
+<rect x="538.0" y="408.0" width="36.2" height="16.0" fill="#F5F4F0"/>
+<text x="556.2" y="420.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="middle" style="font-variant-numeric: tabular-nums">13:00</text>
+<rect x="744.4" y="408.0" width="36.2" height="16.0" fill="#F5F4F0"/>
+<text x="762.5" y="420.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="middle" style="font-variant-numeric: tabular-nums">14:00</text>
+<rect x="950.7" y="408.0" width="36.2" height="16.0" fill="#F5F4F0"/>
+<text x="968.9" y="420.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="middle" style="font-variant-numeric: tabular-nums">15:00</text>
+<rect x="1157.1" y="408.0" width="36.2" height="16.0" fill="#F5F4F0"/>
+<text x="1175.2" y="420.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="middle" style="font-variant-numeric: tabular-nums">16:00</text>
+<rect x="1295.3" y="408.0" width="19.4" height="16.0" fill="#F5F4F0"/>
+<text x="1305.0" y="420.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="middle" style="font-variant-numeric: tabular-nums">18</text>
+<rect x="1359.6" y="408.0" width="19.4" height="16.0" fill="#F5F4F0"/>
+<text x="1376.0" y="420.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="end" style="font-variant-numeric: tabular-nums">22</text>
+<line x1="400.0" y1="434.0" x2="1376.0" y2="434.0" stroke="#525A62" stroke-width="1"/>
+<text x="70.0" y="512.0" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="24" fill="#1C2126" font-weight="700">1</text>
+<text x="98.0" y="508.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Tusenårsvarden fra Damefallet</text>
+<text x="98.0" y="528.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#525A62" style="font-variant-numeric: tabular-nums">Middels · 5,0 km · 318 høydemeter · 527 moh</text>
+<rect x="98.0" y="538.0" width="81.3" height="24.0" fill="#1C2126" rx="12.0"/>
+<path d="M107.0,553.9 L111.2,546.1 L113.8,550.0 L115.2,548.0 L118.0,553.9 Z" fill="#FFFFFF"/>
+<text x="123.0" y="554.3" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#FFFFFF" font-weight="700" style="font-variant-numeric: tabular-nums">utsikt</text>
+<path d="M162.3,550.5 L165.7,553.6 L171.3,546.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="1" stroke-linecap="round"/>
+<path d="M189.3,548.4 q1.4,-2.0 2.8,0 t2.8,0 t2.8,0 t2.8,0" fill="none" stroke="#525A62" stroke-width="1.6"/>
+<path d="M189.3,552.4 q1.4,-2.0 2.8,0 t2.8,0 t2.8,0 t2.8,0" fill="none" stroke="#525A62" stroke-width="1.6"/>
+<text x="205.3" y="554.3" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">vann (ikke valgt)</text>
+<rect x="659.3" y="494.0" width="316.4" height="26.0" fill="#1F5F63" rx="2"/>
+<text x="667.3" y="511.7" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#FFFFFF" font-weight="700" style="font-variant-numeric: tabular-nums">1 t 32 min, uten pauser</text>
+<line x1="975.7" y1="534.0" x2="1068.6" y2="534.0" stroke="#525A62" stroke-width="1.2"/>
+<line x1="975.7" y1="530.0" x2="975.7" y2="538.0" stroke="#525A62" stroke-width="1.2"/>
+<line x1="1068.6" y1="530.0" x2="1068.6" y2="538.0" stroke="#525A62" stroke-width="1.2"/>
+<rect x="1071.6" y="525.0" width="142.6" height="17.0" fill="#F5F4F0" rx="2" fill-opacity="0.9"/>
+<text x="1074.6" y="538.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">27 min før mørkegrensen</text>
+<text x="98.0" y="580.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1F5F63" text-decoration="underline" style="font-variant-numeric: tabular-nums">Kilde: morotur.no</text>
+<text x="70.0" y="624.0" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="24" fill="#1C2126" font-weight="700">2</text>
+<text x="98.0" y="620.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Storlihytta fra Romsdalsmuseet</text>
+<text x="98.0" y="640.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#525A62" style="font-variant-numeric: tabular-nums">Enkel · 3,46 km · 209 høydemeter · 270 moh</text>
+<rect x="98.0" y="650.0" width="81.3" height="24.0" fill="#1C2126" rx="12.0"/>
+<path d="M107.0,665.9 L111.2,658.1 L113.8,662.0 L115.2,660.0 L118.0,665.9 Z" fill="#FFFFFF"/>
+<text x="123.0" y="666.3" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#FFFFFF" font-weight="700" style="font-variant-numeric: tabular-nums">utsikt</text>
+<path d="M162.3,662.5 L165.7,665.6 L171.3,658.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="1" stroke-linecap="round"/>
+<rect x="659.3" y="606.0" width="213.2" height="26.0" fill="#1F5F63" rx="2"/>
+<text x="667.3" y="623.7" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#FFFFFF" font-weight="700" style="font-variant-numeric: tabular-nums">1 t 2 min, uten pauser</text>
+<line x1="872.6" y1="646.0" x2="1068.6" y2="646.0" stroke="#525A62" stroke-width="1.2"/>
+<line x1="872.6" y1="642.0" x2="872.6" y2="650.0" stroke="#525A62" stroke-width="1.2"/>
+<line x1="1068.6" y1="642.0" x2="1068.6" y2="650.0" stroke="#525A62" stroke-width="1.2"/>
+<rect x="1071.6" y="637.0" width="142.6" height="17.0" fill="#F5F4F0" rx="2" fill-opacity="0.9"/>
+<text x="1074.6" y="650.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">57 min før mørkegrensen</text>
+<text x="98.0" y="692.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1F5F63" text-decoration="underline" style="font-variant-numeric: tabular-nums">Kilde: morotur.no</text>
+<line x1="64.0" y1="700.0" x2="1376.0" y2="700.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="70.0" y="736.0" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="24" fill="#1C2126" font-weight="700">3</text>
+<text x="98.0" y="732.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Skihytta fra Damefallet</text>
+<text x="98.0" y="752.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#525A62" style="font-variant-numeric: tabular-nums">Enkel · 3,06 km · 169 høydemeter · 391 moh</text>
+<rect x="98.0" y="762.0" width="81.3" height="24.0" fill="#1C2126" rx="12.0"/>
+<path d="M107.0,777.9 L111.2,770.1 L113.8,774.0 L115.2,772.0 L118.0,777.9 Z" fill="#FFFFFF"/>
+<text x="123.0" y="778.3" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#FFFFFF" font-weight="700" style="font-variant-numeric: tabular-nums">utsikt</text>
+<path d="M162.3,774.5 L165.7,777.6 L171.3,770.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="1" stroke-linecap="round"/>
+<rect x="659.3" y="718.0" width="185.7" height="26.0" fill="#1F5F63" rx="2"/>
+<text x="667.3" y="735.7" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#FFFFFF" font-weight="700" style="font-variant-numeric: tabular-nums">54 min, uten pauser</text>
+<line x1="845.1" y1="758.0" x2="1068.6" y2="758.0" stroke="#525A62" stroke-width="1.2"/>
+<line x1="845.1" y1="754.0" x2="845.1" y2="762.0" stroke="#525A62" stroke-width="1.2"/>
+<line x1="1068.6" y1="754.0" x2="1068.6" y2="762.0" stroke="#525A62" stroke-width="1.2"/>
+<rect x="1071.6" y="749.0" width="152.7" height="17.0" fill="#F5F4F0" rx="2" fill-opacity="0.9"/>
+<text x="1074.6" y="762.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">1 t 5 min før mørkegrensen</text>
+<text x="98.0" y="804.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1F5F63" text-decoration="underline" style="font-variant-numeric: tabular-nums">Kilde: morotur.no</text>
+<rect x="659.3" y="430.0" width="412.7" height="388.0" fill="none" stroke="#1C2126" stroke-width="2"/>
+<rect x="659.3" y="818.0" width="143.8" height="22.0" fill="#1C2126"/>
+<text x="665.3" y="833.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#FFFFFF" font-weight="700" style="font-variant-numeric: tabular-nums">Tidsvindu 13:30–15:30</text>
+<line x1="1068.6" y1="468.0" x2="1068.6" y2="818.0" stroke="#1C2126" stroke-width="1.4" stroke-dasharray="5 4"/>
+<rect x="439.6" y="442.0" width="34.6" height="18.0" fill="#FFFFFF" rx="9" fill-opacity="0.92"/>
+<text x="456.9" y="455.3" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" font-weight="700" text-anchor="middle" style="font-variant-numeric: tabular-nums">god</text>
+<rect x="786.7" y="442.0" width="158.0" height="18.0" fill="#FFFFFF" rx="9" fill-opacity="0.92"/>
+<text x="865.7" y="455.3" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" font-weight="700" text-anchor="middle" style="font-variant-numeric: tabular-nums">god i timene 13, 14 og 15</text>
+<rect x="1316.1" y="442.0" width="34.6" height="18.0" fill="#FFFFFF" rx="9" fill-opacity="0.92"/>
+<text x="1333.4" y="455.3" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" font-weight="700" text-anchor="middle" style="font-variant-numeric: tabular-nums">god</text>
+<rect x="978.7" y="498.0" width="81.3" height="19.0" fill="#E8F0EE" rx="2"/>
+<text x="981.7" y="512.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">ender 15:02</text>
+<rect x="400.0" y="555.0" width="490.8" height="25.0" fill="#F3F7F6" rx="2"/>
+<text x="408.0" y="572.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Begrunnelse: </text>
+<text x="495.4" y="572.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" style="font-variant-numeric: tabular-nums">passer tiden din (1 t 32 min av 2 t), oppholdsvær og lite vind, utsikt</text>
+<rect x="875.6" y="610.0" width="81.3" height="19.0" fill="#F5F4F0" rx="2"/>
+<text x="878.6" y="624.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">ender 14:32</text>
+<rect x="400.0" y="667.0" width="483.6" height="25.0" fill="#F5F4F0" rx="2"/>
+<text x="408.0" y="684.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Begrunnelse: </text>
+<text x="495.4" y="684.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" style="font-variant-numeric: tabular-nums">passer tiden din (1 t 2 min av 2 t), oppholdsvær og lite vind, utsikt</text>
+<rect x="848.1" y="722.0" width="81.3" height="19.0" fill="#F5F4F0" rx="2"/>
+<text x="851.1" y="736.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">ender 14:24</text>
+<rect x="400.0" y="779.0" width="472.6" height="25.0" fill="#F5F4F0" rx="2"/>
+<text x="408.0" y="796.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Begrunnelse: </text>
+<text x="495.4" y="796.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" style="font-variant-numeric: tabular-nums">passer tiden din (54 min av 2 t), oppholdsvær og lite vind, utsikt</text>
+<text x="64.0" y="872.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" font-weight="700" style="font-variant-numeric: tabular-nums">Slik leser du tidslinja</text>
+<rect x="224.0" y="862.0" width="34.0" height="12.0" fill="#1F5F63" rx="2"/>
+<text x="266.0" y="872.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">Turtid, gangtid uten pauser</text>
+<rect x="432.2" y="859.0" width="30.0" height="18.0" fill="none" stroke="#1C2126" stroke-width="2"/>
+<text x="470.2" y="872.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">Tidsvindu</text>
+<line x1="554.0" y1="858.0" x2="554.0" y2="878.0" stroke="#1C2126" stroke-width="1.4" stroke-dasharray="5 4"/>
+<text x="564.0" y="872.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">mørkegrense, 30 min før solnedgang</text>
+<rect x="782.6" y="860.0" width="24.0" height="16.0" fill="#E1E4EA"/>
+<text x="814.6" y="872.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">mørkt</text>
+<rect x="867.3" y="861.0" width="22.0" height="14.0" fill="#CFE5D7" rx="2"/>
+<rect x="867.3" y="861.0" width="22.0" height="14.0" fill="none" rx="2" stroke="#00000030" stroke-width="1"/>
+<text x="895.3" y="872.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">god</text>
+<rect x="928.7" y="861.0" width="22.0" height="14.0" fill="#EAD48C" rx="2"/>
+<rect x="928.7" y="861.0" width="22.0" height="14.0" fill="none" rx="2" stroke="#00000030" stroke-width="1"/>
+<text x="956.7" y="872.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">middels</text>
+<rect x="1013.4" y="861.0" width="22.0" height="14.0" fill="url(#hatchD)" rx="2"/>
+<rect x="1013.4" y="861.0" width="22.0" height="14.0" fill="none" rx="2" stroke="#00000030" stroke-width="1"/>
+<text x="1041.4" y="872.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">dårlig</text>
+<rect x="1085.9" y="861.0" width="22.0" height="14.0" fill="url(#hatchF)" rx="2"/>
+<rect x="1085.9" y="861.0" width="22.0" height="14.0" fill="none" rx="2" stroke="#00000030" stroke-width="1"/>
+<text x="1113.9" y="872.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">frarådet</text>
+<rect x="64.0" y="902.0" width="3.0" height="21.0" fill="#525A62"/>
+<text x="78.0" y="915.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" style="font-variant-numeric: tabular-nums">Du har selv ansvaret for å vurdere forholdene. Værvurderingen er veiledende og vurderer ikke føre (snø, is, gjørme). Følg MET sine farevarsler.</text>
+<line x1="64.0" y1="961.0" x2="1376.0" y2="961.0" stroke="#D3D0C8" stroke-width="1"/>
+<text x="64.0" y="993.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" font-weight="700" letter-spacing="1.2" style="font-variant-numeric: tabular-nums">TURFORSLAG 1 · VALGT I LISTEN OG PÅ KARTET</text>
+<text x="64.0" y="1029.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="30" fill="#1C2126" font-weight="700" letter-spacing="-0.4" style="font-variant-numeric: tabular-nums">Tusenårsvarden fra Damefallet</text>
+<text x="64.0" y="1055.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#1C2126" style="font-variant-numeric: tabular-nums">Startpunkt: Parkering ved Damefallet, Vardeveien</text>
+<text x="64.0" y="1089.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#525A62" font-weight="700" style="font-variant-numeric: tabular-nums">Begrunnelse</text>
+<text x="64.0" y="1117.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="24" fill="#1C2126" style="font-variant-numeric: tabular-nums">passer tiden din (1 t 32 min av 2 t),</text>
+<text x="64.0" y="1147.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="24" fill="#1C2126" style="font-variant-numeric: tabular-nums">oppholdsvær og lite vind, utsikt</text>
+<text x="64.0" y="1189.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#525A62" font-weight="700" style="font-variant-numeric: tabular-nums">Etterprøv Begrunnelsen, ledd for ledd</text>
+<line x1="64.0" y1="1201.0" x2="760.0" y2="1201.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="64.0" y="1225.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">«passer tiden din»</text>
+<rect x="294.0" y="1213.0" width="288.9" height="18.0" fill="#FFFFFF" stroke="#1C2126" stroke-width="1.5"/>
+<rect x="294.0" y="1213.0" width="221.5" height="18.0" fill="#1F5F63"/>
+<text x="592.9" y="1227.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">1 t 32 min av 2 t</text>
+<text x="294.0" y="1249.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#525A62" style="font-variant-numeric: tabular-nums">gangtid uten pauser · 28 min igjen av Tidsvinduet</text>
+<line x1="64.0" y1="1263.0" x2="760.0" y2="1263.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="64.0" y="1287.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">«oppholdsvær og lite vind»</text>
+<rect x="294.0" y="1273.0" width="58.0" height="22.0" fill="#CFE5D7" rx="2"/>
+<rect x="294.0" y="1273.0" width="58.0" height="22.0" fill="none" rx="2" stroke="#00000030" stroke-width="1"/>
+<rect x="300.0" y="1277.0" width="37.2" height="14.0" fill="#FFFFFF" rx="2" fill-opacity="0.9"/>
+<text x="304.0" y="1288.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">kl. 13</text>
+<rect x="356.0" y="1273.0" width="58.0" height="22.0" fill="#CFE5D7" rx="2"/>
+<rect x="356.0" y="1273.0" width="58.0" height="22.0" fill="none" rx="2" stroke="#00000030" stroke-width="1"/>
+<rect x="362.0" y="1277.0" width="37.2" height="14.0" fill="#FFFFFF" rx="2" fill-opacity="0.9"/>
+<text x="366.0" y="1288.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">kl. 14</text>
+<rect x="418.0" y="1273.0" width="58.0" height="22.0" fill="#CFE5D7" rx="2"/>
+<rect x="418.0" y="1273.0" width="58.0" height="22.0" fill="none" rx="2" stroke="#00000030" stroke-width="1"/>
+<rect x="424.0" y="1277.0" width="37.2" height="14.0" fill="#FFFFFF" rx="2" fill-opacity="0.9"/>
+<text x="428.0" y="1288.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">kl. 15</text>
+<text x="488.0" y="1289.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Værklasse god</text>
+<text x="294.0" y="1313.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#525A62" style="font-variant-numeric: tabular-nums">0 mm nedbør · vind opptil 4 m/s · 3–5 °C · den dårligste timen avgjør</text>
+<line x1="64.0" y1="1325.0" x2="760.0" y2="1325.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="64.0" y="1349.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">«utsikt»</text>
+<rect x="294.0" y="1334.0" width="81.3" height="24.0" fill="#1C2126" rx="12.0"/>
+<path d="M303.0,1349.8 L307.2,1342.2 L309.8,1346.0 L311.2,1344.0 L314.0,1349.8 Z" fill="#FFFFFF"/>
+<text x="319.0" y="1350.3" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#FFFFFF" font-weight="700" style="font-variant-numeric: tabular-nums">utsikt</text>
+<path d="M358.3,1346.5 L361.7,1349.6 L367.3,1342.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="1" stroke-linecap="round"/>
+<path d="M385.3,1344.3 q1.4,-2.0 2.8,0 t2.8,0 t2.8,0 t2.8,0" fill="none" stroke="#525A62" stroke-width="1.6"/>
+<path d="M385.3,1348.4 q1.4,-2.0 2.8,0 t2.8,0 t2.8,0 t2.8,0" fill="none" stroke="#525A62" stroke-width="1.6"/>
+<text x="401.3" y="1350.3" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">vann (ikke valgt)</text>
+<text x="294.0" y="1375.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#525A62" style="font-variant-numeric: tabular-nums">utsikt treffer preferansen din. Turen har også vann, som du ikke valgte.</text>
+<line x1="64.0" y1="1387.0" x2="760.0" y2="1387.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="64.0" y="1411.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" fill="#525A62" font-weight="700" style="font-variant-numeric: tabular-nums">Før mørket</text>
+<rect x="441.6" y="1397.0" width="77.7" height="22.0" fill="url(#twi)"/>
+<rect x="519.2" y="1397.0" width="31.1" height="22.0" fill="#E1E4EA"/>
+<rect x="294.0" y="1401.0" width="77.7" height="14.0" fill="#1F5F63"/>
+<line x1="441.6" y1="1393.0" x2="441.6" y2="1423.0" stroke="#1C2126" stroke-width="1.4" stroke-dasharray="4 3"/>
+<line x1="519.2" y1="1393.0" x2="519.2" y2="1423.0" stroke="#1C2126" stroke-width="1.4"/>
+<text x="371.7" y="1435.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1C2126" font-weight="700" text-anchor="middle" style="font-variant-numeric: tabular-nums">ender 15:02</text>
+<text x="438.6" y="1435.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" text-anchor="end" style="font-variant-numeric: tabular-nums">15:29</text>
+<text x="522.2" y="1435.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" style="font-variant-numeric: tabular-nums">15:59</text>
+<text x="564.3" y="1413.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">Ingen Mørkevarsel</text>
+<text x="564.3" y="1431.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">27 min før mørkegrensen</text>
+<line x1="64.0" y1="1449.0" x2="760.0" y2="1449.0" stroke="#E4E1DA" stroke-width="1"/>
+<text x="64.0" y="1483.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Lengde totalt</text>
+<text x="64.0" y="1507.0" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="18" fill="#1C2126" font-weight="700">5,0 km</text>
+<text x="198.0" y="1483.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Høydemeter</text>
+<text x="198.0" y="1507.0" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="18" fill="#1C2126" font-weight="700">318 m</text>
+<text x="332.0" y="1483.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Høyeste punkt</text>
+<text x="332.0" y="1507.0" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="18" fill="#1C2126" font-weight="700">527 moh</text>
+<text x="466.0" y="1483.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Vanskelighetsgrad</text>
+<text x="466.0" y="1507.0" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="18" fill="#1C2126" font-weight="700">Middels</text>
+<text x="600.0" y="1483.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Turtid</text>
+<text x="600.0" y="1507.0" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="18" fill="#1C2126" font-weight="700">1 t 32 min</text>
+<text x="600.0" y="1529.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">uten pauser</text>
+<text x="64.0" y="1545.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" fill="#1F5F63" text-decoration="underline" style="font-variant-numeric: tabular-nums">Kilde: morotur.no</text>
+<text x="800.0" y="993.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" font-weight="700" letter-spacing="1.2" style="font-variant-numeric: tabular-nums">KART</text>
+<text x="848.0" y="993.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Trykk på et nummer for å velge Turforslaget i listen.</text>
+<clipPath id="mc8001007"><rect x="800" y="1007" width="576" height="600"/></clipPath>
+<g clip-path="url(#mc8001007)">
+<rect x="800.0" y="1007.0" width="576.0" height="600.0" fill="#FBFAF6"/>
+<path d="M1096.2,1133.0 L1095.6,1126.9 L1094.7,1120.9 L1093.1,1114.9 L1090.5,1109.4 L1086.7,1104.9 L1081.7,1101.7 L1076.1,1100.1 L1070.6,1099.5 L1065.7,1099.2 L1061.4,1098.1 L1057.2,1095.6 L1052.7,1092.0 L1047.2,1088.2 L1040.9,1085.6 L1034.3,1085.3 L1028.4,1087.7 L1023.9,1092.5 L1021.0,1098.8 L1019.4,1105.5 L1018.5,1111.7 L1017.6,1117.3 L1016.5,1122.5 L1015.3,1127.7 L1014.5,1133.0 L1014.5,1138.4 L1015.7,1143.7 L1017.5,1148.7 L1019.7,1153.5 L1021.8,1158.5 L1023.9,1164.1 L1026.3,1170.0 L1029.7,1175.9 L1034.4,1180.7 L1040.2,1183.3 L1046.6,1183.1 L1052.7,1180.2 L1057.9,1175.7 L1062.1,1170.8 L1065.6,1166.7 L1069.3,1164.1 L1073.7,1162.5 L1078.8,1161.2 L1084.3,1159.2 L1089.3,1155.8 L1093.2,1151.1 L1095.5,1145.4 L1096.3,1139.2 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M1139.8,1133.0 L1138.6,1120.8 L1136.6,1108.7 L1133.5,1096.9 L1128.4,1085.9 L1120.7,1076.7 L1110.7,1070.4 L1099.5,1067.1 L1088.5,1066.1 L1078.6,1065.4 L1070.0,1063.2 L1061.8,1058.3 L1052.7,1051.0 L1041.8,1043.5 L1029.1,1038.2 L1016.0,1037.5 L1004.2,1042.4 L995.1,1052.0 L989.3,1064.6 L986.2,1077.9 L984.3,1090.5 L982.6,1101.7 L980.3,1112.1 L977.8,1122.4 L976.2,1133.0 L976.4,1143.8 L978.6,1154.4 L982.4,1164.4 L986.7,1174.1 L990.9,1184.1 L995.1,1195.1 L1000.0,1207.1 L1006.7,1218.9 L1016.0,1228.4 L1027.7,1233.6 L1040.5,1233.1 L1052.7,1227.4 L1063.1,1218.4 L1071.5,1208.6 L1078.6,1200.5 L1085.9,1195.1 L1094.6,1192.0 L1104.9,1189.4 L1115.9,1185.3 L1126.0,1178.7 L1133.7,1169.2 L1138.3,1157.7 L1140.0,1145.4 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M1183.4,1133.0 L1181.5,1114.7 L1178.6,1096.6 L1173.9,1078.8 L1166.2,1062.3 L1154.7,1048.6 L1139.8,1039.1 L1123.0,1034.2 L1106.4,1032.6 L1091.6,1031.6 L1078.7,1028.3 L1066.4,1020.9 L1052.7,1010.1 L1036.3,998.7 L1017.4,990.8 L997.7,989.8 L979.9,997.1 L966.3,1011.6 L957.6,1030.4 L952.9,1050.4 L950.2,1069.2 L947.5,1086.0 L944.1,1101.6 L940.4,1117.1 L938.0,1133.0 L938.3,1149.2 L941.6,1165.1 L947.2,1180.1 L953.7,1194.6 L960.1,1209.6 L966.3,1226.2 L973.6,1244.1 L983.7,1261.8 L997.7,1276.1 L1015.2,1283.9 L1034.3,1283.2 L1052.7,1274.7 L1068.3,1261.1 L1080.9,1246.4 L1091.6,1234.2 L1102.6,1226.2 L1115.6,1221.5 L1131.1,1217.5 L1147.5,1211.5 L1162.7,1201.5 L1174.2,1187.3 L1181.0,1170.1 L1183.6,1151.6 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M1233.1,1133.0 L1230.6,1107.7 L1226.6,1082.7 L1220.1,1058.2 L1209.5,1035.4 L1193.6,1016.4 L1172.9,1003.3 L1149.7,996.6 L1126.9,994.4 L1106.4,993.0 L1088.6,988.4 L1071.6,978.2 L1052.7,963.2 L1030.0,947.6 L1003.9,936.7 L976.7,935.2 L952.2,945.3 L933.4,965.3 L921.4,991.4 L914.9,1019.0 L911.1,1044.9 L907.5,1068.1 L902.7,1089.7 L897.6,1111.0 L894.3,1133.0 L894.7,1155.4 L899.3,1177.3 L907.1,1198.0 L916.0,1218.1 L924.8,1238.8 L933.4,1261.7 L943.5,1286.5 L957.5,1310.8 L976.8,1330.6 L1000.9,1341.3 L1027.4,1340.4 L1052.7,1328.6 L1074.3,1309.8 L1091.6,1289.6 L1106.4,1272.8 L1121.6,1261.7 L1139.6,1255.2 L1160.9,1249.8 L1183.7,1241.4 L1204.6,1227.6 L1220.5,1208.0 L1229.9,1184.2 L1233.5,1158.7 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M1289.1,1133.0 L1285.8,1099.9 L1280.6,1067.1 L1272.0,1035.0 L1258.1,1005.1 L1237.3,980.2 L1210.3,963.1 L1179.9,954.2 L1149.9,951.4 L1123.1,949.6 L1099.8,943.5 L1077.4,930.1 L1052.7,910.6 L1023.0,890.0 L988.8,875.7 L953.2,873.9 L921.0,887.0 L896.3,913.3 L880.6,947.4 L872.1,983.6 L867.2,1017.5 L862.4,1048.0 L856.1,1076.2 L849.5,1104.2 L845.2,1133.0 L845.7,1162.4 L851.7,1191.1 L861.9,1218.2 L873.6,1244.5 L885.1,1271.7 L896.3,1301.6 L909.6,1334.1 L927.9,1366.0 L953.2,1391.9 L984.9,1406.0 L1019.5,1404.8 L1052.7,1389.4 L1081.0,1364.7 L1103.7,1338.2 L1123.0,1316.2 L1143.0,1301.7 L1166.6,1293.1 L1194.5,1286.0 L1224.3,1275.0 L1251.7,1256.9 L1272.5,1231.2 L1285.0,1200.1 L1289.7,1166.6 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M1351.4,1133.0 L1347.2,1091.2 L1340.5,1049.8 L1329.8,1009.2 L1312.2,971.4 L1285.9,940.0 L1251.7,918.3 L1213.3,907.2 L1175.5,903.6 L1141.7,901.3 L1112.2,893.6 L1084.0,876.7 L1052.7,852.0 L1015.2,826.1 L971.9,808.0 L927.0,805.7 L886.3,822.3 L855.2,855.4 L835.3,898.6 L824.6,944.3 L818.4,987.1 L812.3,1025.6 L804.4,1061.3 L796.0,1096.6 L790.6,1133.0 L791.2,1170.1 L798.8,1206.4 L811.7,1240.7 L826.5,1273.8 L841.0,1308.2 L855.2,1346.0 L871.9,1387.0 L895.1,1427.4 L927.1,1460.1 L967.0,1477.8 L1010.8,1476.3 L1052.7,1456.8 L1088.4,1425.7 L1117.1,1392.2 L1141.6,1364.4 L1166.7,1346.0 L1196.6,1335.2 L1231.9,1326.2 L1269.5,1312.4 L1304.1,1289.5 L1330.4,1257.1 L1346.1,1217.8 L1352.0,1175.5 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M906.5,1289.0 L906.2,1283.0 L904.6,1277.3 L902.4,1272.1 L899.9,1267.1 L897.1,1262.4 L893.9,1258.1 L890.2,1254.6 L885.8,1252.4 L881.0,1251.7 L876.2,1252.3 L871.9,1253.6 L867.9,1254.5 L864.1,1254.4 L859.8,1253.2 L854.8,1251.5 L849.2,1250.5 L843.4,1251.1 L838.4,1254.0 L835.0,1259.0 L833.4,1265.4 L833.5,1272.1 L834.5,1278.4 L835.6,1284.0 L836.4,1289.0 L836.7,1293.9 L836.9,1298.9 L837.6,1303.9 L839.2,1308.7 L841.5,1313.1 L844.4,1316.9 L847.5,1320.6 L850.7,1324.4 L854.1,1328.5 L858.1,1332.6 L862.7,1336.0 L867.9,1337.6 L873.2,1336.9 L878.0,1333.5 L881.7,1328.4 L884.2,1322.5 L886.1,1317.1 L888.0,1312.8 L890.6,1309.6 L894.1,1306.9 L898.2,1303.9 L902.2,1299.9 L905.1,1294.8 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M951.4,1289.0 L950.8,1276.1 L947.5,1263.7 L942.6,1252.3 L937.1,1241.6 L931.2,1231.4 L924.3,1222.1 L916.1,1214.5 L906.5,1209.6 L896.2,1208.1 L885.9,1209.5 L876.4,1212.2 L867.9,1214.2 L859.6,1214.0 L850.4,1211.5 L839.6,1207.8 L827.3,1205.5 L814.8,1206.9 L804.0,1213.2 L796.5,1224.0 L793.2,1237.8 L793.3,1252.3 L795.5,1266.0 L797.9,1278.1 L799.5,1289.0 L800.2,1299.6 L800.8,1310.3 L802.3,1321.2 L805.6,1331.7 L810.7,1341.1 L816.9,1349.5 L823.7,1357.4 L830.6,1365.7 L838.0,1374.6 L846.6,1383.5 L856.6,1390.8 L867.9,1394.4 L879.4,1392.7 L889.7,1385.5 L897.7,1374.3 L903.2,1361.6 L907.3,1349.8 L911.4,1340.6 L917.0,1333.7 L924.7,1327.9 L933.6,1321.3 L942.2,1312.6 L948.5,1301.6 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M996.4,1289.0 L995.4,1269.1 L990.3,1250.1 L982.9,1232.5 L974.4,1216.1 L965.2,1200.5 L954.7,1186.1 L942.1,1174.4 L927.3,1166.9 L911.4,1164.6 L895.6,1166.7 L881.0,1170.8 L867.9,1174.0 L855.1,1173.7 L841.0,1169.7 L824.3,1164.1 L805.4,1160.6 L786.2,1162.7 L769.6,1172.3 L758.1,1189.0 L752.9,1210.2 L753.1,1232.6 L756.5,1253.6 L760.2,1272.2 L762.7,1289.0 L763.8,1305.3 L764.6,1321.8 L767.0,1338.6 L772.0,1354.7 L779.8,1369.2 L789.4,1382.1 L799.8,1394.3 L810.5,1407.0 L821.9,1420.7 L835.1,1434.4 L850.5,1445.7 L867.9,1451.2 L885.6,1448.5 L901.5,1437.5 L913.7,1420.2 L922.3,1400.7 L928.5,1382.6 L934.8,1368.3 L943.5,1357.8 L955.3,1348.8 L969.0,1338.7 L982.2,1325.3 L991.9,1308.4 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M1225.6,1055.0 L1225.5,1047.8 L1223.6,1040.9 L1219.8,1035.0 L1214.4,1030.4 L1208.4,1027.3 L1202.7,1025.1 L1198.0,1022.6 L1194.3,1018.9 L1190.8,1013.7 L1186.8,1007.5 L1181.5,1001.5 L1174.9,997.4 L1167.8,996.2 L1160.8,998.2 L1154.9,1002.8 L1150.2,1008.8 L1146.5,1015.1 L1143.3,1020.9 L1140.1,1026.2 L1137.0,1031.4 L1134.3,1036.8 L1132.4,1042.7 L1131.8,1048.9 L1132.1,1055.0 L1132.8,1061.0 L1133.4,1067.0 L1133.5,1073.5 L1133.5,1080.8 L1134.2,1088.7 L1136.6,1096.4 L1141.1,1102.6 L1147.5,1106.2 L1155.0,1106.8 L1162.6,1104.8 L1169.3,1101.5 L1174.9,1098.2 L1180.0,1096.1 L1185.0,1095.6 L1190.7,1095.9 L1197.0,1096.1 L1203.4,1095.0 L1209.4,1092.1 L1214.3,1087.5 L1217.9,1081.8 L1220.6,1075.4 L1222.7,1068.8 L1224.5,1062.0 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M1282.6,1055.0 L1282.4,1039.7 L1278.4,1025.1 L1270.3,1012.4 L1258.8,1002.8 L1246.0,996.2 L1233.9,991.4 L1223.9,986.1 L1216.0,978.3 L1208.6,967.3 L1200.0,954.0 L1188.8,941.4 L1174.9,932.6 L1159.7,930.0 L1145.0,934.3 L1132.4,944.1 L1122.4,956.9 L1114.6,970.1 L1107.7,982.5 L1100.9,993.7 L1094.3,1004.8 L1088.5,1016.4 L1084.6,1028.9 L1083.3,1042.0 L1083.9,1055.0 L1085.5,1067.7 L1086.6,1080.5 L1086.8,1094.4 L1086.8,1109.9 L1088.4,1126.6 L1093.5,1142.9 L1103.0,1156.1 L1116.7,1163.8 L1132.6,1165.1 L1148.6,1160.9 L1162.9,1153.7 L1174.9,1146.8 L1185.6,1142.4 L1196.4,1141.2 L1208.4,1142.0 L1221.7,1142.4 L1235.5,1140.1 L1248.1,1133.9 L1258.5,1124.1 L1266.3,1111.9 L1272.0,1098.3 L1276.5,1084.3 L1280.2,1069.9 Z" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M800.0,1487.0 L828.8,1475.7 L857.6,1473.0 L886.4,1480.8 L915.2,1493.4 L944.0,1501.1 L972.8,1498.1 L1001.6,1486.8 L1030.4,1475.6 L1059.2,1473.0 L1088.0,1481.1 L1116.8,1493.6 L1145.6,1501.1 L1174.4,1498.0 L1203.2,1486.5 L1232.0,1475.4 L1260.8,1473.1 L1289.6,1481.3 L1318.4,1493.8 L1347.2,1501.2 L1376.0,1497.8" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M800.0,1420.9 L828.8,1419.4 L857.6,1428.2 L886.4,1440.6 L915.2,1447.3 L944.0,1443.2 L972.8,1431.3 L1001.6,1420.8 L1030.4,1419.5 L1059.2,1428.4 L1088.0,1440.8 L1116.8,1447.3 L1145.6,1443.0 L1174.4,1431.1 L1203.2,1420.6 L1232.0,1419.5 L1260.8,1428.6 L1289.6,1441.0 L1318.4,1447.4 L1347.2,1442.8 L1376.0,1430.8" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M800.0,1359.9 L828.8,1369.6 L857.6,1381.8 L886.4,1387.4 L915.2,1382.1 L944.0,1369.9 L972.8,1360.1 L1001.6,1360.0 L1030.4,1369.8 L1059.2,1382.0 L1088.0,1387.4 L1116.8,1381.9 L1145.6,1369.7 L1174.4,1360.0 L1203.2,1360.1 L1232.0,1370.0 L1260.8,1382.2 L1289.6,1387.4 L1318.4,1381.7 L1347.2,1369.4 L1376.0,1359.9" fill="none" stroke="#D8D2C2" stroke-width="1"/>
+<path d="M800.0,1520.6 L848.9,1535.0 L897.8,1547.0 L957.6,1559.0 L1022.8,1555.4 L1088.0,1544.6 L1169.5,1532.6 L1251.0,1520.6 L1343.4,1511.0 L1414.0,1506.2 L1376,1607 L800,1607 Z" fill="#DCE7EA" stroke="#9FB6BD" stroke-width="1.2"/>
+<ellipse cx="1290.1" cy="1064.6" rx="26.0" ry="11.0" fill="#DCE7EA" stroke="#9FB6BD" stroke-width="1"/>
+<ellipse cx="1164.1" cy="1213.4" rx="9.0" ry="6.0" fill="#DCE7EA" stroke="#9FB6BD" stroke-width="1"/>
+<ellipse cx="1104.3" cy="1187.0" rx="15.0" ry="7.0" fill="#DCE7EA" stroke="#9FB6BD" stroke-width="1"/>
+<ellipse cx="1009.2" cy="1157.0" rx="6.0" ry="4.0" fill="#DCE7EA" stroke="#9FB6BD" stroke-width="1"/>
+<rect x="898.5" y="1517.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="898.5" y="1505.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="920.5" y="1517.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="920.5" y="1505.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="942.5" y="1517.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="942.5" y="1505.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="964.5" y="1517.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="964.5" y="1505.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="986.5" y="1517.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="986.5" y="1505.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="1008.5" y="1517.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="1008.5" y="1505.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="1030.5" y="1517.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<rect x="1030.5" y="1505.4" width="14.0" height="7.0" fill="#E2DED4"/>
+<path d="M989.6,1327.4 L1006.5,1277.0 L1025.5,1211.0 L1052.7,1165.4 L1045.6,1127.0" fill="none" stroke="#C9C2B2" stroke-width="1.2" stroke-dasharray="2 3"/>
+<path d="M910.3,1490.6 L930.4,1453.4 L918.5,1424.6 L897.8,1400.6 L880.4,1379.0" fill="none" stroke="#C9C2B2" stroke-width="1.2" stroke-dasharray="2 3"/>
+<path d="M989.6,1327.4 L979.3,1295.0 L963.0,1268.6 L951.1,1241.0" fill="none" stroke="#C9C2B2" stroke-width="1.2" stroke-dasharray="2 3"/>
+<path d="M1223.3,1307.0 L1218.4,1247.0 L1242.9,1187.0 L1261.9,1127.0 L1278.2,1081.4" fill="none" stroke="#C9C2B2" stroke-width="1.2" stroke-dasharray="2 3"/>
+<path d="M1223.3,1307.0 L1202.1,1277.0 L1183.1,1247.0 L1168.4,1220.6" fill="none" stroke="#C9C2B2" stroke-width="1.2" stroke-dasharray="2 3"/>
+<path d="M911.9,1352.6 L898.9,1363.4 L880.4,1379.0" fill="none" stroke="#C9C2B2" stroke-width="1.2" stroke-dasharray="2 3"/>
+<path d="M989.6,1327.4 L1006.5,1277.0 L1025.5,1211.0 L1052.7,1165.4 L1045.6,1127.0" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="1" stroke-linecap="round"/>
+<path d="M989.6,1327.4 L1006.5,1277.0 L1025.5,1211.0 L1052.7,1165.4 L1045.6,1127.0" fill="none" stroke="#1F5F63" stroke-width="3.5" stroke-dasharray="9 5" stroke-linejoin="1" stroke-linecap="round"/>
+<circle cx="1045.6" cy="1127.0" r="4" fill="#FFFFFF" stroke="#1F5F63" stroke-width="2"/>
+<path d="M910.3,1490.6 L930.4,1453.4 L918.5,1424.6 L897.8,1400.6 L880.4,1379.0" fill="none" stroke="#525A62" stroke-width="2.2" stroke-dasharray="6 4" stroke-linejoin="1" stroke-linecap="round"/>
+<circle cx="880.4" cy="1379.0" r="4" fill="#FFFFFF" stroke="#525A62" stroke-width="2"/>
+<path d="M989.6,1327.4 L979.3,1295.0 L963.0,1268.6 L951.1,1241.0" fill="none" stroke="#525A62" stroke-width="2.2" stroke-dasharray="6 4" stroke-linejoin="1" stroke-linecap="round"/>
+<circle cx="951.1" cy="1241.0" r="4" fill="#FFFFFF" stroke="#525A62" stroke-width="2"/>
+<text x="887.4" y="1373.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" font-style="italic" style="font-variant-numeric: tabular-nums">Storlihytta</text>
+<text x="958.1" y="1235.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" font-style="italic" style="font-variant-numeric: tabular-nums">Skihytta</text>
+<text x="1052.6" y="1121.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" font-style="italic" style="font-variant-numeric: tabular-nums">Tusenårsvarden</text>
+<text x="873.3" y="1283.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" font-style="italic" style="font-variant-numeric: tabular-nums">Varden</text>
+<text x="1286.1" y="1086.6" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" text-anchor="middle" font-style="italic" style="font-variant-numeric: tabular-nums">Moldevatnet</text>
+<text x="1171.1" y="1207.4" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" font-style="italic" style="font-variant-numeric: tabular-nums">Bergsvatnet</text>
+<text x="1001.1" y="1533.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#525A62" font-weight="700" style="font-variant-numeric: tabular-nums">Molde sentrum</text>
+<text x="1059.2" y="1585.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#466670" text-anchor="middle" font-style="italic" letter-spacing="2" style="font-variant-numeric: tabular-nums">Moldefjorden</text>
+<circle cx="989.6" cy="1327.4" r="12.5" fill="#FFFFFF"/>
+<circle cx="989.6" cy="1327.4" r="11" fill="#1F5F63" stroke="#1F5F63" stroke-width="1.8"/>
+<text x="989.6" y="1331.9" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="13" fill="#FFFFFF" font-weight="700" text-anchor="middle">1</text>
+<circle cx="910.3" cy="1490.6" r="12.5" fill="#FFFFFF"/>
+<circle cx="910.3" cy="1490.6" r="11" fill="#FFFFFF" stroke="#1C2126" stroke-width="1.8"/>
+<text x="910.3" y="1495.1" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="13" fill="#1C2126" font-weight="700" text-anchor="middle">2</text>
+<circle cx="1011.6" cy="1327.4" r="12.5" fill="#FFFFFF"/>
+<circle cx="1011.6" cy="1327.4" r="11" fill="#FFFFFF" stroke="#1C2126" stroke-width="1.8"/>
+<text x="1011.6" y="1331.9" font-family="'DIN Alternate', 'Helvetica Neue', Helvetica, sans-serif" font-size="13" fill="#1C2126" font-weight="700" text-anchor="middle">3</text>
+<rect x="913.5" y="1202.0" width="100.0" height="18.0" fill="#FFFFFF" rx="2" fill-opacity="0.92"/>
+<text x="918.5" y="1215.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1F5F63" font-weight="700" style="font-variant-numeric: tabular-nums">omtrentlig rute</text>
+</g>
+<rect x="800.0" y="1007.0" width="576.0" height="600.0" fill="none" stroke="#D3D0C8" stroke-width="1"/>
+<path d="M1352,1045 L1358,1027 L1364,1045 L1358,1040 Z" fill="#1C2126"/>
+<text x="1358.0" y="1059.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" fill="#1C2126" font-weight="700" text-anchor="middle" style="font-variant-numeric: tabular-nums">N</text>
+<rect x="812.0" y="1577.0" width="106.5" height="4.0" fill="#1C2126"/>
+<text x="812.0" y="1571.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" fill="#1C2126" style="font-variant-numeric: tabular-nums">1 km</text>
+<text x="1368.0" y="1597.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10" fill="#1C2126" text-anchor="end" style="font-variant-numeric: tabular-nums">Bakgrunnskart: © Kartverket</text>
+<rect x="1009.6" y="1349.4" width="260.6" height="70.0" fill="#FFFFFF" rx="3" stroke="#1C2126" stroke-width="1.2"/>
+<text x="1021.6" y="1371.4" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" fill="#1C2126" font-weight="700" style="font-variant-numeric: tabular-nums">1  Tusenårsvarden fra Damefallet</text>
+<text x="1021.6" y="1389.4" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">5,0 km totalt · Middels</text>
+<text x="1021.6" y="1407.4" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#1C2126" style="font-variant-numeric: tabular-nums">Start: Parkering ved Damefallet, Vardeveien</text>
+<line x1="64.0" y1="1643.0" x2="1376.0" y2="1643.0" stroke="#D3D0C8" stroke-width="1"/>
+<text x="64.0" y="1671.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" style="font-variant-numeric: tabular-nums">Værdata: MET Norway  ·  Turstier: Turrutebasen, Kartverket  ·  Turer: morotur.no og Fjord Norway  ·  Bakgrunnskart: © Kartverket</text>
+<text x="1376.0" y="1671.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" fill="#525A62" text-anchor="end" style="font-variant-numeric: tabular-nums">Turplanlegger · IBE 160</text>
+</svg>

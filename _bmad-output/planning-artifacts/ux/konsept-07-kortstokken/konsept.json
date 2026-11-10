@@ -1,0 +1,45 @@
+{
+  "nummer": 7,
+  "slug": "kortstokken",
+  "navn": "Kortstokken",
+  "slagord": "Ett turkort om gangen, med begrunnelse",
+  "ide": "Hvert Turforslag er et stort, varmt kort i en stokk (1 av 3, 2 av 3, 3 av 3), med lite kartutsnitt, Målet i stor skrift og en perforert «passer fordi»-del. På mobil ser Ingrid ett kort om gangen og blar med store pilknapper eller sveip, så hun kan bestemme seg for én tur i gangen med jakka på. På PC legges kortene ut side om side under et stort kart.",
+  "anbefalingsoyeblikket": "Hvert kort har fire faste kriterierader, Tid, Vær, Ønsker og Mørke, hver med ✓, ! eller – og de ekte tallene: «1 t 32 min av 2 t» med tidsstolpe, Værklassen med værordene, treff eller bom på Opplevelsespreferansene og «tilbake 15:02» på en dagslysstolpe med grensen 15:29 og «sol ned 15:59». Det er ingen samlet poengsum. Mørkevarsel og dårlig vær blir en «!»-rad i rustfarge, og Regelteksten står ordrett under radene.",
+  "mobil": "Kortet fyller nesten hele skjermen over brettekanten, og stokken synes som to kortkanter bak. «Forrige» og «Neste tur» (52 px) og alle skjemakontroller og «Finn tur» ligger i tommelsonen nederst. Sveip er bare en snarvei.",
+  "styrker": [
+    "Faste rader gjør hvert forslag lett å etterprøve og å sammenligne på tvers av kortene",
+    "Ett kort om gangen gir ro på mobil og gjør at svaret og Begrunnelsen står over brettekanten",
+    "Samme kortform bærer alle tilstandene: Alternativ, frarådet og Mørkevarsel, så ingenting føles som en feilside"
+  ],
+  "risiko": [
+    "Ett kort om gangen kan skjule at kort 2 eller 3 passer bedre; derfor trengs oversikten «Alle tre i stokken» under kortet",
+    "Kartutsnittet i mobilkortet blir lite, så ruten kan være vanskelig å lese uten det store kartet",
+    "Kortet er tett på 390 px når Vær-raden har både værverdier og «Øverst fordi»"
+  ],
+  "palett": [
+    {"navn": "Lys varm bakgrunn", "hex": "#F4EEE3"},
+    {"navn": "Kortpapir", "hex": "#FFFBF5"},
+    {"navn": "Blekk", "hex": "#2A241D"},
+    {"navn": "Dempet tekst", "hex": "#5C5348"},
+    {"navn": "Dyp skoggrønn (aksent, ✓)", "hex": "#1F4A38"},
+    {"navn": "Rust (varsel, !)", "hex": "#A13E17"},
+    {"navn": "Lys rust (Værvarsling)", "hex": "#F7E3D7"},
+    {"navn": "Oker (Demomodus)", "hex": "#73550C"},
+    {"navn": "Fjord og vann", "hex": "#CADBDD"}
+  ],
+  "typografi": "Avenir Next hele veien: Mål i 26–30 px Demi Bold, mellomtitler 18–22 px, kriterierader 15–16 px med tabellsiffer, detaljer 13–14 px og etiketter i 11–12 px versaler med sperring.",
+  "bevegelse": "Kortet glir til siden og neste kort løftes opp fra stokken når Ingrid trykker «Neste tur» eller sveiper, og på PC løftes det valgte kortet på den grønne kanten når ruten trykkes på kartet.",
+  "skjermer": {
+    "pc-1-sok.svg": "Skjemaet som øverste kort i en stokk til venstre, med «Finn tur» nederst, og et kart over Moldemarka med de 8 Startpunktene til høyre.",
+    "pc-2-godt-vaer.svg": "Stort kart med tre Omtrentlige ruter og kort 1 uthevet, og de tre kortene side om side med fire kriterierader hver.",
+    "pc-3a-darlig-vaer.svg": "Værvarsling i rust øverst med Bedre tidsvindu og «Bruk 14:00», og kortene der Vær-raden er «!» og forklarer hvorfor lavtliggende Turer står øverst.",
+    "pc-3b-bedre-tidsvindu.svg": "Nye kort fra kl. 14:00 i godt vær, og en merket komponentdetalj der Tusenårsvarden får Mørkevarsel som «!»-rad med forstørret dagslysstolpe (ender 15:32, grense 15:29, sola ned 15:59).",
+    "pc-4-fraradet.svg": "Ingen Turforslag: et rolig meldingskort med vindstreker over kartet, Værklasse frarådet med 19 m/s og et grønt Alternativ-kort med «Bruk i morgen 11:00».",
+    "pc-5-ingen-tur-uten-vaer.svg": "Live-modus uten Demomodus-merke: melding om at været ikke er vurdert, Alternativ-kortet Storlihytta fra Vardeveien med «trenger 1 min mer» og kart med den ene ruten.",
+    "mob-1-sok.svg": "Kort forklaring øverst og hele skjemaet som et ark i tommelsonen, med «Finn tur» nederst over brettekanten.",
+    "mob-2-godt-vaer.svg": "Kort 1 av 3 fyller skjermen med kartutsnitt, Mål, fire kriterierader og Regeltekst, pilknapper nederst, og under brettekanten kart, liste over alle tre og ansvarsmerknad.",
+    "mob-3-darlig-vaer.svg": "Værvarsling med «Bruk 14:00» øverst, deretter Moldevatnet-kortet med «!» på Vær, og nederst en merket komponentdetalj for Mørkevarsel.",
+    "mob-4-fraradet.svg": "Ett meldingskort med Værklasse frarådet og Bedre tidsvindu i kortets nedre del, og «Bruk i morgen 11:00» i tommelsonen.",
+    "mob-5-ingen-tur-uten-vaer.svg": "Melding om at været ikke er vurdert, Alternativ-kortet med «!» på Tid og «–» på Vær, og «Endre Tilgjengelig tid» i tommelsonen."
+  }
+}

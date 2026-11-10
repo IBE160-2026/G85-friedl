@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="952" viewBox="0 0 1440 952">
+<title>Ett svar – PC – Søk</title>
+<desc>Konsept 04 «Ett svar». Startsiden: Søket formulert som en setning med utfyllbare felt.</desc>
+<defs></defs>
+<rect x="0" y="0" width="1440" height="952" fill="#FFFFFF"/>
+<rect x="0.0" y="0.0" width="1440.0" height="40.0" fill="#111111"/>
+<text x="96.0" y="26.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="1.4">DEMOMODUS</text>
+<text x="214.2" y="26.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" fill="#FFFFFF">Værscenario: Godt vær · «nå» = man. 9. nov. 13:30</text>
+<text x="1344.0" y="26.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="13" font-weight="400" fill="#D9D9D9" text-anchor="end">Værscenario-data, ikke sanntid</text>
+<text x="96.0" y="86.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#111111">Turplanlegger</text>
+<text x="256.4" y="86.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#5C5C5C">Moldemarka</text>
+<line x1="96.0" y1="116.0" x2="1344.0" y2="116.0" stroke="#111111" stroke-width="2"/>
+<text x="96.0" y="203.6" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="22" font-weight="400" fill="#111111">Si når du vil gå og hvor lang tid du har. Vi veier</text>
+<text x="96.0" y="237.6" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="22" font-weight="400" fill="#111111">værmeldingen og foreslår opptil tre turer i Moldemarka som</text>
+<text x="96.0" y="271.6" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="22" font-weight="400" fill="#111111">passer, og forteller hvorfor.</text>
+<text x="96.0" y="381.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="300" fill="#111111" letter-spacing="-0.5">Jeg vil gå</text>
+<text x="359.5" y="314.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#111111" letter-spacing="1.2">TURDAG</text>
+<text x="359.5" y="381.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="700" fill="#111111" letter-spacing="-0.5">i dag</text>
+<path d="M512.6,356.0 L530.6,356.0 L521.6,367.0 Z" fill="#D0301A"/>
+<rect x="359.5" y="392.0" width="184.1" height="4.0" fill="#D0301A"/>
+<text x="564.4" y="381.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="300" fill="#111111" letter-spacing="-0.5">fra</text>
+<text x="650.9" y="314.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#111111" letter-spacing="1.2">STARTTIDSPUNKT</text>
+<text x="650.9" y="381.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="700" fill="#111111" letter-spacing="-0.5">13:30</text>
+<path d="M813.9,356.0 L831.9,356.0 L822.9,367.0 Z" fill="#D0301A"/>
+<rect x="650.9" y="392.0" width="194.0" height="4.0" fill="#D0301A"/>
+<text x="846.9" y="381.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="300" fill="#111111" letter-spacing="-0.5">,</text>
+<text x="884.5" y="381.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="300" fill="#111111" letter-spacing="-0.5">har</text>
+<text x="987.5" y="314.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#111111" letter-spacing="1.2">TILGJENGELIG TID</text>
+<text x="987.5" y="381.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="700" fill="#111111" letter-spacing="-0.5">2 t</text>
+<path d="M1071.6,356.0 L1089.6,356.0 L1080.6,367.0 Z" fill="#D0301A"/>
+<rect x="987.5" y="392.0" width="126.9" height="4.0" fill="#D0301A"/>
+<text x="1114.4" y="381.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="300" fill="#111111" letter-spacing="-0.5">,</text>
+<text x="96.0" y="531.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="300" fill="#111111" letter-spacing="-0.5">tåler</text>
+<text x="226.9" y="464.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#111111" letter-spacing="1.2">VANSKELIGHETSGRAD</text>
+<text x="226.9" y="531.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="700" fill="#111111" letter-spacing="-0.5">Middels</text>
+<path d="M465.2,506.0 L483.2,506.0 L474.2,517.0 Z" fill="#D0301A"/>
+<rect x="226.9" y="542.0" width="269.3" height="4.0" fill="#D0301A"/>
+<text x="517.0" y="531.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="300" fill="#111111" letter-spacing="-0.5">og vil gjerne ha</text>
+<text x="926.0" y="464.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#111111" letter-spacing="1.2">OPPLEVELSESPREFERANSER (VALGFRITT)</text>
+<rect x="927.0" y="481.0" width="156.5" height="65.2" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+<rect x="944.0" y="504.6" width="18.0" height="18.0" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+<text x="972.0" y="526.8" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="37.2" font-weight="500" fill="#111111">utsikt</text>
+<rect x="1097.5" y="481.0" width="144.8" height="65.2" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+<rect x="1114.5" y="504.6" width="18.0" height="18.0" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+<text x="1142.5" y="526.8" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="37.2" font-weight="500" fill="#111111">vann</text>
+<text x="1249.3" y="531.2" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="60" font-weight="300" fill="#111111" letter-spacing="-0.5">.</text>
+<line x1="96.0" y1="604.0" x2="920.0" y2="604.0" stroke="#CFCFCB" stroke-width="1"/>
+<text x="96.0" y="638.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#111111">Tilgjengelig tid:</text>
+<text x="217.4" y="638.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="16" font-weight="400" fill="#111111">tid til selve turen, uten reise til og fra Startpunktet. Fra 15 min til 5 t.</text>
+<text x="96.0" y="668.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#111111">Starttidspunkt:</text>
+<text x="209.4" y="668.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="16" font-weight="400" fill="#111111">i dag foreslår vi «nå», rundet opp til nærmeste kvarter.</text>
+<text x="96.0" y="698.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="16" font-weight="600" fill="#111111">Vanskelighetsgrad:</text>
+<text x="243.1" y="698.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="16" font-weight="400" fill="#111111">den høyeste du vil ha med. Middels gir både Enkel og Middels.</text>
+<rect x="96.0" y="744.0" width="264.0" height="64.0" fill="#D0301A"/>
+<text x="228.0" y="783.9" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#FFFFFF" text-anchor="middle">Finn tur</text>
+<text x="384.0" y="772.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="16" font-weight="400" fill="#5C5C5C">Samme Søk og samme Værmelding gir alltid samme svar.</text>
+<text x="384.0" y="794.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="16" font-weight="400" fill="#5C5C5C">Du får ett tydelig svar og opptil to alternativer.</text>
+<line x1="96.0" y1="888.0" x2="1344.0" y2="888.0" stroke="#CFCFCB" stroke-width="1"/>
+<text x="96.0" y="918.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#5C5C5C" letter-spacing="1.2">KILDER</text>
+<text x="212.0" y="919.0" font-family="'Avenir Next', Avenir, 'Helvetica Neue', sans-serif" font-size="14" font-weight="400" fill="#5C5C5C">Værdata: MET Norway · Turstier: Turrutebasen, Kartverket · Turer: morotur.no og Fjord Norway · Bakgrunnskart: © Kartverket</text>
+</svg>
