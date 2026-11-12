@@ -3,3 +3,5 @@ logget,dato,tidsvindu,timer,temp_min,temp_maks,nedbor_maks_mm,vind_maks_ms,symbo
 2026-11-09 17:23,2026-11-10,ettermiddag,13:00–15:00,3.5,3.6,0.2,1.6,lightrain lightrain,god,,ja,nei,
 2026-11-10 20:00,2026-11-11,formiddag,10:00–12:00,-0.1,0.7,0.0,0.7,partlycloudy_day partlycloudy_day,middels,temperatur -0.1 °C,ja,nei,
 2026-11-10 20:00,2026-11-11,ettermiddag,13:00–15:00,1.2,1.2,0.0,1.5,cloudy cloudy,god,,ja,nei,
+2026-11-11 20:08,2026-11-12,formiddag,10:00–12:00,-0.7,0.1,0.0,2.0,cloudy cloudy,middels,temperatur -0.7 °C,ja,nei,
+2026-11-11 20:08,2026-11-12,ettermiddag,13:00–15:00,0.6,0.6,0.0,1.1,fair_day fair_day,god,,ja,nei,
