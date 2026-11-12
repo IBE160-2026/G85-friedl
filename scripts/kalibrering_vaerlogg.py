@@ -23,7 +23,7 @@ from zoneinfo import ZoneInfo
 ROT = Path(__file__).resolve().parent.parent
 LOGG = ROT / "_bmad-output/planning-artifacts/kalibrering/vaerlogg.csv"
 
-# Værpunktet (PRD §3, §10 spm. 4)
+# Værpunktet (PRD §3; addendum, Avklarte spørsmål 4)
 LAT, LON, HOYDE = 62.7617, 7.1679, 400
 URL = f"https://api.met.no/weatherapi/locationforecast/2.0/compact?lat={LAT}&lon={LON}&altitude={HOYDE}"
 # MET krever en User-Agent som identifiserer appen og gir kontaktinfo (addendum, Værintegrasjon)

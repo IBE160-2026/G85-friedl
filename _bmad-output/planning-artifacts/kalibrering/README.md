@@ -4,7 +4,7 @@ Oppgaven i [PRD §10, spørsmål 1](../prds/prd-turplanlegger-app-2026-11-02/prd
 
 ## Oppsett
 
-- **Værpunkt:** 62,7617 N, 7,1679 Ø, 400 moh (PRD §3 og §10 spm. 4).
+- **Værpunkt:** 62,7617 N, 7,1679 Ø, 400 moh (PRD §3; addendum, Avklarte spørsmål 4).
 - **Tidsvinduer:** formiddag 10:00–12:00 og ettermiddag 13:00–15:00, norsk tid. Begge ligger i dagslys i november.
 - **Værklasse:** den dårligste timen i vinduet, med tersklene i PRD §4.2 (FR-8, FR-9).
 - **Logg:** [vaerlogg.csv](vaerlogg.csv), som lages ved første kjøring.
