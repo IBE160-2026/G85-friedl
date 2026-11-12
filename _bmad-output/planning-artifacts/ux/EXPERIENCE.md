@@ -105,9 +105,9 @@ Her står hvordan komponentene oppfører seg. Utseendet står i DESIGN.md › Co
 | Værsymbol | `vaersymbol` | Værsammendrag, Værvarsling | Ikon og ord for symbolkoden (se Værsymbol). Ikonet har tomt alt, fordi ordet står ved siden av. |
 | Værmangel-linje | `vaermangel-linje` | Resultat | Står der Værsammendraget ellers står, når Værmeldingen mangler (FR-13). Ikke interaktiv. |
 | Værvarsling | `vaervarsling` | Resultat, Værklasse dårlig | Står over Turkortene eller Alternativkortet med verdiene som utløste den (FR-11), og har Bedre tidsvindu-boksen. |
-| Bedre tidsvindu-boks | `bedre-tidsvindu-boks` | Værvarsling | «Bruk HH:MM» sender et nytt Søk med det nye Starttidspunktet og samme Tilgjengelig tid, Vanskelighetsgrad og Opplevelsespreferanser (FR-19). Gjelder det i morgen, settes også Turdag. Antallslinjen under teksten sier hvor mange Turer som passer før mørket i det nye Tidsvinduet (FR-19). Antallet teller Turene som består FR-15 og ikke får Mørkevarsel, uavhengig av Opplevelsespreferanser. Knappen vises også når antallet er null. Finnes det ikke noe Bedre tidsvindu, står teksten i State Patterns i stedet for antallslinjen og knappen. |
+| Bedre tidsvindu-boks | `bedre-tidsvindu-boks` | Værvarsling | «Bruk HH:MM» sender et nytt Søk med det nye Starttidspunktet og samme Tilgjengelig tid, Vanskelighetsgrad og Opplevelsespreferanser (FR-19). Gjelder det i morgen, settes også Turdag. Antallslinjen under teksten sier hvor mange Turer som passer før mørket, regnet etter FR-19. Knappen vises også når antallet er null. Finnes det ikke noe Bedre tidsvindu, står teksten i State Patterns i stedet for antallslinjen og knappen. |
 | Frarådet-kort | `fraradet-kort` | Resultat, Værklasse frarådet | Ikke interaktivt bortsett fra lenken «Sjekk også MET sine farevarsler.», som åpner MET i ny fane. Under DERFOR INGEN TUR står to Kriterierader (se under). |
-| Bedre tidsvindu-kort | `bedre-tidsvindu-kort` | Ved Frarådet-kortet | Som Bedre tidsvindu-boksen, med samme antallslinje: «Bruk i morgen HH:MM» sender nytt Søk med Turdag og Starttidspunkt fra Bedre tidsvindu. |
+| Bedre tidsvindu-kort | `bedre-tidsvindu-kort` | Ved Frarådet-kortet | Som Bedre tidsvindu-boksen, med samme antallslinje. «Bruk i morgen HH:MM» sender nytt Søk med Turdag og Starttidspunkt fra Bedre tidsvindu. |
 | Alternativkort | `alternativkort` | Resultat, ingen Tur passer | Viser den korteste Turen innenfor valgt Vanskelighetsgrad (FR-18) med alle fire Kriterierader. Tid-raden er alltid warn. «Endre Tilgjengelig tid» går til Søk med verdiene fra Søket og fokus på Tilgjengelig tid. Kildelenken virker som på Turkortet. |
 | Kontaktfeil-kort | `kontaktfeil-kort` | Resultat, ingen kontakt med appens server | «Prøv igjen» sender samme Søk på nytt. «Endre søk» går til Søk med verdiene. |
 | Plassholderstokk | `plassholderstokk` | Resultat, venter på svar | Ikke interaktiv. Byttes med resultatet, eller med Kontaktfeil-kortet etter tidsgrensen. |
@@ -162,7 +162,7 @@ Værordene appen lager selv, sier alltid «nedbør», fordi Værmeldingen gir me
 
 ### Værsymbol (FR-10)
 
-Værsymbolet er METs eget ikon for `symbol_code` (fra `next_1_hours` i Locationforecast), lagt i `public/vaerikoner/` sammen med `LICENSE` (METs værikoner har MIT-lisens, AD-15). Ordet står alltid ved siden av ikonet. Symbolet hentes fra timen med dårligst Værklasse i Tidsvinduet. Er flere timer like dårlige, gjelder den første. Endelsene `_day`, `_night` og `_polartwilight` gir riktig ikonfil, men endrer ikke ordet.
+Værsymbolet er METs eget ikon for `symbol_code` (fra `next_1_hours` i Locationforecast). Ikonene ligger i `public/vaerikoner/` sammen med `LICENSE`, siden de har MIT-lisens (AD-15). Ordet står alltid ved siden av ikonet. Symbolet hentes fra timen med dårligst Værklasse i Tidsvinduet. Er flere timer like dårlige, gjelder den første. Endelsene `_day`, `_night` og `_polartwilight` gir riktig ikonfil, men endrer ikke ordet.
 
 | `symbol_code` (uten endelse) | Ord |
 |---|---|
@@ -214,7 +214,7 @@ Tilstandene følger tabellen under FR-6. Ingen tilstand gir en tom side. Kredite
 | God eller middels + minst én Tur passer | Resultat | Værsammendrag, «Tre Turforslag som passer nå», Turkortene og Kart ([pc-2](konsept-07-kortstokken/pc-2-godt-vaer.svg), [mob-2](konsept-07-kortstokken/mob-2-godt-vaer.svg)). |
 | Dårlig + minst én Tur passer | Resultat | Værvarsling med Bedre tidsvindu-boksen øverst, deretter «Tre Turforslag i dårlig vær» med Vær-raden som «!» og «Øverst fordi …» ([pc-3a](konsept-07-kortstokken/pc-3a-darlig-vaer.svg), [mob-3](konsept-07-kortstokken/mob-3-darlig-vaer.svg)). |
 | Bedre tidsvindu tatt i bruk | Resultat | Vanlig resultat for det nye Søket, uten eget merke. Ditt søk viser det nye Starttidspunktet ([pc-3b](konsept-07-kortstokken/pc-3b-bedre-tidsvindu.svg)). |
-| Mørkevarsel på et Turforslag | Turkort | Mørke-raden er «!» i rust med solnedgangen, sluttidspunktet og tipset «Lurt å ta med hodelykt.» Turer med Mørkevarsel ligger etter Turene uten i Stokken (FR-16). Kortet ellers er uendret. |
+| Mørkevarsel på et Turforslag | Turkort | Mørke-raden har «!» i rust med solnedgangen, sluttidspunktet og tipset «Lurt å ta med hodelykt.» Turer med Mørkevarsel ligger etter Turene uten Mørkevarsel i Stokken (FR-16). Resten av kortet er uendret. |
 | Frarådet (med og uten Tur som passer) | Resultat | Ingen Turforslag og ingen korteste Tur. Frarådet-kortet og Bedre tidsvindu-kortet med «Bruk i morgen 11:00» ([pc-4](konsept-07-kortstokken/pc-4-fraradet.svg), [mob-4](konsept-07-kortstokken/mob-4-fraradet.svg)). Kart og Ansvarsmerknad vises ikke, fordi det ikke er noen Tur å vise, og fordi FR-17 knytter merknaden til Turforslagene. |
 | Ingen Bedre tidsvindu | Værvarsling, Bedre tidsvindu-kortet | Boksen eller kortet viser «Det finnes ikke noe bedre tidsvindu i dagslys i dag eller i morgen.» uten knapp. Når Turdag er i morgen, står det «Det finnes ikke noe bedre tidsvindu i dagslys i morgen.» (FR-19). |
 | Bedre tidsvindu uten Tur før mørket | Bedre tidsvindu-boksen, Bedre tidsvindu-kortet | Bedre tidsvindu vises som ellers, med antallslinjen «Ingen Tur passer før mørket.» og knappen (FR-19). |
@@ -286,7 +286,7 @@ Ingen horisontal rulling ved noen bredde (SM-4: sjekkliste ved 360, 768, 1200 og
 
 Edge case: MET svarer ikke innen 2 s. Hun får likevel tre kort under Værmangel-linjen «Været er ikke vurdert.», med overskriften «Tre Turforslag som passer tiden din» og Vær-raden «– ikke vurdert».
 
-Edge case: hun kommer seinere ut og søker kl. 15:00 med 1 t, Middels og utsikt. Sola går ned 15:59, så grensen er 15:29. Kort 1 er Storlihytta fra Vardeveien med grønn hake i Mørke-raden: «tilbake 15:16». Kort 2 og 3, Skihytta fra Damefallet (ender 15:54) og Bergsvatnet (ender 15:43), har «!» i Mørke-raden: «Mørkevarsel: tilbake ca. 15:54», solnedgangen og tipset «Lurt å ta med hodelykt.» (FR-21).
+Edge case: hun kommer senere ut og søker kl. 15:00 med 1 t, Middels og utsikt. Sola går ned 15:59, så grensen er 15:29. Kort 1 er Storlihytta fra Vardeveien med grønn hake i Mørke-raden: «tilbake 15:16». Kort 2 og 3, Skihytta fra Damefallet (ender 15:54) og Bergsvatnet (ender 15:43), har «!» i Mørke-raden, for eksempel «Mørkevarsel: tilbake ca. 15:54» på kort 2, sammen med solnedgangen og tipset «Lurt å ta med hodelykt.» (FR-21).
 
 ### Flow 2: Ingrid planlegger morgendagen kvelden før (UJ-2, PC, søn. 8. nov. kveld)
 
@@ -330,6 +330,3 @@ Skissene ble tegnet før disse avgjørelsene. Ved bygging gjelder høyre kolonne
 ## Open Questions
 
 Ingen åpne spørsmål.
-
-- Skrift på Android og Windows: Nunito Sans selvhostes på alle enheter (AD-15, 2026-11-12).
-- Simon bekreftet 2026-11-12 valgene fra rettingen 2026-11-10 og fra oppdateringen 2026-11-12: antallslinjen «{N} Turer passer før mørket.», SVG-ikoner for ✓ og →, og «Værdata: Data fra MET Norway» i Krediteringen.

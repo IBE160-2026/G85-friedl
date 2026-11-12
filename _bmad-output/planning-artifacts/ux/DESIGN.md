@@ -393,13 +393,13 @@ Paletten består av papir, blekk og to signalfarger. NFR-9 krever kontrast på m
 - **Skoggrønn** `{colors.forest}` betyr både «passer» (merket ok, tidsstolpe, valgt kort, valgt rute) og primærhandling. `{colors.forest-tint}` er bakgrunnen for tonede knapper og trinnknapper.
 - **Rust** `{colors.rust}` betyr «se opp»: merket warn, Værklasse dårlig og frarådet, Mørkevarsel og Turtid over Tilgjengelig tid. Rust brukes aldri til pynt eller handlinger.
 - **Oker** `{colors.ochre}` brukes bare på Demomodus-merket.
-- **Kartfarger** (`map-*`) gjelder skissene og et eventuelt eget vektorkart. Bakgrunnskartet fra en kartleverandør har sine egne farger. Derfor er **bakgrunnskartet dempet**: arkitekturen har valgt Kartverkets topografiske gråtonekart (AD-15). Da blir den grønne ruten alltid det sterkeste på kartet. Appen tegner selv ruter, Startpunkter, Mål og etiketter med `components.kart`.
+- **Kartfarger** (`map-*`) gjelder skissene og et eventuelt eget vektorkart. Bakgrunnskartet har sine egne farger. Derfor er det **dempet**: arkitekturen har valgt Kartverkets topografiske gråtonekart (AD-15), slik at den grønne ruten alltid er det sterkeste på kartet. Appen tegner selv ruter, Startpunkter, Mål og etiketter med `components.kart`.
 
 Ikke bruk røde feilflater, gradienter, lilla eller blå aksenter, fargekoding av Vanskelighetsgrad (den står som tekst) eller farge som eneste bærer av mening.
 
 ## Typography
 
-Én skriftfamilie: **Nunito Sans**, med reserve `'Helvetica Neue', Arial, sans-serif`. Skriften er valgt i arkitekturen (AD-15) og er den samme på alle enheter. Tall som sammenlignes (Turtid, klokkeslett, km, moh), settes med tabellsiffer.
+Én skriftfamilie: **Nunito Sans**, med reserve `'Helvetica Neue', Arial, sans-serif`. Skriften er valgt i arkitekturen (AD-15) og er den samme på alle enheter. Den selvhostes med `next/font`, så ingen skrift lastes fra tredjepart (NFR-6). Tall som sammenlignes (Turtid, klokkeslett, km, moh), settes med tabellsiffer.
 
 | Rolle | Token | Bruk |
 |---|---|---|
@@ -416,13 +416,13 @@ Ikke bruk røde feilflater, gradienter, lilla eller blå aksenter, fargekoding a
 | Etikett | `{typography.label}` | skjemaetiketter, verdier i Ditt søk |
 | Knapp | `{typography.button}`, `{typography.button-large}` | |
 
-Overskrifter er setninger, ikke slagord. Versaler brukes bare i overlinjer. Nunito Sans selvhostes med `next/font`, så ingen skrift lastes fra tredjepart (NFR-6).
+Overskrifter er setninger, ikke slagord. Versaler brukes bare i overlinjer.
 
 Kontrollert i skriftfila 2026-11-12:
 
 - **Vekter:** 400, 500, 600 og 700 finnes alle i den variable fila (200–1000).
 - **Kursiv** er en egen fil. Begrunnelsen og «omtrentlig rute» er kursive, så både normal og kursiv må lastes.
-- **Tabellsiffer:** sifrene 0–9 er like brede som standard. Skriften har ingen egen `tnum`-funksjon. `fontFeature: tabular-nums` står likevel i tokenene, slik at kravet følger med hvis skriften byttes.
+- **Tabellsiffer:** sifrene 0–9 er like brede i standardoppsettet. Skriften har ingen egen `tnum`-funksjon. `fontFeature: tabular-nums` står likevel i tokenene, slik at kravet følger med hvis skriften byttes.
 - **✓ og →** finnes ikke i Nunito Sans. Haken og pila tegnes derfor som egne SVG-ikoner, aldri som teksttegn (se Components › Ikoner). Tegnene −, –, ·, «», °, … og æøå finnes.
 
 ## Layout & Spacing
@@ -492,7 +492,7 @@ Navnene her brukes likt i YAML-nøklene, i denne seksjonen og i EXPERIENCE.md �
 - **Stokkoversikt.** Overskriften «Alle tre i stokken» (ved to kort «Begge i stokken») og rader med Nummerstempel (40 px), «Mål fra Startpunkt», fire små Kriteriemerker i radrekkefølge og «1 t 32 min uten pauser · tilbake 15:02». Valgt rad har skoggrønn kant.
 - **Demomodus-merke.** Okerfarget. På PC er det en pille i toppfeltet, på mobil et felt under toppfeltet: «DEMOMODUS · Værscenario: … · «nå» = …».
 - **Ansvarsmerknad.** Et papirpanel med merket none og ansvarsteksten.
-- **Kreditering.** Tekst under en hårstrek: «Værdata: Data fra MET Norway · Turstier: Turrutebasen, Kartverket · Turer: morotur.no og Fjord Norway · Bakgrunnskart: © Kartverket». «Data fra MET Norway» og «© Kartverket» er understrekede lenker i skoggrønt (AD-15).
+- **Kreditering.** Tekst under en hårstrek. Ordlyden står i EXPERIENCE.md › Faste tekster. «Data fra MET Norway» og «© Kartverket» er understrekede lenker i skoggrønt (AD-15).
 - **Toppfelt og logo.** Logoen er et avrundet skoggrønt kvadrat med en stiplet sti som ender i en prikk. Ordmerket «Turplanlegger» står ved siden av, og «Moldemarka» i dempet tekst. Logoen er ikke en lenke.
 
 ## Do's and Don'ts
