@@ -238,7 +238,7 @@ Fra ARCHITECTURE-SPINE.md (AD-1–AD-19) og kalibreringsmappa.
   - Avenir Next byttes med Nunito Sans i `fontFamily`-tokens, Brand & Style og Typography.
   - EXPERIENCE.md Open Question 1 lukkes.
   - Kreditering endres til «© Kartverket».
-  - Det sjekkes at Nunito Sans har glyfene ✓, → og tabulære tall.
+  - Det sjekkes at Nunito Sans har glyfene ✓, → og tabulære tall. Sjekket 2026-11-12: sifrene er like brede, men ✓ og → mangler og tegnes som SVG-ikoner (DESIGN.md › Components › Ikoner).
 
 ### UX Design Requirements
 
@@ -268,7 +268,7 @@ Fra DESIGN.md (utseende og tokens) og EXPERIENCE.md (atferd og tilstander). Ved 
 - UX-DR4: Nummerstempelet er et avrundet kvadrat med 1–3 for Turforslag, «!» på rust for frarådet og «→» på skoggrønt for Bedre tidsvindu-kortet og Alternativkortet. Det har varianten `sizeSmall` i Kartinfoboksen og 40 px i Stokkoversikt.
 - UX-DR5: Knappene er primær (`knapp-primaer`, med `heightLarge` for «Finn tur»), sekundær (`knapp-sekundaer`) og tonet (`knapp-tonet`), alle som piller. Rust brukes aldri på knapper.
 - UX-DR6: Toppfeltet har logoen, et skoggrønt kvadrat med stiplet sti og prikk, ordmerket «Turplanlegger» og «Moldemarka» dempet. Logoen er ikke en lenke. På PC er bunnteksten «Turplanlegger er en prototype for Moldemarka.».
-- UX-DR7: Krediteringen står under en hårstrek nederst i alle tilstander: «Værdata: MET Norway · Turstier: Turrutebasen, Kartverket · Turer: morotur.no og Fjord Norway · Bakgrunnskart: © Kartverket», med lenker.
+- UX-DR7: Krediteringen står under en hårstrek nederst i alle tilstander: «Værdata: Data fra MET Norway · Turstier: Turrutebasen, Kartverket · Turer: morotur.no og Fjord Norway · Bakgrunnskart: © Kartverket». «Data fra MET Norway» og «© Kartverket» er lenker.
 
 **Søk**
 - UX-DR8: Søk-flaten har overskriften «Hvor lenge vil du gå?» (`display`/`display-mobile`) og ingressen fra Faste tekster, og hjelpetekstene for hvert felt står ordrett. Oppsettet varierer med bredden:
@@ -310,7 +310,7 @@ Fra DESIGN.md (utseende og tokens) og EXPERIENCE.md (atferd og tilstander). Ved 
   - Ikonet har tom `alt`.
 - UX-DR18: Værmangel-linjen er et papirpanel med merket none, «Været er ikke vurdert.» i fet skrift og «Vi fikk ikke hentet Værmeldingen fra MET.». Den står der Værsammendraget ellers står.
 - UX-DR19: Værvarslingen har flaten `vaervarsling` og merket warn, med tittelen i rust: «Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00». Under står verdiene med den utløsende først, og forklaringen om rekkefølgen. Den meldes i live-området.
-- UX-DR20: Bedre tidsvindu-boksen ligger i Værvarslingen, til høyre på PC og under på mobil. Den har skoggrønn kant, overlinjen BEDRE TIDSVINDU, teksten «I morgen fra kl. 14:00 er Værklassen god» og antall Turer før mørket. Knappen «Bruk 14:00» eller «Bruk i morgen 11:00» sender `nyttSok`. Uten Bedre tidsvindu vises en av to tekster, avhengig av Turdag («… i dag eller i morgen.» eller «… i morgen.»), uten knapp.
+- UX-DR20: Bedre tidsvindu-boksen ligger i Værvarslingen, til høyre på PC og under på mobil. Den har skoggrønn kant, overlinjen BEDRE TIDSVINDU, teksten «I morgen fra kl. 14:00 er Værklassen god» og antallslinjen «{N} Turer passer før mørket.» (én: «1 Tur passer før mørket.», ingen: «Ingen Tur passer før mørket.», og knappen vises likevel). Knappen «Bruk 14:00» eller «Bruk i morgen 11:00» sender `nyttSok`. Uten Bedre tidsvindu vises en av to tekster, avhengig av Turdag («… i dag eller i morgen.» eller «… i morgen.»), uten knapp.
 - UX-DR21: Frarådet-kortet har form som et Turkort:
   - kartutsnitt med vindstreker
   - stempelet «!», «Ingen Turforslag» og «Værklasse frarådet» i rust, med verdiene og meldingen («Det er meldt sterk kuling, vind opp mot 19 m/s i Tidsvinduet ditt (10:00–12:00).»)
@@ -548,7 +548,7 @@ slik at alle storyene bygger på samme grunnmur.
 **Given** DESIGN.md og EXPERIENCE.md
 **When** storyen er ferdig
 **Then** Avenir Next er byttet med Nunito Sans i `fontFamily`-tokens, Brand & Style og Typography. Open Question 1 i EXPERIENCE.md er lukket, og Krediteringen sier «© Kartverket» (AR-27).
-**And** det er sjekket og notert at Nunito Sans viser ✓, → og tabulære tall
+**And** det er sjekket og notert at Nunito Sans har tabulære tall, og at ✓ og →, som skriften mangler, tegnes som SVG-ikoner
 
 ### Story 1.2: Appen publiseres på Vercel
 

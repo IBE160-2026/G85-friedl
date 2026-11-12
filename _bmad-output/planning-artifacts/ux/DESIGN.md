@@ -3,10 +3,11 @@ name: Turplanlegger – Kortstokken
 description: Turforslag som varme turkort i en stokk, med fire faste kriterierader som gjør Begrunnelsen etterprøvbar.
 status: final
 created: 2026-11-10
-updated: 2026-11-10
+updated: 2026-11-12
 sources:
   - ../prds/prd-turplanlegger-app-2026-11-02/prd.md
   - ../prds/prd-turplanlegger-app-2026-11-02/addendum.md
+  - ../architecture/architecture-turplanlegger-app-2026-11-12/ARCHITECTURE-SPINE.md
   - ./konsept-brief.md
   - ./konsept-07-kortstokken/
 colors:
@@ -42,80 +43,80 @@ colors:
   map-water-text: '#3B565B'
 typography:
   display:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 48px
     fontWeight: 600
     lineHeight: 1.1
   display-mobile:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 27px
     fontWeight: 600
     lineHeight: 1.15
   page-title:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 26px
     fontWeight: 600
     lineHeight: 1.2
   card-goal:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 30px
     fontWeight: 600
     lineHeight: 1.1
   card-goal-mobile:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 26px
     fontWeight: 600
     lineHeight: 1.1
   card-from:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 17px
     fontWeight: 500
   card-from-mobile:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 16px
     fontWeight: 500
   criterion-label:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 15px
     fontWeight: 700
   criterion-value:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 16px
     fontWeight: 600
     fontFeature: tabular-nums
   body:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 16px
     fontWeight: 400
     lineHeight: 1.45
   detail:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 13.5px
     fontWeight: 400
     lineHeight: 1.42
     fontFeature: tabular-nums
   rule-text:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 13.5px
     fontWeight: 400
     fontStyle: italic
     lineHeight: 1.4
   overline:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 12px
     fontWeight: 700
     letterSpacing: 1.4px
     textTransform: uppercase
   button:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 17px
     fontWeight: 600
   button-large:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 20px
     fontWeight: 600
   label:
-    fontFamily: "'Avenir Next', Avenir, 'Helvetica Neue', sans-serif"
+    fontFamily: "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif"
     fontSize: 15px
     fontWeight: 600
 rounded:
@@ -368,7 +369,7 @@ Dette dokumentet beskriver den visuelle identiteten til Turplanlegger. Den bygge
 
 Turplanlegger skal føles som en venn som kjenner Moldemarka, ikke som et dashbord. Hvert Turforslag er et **turkort**: et varmt papirkort med Målet i stor skrift og en perforert del merket «passer fordi». De opptil tre kortene ligger i en **stokk** i rangert rekkefølge. Ingrid står i gangen med jakka på og skal ta ett valg. Derfor viser mobilen ett kort om gangen, og kortet forklarer seg selv med fire faste rader: Tid, Vær, Ønsker og Mørke.
 
-Uttrykket er rolig og personlig. Bakgrunnen er en varm, lys papirtone. Én dyp skoggrønn farge betyr «passer» og «gjør dette», og én rustfarge betyr «se opp». Avenir Next brukes overalt. Formene er avrundede og vennlige, men aldri leketøyaktige. Appen har ingen poengsum, ingen stjerner og ingen bilder, bare tall som kan etterprøves.
+Uttrykket er rolig og personlig. Bakgrunnen er en varm, lys papirtone. Én dyp skoggrønn farge betyr «passer» og «gjør dette», og én rustfarge betyr «se opp». Nunito Sans brukes overalt. Formene er avrundede og vennlige, men aldri leketøyaktige. Appen har ingen poengsum, ingen stjerner og ingen bilder, bare tall som kan etterprøves.
 
 ## Colors
 
@@ -392,13 +393,13 @@ Paletten består av papir, blekk og to signalfarger. NFR-9 krever kontrast på m
 - **Skoggrønn** `{colors.forest}` betyr både «passer» (merket ok, tidsstolpe, valgt kort, valgt rute) og primærhandling. `{colors.forest-tint}` er bakgrunnen for tonede knapper og trinnknapper.
 - **Rust** `{colors.rust}` betyr «se opp»: merket warn, Værklasse dårlig og frarådet, Mørkevarsel og Turtid over Tilgjengelig tid. Rust brukes aldri til pynt eller handlinger.
 - **Oker** `{colors.ochre}` brukes bare på Demomodus-merket.
-- **Kartfarger** (`map-*`) gjelder skissene og et eventuelt eget vektorkart. Bakgrunnskartet fra en kartleverandør har sine egne farger. Derfor er det et **krav til arkitekturen at bakgrunnskartet er dempet**, for eksempel Kartverkets topografiske gråtonekart. Da blir den grønne ruten alltid det sterkeste på kartet. Appen tegner selv ruter, Startpunkter, Mål og etiketter med `components.kart`.
+- **Kartfarger** (`map-*`) gjelder skissene og et eventuelt eget vektorkart. Bakgrunnskartet fra en kartleverandør har sine egne farger. Derfor er **bakgrunnskartet dempet**: arkitekturen har valgt Kartverkets topografiske gråtonekart (AD-15). Da blir den grønne ruten alltid det sterkeste på kartet. Appen tegner selv ruter, Startpunkter, Mål og etiketter med `components.kart`.
 
 Ikke bruk røde feilflater, gradienter, lilla eller blå aksenter, fargekoding av Vanskelighetsgrad (den står som tekst) eller farge som eneste bærer av mening.
 
 ## Typography
 
-Én skriftfamilie: **Avenir Next**, med reserve `Avenir, 'Helvetica Neue', sans-serif`. Tall som sammenlignes (Turtid, klokkeslett, km, moh), settes med tabellsiffer.
+Én skriftfamilie: **Nunito Sans**, med reserve `'Helvetica Neue', Arial, sans-serif`. Skriften er valgt i arkitekturen (AD-15) og er den samme på alle enheter. Tall som sammenlignes (Turtid, klokkeslett, km, moh), settes med tabellsiffer.
 
 | Rolle | Token | Bruk |
 |---|---|---|
@@ -415,7 +416,14 @@ Ikke bruk røde feilflater, gradienter, lilla eller blå aksenter, fargekoding a
 | Etikett | `{typography.label}` | skjemaetiketter, verdier i Ditt søk |
 | Knapp | `{typography.button}`, `{typography.button-large}` | |
 
-Overskrifter er setninger, ikke slagord. Versaler brukes bare i overlinjer. Avenir Next finnes bare på Apple-enheter. Hvilken skrift Android og Windows skal få, avgjøres i arkitekturen (EXPERIENCE.md, Open Questions). Ingen skrift lastes fra tredjepart (NFR-6).
+Overskrifter er setninger, ikke slagord. Versaler brukes bare i overlinjer. Nunito Sans selvhostes med `next/font`, så ingen skrift lastes fra tredjepart (NFR-6).
+
+Kontrollert i skriftfila 2026-11-12:
+
+- **Vekter:** 400, 500, 600 og 700 finnes alle i den variable fila (200–1000).
+- **Kursiv** er en egen fil. Begrunnelsen og «omtrentlig rute» er kursive, så både normal og kursiv må lastes.
+- **Tabellsiffer:** sifrene 0–9 er like brede som standard. Skriften har ingen egen `tnum`-funksjon. `fontFeature: tabular-nums` står likevel i tokenene, slik at kravet følger med hvis skriften byttes.
+- **✓ og →** finnes ikke i Nunito Sans. Haken og pila tegnes derfor som egne SVG-ikoner, aldri som teksttegn (se Components › Ikoner). Tegnene −, –, ·, «», °, … og æøå finnes.
 
 ## Layout & Spacing
 
@@ -458,7 +466,8 @@ Navnene her brukes likt i YAML-nøklene, i denne seksjonen og i EXPERIENCE.md �
   8. Fire Kriterierader.
   9. Begrunnelse-boks.
   10. Fot med «Kilde: morotur.no» (understreket lenke i skoggrønt) og knappen «Vis på kartet» (sekundær). Når kortet er valgt, står «Vises på kartet» (tonet, med hake). Foten finnes bare på PC. På mobil står kildelenken under Begrunnelse-boksen.
-- **Kriterierad.** Kriteriemerke, etikett, verdi og detaljlinjer. Verdien er i rust ved warn. Tid-raden har en Tidsstolpe, og Mørke-raden har en Dagslysstolpe. Radene skilles med en hårstrek.
+- **Kriterierad.** Kriteriemerke, etikett, verdi og detaljlinjer. Verdien er i rust ved warn. Tid-raden har en Tidsstolpe, og Mørke-raden har en Dagslysstolpe. Ved Mørkevarsel står tipset «Lurt å ta med hodelykt.» som siste detaljlinje i Mørke-raden. Radene skilles med en hårstrek.
+- **Ikoner.** Haken (✓) og pila (→) er egne SVG-ikoner i appen, fordi Nunito Sans mangler tegnene. Det gjelder Kriteriemerket, Nummerstempelet, haken i Ønsker-raden («utsikt ✓»), «Vises på kartet» og pilene i Stokknavigasjon. Inne i en tekstlinje er ikonet like høyt som en stor bokstav og har tekstens farge. Der dette dokumentet og EXPERIENCE.md skriver ✓ eller →, menes ikonet.
 - **Kriteriemerke.** Merket ok er en skoggrønn sirkel med hvit hake. Merket warn er en rustfarget sirkel med hvitt «!». Merket none er en papirsirkel med kant i dempet tone og en vannrett strek.
 - **Tidsstolpe.** Fyllet viser Turtid ÷ Tilgjengelig tid. Når Turtiden er lengre enn Tilgjengelig tid (Alternativkort), stikker en rustfarget bit ut over enden, med en loddrett strek ved grensen.
 - **Dagslysstolpe.** Går fra Starttidspunkt til solnedgang. Feltet etter mørkegrensen (solnedgang − 30 min) er mørkere, med en stiplet grenselinje. Fyllet går til Turens slutt og har et endepunkt. Starttiden står til venstre og «sol ned HH:MM» til høyre. Starter Turen før soloppgang, får stolpen et mørkt felt fra start til soloppgang, merket «sol opp HH:MM».
@@ -470,20 +479,20 @@ Navnene her brukes likt i YAML-nøklene, i denne seksjonen og i EXPERIENCE.md �
 - **Værsymbol.** METs eget ikon for symbolkoden, med ord fra tabellen i EXPERIENCE.md ved siden av. Ikonet er pynt for skjermlesere. Ordet bærer meningen.
 - **Værmangel-linje** ([pc-5](konsept-07-kortstokken/pc-5-ingen-tur-uten-vaer.svg)). Et papirpanel med merket none: «Været er ikke vurdert.» i fet skrift, og «Vi fikk ikke hentet Værmeldingen fra MET.» etter. Den står der Værsammendraget ellers står.
 - **Værvarsling** ([pc-3a](konsept-07-kortstokken/pc-3a-darlig-vaer.svg)). Et panel med `vaervarsling`-flate, merket warn og tittelen i rust: «Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00». Under står verdien som utløste varslingen, de andre verdiene og forklaringen om rekkefølgen. Bedre tidsvindu-boksen står til høyre på PC og under på mobil.
-- **Bedre tidsvindu-boks.** Et papirfelt med skoggrønn kant inne i Værvarsling. Det har overlinjen BEDRE TIDSVINDU, teksten «I morgen fra kl. 14:00 er Værklassen god» og primærknappen «Bruk 14:00».
+- **Bedre tidsvindu-boks.** Et papirfelt med skoggrønn kant inne i Værvarsling. Det har overlinjen BEDRE TIDSVINDU, teksten «I morgen fra kl. 14:00 er Værklassen god», antallslinjen «5 Turer passer før mørket.» i `detail` og primærknappen «Bruk 14:00».
 - **Frarådet-kort** ([pc-4](konsept-07-kortstokken/pc-4-fraradet.svg), [mob-4](konsept-07-kortstokken/mob-4-fraradet.svg)). Har form som et Turkort. Øverst er et kartutsnitt med vindstreker. Deretter følger stempelet «!», «Ingen Turforslag», «Værklasse frarådet» i rust og verdiene. Under overlinjen DERFOR INGEN TUR står Kriterieradene Vær og Tid. Lenken «Sjekk også MET sine farevarsler.» står nederst.
-- **Bedre tidsvindu-kort.** Et frittstående kort med skoggrønn kant ved Frarådet-kortet: ved siden av på PC, i nedre del av samme ark på mobil. Det har stempelet «→», overlinjen ALTERNATIV · BEDRE TIDSVINDU, dagen i `page-title`, «fra kl. 11:00 · samme 2 t, Middels» og primærknappen «Bruk i morgen 11:00».
+- **Bedre tidsvindu-kort.** Et frittstående kort med skoggrønn kant ved Frarådet-kortet: ved siden av på PC, i nedre del av samme ark på mobil. Det har stempelet «→», overlinjen ALTERNATIV · BEDRE TIDSVINDU, dagen i `page-title`, «fra kl. 11:00 · samme 2 t, Middels», antallslinjen (som i Bedre tidsvindu-boksen) og primærknappen «Bruk i morgen 11:00».
 - **Alternativkort** ([pc-5](konsept-07-kortstokken/pc-5-ingen-tur-uten-vaer.svg), [mob-5](konsept-07-kortstokken/mob-5-ingen-tur-uten-vaer.svg)). Bygd som et Turkort, med disse forskjellene: stempelet er «→», merket i kartutsnittet er «Alternativ», teksten ved stempelet er «Alternativ · den korteste Turen», og overlinjen er SLIK STÅR DEN MOT SØKET DITT i dempet tone. Tid-raden er warn. Under kortet står primærknappen «Endre Tilgjengelig tid» og teksten «Med 30 min eller mer passer minst én Tur.»
 - **Kontaktfeil-kort.** Et papirkort uten kartutsnitt, med merket none og overskriften «Vi fikk ikke kontakt.» i `page-title`. Under står «Søket ditt er tatt vare på.» i `body`, primærknappen «Prøv igjen» og sekundærknappen «Endre søk».
 - **Plassholderstokk.** To tomme stokk-kanter og en tom kortflate uten innhold, med «Finner turer …» i `body` midt på. Den har ingen spinner.
-- **Kart** ([pc-2](konsept-07-kortstokken/pc-2-godt-vaer.svg)). Dempet bakgrunnskart (se Colors). Valgt rute er stiplet skoggrønn, andre ruter er tynnere og grå. Alle ruter har papirhalo. Startpunkt er en nummerert sirkel. Når flere Turer deler Startpunkt, står numrene side om side. Mål er en trekant. Etiketten «omtrentlig rute» står i kursiv skoggrønt langs den valgte ruten. Tegnforklaringen (Startpunkt · Mål · omtrentlig rute) står nede til venstre, og Krediteringen for kartet står i en papirpille nede til høyre.
+- **Kart** ([pc-2](konsept-07-kortstokken/pc-2-godt-vaer.svg)). Dempet bakgrunnskart (se Colors). Valgt rute er stiplet skoggrønn, andre ruter er tynnere og grå. Alle ruter har papirhalo. Startpunkt er en nummerert sirkel. Når flere Turer deler Startpunkt, står numrene side om side. Mål er en trekant. Etiketten «omtrentlig rute» står i kursiv skoggrønt langs den valgte ruten. Tegnforklaringen (Startpunkt · Mål · omtrentlig rute) står nede til venstre, og Krediteringen for kartet, «© Kartverket» som lenke, står i en papirpille nede til høyre.
 - **Kartinfoboks.** Et papirfelt øverst til høyre i kartet med skoggrønn kant. Det har et lite Nummerstempel (`sizeSmall`) og viser navn, lengde totalt, Vanskelighetsgrad og Startpunkt for det valgte Turforslaget (FR-24). På mobil står det over det store kartet.
-- **Kartutsnitt.** Et statisk utsnitt øverst i Turkortet (mobil og nettbrett), `{spacing.map-snippet-height}` høyt. Det viser bare kortets eget Startpunkt og Omtrentlige rute, med merket «Turforslag N av 3» og «omtrentlig rute · © {kartleverandør}».
+- **Kartutsnitt.** Et statisk utsnitt øverst i Turkortet (mobil og nettbrett), `{spacing.map-snippet-height}` høyt. Det viser bare kortets eget Startpunkt og Omtrentlige rute, med merket «Turforslag N av 3» og «omtrentlig rute · © Kartverket».
 - **Stokken og Stokknavigasjon** ([mob-2](konsept-07-kortstokken/mob-2-godt-vaer.svg)). Stokken viser ett Turkort med Stokk-kanter bak. Stokknavigasjon står i tommelsonen: «Forrige» er en rund knapp med pil, og er inaktiv med hårstrek og grå pil når den ikke kan brukes. I midten står «1 av 3» med prikker. «Neste tur» er en primær pille.
 - **Stokkoversikt.** Overskriften «Alle tre i stokken» (ved to kort «Begge i stokken») og rader med Nummerstempel (40 px), «Mål fra Startpunkt», fire små Kriteriemerker i radrekkefølge og «1 t 32 min uten pauser · tilbake 15:02». Valgt rad har skoggrønn kant.
 - **Demomodus-merke.** Okerfarget. På PC er det en pille i toppfeltet, på mobil et felt under toppfeltet: «DEMOMODUS · Værscenario: … · «nå» = …».
 - **Ansvarsmerknad.** Et papirpanel med merket none og ansvarsteksten.
-- **Kreditering.** Tekst under en hårstrek: «Værdata: MET Norway · Turstier: Turrutebasen, Kartverket · Turer: morotur.no og Fjord Norway · Bakgrunnskart: © {kartleverandør}». Kartverket brukes som plassholder til leverandøren er valgt.
+- **Kreditering.** Tekst under en hårstrek: «Værdata: Data fra MET Norway · Turstier: Turrutebasen, Kartverket · Turer: morotur.no og Fjord Norway · Bakgrunnskart: © Kartverket». «Data fra MET Norway» og «© Kartverket» er understrekede lenker i skoggrønt (AD-15).
 - **Toppfelt og logo.** Logoen er et avrundet skoggrønt kvadrat med en stiplet sti som ender i en prikk. Ordmerket «Turplanlegger» står ved siden av, og «Moldemarka» i dempet tekst. Logoen er ikke en lenke.
 
 ## Do's and Don'ts
