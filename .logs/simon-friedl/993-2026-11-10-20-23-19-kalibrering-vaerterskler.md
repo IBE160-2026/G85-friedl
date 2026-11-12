@@ -33,7 +33,7 @@ Brukeren ville fortsette med værspørsmålene og ga sin vurdering av Værmeldin
 - Vurderingen for 12. nov. er ført inn: `ja`/`nei` for begge vinduene. Begge stemmer med Værklassen.
 - `--oppsummer`: 6 vurderte Tidsvinduer, fortsatt 1 avvik (10. nov. formiddag). 8 vinduer gjenstår.
 - For andre gang ga <0 °C middels uten at brukeren ville valgt annerledes. Det er ikke et avvik.
-- Raden for 12. nov. i `vaerlogg.csv` er ikke committet.
+- Raden for 12. nov. i `vaerlogg.csv` er committet i `72269cf` og pushet til `origin/main` etter brukerens beskjed.
 
 ### Åpne punkter
 - Kalibreringen fortsetter (punktet finnes i `issues.md`): vurder 13.–16. nov. og kjør `--oppsummer` etter 16. nov.
