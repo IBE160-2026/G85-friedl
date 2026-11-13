@@ -37,3 +37,23 @@ Brukeren ville fortsette med værspørsmålene og ga sin vurdering av Værmeldin
 
 ### Åpne punkter
 - Kalibreringen fortsetter (punktet finnes i `issues.md`): vurder 13.–16. nov. og kjør `--oppsummer` etter 16. nov.
+
+## 2026-11-13 kl. 13:20 — Simon Friedl
+
+### Oppgave
+Brukeren spurte om kalibreringen gikk i går. Kjøringen hadde feilet, og brukeren ba om å forlenge jobben med én dag og gjøre gjentakene mer robuste.
+
+### Plan
+- Lese `vaerlogg.csv` og `~/Library/Logs/turplanlegger-kalibrering.log`.
+- Endre `~/Library/LaunchAgents/no.ibe160.turplanlegger.kalibrering.plist`, laste jobben inn på nytt og teste gjentakslogikken uten å hente ekte data.
+
+### Resultat
+- Kjøringen 12. nov. startet 20:12:11 (etter dvale), og alle 3 forsøkene feilet med `URLError: nodename nor servname provided` (ikke nett ennå). 13. nov. er ikke logget. Den ble ikke hentet i ettertid, fordi vinduene var passert eller hadde startet (13:09), og raden ikke ville vært en Værmelding gitt på forhånd.
+- launchd-jobben er endret (fila ligger utenfor repoet; kopi av den gamle i scratchpad):
+  - Stoppdatoen er flyttet fra 20261116 til 20261117. Siste kjøring er 16. nov., og den logger 17. nov. Da blir det 7 dager (10.–12. og 14.–17. nov.) = 14 Tidsvinduer.
+  - Gjentak: 6 forsøk med 5 min mellomrom (før: 3 × 60 s), uten unødvendig ventetid etter siste forsøk.
+- Verifisert: `plutil -lint` OK, `sh -n` OK, og `launchctl bootout` + `bootstrap` er gjort. `launchctl print` viser ny stoppdato, ny løkke og kl. 20:00. Løkka er testet med liksom-kommando: alltid feil gir 6 forsøk og exit 1, og suksess på 3. forsøk gir exit 0.
+- Ikke testet med `kickstart`, fordi det ville hentet 14. nov. kl. 13 og fått kveldens kjøring til å hoppe over dagen. Kveldens kjøring er den første ekte testen.
+
+### Åpne punkter
+- Sjekk etter kveldens kjøring at 14. nov. er logget (launchd-loggen). Kalibreringen gjelder nå 10.–12. og 14.–17. nov.; kjør `--oppsummer` etter 17. nov. (punktet finnes i `issues.md`).
