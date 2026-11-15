@@ -57,3 +57,21 @@ Brukeren spurte om kalibreringen gikk i går. Kjøringen hadde feilet, og bruker
 
 ### Åpne punkter
 - Sjekk etter kveldens kjøring at 14. nov. er logget (launchd-loggen). Kalibreringen gjelder nå 10.–12. og 14.–17. nov.; kjør `--oppsummer` etter 17. nov. (punktet finnes i `issues.md`).
+
+## 2026-11-15 kl. 20:48 — Simon Friedl
+
+### Oppgave
+Brukeren spurte om status for kalibreringen 14. og 15. nov. og ga deretter sin vurdering av de seks ventende Tidsvinduene (14.–16. nov.).
+
+### Plan
+- Sjekke launchd-loggen og `vaerlogg.csv`, vise ventende vinduer, føre inn svarene og kjøre `--oppsummer`.
+
+### Resultat
+- Den nye jobben virker: kjøringene 13. nov. (20:02), 14. nov. (20:00) og 15. nov. (20:13) lyktes alle på første forsøk og førte 14., 15. og 16. nov.
+- Vurdering `ja`/`nei` er ført inn for alle seks vinduene 14.–16. nov. 14.–15. nov. var god (lett regn/snø, 0,2–0,3 mm/t, vind opptil 6,4 m/s). 16. nov. var middels på grunn av nedbør (0,9 og 0,7 mm/t, sludd/snø). Alle stemmer med Værklassen.
+- `--oppsummer`: 12 vurderte Tidsvinduer, fortsatt 1 avvik (10. nov. formiddag, 1,0 mm/t). 2 vinduer gjenstår (17. nov.).
+- Observasjon for nedbørsgrensen: 0,9 mm/t (16. nov.) ga middels og stemte med vurderingen, mens 1,0 mm/t med heavyrain-symbol (10. nov.) ble vurdert som dårlig. Grensen ligger altså rundt 1 mm/t, eller så avgjorde symbolet.
+- `vaerlogg.csv` er committet i `fa90b26`, og ingenting er pushet.
+
+### Åpne punkter
+- 17. nov. hentes 16. nov. kl. 20:00. Vurder vinduene og kjør `--oppsummer`, og før så resultatet inn i PRD §10 spm. 1 (punktet finnes i `issues.md`).
