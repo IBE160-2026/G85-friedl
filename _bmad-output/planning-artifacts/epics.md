@@ -628,6 +628,13 @@ slik at server og UI kan bygges hver for seg mot samme form.
 - kortfeltene: `turId`, `kriterier[4]`, stolpeandeler, Regeltekst, faktalinje, Kartinfoboks-tekst, Stokkoversikt-rad, `kilde` og `kart`
 - `bedreTidsvindu`, med variantene `funnet` og `ingen`
 
+**And** kortene har også feltene som Story 1.9, 1.12 og 1.14 viser, men som AR-4 ikke nevner (AD-3: skjemaet utvides når et felt trengs):
+- Mål og «fra …»
+- «Startpunkt: …»
+- lesetekst for skjermlesere (UX-DR43)
+- etikettene i Dagslysstolpen: starttiden, «sol ned HH:MM» og «sol opp HH:MM» (UX-DR26)
+- for den korteste Turen: teksten under Alternativkortet, «Med {korteste Turtid rundet opp til kvarter} eller mer passer minst én Tur.» (UX-DR28)
+
 **And** typene eksporteres med `z.infer`, slik at UI-et bare importerer typer
 
 **Given** ett eksempel per variant av `utfall` og `vaer`
@@ -655,8 +662,9 @@ slik at feil i dataene blir oppdaget før de vises for en turgåer.
 **And** `mal_punkt { lat, lon, koordinatkilde }` er valgfritt (AR-15)
 
 **Given** `scripts/konverter-rutegeometri.ts` (proj4)
-**When** skriptet kjøres på GML-fila i `data/raw/` (EPSG:25833)
+**When** skriptet kjøres på GML-fila (EPSG:25833), som ligger pakket i `data/raw/Friluftsliv_1506_Molde_25833_TurOgFriluftsruter_GML.zip`
 **Then** det skriver `data/rutegeometri.geojson` i WGS84, med ett objekt per Rutesegment nøklet på rutenummer og rutenavn
+**And** skriptet pakker ut GML-fila selv, eller README-seksjonen beskriver utpakkingen som et eget steg
 **And** en linje som hører til flere segmenter, er med i hvert av dem
 **And** to kjøringer gir identisk fil, og fila er committet (FR-28)
 **And** README har en seksjon om hvordan skriptet kjøres
@@ -1148,8 +1156,8 @@ slik at forslagene passer været akkurat nå.
 **Then** de bruker en falsk `fetch`, og ingen test kaller MET
 
 **Given** et kall uten `?demo=` i produksjon
-**When** Søket besvares
-**Then** `lagMiljo` velger MET som værkilde
+**When** Søket besvares før Story 2.8 er ferdig
+**Then** `lagMiljo` gir fortsatt `null` som værkilde, slik at MET ikke kalles før Resultatet bruker Værmeldingen
 
 ### Story 2.5: Rangering i dårlig vær
 
@@ -1275,6 +1283,10 @@ slik at jeg aldri får forslag når det er frarådet å gå.
 **Given** Værmeldingen mangler
 **When** Resultatet lages
 **Then** det har verken Værklasse, Værvarsling eller Bedre tidsvindu, og Turene rangeres etter reglene for godt vær (FR-13)
+
+**Given** et kall uten `?demo=` i produksjon
+**When** Søket besvares
+**Then** `lagMiljo` velger MET-adapteren fra Story 2.4 som værkilde, og Resultatet bruker Værmeldingen
 
 ### Story 2.9: Vær-delen i Resultatet
 
