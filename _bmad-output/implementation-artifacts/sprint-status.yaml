@@ -1,0 +1,82 @@
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when its first story starts (via build's sprint sync)
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates the next story after the previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; the status view surfaces open ones
+generated: 11-16-2026 09:01
+last_updated: 11-16-2026 09:01
+project: turplanlegger-app
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+development_status:
+  epic-1: backlog
+  1-1-prosjektet-settes-opp-fra-starter-malen: backlog
+  1-2-appen-publiseres-på-vercel: backlog
+  1-3-søk-kontrakten-og-tid-i-europe-oslo: backlog
+  1-4-visningskontrakten-og-sidedata: backlog
+  1-5-turdatasettet-valideres-og-rutegeometrien-konverteres: backlog
+  1-6-turtid-og-filtrering: backlog
+  1-7-solberegning-og-mørkevarsel: backlog
+  1-8-rangering-utvalg-og-den-korteste-turen: backlog
+  1-9-regeltekst-og-innholdet-i-turkortet: backlog
+  1-10-serveren-svarer-på-søket: backlog
+  1-11-søk-flaten: backlog
+  1-12-resultat-med-turkort-på-pc: backlog
+  1-13-stokken-på-mobil-og-nettbrett: backlog
+  1-14-alternativ-kontaktfeil-plassholder-og-tilbake: backlog
+  1-15-readme-og-sluttsjekk-for-epic-1: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-værtersklene-og-værklassen: backlog
+  2-2-kalibrering-av-værtersklene: backlog
+  2-3-værscenarioer-for-demomodus-og-tester: backlog
+  2-4-værmeldingen-hentes-fra-met: backlog
+  2-5-rangering-i-dårlig-vær: backlog
+  2-6-bedre-tidsvindu: backlog
+  2-7-værsammendrag-værord-og-regeltekst-med-vær: backlog
+  2-8-resultatmodell-for-dårlig-og-frarådet-vær: backlog
+  2-9-vær-delen-i-resultatet: backlog
+  2-10-bedre-tidsvindu-og-frarådet-i-resultatet: backlog
+  2-11-readme-og-prøvekjøring-for-sensor: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-kartet-viser-turforslagene: backlog
+  3-2-kartutsnitt-i-kortene: backlog
+  3-3-søk-kartet-på-pc: backlog
+  3-4-når-bakgrunnskartet-ikke-laster: backlog
+  3-5-velg-turforslag-i-listen-eller-på-kartet: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-kontroll-av-språkmodellteksten: backlog
+  4-2-begrunnelse-endepunktet-og-den-falske-språkmodellen: backlog
+  4-3-claude-haiku-som-språkmodell: backlog
+  epic-4-retrospective: optional
