@@ -110,7 +110,7 @@ Brukeren spurte hvordan siste kjøring gikk, ga vurderingen for 17. nov. og ba o
   - `prd.md`: §10 spm. 1 er merket avklart 2026-11-17, med Resultat, Avviket, Begrensning (dårlig og frarådet ble ikke prøvd), faktisk Tidsrom (10.–12. og 14.–17. nov.) og lenke til `vaerlogg.csv`. Innledningen i §10 og §0 sier at ingen spørsmål er åpne. Overskriften i §4.2 sier at tersklene er kalibrert og beholdt. `updated` er satt til 2026-11-17. Tabellen i §4.2 og FR-8 er uendret, fordi tersklene ikke endres.
   - `addendum.md`: Avklarte spørsmål sier at spm. 1 er avklart.
   - `.memlog.md`: ny decision-linje.
-- PRD-endringene er ikke committet.
+- PRD-endringene er committet i `daead92` og pushet til `origin/main` etter brukerens beskjed.
 
 ### Åpne punkter
 - Resten av story 2.2 (punktet i `issues.md` står åpent til da): skriptet skal lese `data/vaerterskler.json`, få `--selvtest` og egen User-Agent, og Værord-grensene i EXPERIENCE.md skal vurderes sammen med tersklene.
