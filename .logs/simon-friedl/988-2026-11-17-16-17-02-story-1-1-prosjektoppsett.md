@@ -46,11 +46,11 @@ Brukeren kjørte `bmad-help` og deretter `bmad-build` for story 1.1, «Prosjekte
   - `ca83298..5e06e42` er pushet til `origin/main` etter brukerens beskjed.
   - CI-kjøringen 44113787194 ble grønn på 1 min 56 s, med Playwright 1/1.
   - Annoteringer: `actions/checkout@v4` og `actions/setup-node@v4` bruker Node 20, som er avviklet, og `ubuntu-latest` går over til Ubuntu 26.
+- **Actions-oppgradering:** `actions/checkout` og `actions/setup-node` er løftet fra v4 til v7 (begge `node24`, siste major) i `705751a`. Endringen er pushet etter brukerens beskjed. CI-kjøring 44115176103 er grønn (49 s) uten advarselen om Node 20. Bare informasjonsmerknaden om Ubuntu 26 står igjen.
 - **Lukket i issues.md:** «Neste steg: `bmad-build` for story 1.1».
 
 ### Åpne punkter
 - CI er grønn på GitHub. Gjenstår: bekreft at den blir rød når lint, Vitest eller Playwright feiler (valgfritt, på en egen grein).
-- Oppgrader `actions/checkout` og `actions/setup-node` fra v4 til en versjon som ikke kjører på Node 20, før GitHub fjerner Node 20 på runnerne.
 - next 16.4.3 har sikkerhetsadvarselen GHSA-mfr8-8qww-v76h, som er rettet i 16.4.6. Den gjelder bare `'use cache'` med `unstable_cache`, og det er utelukket av AD-14. npm audit gir også 7 moderate funn i minimatch gjennom typescript-eslint (bare dev). Gruppen må avgjøre om Stack skal oppgraderes. Bieffekt: `next build`/`next dev` stopper første gang når en AI-agent kjører dem.
 - Vercel og IBE160-2026: brukeren har spurt faglærer og venter på svar (punktet i `issues.md` er oppdatert).
 - Neste story: `bmad-build` for 1.2 («Appen publiseres på Vercel») i et nytt kontekstvindu. Vercel-sjekken mot IBE160-2026 står alt som eget punkt.
