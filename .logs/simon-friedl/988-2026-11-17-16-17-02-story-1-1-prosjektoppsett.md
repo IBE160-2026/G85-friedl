@@ -36,11 +36,15 @@ Brukeren kjørte `bmad-help` og deretter `bmad-build` for story 1.1, «Prosjekte
   - 10 patch-grupper er rettet.
   - 1 er utsatt til [`deferred-work.md`](../../_bmad-output/implementation-artifacts/deferred-work.md).
   - Resten er avvist med begrunnelse i Review Triage Log i specen.
-- **Sprint-status:** story 1.1 står som `review` og Epic 1 som `in-progress`.
+- **Sprint-status:** story 1.1 sto først som `review` og Epic 1 som `in-progress`.
+- **Walkthrough (`bmad-walkthrough`):**
+  - Gikk gjennom fem temaer: lagregler, lint-tester, låst grunnmur, forside og CI.
+  - Fant fem risikopunkter: next-advarselen, CI som ikke er kjørt, at flat config overstyrer, at `next/font/google` trenger nett ved bygg, og at e2e bruker dev-modus lokalt.
+  - Ga forslag til manuelle sjekker.
+  - Brukeren godkjente, og story 1.1 er satt til `done` i `eb7f6b9`.
 - **Lukket i issues.md:** «Neste steg: `bmad-build` for story 1.1».
 
 ### Åpne punkter
 - Bekreft at CI-workflowen blir grønn i GitHub Actions ved første push, og rød når lint, Vitest eller Playwright feiler. Det er ikke testet mot GitHub ennå.
 - next 16.4.3 har sikkerhetsadvarselen GHSA-mfr8-8qww-v76h, som er rettet i 16.4.6. Den gjelder bare `'use cache'` med `unstable_cache`, og det er utelukket av AD-14. npm audit gir også 7 moderate funn i minimatch gjennom typescript-eslint (bare dev). Gruppen må avgjøre om Stack skal oppgraderes. Bieffekt: `next build`/`next dev` stopper første gang når en AI-agent kjører dem.
-- Story 1.1 står som `review` i sprint-status. Den settes til `done` når du har sett over endringen, eventuelt med `bmad-walkthrough`.
 - Neste story: `bmad-build` for 1.2 («Appen publiseres på Vercel») i et nytt kontekstvindu. Vercel-sjekken mot IBE160-2026 står alt som eget punkt.
