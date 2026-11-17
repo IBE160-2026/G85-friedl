@@ -75,3 +75,20 @@ Brukeren spurte om status for kalibreringen 14. og 15. nov. og ga deretter sin v
 
 ### Åpne punkter
 - 17. nov. hentes 16. nov. kl. 20:00. Vurder vinduene og kjør `--oppsummer`, og før så resultatet inn i PRD §10 spm. 1 (punktet finnes i `issues.md`).
+
+## 2026-11-17 kl. 15:43 — Simon Friedl
+
+### Oppgave
+Brukeren spurte om koden må vente til værloggingen er ferdig. Svaret var nei, siden bare story 2.2 avhenger av loggen. Brukeren ba så om å gjøre loggen ferdig før story 1.1.
+
+### Plan
+- Spørre om vurderingen av de to vinduene 17. nov., føre den inn, kjøre `--oppsummer` og committe `vaerlogg.csv`.
+
+### Resultat
+- 17. nov. formiddag (klarvær, −3,2 til −2,0 °C) og ettermiddag (klarvær, −0,6 til −0,2 °C) er vurdert som `ville_gatt=ja`, `valgt_lavtliggende=nei`. Det stemmer med Værklassen middels, som her bare skyldes temperaturen.
+- `--oppsummer`: 14 vurderte Tidsvinduer, 1 avvik (10. nov. formiddag, 1,0 mm/t). Maks 2 avvik, så startverdiene i PRD §4.2 kan beholdes.
+- `vaerlogg.csv` bruker CRLF, og det er beholdt (diffen er bare de to radene). Committet i `8475804`, ikke pushet.
+- Loggingen er ferdig. launchd-jobben fjerner seg selv fra 17. nov.
+
+### Åpne punkter
+- Story 2.2: før resultatet (1 avvik, terskler uendret) inn i PRD §10 spm. 1, og nevn at loggen gikk 10.–12. og 14.–17. nov. (ikke 10.–16. som i AC-en). Punktet finnes i `issues.md`.
