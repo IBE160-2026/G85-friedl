@@ -92,3 +92,26 @@ Brukeren spurte om koden må vente til værloggingen er ferdig. Svaret var nei, 
 
 ### Åpne punkter
 - Story 2.2: før resultatet (1 avvik, terskler uendret) inn i PRD §10 spm. 1, og nevn at loggen gikk 10.–12. og 14.–17. nov. (ikke 10.–16. som i AC-en). Punktet finnes i `issues.md`.
+
+## 2026-11-17 kl. 23:05 — Simon Friedl
+
+### Oppgave
+Brukeren spurte hvordan siste kjøring gikk, ga vurderingen for 17. nov. og ba om at resultatet føres inn i PRD §10.
+
+### Plan
+- Sjekke launchd-loggen og `vaerlogg.csv` og kjøre `--oppsummer`.
+- Føre resultatet i PRD §10 spm. 1 slik story 2.2 og `kalibrering/README.md` krever, og rette de stedene som sier at spørsmålet er åpent.
+
+### Resultat
+- Kjøringen 16. nov. (20:00:04) førte 17. nov. på første forsøk. Jobben kjørte igjen 17. nov. kl. 20:01, fjernet seg selv og er ikke lastet lenger (plist-fila er borte).
+- Vurderingen for 17. nov. (`ja`/`nei` for begge) var allerede ført og committet i en annen økt (`8475804`), og brukerens svar her var det samme. Jeg sjekket ikke fila før jeg svarte på «fikk du kjørt dagen?».
+- `--oppsummer`: 14/14 vurdert, 1 avvik, «startverdiene i PRD §4.2 kan beholdes». Fordelingen var 7 god og 7 middels (4 på grunn av temperatur, 3 på grunn av nedbør), ingen dårlig eller frarådet.
+- PRD (`_bmad-output/planning-artifacts/prds/prd-turplanlegger-app-2026-11-02/`):
+  - `prd.md`: §10 spm. 1 er merket avklart 2026-11-17, med Resultat, Avviket, Begrensning (dårlig og frarådet ble ikke prøvd), faktisk Tidsrom (10.–12. og 14.–17. nov.) og lenke til `vaerlogg.csv`. Innledningen i §10 og §0 sier at ingen spørsmål er åpne. Overskriften i §4.2 sier at tersklene er kalibrert og beholdt. `updated` er satt til 2026-11-17. Tabellen i §4.2 og FR-8 er uendret, fordi tersklene ikke endres.
+  - `addendum.md`: Avklarte spørsmål sier at spm. 1 er avklart.
+  - `.memlog.md`: ny decision-linje.
+- PRD-endringene er ikke committet.
+
+### Åpne punkter
+- Resten av story 2.2 (punktet i `issues.md` står åpent til da): skriptet skal lese `data/vaerterskler.json`, få `--selvtest` og egen User-Agent, og Værord-grensene i EXPERIENCE.md skal vurderes sammen med tersklene.
+- Grensene for dårlig og frarådet er ikke prøvd mot virkelig vær i kalibreringsuka (bare god og middels forekom). Vurder om en dag med dårlig vær bør sjekkes før Værvurderingen regnes som ferdig.
