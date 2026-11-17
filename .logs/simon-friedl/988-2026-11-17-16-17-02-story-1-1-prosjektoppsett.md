@@ -52,4 +52,5 @@ Brukeren kjørte `bmad-help` og deretter `bmad-build` for story 1.1, «Prosjekte
 - CI er grønn på GitHub. Gjenstår: bekreft at den blir rød når lint, Vitest eller Playwright feiler (valgfritt, på en egen grein).
 - Oppgrader `actions/checkout` og `actions/setup-node` fra v4 til en versjon som ikke kjører på Node 20, før GitHub fjerner Node 20 på runnerne.
 - next 16.4.3 har sikkerhetsadvarselen GHSA-mfr8-8qww-v76h, som er rettet i 16.4.6. Den gjelder bare `'use cache'` med `unstable_cache`, og det er utelukket av AD-14. npm audit gir også 7 moderate funn i minimatch gjennom typescript-eslint (bare dev). Gruppen må avgjøre om Stack skal oppgraderes. Bieffekt: `next build`/`next dev` stopper første gang når en AI-agent kjører dem.
+- Vercel og IBE160-2026: brukeren har spurt faglærer og venter på svar (punktet i `issues.md` er oppdatert).
 - Neste story: `bmad-build` for 1.2 («Appen publiseres på Vercel») i et nytt kontekstvindu. Vercel-sjekken mot IBE160-2026 står alt som eget punkt.
