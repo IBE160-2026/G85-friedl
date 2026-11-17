@@ -11,3 +11,5 @@ logget,dato,tidsvindu,timer,temp_min,temp_maks,nedbor_maks_mm,vind_maks_ms,symbo
 2026-11-14 20:00,2026-11-15,ettermiddag,13:00–15:00,0.3,0.5,0.2,6.3,lightsnow cloudy,god,,ja,nei,
 2026-11-15 20:13,2026-11-16,formiddag,10:00–12:00,0.3,0.6,0.9,3.4,lightsleet snowshowers_day,middels,nedbør 0.9 mm/t,ja,nei,
 2026-11-15 20:13,2026-11-16,ettermiddag,13:00–15:00,0.6,0.7,0.7,1.2,sleet snow,middels,nedbør 0.7 mm/t; nedbør 0.6 mm/t,ja,nei,
+2026-11-16 20:00,2026-11-17,formiddag,10:00–12:00,-3.2,-2.0,0.0,2.1,clearsky_day clearsky_day,middels,temperatur -3.2 °C; temperatur -2.0 °C,ja,nei,
+2026-11-16 20:00,2026-11-17,ettermiddag,13:00–15:00,-0.6,-0.2,0.0,2.2,clearsky_day clearsky_day,middels,temperatur -0.2 °C; temperatur -0.6 °C,ja,nei,
