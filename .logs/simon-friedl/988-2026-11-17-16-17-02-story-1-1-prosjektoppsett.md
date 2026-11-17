@@ -42,9 +42,14 @@ Brukeren kjørte `bmad-help` og deretter `bmad-build` for story 1.1, «Prosjekte
   - Fant fem risikopunkter: next-advarselen, CI som ikke er kjørt, at flat config overstyrer, at `next/font/google` trenger nett ved bygg, og at e2e bruker dev-modus lokalt.
   - Ga forslag til manuelle sjekker.
   - Brukeren godkjente, og story 1.1 er satt til `done` i `eb7f6b9`.
+- **Push og CI:**
+  - `ca83298..5e06e42` er pushet til `origin/main` etter brukerens beskjed.
+  - CI-kjøringen 44113787194 ble grønn på 1 min 56 s, med Playwright 1/1.
+  - Annoteringer: `actions/checkout@v4` og `actions/setup-node@v4` bruker Node 20, som er avviklet, og `ubuntu-latest` går over til Ubuntu 26.
 - **Lukket i issues.md:** «Neste steg: `bmad-build` for story 1.1».
 
 ### Åpne punkter
-- Bekreft at CI-workflowen blir grønn i GitHub Actions ved første push, og rød når lint, Vitest eller Playwright feiler. Det er ikke testet mot GitHub ennå.
+- CI er grønn på GitHub. Gjenstår: bekreft at den blir rød når lint, Vitest eller Playwright feiler (valgfritt, på en egen grein).
+- Oppgrader `actions/checkout` og `actions/setup-node` fra v4 til en versjon som ikke kjører på Node 20, før GitHub fjerner Node 20 på runnerne.
 - next 16.4.3 har sikkerhetsadvarselen GHSA-mfr8-8qww-v76h, som er rettet i 16.4.6. Den gjelder bare `'use cache'` med `unstable_cache`, og det er utelukket av AD-14. npm audit gir også 7 moderate funn i minimatch gjennom typescript-eslint (bare dev). Gruppen må avgjøre om Stack skal oppgraderes. Bieffekt: `next build`/`next dev` stopper første gang når en AI-agent kjører dem.
 - Neste story: `bmad-build` for 1.2 («Appen publiseres på Vercel») i et nytt kontekstvindu. Vercel-sjekken mot IBE160-2026 står alt som eget punkt.
