@@ -2,7 +2,7 @@
 title: "PRD: Turplanlegger"
 status: final
 created: 2026-11-02
-updated: 2026-11-12
+updated: 2026-11-17
 ---
 
 # PRD: Turplanlegger
@@ -16,7 +16,7 @@ Denne PRD-en beskriver hva Turplanlegger skal gjøre i MVP, slik at UX, arkitekt
 - Begrepene i §3 brukes ordrett i hele dokumentet, med stor forbokstav.
 - Alt har faste nummer: brukerreiser UJ-1–UJ-3, funksjonelle krav FR-1–FR-29, tverrgående krav NFR-1–NFR-11, suksessmål SM-1–SM-5 og motmål SM-C1–SM-C2.
 - Teknisk «hvordan» (mellomtjeneste for MET, caching, kart, solberegning, språkmodell) og bakgrunnen for de avklarte spørsmålene står i [addendum.md](addendum.md). Endringshistorikken står i [.memlog.md](.memlog.md).
-- Ett spørsmål er åpent: kalibreringen av Værtersklene (§10).
+- Ingen spørsmål er åpne. Kalibreringen av Værtersklene er avklart, og resultatet står i §10.
 
 ## 1. Visjon
 
@@ -153,7 +153,7 @@ Brukeren kan sende Søket med ett trykk. Hva Søket gir, avhenger av Værklassen
 
 **Beskrivelse:** Appen henter Værmeldingen for Værpunktet og setter en Værklasse for hver time ut fra Værterskler. Den dårligste timen i Tidsvinduet bestemmer Værklassen for Søket. Tersklene er produktets egne, ikke MET sine farevarselgrenser. Vindgrensene følger Beaufort-skalaen, mens nedbørs- og temperaturgrensene er produktvalg; bakgrunnen står i addendum. Realiserer UJ-1, UJ-2 og UJ-3.
 
-**Værterskler** (startverdier; kalibreres etter spørsmål 1 i §10)
+**Værterskler** (kalibrert 10.–17. november 2026 og beholdt uendret; se spørsmål 1 i §10)
 
 | Værklasse | Nedbør | Middelvind | Temperatur |
 |---|---|---|---|
@@ -507,11 +507,14 @@ Målet er en fullt fungerende nettside som foreslår den beste Turen i dag eller
 
 ## 10. Åpne spørsmål
 
-Ett spørsmål er åpent. Det hindrer ikke arkitektur eller epics, men må være avklart før Værvurderingen regnes som ferdig. Avklarte spørsmål (2–9) og bakgrunnen for dem står i [addendum](addendum.md#avklarte-spørsmål-fra-prd-10).
+Ingen spørsmål er åpne. Spørsmål 1 ble avklart med kalibreringen og står her med resultatet. Avklarte spørsmål 2–9 og bakgrunnen for dem står i [addendum](addendum.md#avklarte-spørsmål-fra-prd-10).
 
-1. **Værterskler (kalibreringsoppgave):** Tersklene i §4.2 er startverdier.
+1. **Værterskler (avklart 2026-11-17):** Startverdiene i §4.2 beholdes uendret.
+   - **Resultat:** 14 av 14 Tidsvinduer er vurdert, og 1 avviker. Det er under grensen på mer enn 2 avvik, så tersklene er ikke justert.
+   - **Avviket:** 10. november formiddag ga 1,0 mm/t nedbør (symbol kraftig regn) middels, men vurderingen tilsvarte dårlig: ville gått, men valgt en Lavtliggende tur. Til sammenligning ga 0,9 mm/t 16. november middels, og det stemte med vurderingen.
+   - **Begrensning:** Uka ga 7 god og 7 middels, ingen dårlig eller frarådet. Grensene for dårlig og frarådet, som justeringsregelen prioriterer, ble derfor ikke prøvd mot virkelig vær. Temperaturgrensen for middels (< 0 °C) slo til i 4 vinduer, og alle stemte med vurderingen.
    - **Oppgave:** Logg Værmeldingen for Værpunktet i 7 dager for to Tidsvinduer, formiddag 10:00–12:00 og ettermiddag 13:00–15:00, og noter egen vurdering hver gang: «ville jeg gått, og ville jeg valgt en Lavtliggende tur?».
    - **Justeringsregel:** Juster tersklene hvis Værklassen avviker fra vurderingen i mer enn 2 av 14 tilfeller. Prioriter grensene for dårlig og frarådet, siden middels bare vises (§4.2).
-   - **Tidsrom:** Loggingen tar en kalenderuke og går parallelt med arkitekturen, 10.–16. november 2026.
-   - **Verktøy:** Skriptet `scripts/kalibrering_vaerlogg.py` henter Værmeldingen og fører den i et loggark. Fremgangsmåten står i [kalibreringsmappa](../../kalibrering/README.md).
+   - **Tidsrom:** 10.–17. november 2026, parallelt med arkitekturen. 13. november mangler fordi kjøringen kvelden før feilet (ikke nett etter dvale). Loggingen ble derfor forlenget med 17. november, slik at det fortsatt ble 7 dager og 14 Tidsvinduer.
+   - **Verktøy:** Skriptet `scripts/kalibrering_vaerlogg.py` henter Værmeldingen og fører den i et loggark. Fremgangsmåten står i [kalibreringsmappa](../../kalibrering/README.md), og loggarket med vurderingene er [vaerlogg.csv](../../kalibrering/vaerlogg.csv).
    - **Eier:** den som har ansvaret for Værvurderingen.
