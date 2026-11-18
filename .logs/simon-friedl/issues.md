@@ -78,6 +78,6 @@
 - [ ] 2026-11-18 [story-2-2-kalibrering](980-2026-11-18-15-41-00-story-2-2-kalibrering.md) — Rett 6/6/2 til 6/5/3 for nedbøren i den låste beslutningen i spec-en for 2.2 (tellefeil i planleggingen; dokumentene er riktige)
 - [ ] 2026-11-18 [story-2-2-kalibrering](980-2026-11-18-15-41-00-story-2-2-kalibrering.md) — Story 2.2 står som `review` i sprint-status: se over (eventuelt `bmad-walkthrough`) og sett til `done`
 - [ ] 2026-11-18 [story-2-2-kalibrering](980-2026-11-18-15-41-00-story-2-2-kalibrering.md) — Bekreft at det nye CI-steget «Selvtest kalibreringsskript» blir grønt i GitHub Actions ved neste push
-- [ ] 2026-11-18 [story-1-7-sol-og-morkevarsel](980-2026-11-18-15-50-29-story-1-7-sol-og-morkevarsel.md) — Story 1.7 står som `review` i sprint-status: se over endringen (eventuelt `bmad-walkthrough`) og sett den til `done`
+- [x] 2026-11-18 [story-1-7-sol-og-morkevarsel](980-2026-11-18-15-50-29-story-1-7-sol-og-morkevarsel.md) — Story 1.7 står som `review` i sprint-status: se over endringen (eventuelt `bmad-walkthrough`) og sett den til `done` (løst 2026-11-18: walkthrough hoppet over etter Simons valg, `done` i `cb032d5`)
 - [ ] 2026-11-18 [story-1-7-sol-og-morkevarsel](980-2026-11-18-15-50-29-story-1-7-sol-og-morkevarsel.md) — Story 1.8: test at Mørkevarselet ikke fjerner Turer gjennom rangeringen (i dag bare strukturelt sikret)
 - [ ] 2026-11-18 [story-1-7-sol-og-morkevarsel](980-2026-11-18-15-50-29-story-1-7-sol-og-morkevarsel.md) — Neste steg: `bmad-build` for story 1.8 (Rangering, utvalg og den korteste Turen)

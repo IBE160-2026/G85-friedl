@@ -41,3 +41,18 @@ Kjør story 1.7 med `bmad-build`. Kjernen skal regne ut sol opp og ned selv (NOA
 - Story 1.7 står som `review` i sprint-status: se over endringen (eventuelt `bmad-walkthrough`) og sett den til `done`.
 - Story 1.8: test at Mørkevarselet ikke fjerner Turer gjennom rangeringen (i dag er det bare strukturelt sikret, fordi `filtrerTurer` ikke tar soltider inn).
 - Neste steg: `bmad-build` for story 1.8 (Rangering, utvalg og den korteste Turen).
+
+## 2026-11-18 kl. 15:51 — Simon Friedl
+
+### Oppgave
+Hopp over walkthrough og push story 1.7.
+
+### Plan
+- Sett story 1.7 til `done` i sprint-status, lukk punktet i `issues.md` og push `main`.
+
+### Resultat
+- Sprint-status: story 1.7 er `done` i `cb032d5`, uten walkthrough etter Simons valg.
+- `main` pushet til origin. Det starter en Production-deploy på Vercel og en CI-kjøring.
+
+### Åpne punkter
+- Neste steg: `bmad-build` for story 1.8 (står allerede i `issues.md`).
