@@ -20,3 +20,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-2-kalibrering-av-vaerterskler.md`
   summary: Kalibreringsskriptet behandler `None` fra MET som under grensen, og `max()` i `logg` krasjer da. TS-kjernen krever tall.
   evidence: Fantes før story 2.2 (`is not None`-sjekkene og `max()` i det gamle skriptet). Det inntreffer bare hvis MET mangler `air_temperature`, `wind_speed` eller `precipitation_amount` for en time med `next_1_hours`.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-8-rangering-utvalg-og-den-korteste-turen.md`
+  summary: `anbefal` kaster når Turdatasettet ikke har noen Tur med Vanskelighetsgrad Enkel og brukeren velger Enkel, fordi `kortesteTur` da ikke har noe Alternativ. Valideringen (FR-27) sjekker ikke at hver Vanskelighetsgrad har minst én Tur.
+  evidence: Blind-hunter-gjennomgangen av story 1.8. Dagens Turdatasett har fem Turer med Enkel, så det skjer ikke nå. En sjekk i `validerTurdatasett` (minst én Tur med G) lukker det før et nytt datasett tas i bruk.
