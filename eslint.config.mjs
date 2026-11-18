@@ -79,6 +79,15 @@ const ingenUseCache = {
   message: "Lagregel AD-14: \"use cache\" brukes ikke. Siden rendres dynamisk per forespørsel.",
 };
 
+// AD-7: src/kjerne/tid.ts er eneste bruker av @date-fns/tz. Grunnregelen no-restricted-imports
+// brukes, så sperren ikke kolliderer med @typescript-eslint/no-restricted-imports i lagreglene over.
+const TIDSSONE = "Lagregel AD-7: bare src/kjerne/tid.ts bruker @date-fns/tz. Bruk Oslo-hjelperne der.";
+
+// new TZDate() leser klokka, og new TZDate('Europe/Oslo') og TZDate.tz('Europe/Oslo') gjør det
+// samme i en gitt sone. Regelen fanger bare disse klokkelesingene: new TZDate(2026, 10, 9) har to
+// argumenter, men ingen sone. En manglende sone fanges av tidssone.test.ts.
+const TZDATE_KLOKKE = `${KLOKKE} (new TZDate med færre enn to argumenter)`;
+
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
@@ -148,6 +157,32 @@ const eslintConfig = defineConfig([
         {
           selector: "CallExpression[callee.name='Date']",
           message: `${KLOKKE} (Date())`,
+        },
+        {
+          selector: "NewExpression[callee.name='TZDate'][arguments.length<2]",
+          message: TZDATE_KLOKKE,
+        },
+        {
+          selector: "NewExpression[callee.name='TZDate'][arguments.length>=2] > SpreadElement",
+          message: `${KLOKKE} (new TZDate(...) kan bli uten argument)`,
+        },
+        {
+          selector: "CallExpression[callee.object.name='TZDate'][callee.property.name='tz'][arguments.length<2]",
+          message: `${KLOKKE} (TZDate.tz med færre enn to argumenter)`,
+        },
+      ],
+    },
+  },
+
+  {
+    name: "lagregler/tidssone",
+    ignores: ["src/kjerne/tid.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [{ name: "@date-fns/tz", message: TIDSSONE }],
+          patterns: [{ group: ["@date-fns/tz/*"], message: TIDSSONE }],
         },
       ],
     },

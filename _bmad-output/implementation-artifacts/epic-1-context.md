@@ -70,7 +70,7 @@ Brukeren fyller ut Søket og får opptil tre Turforslag i Moldemarka som passer 
 
 ## Cross-Story Dependencies
 
-- 1.1 og 1.2 kommer først. Story 1.2 må avklare om Vercel kan kobles til organisasjonen IBE160-2026. Reserven er å deployere fra Actions med `vercel deploy --prebuilt` og `VERCEL_TOKEN`.
+- 1.1 og 1.2 kommer først. Vercel-tilgangen er avklart (2026-11-18): appen var allerede installert i organisasjonen IBE160-2026, så reserven med deploy fra Actions trengs ikke.
 - Kontraktene i 1.3 (Søk) og 1.4 (visningsmodell og sidedata) må være ferdige før serveren (1.10) og UI-storyene (1.11–1.14).
 - 1.5 (Turdatasett og geometri) trengs av 1.6–1.10. Regelkjernen 1.6 → 1.7 → 1.8 → 1.9 må være ferdig før 1.10 kan svare.
 - 1.11 → 1.12 → 1.13 → 1.14 bygger på hverandre. 1.15 avslutter med README, måling av svartiden på 3 s og den manuelle sjekklisten ved 360, 768 og 1440 px.

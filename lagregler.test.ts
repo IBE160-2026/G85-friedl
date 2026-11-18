@@ -199,3 +199,49 @@ describe("lagregler: ingen \"use cache\" (AD-14)", () => {
     await forventOk("src/app/x.tsx", 'export const x = "use cache";');
   });
 });
+
+describe("lagregler: bare src/kjerne/tid.ts bruker @date-fns/tz (AD-7)", () => {
+  it.each([
+    ["src/kjerne/sok.ts", "@date-fns/tz"],
+    ["src/kjerne/sok.ts", "@date-fns/tz/date/mini"],
+    ["src/kjerne/vaer/x.ts", "@date-fns/tz"],
+    ["src/server/x.ts", "@date-fns/tz"],
+    ["src/server/x.ts", "@date-fns/tz/tzOffset"],
+    ["src/ui/X.tsx", "@date-fns/tz"],
+    ["src/app/api/sok/route.ts", "@date-fns/tz"],
+    ["e2e/x.spec.ts", "@date-fns/tz"],
+  ])("%s: import av %s feiler", async (fil, sti) => {
+    await forventBrudd(fil, `import { TZDate } from '${sti}';\nexport const T = TZDate;`);
+  });
+
+  it("src/server/x.ts: import type og re-eksport feiler også", async () => {
+    await forventBrudd("src/server/x.ts", "import type { TZDate } from '@date-fns/tz';\nexport type T = TZDate;");
+    await forventBrudd("src/server/x.ts", "export { TZDate } from '@date-fns/tz';");
+  });
+
+  it("src/kjerne/tid.ts: import av @date-fns/tz går gjennom", async () => {
+    await forventOk("src/kjerne/tid.ts", "import { TZDate } from '@date-fns/tz';\nexport const T = TZDate;");
+  });
+
+  const medImport = (kode: string) => `import { TZDate } from '@date-fns/tz';\n${kode}`;
+
+  it.each([
+    "export const na = new TZDate();",
+    "export const na = new TZDate('Europe/Oslo');",
+    "export const na = new TZDate(...[]);",
+    "export const na = new TZDate(...[], 'Europe/Oslo');",
+    "export const na = TZDate.tz('Europe/Oslo');",
+  ])("src/kjerne/tid.ts: %s feiler, fordi den leser klokka", async (kode) => {
+    await forventBrudd("src/kjerne/tid.ts", medImport(kode));
+  });
+
+  it("src/kjerne/tid.ts: new TZDate(0, 'Europe/Oslo') går gjennom", async () => {
+    await forventOk("src/kjerne/tid.ts", medImport("export const t = new TZDate(0, 'Europe/Oslo');"));
+    await forventOk("src/kjerne/tid.ts", medImport("export const t = new TZDate(2026, 10, 9, 13, 0, 'Europe/Oslo');"));
+    await forventOk("src/kjerne/tid.ts", medImport("export const t = TZDate.tz('Europe/Oslo', 0);"));
+  });
+
+  it("src/kjerne/tid.ts: kjernens andre klokkeregler gjelder fortsatt", async () => {
+    await forventBrudd("src/kjerne/tid.ts", "export const na = new Date();");
+  });
+});
