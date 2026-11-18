@@ -83,3 +83,5 @@
 - [x] 2026-11-18 [story-1-7-sol-og-morkevarsel](980-2026-11-18-15-50-29-story-1-7-sol-og-morkevarsel.md) — Neste steg: `bmad-build` for story 1.8 (Rangering, utvalg og den korteste Turen) (løst 2026-11-18: `39a34d7`)
 - [ ] 2026-11-18 [story-1-8-rangering](979-2026-11-18-15-56-25-story-1-8-rangering.md) — Valgfritt: la `validerTurdatasett` kreve minst én Tur med Enkel, så `anbefal` aldri kaster (se `deferred-work.md`)
 - [ ] 2026-11-18 [story-1-9-turkort](978-2026-11-18-16-12-58-story-1-9-turkort.md) — Valgfritt: en Tur som ender etter midnatt, viser «tilbake 03:00» uten å si at det er neste dag (se `deferred-work.md`)
+- [ ] 2026-11-18 [story-1-11-sok-flaten](976-2026-11-18-20-03-47-story-1-11-sok-flaten.md) — Bekreft lenkemålene i krediteringen: https://www.met.no/ og https://www.kartverket.no/
+- [ ] 2026-11-18 [story-1-11-sok-flaten](976-2026-11-18-20-03-47-story-1-11-sok-flaten.md) — Valgfritt: e2e for `?demo=` som står flere ganger (se `deferred-work.md`)
