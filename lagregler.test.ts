@@ -1,7 +1,7 @@
 import { ESLint } from "eslint";
 import { beforeAll, describe, expect, it } from "vitest";
 
-// Lagreglene (AR-1, AD-1) i eslint.config.mjs testes her, slik at de ikke kan råtne i stillhet.
+// Lagreglene (AR-1, AD-1 og AD-14) i eslint.config.mjs testes her, slik at de ikke kan råtne i stillhet.
 // Filene finnes ikke; lintText bruker filePath bare til å velge konfigurasjon.
 
 let eslint: ESLint;
@@ -13,7 +13,7 @@ beforeAll(() => {
 async function lagregelfeil(filePath: string, kode: string): Promise<string[]> {
   const [resultat] = await eslint.lintText(kode, { filePath });
   return resultat.messages
-    .filter((m) => m.severity === 2 && m.message.includes("AR-1"))
+    .filter((m) => m.severity === 2 && m.message.includes("Lagregel"))
     .map((m) => m.message);
 }
 
@@ -168,5 +168,34 @@ describe("lagregler: skallet og API-et importerer ikke visningen", () => {
 
   it("src/server/sok.ts: kjernen er lov", async () => {
     await forventOk("src/server/sok.ts", "import { SokSkjema } from '@/kjerne/sok';\nexport const s = SokSkjema;");
+  });
+});
+
+describe("lagregler: ingen \"use cache\" (AD-14)", () => {
+  it.each(["src/app/x.tsx", "src/kjerne/x.ts", "src/server/x.ts", "src/ui/X.tsx", "src/app/api/sok/route.ts"])(
+    "%s: \"use cache\" øverst i fila feiler",
+    async (fil) => {
+      await forventBrudd(fil, '"use cache";\nexport const x = 1;');
+    },
+  );
+
+  it.each(["src/app/x.tsx", "src/kjerne/x.ts", "src/app/api/sok/route.ts"])("%s: \"use cache\" i en funksjon feiler", async (fil) => {
+    await forventBrudd(fil, 'export async function f() {\n  "use cache";\n  return 1;\n}');
+  });
+
+  it("src/app/x.tsx: \"use cache: remote\" feiler", async () => {
+    await forventBrudd("src/app/x.tsx", '"use cache: remote";\nexport const x = 1;');
+  });
+
+  it("src/kjerne/x.ts: kjernens egne syntaksregler gjelder fortsatt", async () => {
+    await forventBrudd("src/kjerne/x.ts", "export const na = new Date();");
+  });
+
+  it.each(["src/app/x.tsx", "src/ui/X.tsx"])("%s: \"use client\" går gjennom", async (fil) => {
+    await forventOk(fil, '"use client";\nexport const x = 1;');
+  });
+
+  it("src/app/x.tsx: strengen \"use cache\" som verdi går gjennom", async () => {
+    await forventOk("src/app/x.tsx", 'export const x = "use cache";');
   });
 });

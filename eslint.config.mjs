@@ -70,6 +70,15 @@ const KLOKKE = `${MELDING}: src/kjerne/ leser ikke klokka. «Nå» kommer som ar
 const NETT = `${MELDING}: src/kjerne/ bruker ikke nettverk. Skallet henter data og sender dem inn.`;
 const PROSESS = `${MELDING}: src/kjerne/ leser ikke process. Skallet sender inn det kjernen trenger.`;
 
+// AD-14: siden rendres dynamisk, og ingenting caches med "use cache" (også "use cache: remote" o.l.).
+// Står både i det globale objektet for src/** og i kjerneobjektet, fordi kjernens
+// no-restricted-syntax ellers ville overstyre den. Et nytt objekt som setter no-restricted-syntax
+// for filer under src/, må også ta med ingenUseCache i lista si, ellers forsvinner regelen der.
+const ingenUseCache = {
+  selector: "ExpressionStatement[directive=/^use cache/]",
+  message: "Lagregel AD-14: \"use cache\" brukes ikke. Siden rendres dynamisk per forespørsel.",
+};
+
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
@@ -95,6 +104,15 @@ const eslintConfig = defineConfig([
     rules: importregel(side),
   },
 
+  // Hele src/: ingen "use cache" (flettet inn i kjerneobjektet under).
+  {
+    name: "lagregler/cache",
+    files: ["src/**"],
+    rules: {
+      "no-restricted-syntax": ["error", ingenUseCache],
+    },
+  },
+
   {
     name: "lagregler/kjerne",
     files: ["src/kjerne/**"],
@@ -118,6 +136,7 @@ const eslintConfig = defineConfig([
       ],
       "no-restricted-syntax": [
         "error",
+        ingenUseCache,
         {
           selector: "NewExpression[callee.name='Date'][arguments.length=0]",
           message: `${KLOKKE} (new Date() uten argument)`,

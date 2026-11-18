@@ -403,7 +403,7 @@ vercel.json          # regions: ["arn1"]
 
 | # | Spørsmål | Eier | Inntil avklart |
 | --- | --- | --- | --- |
-| 1 | Kan Vercel-appen installeres på GitHub-organisasjonen IBE160-2026, eller må org-eieren godkjenne den? Må sjekkes før den første deploy-storyen. | gruppa og faglærer | Reserven i AD-14 (deploy fra Actions) |
+| 1 | Kan Vercel-appen installeres på GitHub-organisasjonen IBE160-2026, eller må org-eieren godkjenne den? Må sjekkes før den første deploy-storyen. | gruppa og faglærer | Avklart 2026-11-18: Vercel-appen var allerede installert i organisasjonen med tilgang til alle repoer. Tilgangen er direkte, og reserven i AD-14 trengs ikke. |
 
 ## Deferred
 
