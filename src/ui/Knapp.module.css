@@ -1,0 +1,40 @@
+.knapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  min-width: var(--spacing-touch-min);
+  min-height: var(--spacing-touch-min);
+  padding: 0 var(--spacing-6);
+  border: 0;
+  border-radius: var(--rounded-full);
+  font-size: var(--typography-button-font-size);
+  font-weight: var(--typography-button-font-weight);
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.primaer {
+  min-height: var(--components-knapp-primaer-height);
+  background: var(--components-knapp-primaer-background);
+  color: var(--components-knapp-primaer-text);
+}
+
+.sekundaer {
+  min-height: var(--components-knapp-sekundaer-min-height);
+  background: var(--components-knapp-sekundaer-background);
+  border: var(--components-knapp-sekundaer-border-width) solid var(--components-knapp-sekundaer-border-color);
+  color: var(--components-knapp-sekundaer-text);
+}
+
+.tonet {
+  min-height: var(--components-knapp-tonet-min-height);
+  background: var(--components-knapp-tonet-background);
+  color: var(--components-knapp-tonet-text);
+}
+
+.stor {
+  min-height: var(--components-knapp-primaer-height-large);
+  font-size: var(--typography-button-large-font-size);
+  font-weight: var(--typography-button-large-font-weight);
+}

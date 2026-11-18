@@ -1,0 +1,85 @@
+.toppfelt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-3) var(--spacing-4);
+  padding: var(--spacing-3) var(--side-marg) 0;
+}
+
+.merkevare {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-height: var(--spacing-touch-min);
+}
+
+.logo {
+  flex: none;
+  width: 28px;
+  height: 28px;
+}
+
+.appnavn {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.omrade {
+  font-size: var(--typography-label-font-size);
+  font-weight: 500;
+  color: var(--colors-ink-muted);
+}
+
+/* Mobil og nettbrett: et felt i full bredde under toppfeltet. */
+.demomodus {
+  flex: 1 0 100%;
+  margin: 0;
+  min-height: var(--components-demomodus-merke-height);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--components-demomodus-merke-rounded-mobile);
+  background: var(--components-demomodus-merke-background);
+  color: var(--components-demomodus-merke-text);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.demonavn {
+  font-weight: 700;
+}
+
+.demolinje {
+  display: block;
+}
+
+.demoskille {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .appnavn {
+    font-size: 22px;
+  }
+}
+
+/* PC: en pille til høyre i toppfeltet. */
+@media (min-width: 1200px) {
+  .toppfelt {
+    padding-top: var(--spacing-4);
+  }
+
+  .demomodus {
+    flex: 0 1 auto;
+    margin-left: auto;
+    padding: var(--spacing-1) var(--spacing-4);
+    line-height: 24px;
+    border-radius: var(--components-demomodus-merke-rounded);
+  }
+
+  .demolinje,
+  .demoskille {
+    display: inline;
+  }
+}

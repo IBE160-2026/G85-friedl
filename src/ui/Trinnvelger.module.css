@@ -1,0 +1,126 @@
+.felt {
+  min-width: 0;
+  container-type: inline-size;
+  overflow-wrap: anywhere;
+}
+
+.etikett {
+  display: block;
+  margin-bottom: var(--spacing-2);
+  font-size: var(--typography-label-font-size);
+  font-weight: var(--typography-label-font-weight);
+}
+
+.velger {
+  display: grid;
+  grid-template-columns: var(--spacing-touch-min) minmax(0, 1fr) var(--spacing-touch-min);
+  align-items: center;
+  height: var(--components-trinnvelger-height);
+  padding: 0 3px;
+  border: 1.4px solid var(--components-trinnvelger-border-color);
+  border-radius: var(--components-trinnvelger-rounded);
+  background: var(--components-trinnvelger-background);
+}
+
+.trinn {
+  display: grid;
+  place-items: center;
+  width: var(--spacing-touch-min);
+  height: var(--spacing-touch-min);
+  padding: 0;
+  border: 0;
+  border-radius: var(--rounded-full);
+  background: var(--components-trinnvelger-step-background);
+  color: var(--components-trinnvelger-step-icon);
+  cursor: pointer;
+}
+
+.trinn[aria-disabled="true"] {
+  background: var(--colors-surface-control);
+  color: var(--colors-ink-muted);
+  cursor: not-allowed;
+}
+
+.ikon {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.midt {
+  position: relative;
+  align-self: stretch;
+  min-width: 0;
+}
+
+.verdi {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 var(--spacing-1);
+  border: 0;
+  border-radius: var(--rounded-sm);
+  background: transparent;
+  font-size: 19px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+}
+
+.medUnder {
+  padding-bottom: 14px;
+}
+
+.under {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--colors-ink-muted);
+  text-align: center;
+  pointer-events: none;
+}
+
+.hjelpetekst {
+  margin: var(--spacing-2) 0 0;
+  font-size: var(--typography-detail-font-size);
+  line-height: var(--typography-detail-line-height);
+  color: var(--colors-ink-secondary);
+}
+
+/* Smalt felt (for eksempel 200 % zoom ved 360 px): verdien øverst og knappene under. */
+@container (max-width: 200px) {
+  .velger {
+    grid-template-columns: var(--spacing-touch-min) var(--spacing-touch-min);
+    grid-template-areas:
+      "midt midt"
+      "minus pluss";
+    justify-content: space-between;
+    row-gap: var(--spacing-1);
+    height: auto;
+    padding: var(--spacing-1);
+    border-radius: var(--rounded-lg);
+  }
+
+  .velger > :first-child {
+    grid-area: minus;
+  }
+
+  .midt {
+    grid-area: midt;
+    min-height: var(--components-trinnvelger-height);
+  }
+
+  .velger > :last-child {
+    grid-area: pluss;
+  }
+}

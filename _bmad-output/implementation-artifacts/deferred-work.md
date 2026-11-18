@@ -26,3 +26,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-9-regeltekst-og-innholdet-i-turkortet.md`
   summary: En Tur som ender etter midnatt, viser «tilbake 03:00» i Mørke-raden, Stokkoversikt-raden og Dagslysstolpen uten å si at det er neste dag.
   evidence: Blind-hunter-gjennomgangen av story 1.9. Mulig bare med start 22:00 og Tilgjengelig tid over 2 t. Soltidene for Turdagen gjelder (beslutning i 1.7), så Mørkevarselet er riktig. Det er bare teksten som kan misforstås.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-11-sok-flaten.md`
+  summary: Når `?demo=` står flere ganger i URL-en, tar `page.tsx` den første verdien, slik `lesDemoId` og `api.ts` gjør, men ingen test sikrer at siden og API-et er enige.
+  evidence: Verification-gap-gjennomgangen av story 1.11. Bare en håndskrevet URL treffer dette. En e2e-test for `/?demo=uten-vaer&demo=finnes-ikke` ved siden av testen for ukjent demo lukker det.

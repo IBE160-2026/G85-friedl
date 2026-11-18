@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
+import "@/ui/tokens.css";
 import "./globals.css";
 
 // next/font laster ned fonten ved bygg og serverer den fra vår egen origin (AD-15, NFR-6).

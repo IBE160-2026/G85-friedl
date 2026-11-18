@@ -4,13 +4,53 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* Fokusringen (DESIGN.md › components.fokusring): papirfarge innerst og skoggrønt ytterst. */
+  --fokusring:
+    0 0 0 var(--components-fokusring-inner-width) var(--components-fokusring-inner-color),
+    0 0 0 calc(var(--components-fokusring-inner-width) + var(--components-fokusring-outer-width))
+      var(--components-fokusring-outer-color);
+  /* Bare lys modus (EXPERIENCE.md › Foundation). */
+  color-scheme: light;
+}
+
 html,
 body {
   margin: 0;
 }
 
 body {
+  background: var(--colors-surface-base);
+  color: var(--colors-ink-primary);
   font-family: var(--font-nunito-sans), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--colors-forest);
+}
+
+/* Fokusring ved tastaturfokus på alle kontroller. Komponenter med skjulte input viser den selv. */
+:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: var(--fokusring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }

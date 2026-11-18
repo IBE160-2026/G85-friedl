@@ -1,0 +1,40 @@
+/* Starttidspunkt og Tilgjengelig tid står side om side når det er plass, ellers under hverandre. */
+.trinnrad {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--spacing-6) var(--spacing-4);
+  align-items: start;
+}
+
+.etikettlinje {
+  margin: 0 0 var(--spacing-2);
+  overflow-wrap: anywhere;
+  font-size: var(--typography-label-font-size);
+}
+
+.etikett {
+  font-weight: var(--typography-label-font-weight);
+}
+
+.hint {
+  margin-left: var(--spacing-2);
+  font-weight: 400;
+  color: var(--colors-ink-muted);
+}
+
+.brikker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+.resultat {
+  margin-top: var(--spacing-8);
+}
+
+.overskrift {
+  margin: 0;
+  font-size: var(--typography-page-title-font-size);
+  font-weight: var(--typography-page-title-font-weight);
+  line-height: var(--typography-page-title-line-height);
+}

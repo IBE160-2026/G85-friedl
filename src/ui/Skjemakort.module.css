@@ -1,0 +1,59 @@
+/* Stokk-kantene ligger bak kortet: 12 px inn og 9 px ned per lag (components.stokk-kant). */
+.stokk {
+  position: relative;
+  isolation: isolate;
+  margin-bottom: calc(2 * var(--components-stokk-kant-offset-y));
+}
+
+.stokk::before,
+.stokk::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  border: 1.2px solid var(--colors-border-card);
+  border-radius: var(--components-turkort-rounded);
+}
+
+.stokk::before {
+  inset-inline: var(--components-stokk-kant-offset-x);
+  bottom: calc(-1 * var(--components-stokk-kant-offset-y));
+  z-index: -1;
+  background: var(--components-stokk-kant-color1);
+}
+
+.stokk::after {
+  inset-inline: calc(2 * var(--components-stokk-kant-offset-x));
+  bottom: calc(-2 * var(--components-stokk-kant-offset-y));
+  z-index: -2;
+  background: var(--components-stokk-kant-color2);
+}
+
+/* Kortfoten er en massiv flate 6 px under kortet, uten uskarphet. */
+.kort {
+  position: relative;
+  overflow-wrap: anywhere;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  padding: var(--components-turkort-padding-mobile);
+  border: var(--components-turkort-border-width) solid var(--components-turkort-border-color);
+  border-radius: var(--components-turkort-rounded);
+  background: var(--components-turkort-background);
+  box-shadow: 0 var(--components-turkort-base-offset) 0 var(--components-turkort-base-color);
+}
+
+.felter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.finnTur {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .kort {
+    padding: var(--components-turkort-padding);
+  }
+}

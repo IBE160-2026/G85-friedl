@@ -1,0 +1,59 @@
+.brikke {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-width: var(--spacing-touch-min);
+  min-height: var(--components-preferansebrikke-height-mobile);
+  padding: 0 var(--spacing-5) 0 var(--spacing-3);
+  border: 1.5px solid var(--components-preferansebrikke-border-color);
+  border-radius: var(--components-preferansebrikke-rounded);
+  background: var(--components-preferansebrikke-background);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.boks {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.ikon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--components-preferansebrikke-icon-color);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brikke:has(.boks:checked) {
+  border-color: var(--components-preferansebrikke-background-on);
+  background: var(--components-preferansebrikke-background-on);
+  color: var(--components-preferansebrikke-text-on);
+  font-weight: 600;
+}
+
+.brikke:has(.boks:checked) .ikon {
+  stroke: var(--components-preferansebrikke-text-on);
+  stroke-width: 2.4;
+}
+
+.brikke:has(.boks:focus-visible) {
+  box-shadow: var(--fokusring);
+}
+
+@media (min-width: 768px) {
+  .brikke {
+    min-height: var(--components-preferansebrikke-height);
+  }
+}

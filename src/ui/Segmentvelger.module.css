@@ -1,0 +1,110 @@
+.felt {
+  min-width: 0;
+  container-type: inline-size;
+  overflow-wrap: anywhere;
+}
+
+.etikettlinje {
+  margin: 0 0 var(--spacing-2);
+  font-size: var(--typography-label-font-size);
+}
+
+.etikett {
+  font-weight: var(--typography-label-font-weight);
+}
+
+.hint {
+  margin-left: var(--spacing-2);
+  font-weight: 400;
+  color: var(--colors-ink-muted);
+}
+
+.gruppe {
+  display: flex;
+  min-height: var(--components-segmentvelger-height-mobile);
+  border: 1px solid var(--components-segmentvelger-border-color);
+  border-radius: var(--components-segmentvelger-rounded);
+  background: var(--components-segmentvelger-background);
+}
+
+/* Hele segmentet er trykkflaten. Pillen for valgt segment tegnes innenfor, 4 px fra kanten. */
+.valg {
+  position: relative;
+  flex: 1 1 0;
+  min-width: var(--spacing-touch-min);
+  min-height: var(--spacing-touch-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--spacing-2);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+}
+
+.valg::before {
+  content: "";
+  position: absolute;
+  inset: var(--spacing-1);
+  border-radius: var(--rounded-full);
+}
+
+.radio {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.tekst {
+  position: relative;
+}
+
+.valg:has(.radio:checked) {
+  color: var(--components-segmentvelger-selected-text);
+  font-weight: 600;
+}
+
+.valg:has(.radio:checked)::before {
+  background: var(--components-segmentvelger-selected-background);
+}
+
+.valg:has(.radio:focus-visible)::before {
+  box-shadow: var(--fokusring);
+}
+
+.valg:has(.radio:disabled) {
+  color: var(--colors-ink-muted);
+  cursor: not-allowed;
+}
+
+.hjelpetekst {
+  margin: var(--spacing-2) 0 0;
+  font-size: var(--typography-detail-font-size);
+  line-height: var(--typography-detail-line-height);
+  color: var(--colors-ink-secondary);
+}
+
+@media (min-width: 768px) {
+  .gruppe {
+    min-height: var(--components-segmentvelger-height);
+  }
+}
+
+/* Smalt felt (for eksempel 200 % zoom ved 360 px): valgene står under hverandre. */
+@container (max-width: 240px) {
+  .gruppe {
+    flex-direction: column;
+    border-radius: var(--rounded-lg);
+  }
+
+  .valg {
+    flex: 0 0 auto;
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+}

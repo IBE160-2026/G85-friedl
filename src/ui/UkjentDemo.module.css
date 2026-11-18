@@ -1,0 +1,23 @@
+.panel {
+  margin: 0;
+  padding: var(--spacing-5);
+  border: 1px solid var(--colors-border-hairline);
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-card);
+  overflow-wrap: anywhere;
+}
+
+.lenke {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--spacing-touch-min);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.overskrift {
+  margin: 0 0 var(--spacing-4);
+  font-size: var(--typography-page-title-font-size);
+  font-weight: var(--typography-page-title-font-weight);
+  line-height: var(--typography-page-title-line-height);
+}

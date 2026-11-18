@@ -1,0 +1,62 @@
+.side {
+  --side-marg: var(--spacing-margin-mobile);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.innhold {
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: calc(var(--spacing-text-max-width) + 2 * var(--side-marg));
+  padding: var(--spacing-8) var(--side-marg) var(--spacing-12);
+}
+
+.bunn {
+  margin: 0 var(--side-marg);
+  padding-bottom: var(--spacing-6);
+}
+
+/* Bunnteksten står bare på PC. */
+.bunntekst {
+  display: none;
+  margin: 0;
+  font-size: var(--typography-detail-font-size);
+  font-weight: 500;
+  color: var(--colors-ink-muted);
+}
+
+@media (min-width: 768px) {
+  .side {
+    --side-marg: var(--spacing-margin-tablet);
+  }
+}
+
+/* PC: sidemargen vokser fra 48 px ved 1200 px til 64 px ved 1440 px. */
+@media (min-width: 1200px) {
+  .side {
+    --side-marg: clamp(
+      var(--spacing-margin-desktop-min),
+      calc(100vw / 15 - 32px),
+      var(--spacing-margin-desktop-max)
+    );
+  }
+
+  .bunn {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0 var(--spacing-6);
+    border-top: 1px solid var(--colors-border-hairline);
+  }
+
+  .bunn > :first-child {
+    border-top: 0;
+  }
+
+  .bunntekst {
+    display: block;
+  }
+}
