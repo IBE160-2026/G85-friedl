@@ -9,6 +9,7 @@ import {
   osloTilUtc,
   TIME_MS,
   timerITidsvindu,
+  ukedag,
 } from "./tid";
 
 // Oslo-hjelperne (AD-7). Forventningene står som UTC-øyeblikk, så testene ikke bruker
@@ -95,6 +96,20 @@ describe("leggTilDager", () => {
     ["2026-10-25", 1, "2026-10-26"],
   ])("%s + %i dager er %s", (dato, n, forventet) => {
     expect(leggTilDager(dato, n)).toBe(forventet);
+  });
+});
+
+describe("ukedag", () => {
+  it.each([
+    ["2026-11-09", 1],
+    ["2026-11-15", 0],
+    ["2028-02-29", 2],
+  ])("%s er ukedag %s", (dato, dag) => {
+    expect(ukedag(dato)).toBe(dag);
+  });
+
+  it.each(["2026-02-30", "2026-04-31", "2026-02-29", "2026-13-01", "2026-11-00"])("kaster for %s", (dato) => {
+    expect(() => ukedag(dato)).toThrow();
   });
 });
 

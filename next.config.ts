@@ -7,6 +7,13 @@ const nextConfig: NextConfig = {
   logging: {
     incomingRequests: false,
   },
+  // AD-10: data/rutegeometri.geojson importeres statisk som JSON. Vitest gjør det samme med en
+  // plugin i vitest.config.mts.
+  turbopack: {
+    rules: {
+      "*.geojson": { type: "json" },
+    },
+  },
 };
 
 export default nextConfig;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { klokke, km, meter, tall, varighet } from "./format";
+import { dag, klokke, km, meter, tall, tallord, varighet } from "./format";
 
 // Tall i tekst (AD-7, Voice and Tone). Forventningene for klokka står som UTC-øyeblikk, så testene
 // ikke bruker koden de tester. November er vintertid (UTC+1), juni er sommertid (UTC+2).
@@ -107,5 +107,40 @@ describe("meter", () => {
 
   it.each([Number.NaN, Number.NEGATIVE_INFINITY])("kaster for %s", (x) => {
     expect(() => meter(x)).toThrow();
+  });
+});
+
+describe("dag", () => {
+  it.each([
+    ["2026-11-09", "man. 9. nov."],
+    ["2026-11-10", "tir. 10. nov."],
+    ["2026-11-15", "søn. 15. nov."],
+    ["2026-11-14", "lør. 14. nov."],
+    ["2026-03-01", "søn. 1. mars"],
+    ["2026-06-24", "ons. 24. juni"],
+    ["2026-01-01", "tor. 1. jan."],
+    ["2026-12-31", "tor. 31. des."],
+    ["2026-03-29", "søn. 29. mars"],
+  ])("%s er «%s»", (dato, tekst) => {
+    expect(dag(dato)).toBe(tekst);
+  });
+
+  it.each(["2026-13-01", "2026-11-00", "2026-02-30", "2026-04-31", "2026-02-29", "9. nov.", ""])("kaster for «%s»", (dato) => {
+    expect(() => dag(dato)).toThrow();
+  });
+});
+
+describe("tallord", () => {
+  it.each([
+    [1, "ett"],
+    [2, "to"],
+    [3, "tre"],
+    [10, "ti"],
+  ])("%s er «%s»", (n, ord) => {
+    expect(tallord(n)).toBe(ord);
+  });
+
+  it.each([0, -1, 1.5, 11, Number.NaN])("kaster for %s", (n) => {
+    expect(() => tallord(n)).toThrow();
   });
 });

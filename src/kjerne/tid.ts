@@ -56,6 +56,17 @@ export function osloTilUtc(dato: string, klokke: string): number {
   return new TZDate(aar, maned - 1, dag, timer, minutter, OSLO).getTime();
 }
 
+/**
+ * Ukedagen for Oslo-datoen `dato` ('YYYY-MM-DD'): 0 er søndag, 1 er mandag og 6 er lørdag.
+ * Kaster for en dato som ikke finnes, for eksempel 2026-02-30.
+ */
+export function ukedag(dato: string): number {
+  const [aar, maned, dag] = lesDato(dato);
+  const d = new TZDate(aar, maned - 1, dag, 12, OSLO);
+  if (datoTekst(d) !== dato) throw new Error(`Ugyldig dato: ${dato}`);
+  return d.getDay();
+}
+
 /** Kalenderdatoen `n` dager etter `dato` ('YYYY-MM-DD'). Negativ `n` går bakover. */
 export function leggTilDager(dato: string, n: number): string {
   const [aar, maned, dag] = lesDato(dato);

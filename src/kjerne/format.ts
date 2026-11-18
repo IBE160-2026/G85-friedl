@@ -1,4 +1,4 @@
-import { klokkeTekst, osloKlokke } from "./tid";
+import { klokkeTekst, osloKlokke, ukedag } from "./tid";
 
 // Tall i tekst (AD-7, Voice and Tone i EXPERIENCE.md). Fila er eneste sted der kjernen gjør tall
 // om til tekst: 24-timersklokke i Oslo, «1 t 32 min», desimalkomma og «−» for minus.
@@ -73,4 +73,32 @@ export function meter(x: number): string {
   const v = avrund(x, 0);
   if (v === 0) return "0";
   return medFortegn(v, String(Math.abs(v)));
+}
+
+const UKEDAGER = ["søn.", "man.", "tir.", "ons.", "tor.", "fre.", "lør."] as const;
+const MANEDER = ["jan.", "feb.", "mars", "apr.", "mai", "juni", "juli", "aug.", "sep.", "okt.", "nov.", "des."] as const;
+
+const DATO = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+/**
+ * Oslo-datoen `dato` ('YYYY-MM-DD') med forkortet ukedag og måned: «man. 9. nov.», «søn. 1. mars».
+ * Kaster for en ugyldig dato.
+ */
+export function dag(dato: string): string {
+  const treff = DATO.exec(dato);
+  if (!treff) throw new Error(`Ugyldig dato: ${dato}`);
+  // ukedag kaster for datoer som ikke finnes (2026-02-30), så måned og dag er gyldige etterpå.
+  const dagNr = ukedag(dato);
+  return `${UKEDAGER[dagNr]} ${Number(treff[3])}. ${MANEDER[Number(treff[2]) - 1]}`;
+}
+
+const TALLORD = ["ett", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti"] as const;
+
+/**
+ * Et lite antall som ord i intetkjønn, med liten forbokstav: «ett», «to», «tre» (Turforslag).
+ * Kaster utenfor 1–10, så «Null Turforslag» aldri kan lages.
+ */
+export function tallord(n: number): string {
+  if (!Number.isInteger(n) || n < 1 || n > TALLORD.length) throw new Error(`Ingen tallord for ${n}`);
+  return TALLORD[n - 1];
 }

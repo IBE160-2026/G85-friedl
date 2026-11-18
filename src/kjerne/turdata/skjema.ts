@@ -15,7 +15,8 @@ export const MAKS_HOYDEAVVIK_M = 20;
 /** Toleransen for `lengde_km_totalt` mot `lengde_km_kilde` og `retning`. */
 const LENGDETOLERANSE_KM = 0.005;
 
-const GRADERINGSTEKST = { G: "Enkel", B: "Middels", R: "Krevende" } as const;
+/** Vanskelighetsgraden som tekst, slik Turdatasettet og Søket viser den. */
+export const GRADERINGSTEKST = { G: "Enkel", B: "Middels", R: "Krevende" } as const;
 
 /** Lengdefaktor per retning: en vei går fram og tilbake, så hele turen er dobbelt så lang. */
 const LENGDEFAKTOR = { en_vei: 2, tur_retur: 1, rundtur: 1 } as const;
