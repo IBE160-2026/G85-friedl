@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 11-16-2026 09:01
-last_updated: 11-18-2026 15:41
+last_updated: 11-18-2026 15:50
 project: turplanlegger-app
 project_key: NOKEY
 tracking_system: file-system
@@ -42,7 +42,7 @@ development_status:
   1-4-visningskontrakten-og-sidedata: done
   1-5-turdatasettet-valideres-og-rutegeometrien-konverteres: done
   1-6-turtid-og-filtrering: done
-  1-7-solberegning-og-mørkevarsel: backlog
+  1-7-solberegning-og-mørkevarsel: review
   1-8-rangering-utvalg-og-den-korteste-turen: backlog
   1-9-regeltekst-og-innholdet-i-turkortet: backlog
   1-10-serveren-svarer-på-søket: backlog
