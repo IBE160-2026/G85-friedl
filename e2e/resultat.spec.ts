@@ -58,7 +58,7 @@ test("UJ-1 uten vær på PC: tilstand og rekkefølge", async ({ page }) => {
 
   // Værmangel-linjen står i tekster.ts og skal si det samme som kjernen.
   await expect(vaermangel).toHaveText(visning.vaer.type === "mangler" ? visning.vaer.tekst : "");
-  await expect(page.locator('[aria-live="polite"]')).toContainText("Tre Turforslag som passer tiden din");
+  await expect(page.locator('div[aria-live="polite"]')).toContainText("Tre Turforslag som passer tiden din");
   await expect(artikler).toHaveCount(3);
   await expect(ansvarsmerknad).toHaveText(
     "Du har selv ansvaret for å vurdere forholdene. Værvurderingen er veiledende og vurderer ikke føre (snø, is, gjørme). Følg MET sine farevarsler.",
@@ -256,7 +256,8 @@ for (const bredde of [360, 768, 1200, 1440]) {
     await page.goto(DEMO);
     await page.getByRole("checkbox", { name: "utsikt" }).check();
     await finnTur(page);
-    await expect(page.getByRole("article")).toHaveCount(3);
+    // Under 1200 px viser Stokken ett kort om gangen (e2e/stokk.spec.ts).
+    await expect(page.getByRole("article")).toHaveCount(bredde >= 1200 ? 3 : 1);
     const [scrollbredde, klientbredde] = await page.evaluate(() => [
       document.documentElement.scrollWidth,
       document.documentElement.clientWidth,

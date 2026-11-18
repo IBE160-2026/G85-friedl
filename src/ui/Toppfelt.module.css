@@ -6,7 +6,12 @@
   padding: var(--spacing-3) var(--side-marg) 0;
 }
 
+/*
+ * Merkevaren kan krympe til 10rem, så «Endre søk» får plass til høyre på samme linje ved 360 px.
+ * Da brytes «Moldemarka» under appnavnet. Ved 200 % zoom går knappen til en egen linje.
+ */
 .merkevare {
+  flex: 1 1 10rem;
   display: flex;
   flex-wrap: wrap;
   min-width: 0;
@@ -68,6 +73,10 @@
 @media (min-width: 1200px) {
   .toppfelt {
     padding-top: var(--spacing-4);
+  }
+
+  .merkevare {
+    flex: 0 1 auto;
   }
 
   .demomodus {

@@ -5,17 +5,18 @@ import { MERKENAVN } from "./tekster";
 // Kriteriemerket (DESIGN.md › Kriteriemerke): ok er en skoggrønn sirkel med hvit hake, se opp en
 // rustfarget sirkel med hvitt «!», og ingen en papirsirkel med kant i dempet tone og en vannrett strek.
 // Merket har tekstalternativet «passer», «se opp» eller «ikke vurdert» (UX-DR24). Står det bare som
-// pynt ved en tekst som sier det samme, er det skjult for skjermlesere (`pynt`).
+// pynt ved en tekst som sier det samme, er det skjult for skjermlesere (`pynt`). Står merket uten
+// raden sin (Stokkoversikt), får tekstalternativet radens navn foran: «Turtid: passer».
 
-type Props = { merke: Kriterium["merke"]; pynt?: boolean };
+type Props = { merke: Kriterium["merke"]; pynt?: boolean; rad?: string; className?: string };
 
-export function Kriteriemerke({ merke, pynt = false }: Props) {
-  const tilgjengelig = pynt
-    ? ({ "aria-hidden": true } as const)
-    : ({ role: "img", "aria-label": MERKENAVN[merke] } as const);
+export function Kriteriemerke({ merke, pynt = false, rad, className }: Props) {
+  const navn = rad ? `${rad}: ${MERKENAVN[merke]}` : MERKENAVN[merke];
+  const tilgjengelig = pynt ? ({ "aria-hidden": true } as const) : ({ role: "img", "aria-label": navn } as const);
+  const klasser = [stil.merke, stil[merke], className].filter(Boolean).join(" ");
 
   return (
-    <svg className={`${stil.merke} ${stil[merke]}`} viewBox="0 0 26 26" focusable="false" {...tilgjengelig}>
+    <svg className={klasser} viewBox="0 0 26 26" focusable="false" {...tilgjengelig}>
       {merke === "ok" && (
         <>
           <circle cx="13" cy="13" r="13" className={stil.fyll} />

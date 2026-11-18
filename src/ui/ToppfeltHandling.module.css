@@ -1,0 +1,14 @@
+/* Til høyre i toppfeltet, før Demomodus-merket, som står i full bredde under på mobil og nettbrett. */
+.endre.endre {
+  flex: none;
+  margin-left: auto;
+  padding: 0 var(--spacing-4);
+  font-size: var(--typography-label-font-size);
+}
+
+/* PC: «Endre søk» står i panelet Ditt søk. */
+@media (min-width: 1200px) {
+  .endre.endre {
+    display: none;
+  }
+}

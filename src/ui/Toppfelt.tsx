@@ -1,9 +1,11 @@
 import type { Sidedata } from "@/kjerne/visning/sidedata";
+import { EndreSokIToppfelt } from "./ToppfeltHandling";
 import { APPNAVN, DEMOMODUS, naErTekst, OMRADE, VAERSCENARIO } from "./tekster";
 import stil from "./Toppfelt.module.css";
 
 // Toppfeltet med logo og ordmerke. Logoen er ikke en lenke (EXPERIENCE.md › Information Architecture).
 // I Demomodus står Demomodus-merket som pille i toppfeltet på PC og som felt under det på mobil og nettbrett.
+// På Resultat står «Endre søk» til høyre i toppfeltet på mobil og nettbrett (ToppfeltHandling).
 
 function Logo() {
   return (
@@ -43,6 +45,7 @@ export function Toppfelt({ demo }: { demo: Sidedata["demo"] }) {
         <span className={stil.appnavn}>{APPNAVN}</span>
         <span className={stil.omrade}>{OMRADE}</span>
       </div>
+      <EndreSokIToppfelt />
       {demo && <Demomodusmerke demo={demo} />}
     </header>
   );

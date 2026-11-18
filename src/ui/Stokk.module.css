@@ -1,0 +1,95 @@
+.stokkomrade {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+/*
+ * Alle kortene står i samme rute i et grid, så Stokken er like høy som det høyeste kortet. Stokk-kantene
+ * ligger bak, forskjøvet 12 px inn og 9 px ned per lag (components.stokk-kant), så Stokken får plass
+ * til dem under kortene. `pan-y` lar nettleseren rulle loddrett, mens vannrette sveip kommer fram som
+ * pointer events.
+ */
+.stokk {
+  --kanter: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding-bottom: max(
+    calc(var(--kanter) * var(--components-stokk-kant-offset-y)),
+    var(--components-turkort-base-offset)
+  );
+  border-radius: var(--components-turkort-rounded);
+  touch-action: pan-y;
+  scroll-margin-top: var(--spacing-4);
+}
+
+.kant {
+  position: absolute;
+  border: 1.2px solid var(--components-turkort-border-color);
+  border-radius: var(--components-turkort-rounded);
+  bottom: 0;
+}
+
+.kant1 {
+  z-index: 1;
+  top: var(--components-stokk-kant-offset-y);
+  left: var(--components-stokk-kant-offset-x);
+  right: var(--components-stokk-kant-offset-x);
+  bottom: calc((var(--kanter) - 1) * var(--components-stokk-kant-offset-y));
+  background: var(--components-stokk-kant-color1);
+}
+
+.kant2 {
+  z-index: 0;
+  top: calc(2 * var(--components-stokk-kant-offset-y));
+  left: calc(2 * var(--components-stokk-kant-offset-x));
+  right: calc(2 * var(--components-stokk-kant-offset-x));
+  background: var(--components-stokk-kant-color2);
+}
+
+/*
+ * Kortet glir ut til venstre, og det neste løftes fram fra Stokken (ca. 250 ms). Kort som ikke er valgt,
+ * blir skjult først når overgangen er ferdig.
+ */
+.plass {
+  grid-area: 1 / 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition:
+    transform 250ms ease,
+    opacity 250ms ease,
+    visibility 0s linear 250ms;
+}
+
+/* Kortet fyller ruten, så det synlige kortet er like høyt som Stokken, og kantene står under det. */
+.plass > article {
+  flex: 1 1 auto;
+}
+
+.valgt {
+  z-index: 2;
+  transition:
+    transform 250ms ease,
+    opacity 250ms ease,
+    visibility 0s;
+}
+
+.foran,
+.bak {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Kortet som glir ut, ligger over kortet som løftes fram. */
+.foran {
+  z-index: 3;
+  transform: translateX(-105%);
+}
+
+.bak {
+  z-index: 1;
+  transform: translateY(calc(2 * var(--components-stokk-kant-offset-y))) scale(0.94);
+}

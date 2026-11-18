@@ -22,3 +22,13 @@
   line-height: var(--typography-rule-text-line-height);
   color: var(--components-begrunnelse-boks-text-color);
 }
+
+/* Mobil og nettbrett: én kursiv linje under Kriterieradene. */
+.linje {
+  margin: var(--spacing-3) 0 0;
+  font-size: var(--typography-rule-text-font-size);
+  font-weight: var(--typography-rule-text-font-weight);
+  font-style: var(--typography-rule-text-font-style);
+  line-height: var(--typography-rule-text-line-height);
+  color: var(--components-begrunnelse-boks-text-color);
+}

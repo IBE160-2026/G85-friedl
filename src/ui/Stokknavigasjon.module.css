@@ -1,0 +1,82 @@
+/* Forrige til venstre, posisjonen i midten og Neste til høyre. Ved 200 % zoom brytes raden. */
+.navigasjon {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+}
+
+.forrige {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--components-stokknavigasjon-size);
+  height: var(--components-stokknavigasjon-size);
+  padding: 0;
+  border: 2px solid var(--colors-forest);
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface-card);
+  color: var(--colors-forest);
+  cursor: pointer;
+}
+
+/* Inaktiv: hårstrek og grå pil. Knappen kan fortsatt få fokus. */
+.forrige[aria-disabled="true"] {
+  border: 1.5px solid var(--colors-border-hairline);
+  background: transparent;
+  color: var(--colors-ink-muted);
+  cursor: default;
+}
+
+.pil {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.posisjon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+  margin: 0;
+}
+
+.av {
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.prikker {
+  display: flex;
+  gap: 6px;
+}
+
+.prikk {
+  width: var(--components-stokknavigasjon-dot-size);
+  height: var(--components-stokknavigasjon-dot-size);
+  border-radius: 50%;
+  background: var(--components-stokknavigasjon-dot-color);
+}
+
+.aktiv {
+  background: var(--components-stokknavigasjon-dot-color-active);
+}
+
+.neste.neste {
+  min-width: min(var(--components-stokknavigasjon-next-width), 100%);
+  min-height: var(--components-stokknavigasjon-size);
+  padding: 0 var(--spacing-5);
+  font-size: 16px;
+}
+
+/* Inaktiv på siste kort: hårstrek og grå tekst, uten skoggrønn flate. */
+.neste.neste[aria-disabled="true"] {
+  border: 1.5px solid var(--colors-border-hairline);
+  background: transparent;
+  color: var(--colors-ink-muted);
+  cursor: default;
+}

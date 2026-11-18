@@ -7,7 +7,8 @@ import { Resultat } from "./Resultat";
 import { Tidsstolpe } from "./Tidsstolpe";
 
 // Komponenttest for Resultatet uten vær. Flaten rendres på serveren og sjekkes i HTML-en, uten
-// nettleser. Oppførselen i nettleseren testes i e2e/resultat.spec.ts.
+// nettleser. Oppførselen i nettleseren testes i e2e/resultat.spec.ts og e2e/stokk.spec.ts.
+// Både kortraden for PC og Stokken for mobil og nettbrett står i HTML-en. CSS viser ett av dem.
 
 function kort(nummer: number, onsker: TurkortData["kriterier"][2]): TurkortData {
   return {
@@ -74,24 +75,37 @@ const visning: Resultatvisning = {
   },
 };
 
+/** Delen av `html` fra `fra` til `til`. Feiler hvis en av merkene mangler, i stedet for å gi feil del. */
+function del(html: string, fra: string, til: string): string {
+  const start = html.indexOf(fra);
+  const slutt = html.indexOf(til);
+  if (start < 0 || slutt < 0) throw new Error(`Fant ikke ${start < 0 ? fra : til} i HTML-en`);
+  return html.slice(start, slutt);
+}
+/** Kortraden på PC: fra `kortraden` til Stokken. */
+const pcDel = (html: string) => del(html, 'data-testid="kortraden"', 'data-testid="stokk"');
+/** Stokken, Stokknavigasjonen og Stokkoversikten: fra Stokken til Ansvarsmerknaden. */
+const stokkDel = (html: string) => del(html, 'data-testid="stokk"', 'data-testid="ansvarsmerknad"');
+
 const html = renderToString(<Resultat visning={visning} onEndreSok={() => {}} />);
-const artikler = [...html.matchAll(/<article[^>]*>/g)].map((m) => m[0]);
+const pc = pcDel(html);
+const artikler = [...pc.matchAll(/<article[^>]*>/g)].map((m) => m[0]);
 
 describe("Resultat med Turforslag uten vær", () => {
   it("har hvert kort som en artikkel med leseteksten som navn", () => {
     expect(artikler).toHaveLength(2);
-    expect(html).toMatch(/data-testid="nummerstempel">1<\/span><p[^>]*><span[^>]*>1 av 2<\/span>/);
+    expect(pc).toMatch(/data-testid="nummerstempel">1<\/span><p[^>]*><span[^>]*>1 av 2<\/span>/);
     expect(artikler[0]).toContain('aria-label="Turforslag 1 av 2: Mål 1. Turtid: 1 t 32 min av 2 t, gangtid uten pauser."');
     expect(artikler[1]).toContain('aria-label="Turforslag 2 av 2: Mål 2.');
   });
 
   it("gir radene PRD-begrepene som navn og merkene tekstalternativ", () => {
     for (const navn of ["Turtid", "Værklasse", "Opplevelsespreferanser", "Mørkevarsel"]) {
-      expect(html.match(new RegExp(`role="group" aria-label="${navn}"`, "g"))).toHaveLength(2);
+      expect(pc.match(new RegExp(`role="group" aria-label="${navn}"`, "g"))).toHaveLength(2);
     }
-    expect(html.match(/role="img" aria-label="passer"/g)).toHaveLength(3);
-    expect(html.match(/role="img" aria-label="ikke vurdert"/g)).toHaveLength(3);
-    expect(html.match(/role="img" aria-label="se opp"/g)).toHaveLength(2);
+    expect(pc.match(/role="img" aria-label="passer"/g)).toHaveLength(3);
+    expect(pc.match(/role="img" aria-label="ikke vurdert"/g)).toHaveLength(3);
+    expect(pc.match(/role="img" aria-label="se opp"/g)).toHaveLength(2);
   });
 
   it("bytter ✓ med SVG-ikonet og tekstalternativet «: ja»", () => {
@@ -118,6 +132,79 @@ describe("Resultat med Turforslag uten vær", () => {
     expect(html).toContain("--andel:0.77");
     expect(html).toContain("--fra:0.8;--til:1");
     expect(html).toContain("--andel:0.62");
+  });
+});
+
+describe("Stokken på mobil og nettbrett", () => {
+  const stokk = stokkDel(html);
+  /** Hele Resultatet med `antall` Turforslag. */
+  const lag = (antall: number) => {
+    const kortene = [1, 2, 3]
+      .slice(0, antall)
+      .map((n) => kort(n, { rad: "onsker", merke: "ingen", tekst: "ingen valgt", detalj: [] }));
+    return renderToString(
+      <Resultat visning={{ ...visning, utfall: { type: "turforslag", kort: kortene } }} onEndreSok={() => {}} />,
+    );
+  };
+
+  it("er en region som heter «Turforslag N av M», kan få fokus og viser bare det valgte kortet", () => {
+    expect(stokk).toMatch(/^data-testid="stokk"/);
+    expect(html).toMatch(/<section[^>]*aria-label="Turforslag 1 av 2" tabindex="0"[^>]*data-testid="stokk"/);
+    const plasser = [...stokk.matchAll(/<div class="[^"]*"( inert="")?( data-testid="stokk-valgt")?><article/g)];
+    expect(plasser).toHaveLength(2);
+    expect(plasser[0][1]).toBeUndefined();
+    expect(plasser[0][2]).toBeDefined();
+    expect(plasser[1][1]).toBeDefined();
+  });
+
+  it("har kortene som artikler med leseteksten og Begrunnelsen som én linje", () => {
+    expect(stokk).toContain('aria-label="Turforslag 1 av 2: Mål 1. Turtid: 1 t 32 min av 2 t, gangtid uten pauser."');
+    expect(stokk).toContain("Begrunnelse: «passer tiden din (1 t 32 min av 2 t), værdata mangler, utsikt»");
+    expect(stokk).not.toContain(">Begrunnelse<");
+  });
+
+  it("har Stokknavigasjon med navnene i UX-DR32, «N av M» og prikker som pynt", () => {
+    expect(stokk).toMatch(/<button type="button"[^>]*aria-label="Forrige Turforslag" aria-disabled="true"/);
+    expect(stokk).toMatch(/<button type="button"[^>]*aria-label="Neste Turforslag"(?! aria-disabled)[^>]*>Neste tur<svg/);
+    expect(stokk).not.toContain("disabled=\"\"");
+    expect(stokk).toMatch(/data-testid="stokk-posisjon" aria-live="polite" aria-atomic="true">1 av 2<\/span><span[^>]*aria-hidden="true">(<span[^>]*><\/span>){2}<\/span>/);
+  });
+
+  it("har én Stokk-kant per kort bak det valgte, høyst to", () => {
+    expect(stokk.match(/data-testid="stokk-kant"/g)).toHaveLength(1);
+    expect(stokkDel(lag(3)).match(/data-testid="stokk-kant"/g)).toHaveLength(2);
+    expect(lag(1)).not.toContain("stokk-kant");
+  });
+
+  it("har Stokkoversikt med «Begge i stokken» ved to kort og «Alle tre i stokken» ved tre", () => {
+    expect(stokk).toContain(">Begge i stokken</h2>");
+    expect(stokk.match(/<button type="button"[^>]*aria-pressed="(true|false)"/g)).toEqual([
+      expect.stringContaining('aria-pressed="true"'),
+      expect.stringContaining('aria-pressed="false"'),
+    ]);
+    expect(stokk).toContain(">Mål 1 fra Startpunktet</span>");
+    expect(stokk).toContain("1 t 32 min uten pauser · tilbake 15:02");
+    expect(stokk).toContain('role="img" aria-label="Turtid: passer"');
+    expect(stokk).toContain('role="img" aria-label="Mørkevarsel: se opp"');
+    expect(stokkDel(lag(3))).toContain(">Alle tre i stokken</h2>");
+  });
+
+  it("har verken Stokknavigasjon eller Stokkoversikt ved ett kort", () => {
+    const ett = lag(1);
+    expect(ett).toMatch(/<section[^>]*aria-label="Turforslag 1 av 1"[^>]*data-testid="stokk"/);
+    expect(ett).not.toContain("stokknavigasjon");
+    expect(ett).not.toContain("stokkoversikt");
+  });
+
+  it("har Ditt søk som én linje uten preferanseleddet når ingen er valgt", () => {
+    expect(html).toMatch(/data-testid="ditt-sok-linje"><span[^>]*>Ditt søk: <\/span>I dag, man. 9. nov. · 13:30 · 2 t · Middels<\/p>/);
+    const medPreferanser = renderToString(
+      <Resultat
+        visning={{ ...visning, dittSok: { ...visning.dittSok, opplevelsespreferanser: ["utsikt", "vann"] } }}
+        onEndreSok={() => {}}
+      />,
+    );
+    expect(medPreferanser).toContain("I dag, man. 9. nov. · 13:30 · 2 t · Middels · utsikt og vann</p>");
   });
 });
 
@@ -231,6 +318,7 @@ describe("medHake", () => {
     };
     const html = renderToString(<Resultat visning={medDetalj} onEndreSok={() => {}} />);
     expect(html).not.toContain("✓");
-    expect(html.match(/<p class="[^"]*">har vann<svg/g)).toHaveLength(2);
+    expect(pcDel(html).match(/<p class="[^"]*">har vann<svg/g)).toHaveLength(2);
+    expect(stokkDel(html).match(/<p class="[^"]*">har vann<svg/g)).toHaveLength(2);
   });
 });

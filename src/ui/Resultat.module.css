@@ -1,4 +1,7 @@
-/* Under 1200 px holder Resultatet seg innenfor tekstbredden, med kortene under hverandre. */
+/*
+ * Mobil og nettbrett (under 1200 px): Resultatet holder seg innenfor tekstbredden, med Stokken.
+ * Nettbrettet får sidemargen 32 px fra Side.
+ */
 .resultat {
   display: flex;
   flex-direction: column;
@@ -31,10 +34,15 @@
   box-shadow: none;
 }
 
-.kortene {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--spacing-8);
+/* Oppsettet byttes ved 1200 px. Det andre oppsettet er skjult og utenfor tilgjengelighetstreet. */
+.pc {
+  display: none;
+}
+
+.stokkdel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-10);
 }
 
 .plassholder {
@@ -63,7 +71,17 @@
     max-width: none;
   }
 
-  .kortene {
+  .pc {
+    display: block;
+  }
+
+  .mobil {
+    display: none;
+  }
+
+  /* To klasser, så griden vinner over `.pc` uansett rekkefølge. */
+  .pc.kortene {
+    display: grid;
     grid-template-columns: repeat(3, minmax(var(--components-turkort-min-width-desktop), 1fr));
     gap: clamp(
       var(--spacing-card-gap-desktop-min),

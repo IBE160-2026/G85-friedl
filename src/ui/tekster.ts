@@ -97,6 +97,28 @@ export const MERKENAVN = { ok: "passer", "se-opp": "se opp", ingen: "ikke vurder
 /** Skjult tekst for haken i en tekstlinje: «utsikt ✓» leses «utsikt: ja». */
 export const HAKE_TEKST = ": ja";
 
+/** Begrunnelsen på mobil og nettbrett er én kursiv linje: «Begrunnelse: «…»» (UX-DR27). */
+export const BEGRUNNELSE_LINJE = "Begrunnelse:";
+
+/**
+ * Ditt søk på mobil og nettbrett er én linje av de ferdige feltene, skilt med « · », for eksempel
+ * «I dag · 13:30 · 2 t · Middels · utsikt». Uten valgt Opplevelsespreferanse utelates det leddet.
+ */
+export const DITT_SOK_SKILLE = " · ";
+export const dittSokLinje = (ledd: readonly string[]) => ledd.join(DITT_SOK_SKILLE);
+
+// --- Stokken (mobil og nettbrett) ---
+
+/** Det tilgjengelige navnet på Stokken: «Turforslag 1 av 3». */
+export const stokkNavn = (nummer: number, antall: number) => `${TURFORSLAG} ${plassTekst(nummer, antall)}`;
+/** Synlig tekst på «Neste»-knappen i Stokknavigasjonen. */
+export const NESTE_TUR = "Neste tur";
+/** Tilgjengelige navn på knappene i Stokknavigasjonen (UX-DR32). */
+export const FORRIGE_TURFORSLAG = "Forrige Turforslag";
+export const NESTE_TURFORSLAG = "Neste Turforslag";
+/** Overskriften på Stokkoversikten, etter antall kort. Ved ett kort vises ingen Stokkoversikt. */
+export const STOKKOVERSIKT = { 2: "Begge i stokken", 3: "Alle tre i stokken" } as const;
+
 /** Plassholder for Alternativ og frarådet til visningene kommer i story 1.14 og 2.10. */
 export const RESULTAT_KOMMER = "Visningen av dette Resultatet kommer snart.";
 

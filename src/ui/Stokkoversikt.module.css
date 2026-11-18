@@ -1,0 +1,93 @@
+.oversikt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.overskrift {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.rader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Raden er en knapp på minst 64 px, med hårstrek. Valgt rad har skoggrønn kant. */
+.rad {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  width: 100%;
+  min-height: var(--components-stokkoversikt-rad-height);
+  padding: var(--spacing-3);
+  border: 1.2px solid var(--components-stokkoversikt-rad-border-color);
+  border-radius: var(--components-stokkoversikt-rad-rounded);
+  background: var(--colors-surface-card);
+  text-align: left;
+  cursor: pointer;
+}
+
+.rad[aria-pressed="true"] {
+  /* 2 px kant uten at innholdet flytter seg: 0,8 px ekstra som innvendig skygge. */
+  border-color: var(--components-stokkoversikt-rad-border-color-selected);
+  box-shadow: inset 0 0 0 0.8px var(--components-stokkoversikt-rad-border-color-selected);
+}
+
+.rad[aria-pressed="true"]:focus-visible {
+  box-shadow:
+    inset 0 0 0 0.8px var(--components-stokkoversikt-rad-border-color-selected),
+    var(--fokusring);
+}
+
+.rad .stempel {
+  width: 40px;
+  height: 40px;
+  font-size: 21px;
+}
+
+.tekst {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  min-width: 0;
+}
+
+.navn {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.linje {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-1) var(--spacing-2);
+}
+
+.merker {
+  display: flex;
+  gap: 4px;
+}
+
+.rad .merke {
+  width: 16px;
+  height: 16px;
+}
+
+.tid {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--colors-ink-secondary);
+  font-variant-numeric: tabular-nums;
+}

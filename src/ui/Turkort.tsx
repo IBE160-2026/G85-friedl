@@ -12,10 +12,11 @@ import stil from "./Turkort.module.css";
 // faktalinjen, Startpunkt, perforeringen, PASSER FORDI med de fire Kriterieradene, Begrunnelse-boksen
 // og foten med kildelenken. Kartutsnittet og «Vis på kartet» kommer med kartet i Epic 3.
 // Kortet er én artikkel med lesetekst fra serveren som navn (UX-DR43).
+// I Stokken (`iStokken`, mobil og nettbrett) er Begrunnelsen én kursiv linje, med kildelenken under.
 
-type Props = { kort: TurkortData; antall: number };
+type Props = { kort: TurkortData; antall: number; iStokken?: boolean };
 
-export function Turkort({ kort, antall }: Props) {
+export function Turkort({ kort, antall, iStokken = false }: Props) {
   const [tid, vaer, onsker, morke] = kort.kriterier;
   // Plassen kommer fra serveren, så stempelet og «N av M» sier det samme som leseteksten.
   const { nummer } = kort.kart;
@@ -56,7 +57,7 @@ export function Turkort({ kort, antall }: Props) {
           <Dagslysstolpe stolpe={kort.dagslysstolpe} varsel={morke.merke === "se-opp"} />
         </Kriterierad>
       </div>
-      <Begrunnelse tekst={kort.regeltekst} />
+      <Begrunnelse tekst={kort.regeltekst} linje={iStokken} />
 
       <div className={stil.fot}>
         <a className={stil.kilde} href={kort.kilde.url} target="_blank" rel="noopener noreferrer">

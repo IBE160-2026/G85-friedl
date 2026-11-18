@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { Sok } from "@/kjerne/sok";
 import type { Sidedata } from "@/kjerne/visning/sidedata";
 import { sendSok, type SokSvar } from "./api";
@@ -125,6 +125,14 @@ export function SokFlate({ skjema }: Props) {
     settVisResultat(false);
   }
 
+  // «Endre søk» får en stabil identitet, så toppfeltet ikke registrerer handlingen på nytt ved hver
+  // rendring. Innpakningen kaller alltid den nyeste `endreSok`.
+  const sisteEndreSok = useRef(endreSok);
+  useEffect(() => {
+    sisteEndreSok.current = endreSok;
+  });
+  const stabilEndreSok = useCallback(() => sisteEndreSok.current(), []);
+
   // Resultat står alltid på samme plass i treet, så live-området i den overlever byttet.
   return (
     <>
@@ -191,7 +199,7 @@ export function SokFlate({ skjema }: Props) {
         </div>
       )}
 
-      <Resultat visning={visResultat ? visning : null} onEndreSok={endreSok} />
+      <Resultat visning={visResultat ? visning : null} onEndreSok={stabilEndreSok} />
     </>
   );
 }

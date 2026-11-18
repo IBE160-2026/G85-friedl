@@ -35,3 +35,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-12-resultat-med-turkort-pa-pc.md`
   summary: Resultat har ingen største bredde på skjermer bredere enn 1440 px, og etikettene i Dagslysstolpen kan overlappe når andelene ligger tett.
   evidence: Gjennomgangen av story 1.12 (BH10 og EC3). Ingen token for største bredde. Sjekkes i SM-4-gjennomgangen i 1.15.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-13-stokken-pa-mobil-og-nettbrett.md`
+  summary: Turkortene rendres to ganger, én gang for PC-raden og én gang for Stokken, og fokus kan gå tapt når bredden krysser 1200 px.
+  evidence: Gjennomgangen av story 1.13 (BH4 og EC4). Den doble renderingen må løses før kartutsnittet kommer inn i Turkort i Epic 3 (story 3.5), med lat lasting eller med ett oppsett etter `matchMedia`.
