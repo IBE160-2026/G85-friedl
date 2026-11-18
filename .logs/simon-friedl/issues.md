@@ -82,3 +82,4 @@
 - [x] 2026-11-18 [story-1-7-sol-og-morkevarsel](980-2026-11-18-15-50-29-story-1-7-sol-og-morkevarsel.md) — Story 1.8: test at Mørkevarselet ikke fjerner Turer gjennom rangeringen (i dag bare strukturelt sikret) (løst 2026-11-18: UJ-2-testen i story 1.8, `39a34d7`)
 - [x] 2026-11-18 [story-1-7-sol-og-morkevarsel](980-2026-11-18-15-50-29-story-1-7-sol-og-morkevarsel.md) — Neste steg: `bmad-build` for story 1.8 (Rangering, utvalg og den korteste Turen) (løst 2026-11-18: `39a34d7`)
 - [ ] 2026-11-18 [story-1-8-rangering](979-2026-11-18-15-56-25-story-1-8-rangering.md) — Valgfritt: la `validerTurdatasett` kreve minst én Tur med Enkel, så `anbefal` aldri kaster (se `deferred-work.md`)
+- [ ] 2026-11-18 [story-1-9-turkort](978-2026-11-18-16-12-58-story-1-9-turkort.md) — Valgfritt: en Tur som ender etter midnatt, viser «tilbake 03:00» uten å si at det er neste dag (se `deferred-work.md`)
