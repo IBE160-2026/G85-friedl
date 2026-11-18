@@ -89,3 +89,6 @@
 - [ ] 2026-11-18 [story-1-12-resultat-pc](975-2026-11-18-20-22-10-story-1-12-resultat-pc.md) — Til story 1.15: største bredde på brede skjermer, og at etikettene i Dagslysstolpen kan overlappe
 - [ ] 2026-11-18 [story-1-13-stokken](974-2026-11-18-20-41-49-story-1-13-stokken.md) — Til story 3.5: Turkortene rendres to ganger (PC og Stokk). Det må løses før kartutsnittet kommer
 - [ ] 2026-11-18 [story-1-13-stokken](974-2026-11-18-20-41-49-story-1-13-stokken.md) — Til story 1.15: Kriterieradene er svært trange ved 180 px (200 % zoom)
+- [ ] 2026-11-19 [story-1-14-tilstander](973-2026-11-19-00-40-59-story-1-14-tilstander.md) — Avklar fokus etter «Endre Tilgjengelig tid»: matrisen i specen sier minusknappen, beslutningen sier plussknappen når minus er inaktiv (alltid ved 15 min). Plussknappen er valgt
+- [ ] 2026-11-19 [story-1-14-tilstander](973-2026-11-19-00-40-59-story-1-14-tilstander.md) — Ditt søk mens svaret venter og ved Kontaktfeil viser «I dag», ikke «I dag, man. 9. nov.» som i Resultatet
+- [ ] 2026-11-19 [story-1-14-tilstander](973-2026-11-19-00-40-59-story-1-14-tilstander.md) — Story 1.14: review og sprint-status gjenstår
