@@ -45,6 +45,43 @@
   gap: var(--spacing-10);
 }
 
+/*
+ * Alternativkortet står likt ved alle bredder, innenfor tekstbredden. Under står primærknappen
+ * «Endre Tilgjengelig tid» og teksten om hvor mye tid som trengs.
+ */
+.alternativ {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  width: 100%;
+  max-width: var(--spacing-text-max-width);
+}
+
+.alternativHandling {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+}
+
+/* På mobil fyller knappen bredden, som i tommelsonen i mob-5. */
+.endreTid {
+  width: 100%;
+}
+
+.passerMed {
+  margin: 0;
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+  color: var(--colors-ink-secondary);
+}
+
+@media (min-width: 768px) {
+  .endreTid {
+    width: auto;
+  }
+}
+
 .plassholder {
   display: flex;
   flex-wrap: wrap;

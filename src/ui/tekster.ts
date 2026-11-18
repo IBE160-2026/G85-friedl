@@ -119,8 +119,26 @@ export const NESTE_TURFORSLAG = "Neste Turforslag";
 /** Overskriften på Stokkoversikten, etter antall kort. Ved ett kort vises ingen Stokkoversikt. */
 export const STOKKOVERSIKT = { 2: "Begge i stokken", 3: "Alle tre i stokken" } as const;
 
-/** Plassholder for Alternativ og frarådet til visningene kommer i story 1.14 og 2.10. */
+/** Plassholder for frarådet til visningen kommer i story 2.10. */
 export const RESULTAT_KOMMER = "Visningen av dette Resultatet kommer snart.";
+
+// --- Alternativ, Plassholder og Kontaktfeil ---
+
+/** Ved stempelet «→» på Alternativkortet: «Alternativ · den korteste Turen». */
+export const ALTERNATIV = { type: "Alternativ", tekst: "den korteste Turen" } as const;
+/** Overlinjen på Alternativkortet, i versaler av CSS. */
+export const SLIK_STAR_DEN = "Slik står den mot Søket ditt";
+export const ENDRE_TILGJENGELIG_TID = "Endre Tilgjengelig tid";
+
+/** Plassholderstokken mens Søket venter på svar. */
+export const FINNER_TURER = "Finner turer …";
+
+/** Kontaktfeil-kortet: ingen kontakt med appens server innen 10 s, nettverksfeil eller feil fra serveren. */
+export const KONTAKTFEIL = {
+  tittel: "Vi fikk ikke kontakt.",
+  tekst: "Søket ditt er tatt vare på.",
+  provIgjen: "Prøv igjen",
+} as const;
 
 // --- Kreditering og bunntekst ---
 

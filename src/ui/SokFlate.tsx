@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { Sok } from "@/kjerne/sok";
 import type { Sidedata } from "@/kjerne/visning/sidedata";
-import { sendSok, type SokSvar } from "./api";
+import type { DittSok, Resultatvisning } from "@/kjerne/visning/skjema";
+import { sendSok } from "./api";
 import { Preferansebrikke } from "./Preferansebrikke";
-import { Resultat } from "./Resultat";
+import { Resultat, type Resultattilstand } from "./Resultat";
 import { Segmentvelger } from "./Segmentvelger";
 import { Skjemakort } from "./Skjemakort";
 import stil from "./SokFlate.module.css";
@@ -18,14 +19,45 @@ import {
   SOK_OVERSKRIFT,
   VANSKELIGHETSGRAD,
 } from "./tekster";
-import { Trinnvelger } from "./Trinnvelger";
+import { Trinnvelger, type TrinnvelgerHandle } from "./Trinnvelger";
 
 // Søk-flaten (FR-1–FR-6) og byttet til Resultat. Søket og Resultatvisningen holdes bare i React-state,
 // aldri i URL-en eller lagring. Valg, låser, etiketter og standard-Søket kommer ferdige fra
 // sidedataene (AD-18), så flaten regner ikke ut tider og leser aldri klokka.
-// Etter «Finn tur» viser flaten Resultatet. «Endre søk» går tilbake til Søk med Søket fra Resultatet
-// i skjemaet, og en `justering` står som hjelpetekst under Starttidspunkt (UX-DR12). Historikk og
-// nettleserens Tilbake kommer i story 1.14.
+//
+// Flaten har fire tilstander: `sok`, `venter`, `resultat` og `kontaktfeil`. «Finn tur» og «Prøv igjen»
+// går til `venter`, og svaret gir `resultat` eller `kontaktfeil`. Et `feil`-svar (400) gir også
+// Kontaktfeil, fordi skjemaet ikke kan lage ugyldige Søk. Da står bare «Endre søk» på kortet, fordi
+// samme Søk ville fått samme feil, og feilen fra serveren skrives til konsollen.
+//
+// Historikken (EXPERIENCE.md › Nettleserens Tilbake): første overgang fra Søk lager én oppføring med
+// `pushState`, merket med `HISTORIKK`. Et nytt Søk mens oppføringen er den gjeldende, bruker
+// `replaceState`. URL-en er alltid `location.pathname + location.search`, så `?demo` blir med og Søket
+// aldri står i URL-en. «Endre søk» og «Endre Tilgjengelig tid» går tilbake med `history.back()` når
+// oppføringen finnes, så historikken ikke vokser. `popstate` tilbake til Søk viser Søk med Søket fra
+// det siste Resultatet, eller med Søket som ble sendt. `popstate` fram igjen viser svaret på det siste
+// Søket. Finnes det ikke (svaret ble forkastet av Tilbake), går flaten tilbake igjen, så skjermen og
+// historikken stemmer.
+//
+// Fokus: til «Finner turer …» i Plassholderstokken, til overskriften i Resultatet eller tittelen på
+// Kontaktfeil-kortet (Resultat), og til overskriften på Søk, eller til Tilgjengelig tid etter «Endre
+// Tilgjengelig tid».
+
+/** Nøkkelen i `history.state` som merker oppføringen for Resultatet. */
+const HISTORIKK = "turplanleggerResultat";
+
+const erResultatoppforing = () => (window.history.state as Record<string, unknown> | null)?.[HISTORIKK] === true;
+const sideUrl = () => location.pathname + location.search;
+
+type Flate =
+  | { type: "sok" }
+  | { type: "venter"; id: string; sok: Sok }
+  | { type: "resultat"; visning: Resultatvisning }
+  /** `feil`: serveren svarte 400, så «Prøv igjen» ville gitt samme feil. */
+  | { type: "kontaktfeil"; id: string; sok: Sok; feil: boolean };
+
+/** Hvor fokus går når Søk vises igjen. */
+type Fokusmal = "overskrift" | "tilgjengeligTid";
 
 /** Starttidspunktet når «I morgen» velges (FR-2, EXPERIENCE.md › Segmentvelger). */
 const I_MORGEN_START = "10:00";
@@ -43,24 +75,35 @@ export function SokFlate({ skjema }: Props) {
 
   const [sok, settSok] = useState<Sok>(standardSok);
   const [justering, settJustering] = useState<string | null>(null);
-  // Svaret på siste Søk. Kontaktfeil og feil fra serveren vises fra story 1.14.
-  const [svar, settSvar] = useState<SokSvar | null>(null);
-  // Resultatet vises til «Endre søk» trykkes.
-  const [visResultat, settVisResultat] = useState(false);
-  // Kallet som pågår. Et nytt Søk avbryter det.
+  const [flate, settFlate] = useState<Flate>({ type: "sok" });
+  // Speiler `flate`, så `popstate` og «Endre søk» leser den gjeldende tilstanden.
+  const flateRef = useRef<Flate>(flate);
+  // Svaret på det siste Søket, som vises igjen når nettleseren går fram. Tømmes når et nytt Søk sendes.
+  const sisteSvar = useRef<Flate | null>(null);
+  // `history.back()` er kalt, og `popstate` har ikke kommet ennå. Hindrer at to trykk går to steg tilbake.
+  const tilbakePagar = useRef(false);
+  // Kallet som pågår. Et nytt Søk eller Tilbake til Søk avbryter det.
   const pagaendeKall = useRef<AbortController | null>(null);
-  // Fokus går til overskriften på Søk når «Endre søk» bringer flaten tilbake.
+  const teller = useRef(0);
+  // Fokus går til overskriften på Søk, eller til Tilgjengelig tid, når flaten kommer tilbake.
   const sokOverskrift = useRef<HTMLHeadingElement>(null);
-  const fraResultat = useRef(false);
+  const tilgjengeligTidFelt = useRef<TrinnvelgerHandle>(null);
+  const fokusmal = useRef<Fokusmal | null>(null);
   const preferanseId = useId();
 
-  useEffect(() => {
-    if (visResultat || !fraResultat.current) return;
-    fraResultat.current = false;
-    sokOverskrift.current?.focus();
-  }, [visResultat]);
+  function visFlate(ny: Flate) {
+    flateRef.current = ny;
+    settFlate(ny);
+  }
 
-  const visning = svar?.type === "resultat" ? svar.visning : null;
+  useEffect(() => {
+    if (flate.type !== "sok" || !fokusmal.current) return;
+    const mal = fokusmal.current;
+    fokusmal.current = null;
+    if (mal === "tilgjengeligTid") tilgjengeligTidFelt.current?.fokuser();
+    else sokOverskrift.current?.focus();
+  }, [flate]);
+
   const turdag = turdager.find((d) => d.dato === sok.dato) ?? iDag;
   const erNa = sok.dato === iDag.dato && sok.start === standardSok.start;
 
@@ -97,52 +140,145 @@ export function SokFlate({ skjema }: Props) {
     );
   }
 
-  async function finnTur() {
+  /** Ditt søk mens svaret venter og ved Kontaktfeil, satt sammen av de ferdige etikettene i skjemaet. */
+  function dittSokFor(sendt: Sok): DittSok {
+    return {
+      turdag: turdager.find((d) => d.dato === sendt.dato)?.etikett ?? sendt.dato,
+      starttidspunkt: sendt.start,
+      tilgjengeligTid:
+        tilgjengeligTid.find((t) => t.verdi === sendt.tilgjengeligMin)?.etikett ?? String(sendt.tilgjengeligMin),
+      vanskelighetsgrad: VANSKELIGHETSGRAD[sendt.vanskelighetsgrad],
+      opplevelsespreferanser: (["utsikt", "vann"] as const).filter((p) => sendt[p]).map((p) => PREFERANSE[p]),
+    };
+  }
+
+  /**
+   * Sender `sendt` og viser Plassholderstokken til svaret kommer. Første overgang fra Søk lager én
+   * historikkoppføring, og et nytt Søk fra Resultatet erstatter den.
+   */
+  async function send(sendt: Sok) {
     // Et nytt Søk erstatter det forrige: det forrige kallet avbrytes, og svaret på det forkastes.
     pagaendeKall.current?.abort();
     const kall = new AbortController();
     pagaendeKall.current = kall;
 
-    const nyttSvar = await sendSok(sok, kall.signal);
+    // Nytt objekt hver gang: Next.js legger sine egne felt inn i objektet som gis til historikken.
+    const oppforing = { [HISTORIKK]: true };
+    if (erResultatoppforing()) window.history.replaceState(oppforing, "", sideUrl());
+    else window.history.pushState(oppforing, "", sideUrl());
+
+    sisteSvar.current = null;
+    teller.current += 1;
+    visFlate({ type: "venter", id: `venter-${teller.current}`, sok: sendt });
+
+    const svar = await sendSok(sendt, kall.signal);
     if (pagaendeKall.current !== kall) return;
     pagaendeKall.current = null;
-    settSvar(nyttSvar);
-    if (nyttSvar.type === "resultat") settVisResultat(true);
+    teller.current += 1;
+    if (svar.type === "feil") console.error("Serveren avviste Søket", svar.feil);
+    const ny: Flate =
+      svar.type === "resultat"
+        ? { type: "resultat", visning: svar.visning }
+        : { type: "kontaktfeil", id: `kontaktfeil-${teller.current}`, sok: sendt, feil: svar.type === "feil" };
+    sisteSvar.current = ny;
+    visFlate(ny);
+  }
+
+  /** «Prøv igjen» sender Søket som Kontaktfeil gjelder for, på nytt. */
+  function provIgjen() {
+    const naa = flateRef.current;
+    if (naa.type === "kontaktfeil" && !naa.feil) void send(naa.sok);
   }
 
   /**
-   * Tilbake til Søk med Søket fra Resultatet og justeringen under Starttidspunkt. Kan ikke skjemaet
-   * vise Søket (for eksempel når siden har stått åpen over midnatt), står skjemaet urørt.
+   * Viser Søk igjen. Fra Resultatet står Søket fra Resultatet i skjemaet, med justeringen under
+   * Starttidspunkt. Kan ikke skjemaet vise Søket (for eksempel når siden har stått åpen over midnatt),
+   * står skjemaet urørt. Mens svaret venter og ved Kontaktfeil settes Søket som ble sendt, inn i
+   * skjemaet, også når skjemaet er endret etter Tilbake og flaten kom fram igjen.
    */
-  function endreSok() {
-    if (visning && kanVises(visning.sok)) {
-      settSok(visning.sok);
-      settJustering(visning.justering ?? null);
-    } else {
-      settJustering(null);
+  function tilSok() {
+    pagaendeKall.current?.abort();
+    pagaendeKall.current = null;
+    const naa = flateRef.current;
+    if (naa.type === "sok") return;
+    if (naa.type === "resultat") {
+      if (kanVises(naa.visning.sok)) {
+        settSok(naa.visning.sok);
+        settJustering(naa.visning.justering ?? null);
+      } else {
+        settJustering(null);
+      }
+    } else if (kanVises(naa.sok)) {
+      // Justeringen gjelder Starttidspunktet i skjemaet, så den står bare når det er det samme.
+      if (naa.sok.dato !== sok.dato || naa.sok.start !== sok.start) settJustering(null);
+      settSok(naa.sok);
     }
-    fraResultat.current = true;
-    settVisResultat(false);
+    fokusmal.current ??= "overskrift";
+    visFlate({ type: "sok" });
   }
 
-  // «Endre søk» får en stabil identitet, så toppfeltet ikke registrerer handlingen på nytt ved hver
-  // rendring. Innpakningen kaller alltid den nyeste `endreSok`.
-  const sisteEndreSok = useRef(endreSok);
+  /** «Endre søk» og «Endre Tilgjengelig tid»: tilbake i historikken når Resultatet har en oppføring. */
+  function endreSok(mal: Fokusmal = "overskrift") {
+    if (tilbakePagar.current) return;
+    fokusmal.current = mal;
+    if (erResultatoppforing()) {
+      tilbakePagar.current = true;
+      window.history.back();
+    } else {
+      tilSok();
+    }
+  }
+
+  // Nettleserens Tilbake og Fram.
+  const sistePopstate = useRef<(state: unknown) => void>(() => {});
   useEffect(() => {
-    sisteEndreSok.current = endreSok;
+    sistePopstate.current = (state) => {
+      tilbakePagar.current = false;
+      const tilResultat = (state as Record<string, unknown> | null)?.[HISTORIKK] === true;
+      if (!tilResultat) {
+        tilSok();
+      } else if (flateRef.current.type === "sok") {
+        // Uten svar å vise (Tilbake forkastet det) går flaten tilbake til oppføringen for Søk.
+        if (sisteSvar.current) visFlate(sisteSvar.current);
+        else window.history.back();
+      }
+    };
   });
-  const stabilEndreSok = useCallback(() => sisteEndreSok.current(), []);
+  useEffect(() => {
+    const vedPopstate = (e: PopStateEvent) => sistePopstate.current(e.state);
+    window.addEventListener("popstate", vedPopstate);
+    return () => window.removeEventListener("popstate", vedPopstate);
+  }, []);
+
+  // Handlingene i Resultatet får en stabil identitet, så toppfeltet ikke registrerer «Endre søk» på nytt
+  // ved hver rendring. Innpakningene kaller alltid de nyeste funksjonene.
+  const sisteHandlinger = useRef({ endreSok, provIgjen });
+  useEffect(() => {
+    sisteHandlinger.current = { endreSok, provIgjen };
+  });
+  const stabilEndreSok = useCallback(() => sisteHandlinger.current.endreSok("overskrift"), []);
+  const stabilEndreTid = useCallback(() => sisteHandlinger.current.endreSok("tilgjengeligTid"), []);
+  const stabilProvIgjen = useCallback(() => sisteHandlinger.current.provIgjen(), []);
+
+  const tilstand: Resultattilstand | null =
+    flate.type === "sok"
+      ? null
+      : flate.type === "resultat"
+        ? flate
+        : flate.type === "venter"
+          ? { type: "venter", id: flate.id, dittSok: dittSokFor(flate.sok) }
+          : { type: "kontaktfeil", id: flate.id, dittSok: dittSokFor(flate.sok), kanProveIgjen: !flate.feil };
 
   // Resultat står alltid på samme plass i treet, så live-området i den overlever byttet.
   return (
     <>
-      {!visResultat && (
+      {flate.type === "sok" && (
         <div className={stil.sok}>
           <h1 ref={sokOverskrift} tabIndex={-1} className={stil.sokOverskrift}>
             {SOK_OVERSKRIFT}
           </h1>
           <p className={stil.ingress}>{SOK_INGRESS}</p>
-          <Skjemakort onFinnTur={finnTur}>
+          <Skjemakort onFinnTur={() => void send(sok)}>
             <Segmentvelger
               etikett={ETIKETT.turdag}
               valg={turdager.map((d) => ({ verdi: d.dato, etikett: d.etikett, last: d.last }))}
@@ -161,6 +297,7 @@ export function SokFlate({ skjema }: Props) {
                 hjelpetekster={justering ? [HJELPETEKST.starttidspunkt, justering] : [HJELPETEKST.starttidspunkt]}
               />
               <Trinnvelger
+                ref={tilgjengeligTidFelt}
                 etikett={ETIKETT.tilgjengeligTid}
                 valg={tilgjengeligTid.map((t) => ({ verdi: String(t.verdi), etikett: t.etikett }))}
                 verdi={String(sok.tilgjengeligMin)}
@@ -199,7 +336,12 @@ export function SokFlate({ skjema }: Props) {
         </div>
       )}
 
-      <Resultat visning={visResultat ? visning : null} onEndreSok={stabilEndreSok} />
+      <Resultat
+        tilstand={tilstand}
+        onEndreSok={stabilEndreSok}
+        onEndreTilgjengeligTid={stabilEndreTid}
+        onProvIgjen={stabilProvIgjen}
+      />
     </>
   );
 }

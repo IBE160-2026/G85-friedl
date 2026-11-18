@@ -7,8 +7,10 @@ import { DITT_SOK, ENDRE_SOK, ETIKETT, INGEN_PREFERANSE, preferanseliste } from 
 // Ditt søk på PC (DESIGN.md › Ditt søk): overlinjen DITT SØK og fem felt med etikett og verdi, og
 // «Endre søk» som sekundærknapp til høyre. Verdiene kommer ferdige fra serveren. Uten valgt
 // Opplevelsespreferanse står «ingen». Ikke interaktivt bortsett fra «Endre søk».
+// Uten `onEndreSok` står det ingen knapp: Plassholderstokken er ikke interaktiv, og Kontaktfeil-kortet
+// har «Endre søk» selv.
 
-type Props = { dittSok: DittSokData; onEndreSok: () => void };
+type Props = { dittSok: DittSokData; onEndreSok?: () => void };
 
 export function DittSok({ dittSok, onEndreSok }: Props) {
   const id = useId();
@@ -39,9 +41,11 @@ export function DittSok({ dittSok, onEndreSok }: Props) {
           ))}
         </dl>
       </div>
-      <Knapp variant="sekundaer" className={stil.endre} onClick={onEndreSok}>
-        {ENDRE_SOK}
-      </Knapp>
+      {onEndreSok && (
+        <Knapp variant="sekundaer" className={stil.endre} onClick={onEndreSok}>
+          {ENDRE_SOK}
+        </Knapp>
+      )}
     </section>
   );
 }

@@ -1,0 +1,72 @@
+/*
+ * Flaten og teksten står i samme rute i et grid, så teksten ligger midt på den tomme kortflaten.
+ * Stokk-kantene ligger bak flaten, forskjøvet 12 px inn og 9 px ned per lag (components.stokk-kant).
+ */
+.omrade {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: var(--spacing-text-max-width);
+  scroll-margin-top: var(--spacing-4);
+}
+
+/* Fokus settes på teksten fra koden, ikke med tastaturet, så den får ingen ring. */
+.tekst:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.stokk,
+.tekst {
+  grid-area: 1 / 1;
+}
+
+.stokk {
+  position: relative;
+  min-height: 300px;
+  padding-bottom: calc(2 * var(--components-stokk-kant-offset-y));
+}
+
+.kant {
+  position: absolute;
+  border: 1.2px solid var(--components-turkort-border-color);
+  border-radius: var(--components-turkort-rounded);
+}
+
+.kant1 {
+  top: var(--components-stokk-kant-offset-y);
+  bottom: var(--components-stokk-kant-offset-y);
+  left: var(--components-stokk-kant-offset-x);
+  right: var(--components-stokk-kant-offset-x);
+  background: var(--components-plassholderstokk-edge-color1);
+}
+
+.kant2 {
+  top: calc(2 * var(--components-stokk-kant-offset-y));
+  bottom: 0;
+  left: calc(2 * var(--components-stokk-kant-offset-x));
+  right: calc(2 * var(--components-stokk-kant-offset-x));
+  background: var(--components-plassholderstokk-edge-color2);
+}
+
+.flate {
+  position: relative;
+  height: 100%;
+  min-height: 280px;
+  border: var(--components-turkort-border-width) solid var(--components-turkort-border-color);
+  border-radius: var(--components-turkort-rounded);
+  background: var(--components-turkort-background);
+}
+
+.tekst {
+  z-index: 1;
+  align-self: center;
+  justify-self: center;
+  margin: 0;
+  padding: 0 var(--spacing-5) calc(2 * var(--components-stokk-kant-offset-y));
+  font-size: var(--typography-body-font-size);
+  font-weight: var(--typography-body-font-weight);
+  line-height: var(--typography-body-line-height);
+  color: var(--components-plassholderstokk-text-color);
+  text-align: center;
+}

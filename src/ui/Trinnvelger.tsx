@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { type Ref, useId, useImperativeHandle, useRef } from "react";
 import { okNavn, reduserNavn } from "./tekster";
 import stil from "./Trinnvelger.module.css";
 
@@ -9,6 +9,15 @@ import stil from "./Trinnvelger.module.css";
 // Verdien i midten er en vanlig <select> med feltets etikett, så telefonen viser sin egen velger.
 
 export type Trinnvalg = { verdi: string; etikett: string; last?: boolean };
+
+/** Lar flaten flytte fokus til feltet, for eksempel etter «Endre Tilgjengelig tid». */
+export type TrinnvelgerHandle = {
+  /**
+   * Fokus på minusknappen, eller på plussknappen når minusknappen er inaktiv. Er begge inaktive, går
+   * fokus til verdien (`<select>`).
+   */
+  fokuser: () => void;
+};
 
 type Props = {
   etikett: string;
@@ -19,6 +28,7 @@ type Props = {
   under?: string;
   /** Hjelpetekster under feltet, i rekkefølge. */
   hjelpetekster?: readonly string[];
+  ref?: Ref<TrinnvelgerHandle>;
 };
 
 function Ikon({ pluss }: { pluss: boolean }) {
@@ -30,7 +40,7 @@ function Ikon({ pluss }: { pluss: boolean }) {
   );
 }
 
-export function Trinnvelger({ etikett, valg, verdi, onEndre, under, hjelpetekster = [] }: Props) {
+export function Trinnvelger({ etikett, valg, verdi, onEndre, under, hjelpetekster = [], ref }: Props) {
   const id = useId();
   const velgerId = `${id}-velger`;
   const underId = `${id}-under`;
@@ -47,8 +57,20 @@ export function Trinnvelger({ etikett, valg, verdi, onEndre, under, hjelpetekste
   const forrige = finn(-1);
   const neste = finn(1);
 
-  const trinnknapp = (navn: string, mal: string | null, pluss: boolean) => (
+  const minus = useRef<HTMLButtonElement>(null);
+  const pluss = useRef<HTMLButtonElement>(null);
+  const velger = useRef<HTMLSelectElement>(null);
+  useImperativeHandle(
+    ref,
+    () => ({
+      fokuser: () => (forrige !== null ? minus : neste !== null ? pluss : velger).current?.focus(),
+    }),
+    [forrige, neste],
+  );
+
+  const trinnknapp = (navn: string, mal: string | null, erPluss: boolean) => (
     <button
+      ref={erPluss ? pluss : minus}
       type="button"
       className={stil.trinn}
       aria-label={navn}
@@ -57,7 +79,7 @@ export function Trinnvelger({ etikett, valg, verdi, onEndre, under, hjelpetekste
         if (mal !== null) onEndre(mal);
       }}
     >
-      <Ikon pluss={pluss} />
+      <Ikon pluss={erPluss} />
     </button>
   );
 
@@ -70,6 +92,7 @@ export function Trinnvelger({ etikett, valg, verdi, onEndre, under, hjelpetekste
         {trinnknapp(reduserNavn(etikett), forrige, false)}
         <div className={stil.midt}>
           <select
+            ref={velger}
             id={velgerId}
             className={under ? `${stil.verdi} ${stil.medUnder}` : stil.verdi}
             value={verdi}

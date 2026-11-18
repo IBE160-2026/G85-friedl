@@ -175,3 +175,42 @@
     font-weight: var(--typography-card-from-font-weight);
   }
 }
+
+/*
+ * Alternativkortet: «Alternativ · den korteste Turen» står på én linje ved stempelet, og overlinjen er i
+ * dempet tone (components.alternativkort.overlineColor).
+ */
+.alternativ .plass {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.alternativ .type {
+  font-size: 14px;
+}
+
+.skille {
+  white-space: pre;
+  font-size: 14px;
+  color: var(--colors-ink-secondary);
+}
+
+.alternativ .overlinje {
+  color: var(--components-alternativkort-overline-color);
+}
+
+/* Alternativkortet rendres én gang: Begrunnelse-boksen fra 1200 px, ellers én linje. */
+.barePc {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .barePc {
+    display: block;
+  }
+
+  .bareMobil {
+    display: none;
+  }
+}

@@ -1,12 +1,31 @@
 import stil from "./Nummerstempel.module.css";
 
 // Nummerstempelet (DESIGN.md › Shapes): et avrundet kvadrat i skoggrønt med plassen i Resultatet.
-// Det er pynt for skjermlesere, fordi «1 av 3» står ved siden av og i kortets lesetekst.
+// Alternativkortet har pila «→» på skoggrønt (`backgroundAlt`) i stedet for et tall. Pila er et
+// SVG-ikon, fordi Nunito Sans mangler tegnet (DESIGN.md › Ikoner).
+// Stempelet er pynt for skjermlesere, fordi «1 av 3» eller «Alternativ» står ved siden av og i kortets
+// lesetekst.
 
-export function Nummerstempel({ nummer, className }: { nummer: number; className?: string }) {
+type Props = { className?: string } & ({ nummer: number; pil?: never } | { pil: true; nummer?: never });
+
+export function Nummerstempel({ nummer, pil, className }: Props) {
+  const klasser = [stil.stempel, pil ? stil.alt : null, className].filter(Boolean).join(" ");
   return (
-    <span className={className ? `${stil.stempel} ${className}` : stil.stempel} aria-hidden="true" data-testid="nummerstempel">
-      {nummer}
+    <span className={klasser} aria-hidden="true" data-testid="nummerstempel">
+      {pil ? (
+        <svg className={stil.pil} viewBox="0 0 20 20" focusable="false" data-testid="stempel-pil">
+          <path
+            d="M3.5,10 H16 M11,4.8 L16.2,10 L11,15.2"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ) : (
+        nummer
+      )}
     </span>
   );
 }

@@ -13,3 +13,13 @@
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
+
+/* Alternativkortet: «→» på skoggrønt (components.nummerstempel.backgroundAlt). */
+.alt {
+  background: var(--components-nummerstempel-background-alt);
+}
+
+.pil {
+  width: 22px;
+  height: 22px;
+}

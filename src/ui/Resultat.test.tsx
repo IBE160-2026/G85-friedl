@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { Resultatvisning, Turkort as TurkortData } from "@/kjerne/visning/skjema";
 import { Dagslysstolpe } from "./Dagslysstolpe";
 import { medHake } from "./Hake";
-import { Resultat } from "./Resultat";
+import { Resultat, type Resultattilstand } from "./Resultat";
 import { Tidsstolpe } from "./Tidsstolpe";
 
 // Komponenttest for Resultatet uten vær. Flaten rendres på serveren og sjekkes i HTML-en, uten
@@ -75,6 +75,12 @@ const visning: Resultatvisning = {
   },
 };
 
+/** Handlingene i Resultatet, som ikke kalles i disse testene. */
+const handlinger = { onEndreSok: () => {}, onEndreTilgjengeligTid: () => {}, onProvIgjen: () => {} };
+
+/** Resultatet som tilstand for Resultat-komponenten. */
+const som = (v: Resultatvisning): Resultattilstand => ({ type: "resultat", visning: v });
+
 /** Delen av `html` fra `fra` til `til`. Feiler hvis en av merkene mangler, i stedet for å gi feil del. */
 function del(html: string, fra: string, til: string): string {
   const start = html.indexOf(fra);
@@ -87,7 +93,7 @@ const pcDel = (html: string) => del(html, 'data-testid="kortraden"', 'data-testi
 /** Stokken, Stokknavigasjonen og Stokkoversikten: fra Stokken til Ansvarsmerknaden. */
 const stokkDel = (html: string) => del(html, 'data-testid="stokk"', 'data-testid="ansvarsmerknad"');
 
-const html = renderToString(<Resultat visning={visning} onEndreSok={() => {}} />);
+const html = renderToString(<Resultat tilstand={som(visning)} {...handlinger} />);
 const pc = pcDel(html);
 const artikler = [...pc.matchAll(/<article[^>]*>/g)].map((m) => m[0]);
 
@@ -143,7 +149,7 @@ describe("Stokken på mobil og nettbrett", () => {
       .slice(0, antall)
       .map((n) => kort(n, { rad: "onsker", merke: "ingen", tekst: "ingen valgt", detalj: [] }));
     return renderToString(
-      <Resultat visning={{ ...visning, utfall: { type: "turforslag", kort: kortene } }} onEndreSok={() => {}} />,
+      <Resultat tilstand={som({ ...visning, utfall: { type: "turforslag", kort: kortene } })} {...handlinger} />,
     );
   };
 
@@ -200,8 +206,8 @@ describe("Stokken på mobil og nettbrett", () => {
     expect(html).toMatch(/data-testid="ditt-sok-linje"><span[^>]*>Ditt søk: <\/span>I dag, man. 9. nov. · 13:30 · 2 t · Middels<\/p>/);
     const medPreferanser = renderToString(
       <Resultat
-        visning={{ ...visning, dittSok: { ...visning.dittSok, opplevelsespreferanser: ["utsikt", "vann"] } }}
-        onEndreSok={() => {}}
+        tilstand={som({ ...visning, dittSok: { ...visning.dittSok, opplevelsespreferanser: ["utsikt", "vann"] } })}
+        {...handlinger}
       />,
     );
     expect(medPreferanser).toContain("I dag, man. 9. nov. · 13:30 · 2 t · Middels · utsikt og vann</p>");
@@ -210,7 +216,7 @@ describe("Stokken på mobil og nettbrett", () => {
 
 describe("Resultat på Søk", () => {
   it("har bare det tomme live-området", () => {
-    const html = renderToString(<Resultat visning={null} onEndreSok={() => {}} />);
+    const html = renderToString(<Resultat tilstand={null} {...handlinger} />);
     expect(html).toMatch(/<div[^>]*aria-live="polite"[^>]*><\/div>/);
     expect(html).not.toContain("<h1");
     expect(html).not.toContain("<article");
@@ -218,20 +224,129 @@ describe("Resultat på Søk", () => {
 });
 
 describe("Resultat med Alternativ", () => {
-  it("viser plassholderen med «Endre søk»", () => {
-    const alternativ: Resultatvisning = {
+  const alternativkort: TurkortData = {
+    ...kort(1, { rad: "onsker", merke: "ingen", tekst: "ingen valgt", detalj: [] }),
+    lesetekst: "Alternativ: Mål 1. Turtid: 16 min av 15 min, trenger 1 min mer, uten pauser.",
+    tidsstolpe: { fyll: 0.94, overGrense: 0.06 },
+  };
+  alternativkort.kriterier[0] = {
+    rad: "tid",
+    merke: "se-opp",
+    tekst: "16 min av 15 min",
+    detalj: ["trenger 1 min mer, uten pauser"],
+  };
+  const alternativ: Resultatvisning = {
+    ...visning,
+    overskrift: "Ingen Tur passer 15 min.",
+    utfall: {
+      type: "kortesteTur",
+      kort: alternativkort,
+      passerMedTekst: "Med 30 min eller mer passer minst én Tur.",
+    },
+  };
+  const html = renderToString(<Resultat tilstand={som(alternativ)} {...handlinger} />);
+
+  it("viser Alternativkortet som én artikkel med stempelet «→» og overlinjen", () => {
+    expect(html.match(/<article/g)).toHaveLength(1);
+    expect(html).toContain('aria-label="Alternativ: Mål 1. Turtid: 16 min av 15 min, trenger 1 min mer, uten pauser."');
+    expect(html).toMatch(/data-testid="nummerstempel"><svg[^>]*data-testid="stempel-pil"/);
+    expect(html).toMatch(/>Alternativ<\/span><span[^>]*aria-hidden="true"> · <\/span><span[^>]*>den korteste Turen</);
+    expect(html).toContain(">Slik står den mot Søket ditt<");
+    expect(html).not.toContain(">Passer fordi<");
+  });
+
+  it("har Tid-raden som warn og Tidsstolpen med biten over grensen", () => {
+    expect(html).toMatch(/aria-label="Turtid"[^>]*><svg[^>]*role="img" aria-label="se opp"/);
+    expect(html).toContain('style="--andel:0.06;--start:0.94"');
+  });
+
+  it("har ingen Stokk, Stokkoversikt eller plassholder, men «Endre Tilgjengelig tid», teksten og Ansvarsmerknaden", () => {
+    expect(html).not.toContain('data-testid="stokk"');
+    expect(html).not.toContain("stokkoversikt");
+    expect(html).not.toContain("Visningen av dette Resultatet kommer snart.");
+    expect(html).toMatch(/<button[^>]*>Endre Tilgjengelig tid<\/button><p[^>]*>Med 30 min eller mer passer minst én Tur.<\/p>/);
+    expect(html.indexOf("Endre Tilgjengelig tid")).toBeLessThan(html.indexOf('data-testid="ansvarsmerknad"'));
+    expect(html).toMatch(/<div aria-live="polite"><h1[^>]*>Ingen Tur passer 15 min.<\/h1><\/div>/);
+  });
+
+  it("har begge formene av Begrunnelsen, som CSS bytter ved 1200 px", () => {
+    expect(html).toContain(">Begrunnelse<");
+    expect(html).toContain("Begrunnelse: «passer tiden din");
+  });
+});
+
+const sendtSok = {
+  turdag: "I dag",
+  starttidspunkt: "13:30",
+  tilgjengeligTid: "2 t",
+  vanskelighetsgrad: "Middels",
+  opplevelsespreferanser: ["utsikt"],
+};
+
+describe("Resultat mens svaret venter", () => {
+  const html = renderToString(
+    <Resultat tilstand={{ type: "venter", id: "venter-1", dittSok: sendtSok }} {...handlinger} />,
+  );
+
+  it("har Ditt søk uten knapp og Plassholderstokken i live-området", () => {
+    expect(html).toContain('data-testid="ditt-sok"');
+    expect(html).toContain("I dag · 13:30 · 2 t · Middels · utsikt");
+    expect(html).not.toContain("<button");
+    expect(html).toMatch(/<div aria-live="polite"><div[^>]*aria-busy="true" data-testid="plassholderstokk"/);
+    expect(html.match(/data-testid="plassholder-kant"/g)).toHaveLength(2);
+    expect(html).toMatch(/<\/div><p tabindex="-1"[^>]*data-testid="plassholder">Finner turer …<\/p><\/div><\/div>/);
+    expect(html).not.toContain("<h1");
+    expect(html).not.toContain("ansvarsmerknad");
+  });
+});
+
+describe("Resultat ved Kontaktfeil", () => {
+  const lag = (kanProveIgjen: boolean) =>
+    renderToString(
+      <Resultat
+        tilstand={{ type: "kontaktfeil", id: "kontaktfeil-1", dittSok: sendtSok, kanProveIgjen }}
+        {...handlinger}
+      />,
+    );
+  const html = lag(true);
+
+  it("har Ditt søk og Kontaktfeil-kortet i live-området, uten Ansvarsmerknad og kort", () => {
+    expect(html).toContain('data-testid="ditt-sok"');
+    expect(html).toMatch(/<div aria-live="polite"><section[^>]*data-testid="kontaktfeil"/);
+    expect(html).toMatch(/<h1[^>]*tabindex="-1"[^>]*>Vi fikk ikke kontakt.<\/h1>/);
+    expect(html).toContain(">Søket ditt er tatt vare på.</p>");
+    expect(html).toMatch(/<button[^>]*_primaer[^>]*>Prøv igjen<\/button><button[^>]*_sekundaer[^>]*>Endre søk<\/button>/);
+    expect(html.match(/>Endre søk</g)).toHaveLength(1);
+    expect(html).not.toContain("ansvarsmerknad");
+    expect(html).not.toContain("<article");
+  });
+
+  it("har bare «Endre søk» når serveren avviste Søket", () => {
+    const avvist = lag(false);
+    expect(avvist).toContain(">Vi fikk ikke kontakt.</h1>");
+    expect(avvist).not.toContain("Prøv igjen");
+    expect(avvist.match(/<button[^>]*>Endre søk<\/button>/g)).toHaveLength(1);
+  });
+});
+
+describe("Resultat ved frarådet", () => {
+  it("viser plassholderen med «Endre søk» til story 2.10", () => {
+    const fraradet: Resultatvisning = {
       ...visning,
-      overskrift: "Ingen Tur passer 15 min.",
+      overskrift: "Ingen Turforslag",
       utfall: {
-        type: "kortesteTur",
-        kort: kort(1, { rad: "onsker", merke: "ingen", tekst: "ingen valgt", detalj: [] }),
-        passerMedTekst: "Med 30 min eller mer passer minst én Tur.",
+        type: "fraradet",
+        melding: "Det er meldt sterk kuling.",
+        kriterier: [
+          { rad: "vaer", merke: "se-opp", tekst: "Værklasse frarådet", detalj: [] },
+          { rad: "tid", merke: "ingen", tekst: "ikke vurdert", detalj: [] },
+        ],
       },
     };
-    const html = renderToString(<Resultat visning={alternativ} onEndreSok={() => {}} />);
-    expect(html).toContain("Visningen av dette Resultatet kommer snart.");
-    expect(html).toMatch(/<button[^>]*>Endre søk<\/button>/);
+    const html = renderToString(<Resultat tilstand={som(fraradet)} {...handlinger} />);
+    expect(html).toMatch(/data-testid="resultat-kommer"><p[^>]*>Visningen av dette Resultatet kommer snart.<\/p><button[^>]*>Endre søk<\/button>/);
     expect(html).not.toContain("<article");
+    expect(html).not.toContain('data-testid="ditt-sok"');
   });
 });
 
@@ -316,7 +431,7 @@ describe("medHake", () => {
         kort: [kort(1, { rad: "onsker", merke: "ok", tekst: "utsikt ✓", detalj: ["har vann ✓", "har vann ✓"] })],
       },
     };
-    const html = renderToString(<Resultat visning={medDetalj} onEndreSok={() => {}} />);
+    const html = renderToString(<Resultat tilstand={som(medDetalj)} {...handlinger} />);
     expect(html).not.toContain("✓");
     expect(pcDel(html).match(/<p class="[^"]*">har vann<svg/g)).toHaveLength(2);
     expect(stokkDel(html).match(/<p class="[^"]*">har vann<svg/g)).toHaveLength(2);

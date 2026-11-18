@@ -211,7 +211,7 @@ test("Endre søk lar skjemaet stå når det ikke kan vise Søket fra serveren", 
   await expect(page.getByText(justering)).toHaveCount(0);
 });
 
-test("et nytt Søk forkaster svaret på det forrige", async ({ page }) => {
+test("Tilbake mens svaret venter forkaster svaret, og det nye Søket gjelder", async ({ page }) => {
   const forsteJustering = "Flyttet til 14:00, fordi 13:30 har passert.";
   const andreJustering = "Flyttet til 14:15, fordi 13:30 har passert.";
   let antall = 0;
@@ -245,6 +245,9 @@ test("et nytt Søk forkaster svaret på det forrige", async ({ page }) => {
   const forsteSendt = page.waitForRequest((r) => r.method() === "POST");
   await f.finnTur.click();
   await forsteSendt;
+  // Mens svaret venter, står Plassholderstokken der Søk var (1.14). Tilbake gir Søk igjen, og et nytt
+  // Søk sendes derfra.
+  await page.goBack();
   await f.finnTur.click();
   await f.endreSok.click();
 

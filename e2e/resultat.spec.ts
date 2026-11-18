@@ -3,7 +3,8 @@ import type { Resultatvisning, Turkort } from "../src/kjerne/visning/skjema";
 
 // Story 1.12: Resultat med Turkort på PC mot ?demo=uten-vaer, der «nå» er man. 9. nov. 2026 kl. 13:30.
 // Testene sjekker tilstand, rekkefølge, antall og felt, aldri Turnavn (AR-26). Verdiene på kortene
-// sammenlignes med svaret fra /api/sok, ikke med navn skrevet inn her.
+// sammenlignes med svaret fra /api/sok, ikke med navn skrevet inn her. Alternativkortet,
+// Plassholderstokken, Kontaktfeil og historikken testes i e2e/tilstander.spec.ts (story 1.14).
 
 const DEMO = "/?demo=uten-vaer";
 const RADER = ["Turtid", "Værklasse", "Opplevelsespreferanser", "Mørkevarsel"] as const;
@@ -219,18 +220,6 @@ test("et nytt Søk erstatter Resultatet, og fokus står på overskriften", async
   await expect(page.getByTestId("ditt-sok")).toHaveCount(1);
   await expect(ditt(page, "Tilgjengelig tid")).toHaveText("1 t");
   await expect(page.getByRole("article")).toHaveCount(turforslag(andre).length);
-});
-
-test("Alternativ får en plassholder med Endre søk", async ({ page }) => {
-  await page.goto(DEMO);
-  await page.getByRole("combobox", { name: "Tilgjengelig tid" }).selectOption("15");
-  const visning = await finnTur(page);
-  expect(visning.utfall.type).toBe("kortesteTur");
-
-  await expect(page.getByTestId("resultat-kommer")).toContainText("Visningen av dette Resultatet kommer snart.");
-  await expect(page.getByRole("article")).toHaveCount(0);
-  await page.getByRole("button", { name: "Endre søk" }).click();
-  await expect(page.getByRole("combobox", { name: "Tilgjengelig tid" })).toHaveValue("15");
 });
 
 for (const bredde of [1200, 1440]) {
