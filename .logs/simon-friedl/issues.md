@@ -85,3 +85,5 @@
 - [ ] 2026-11-18 [story-1-9-turkort](978-2026-11-18-16-12-58-story-1-9-turkort.md) — Valgfritt: en Tur som ender etter midnatt, viser «tilbake 03:00» uten å si at det er neste dag (se `deferred-work.md`)
 - [ ] 2026-11-18 [story-1-11-sok-flaten](976-2026-11-18-20-03-47-story-1-11-sok-flaten.md) — Bekreft lenkemålene i krediteringen: https://www.met.no/ og https://www.kartverket.no/
 - [ ] 2026-11-18 [story-1-11-sok-flaten](976-2026-11-18-20-03-47-story-1-11-sok-flaten.md) — Valgfritt: e2e for `?demo=` som står flere ganger (se `deferred-work.md`)
+- [ ] 2026-11-18 [story-1-12-resultat-pc](975-2026-11-18-20-22-10-story-1-12-resultat-pc.md) — Til story 2.9: `liveTekst` og vurdert vær i Resultatet
+- [ ] 2026-11-18 [story-1-12-resultat-pc](975-2026-11-18-20-22-10-story-1-12-resultat-pc.md) — Til story 1.15: største bredde på brede skjermer, og at etikettene i Dagslysstolpen kan overlappe
