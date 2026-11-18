@@ -87,3 +87,5 @@
 - [ ] 2026-11-18 [story-1-11-sok-flaten](976-2026-11-18-20-03-47-story-1-11-sok-flaten.md) — Valgfritt: e2e for `?demo=` som står flere ganger (se `deferred-work.md`)
 - [ ] 2026-11-18 [story-1-12-resultat-pc](975-2026-11-18-20-22-10-story-1-12-resultat-pc.md) — Til story 2.9: `liveTekst` og vurdert vær i Resultatet
 - [ ] 2026-11-18 [story-1-12-resultat-pc](975-2026-11-18-20-22-10-story-1-12-resultat-pc.md) — Til story 1.15: største bredde på brede skjermer, og at etikettene i Dagslysstolpen kan overlappe
+- [ ] 2026-11-18 [story-1-13-stokken](974-2026-11-18-20-41-49-story-1-13-stokken.md) — Til story 3.5: Turkortene rendres to ganger (PC og Stokk). Det må løses før kartutsnittet kommer
+- [ ] 2026-11-18 [story-1-13-stokken](974-2026-11-18-20-41-49-story-1-13-stokken.md) — Til story 1.15: Kriterieradene er svært trange ved 180 px (200 % zoom)
