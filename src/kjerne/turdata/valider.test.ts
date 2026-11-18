@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import rutegeometriJson from "../../../data/rutegeometri.geojson";
 import turerJson from "../../../data/turer-moldemarka.json";
+import testturerJson from "../../../testdata/turer.json";
 import { RutegeometriSkjema } from "./rutegeometri";
 import { validerTurdatasett, type Avvik } from "./valider";
 
@@ -41,6 +42,10 @@ function forventSkjemafeil(avvik: Avvik[], sti: string, turId?: string) {
 }
 
 describe("de ekte dataene", () => {
+  it("den faste kopien testdata/turer.json består også FR-27", () => {
+    expect(validerTurdatasett(testturerJson, geometri)).toEqual([]);
+  });
+
   it("rutegeometrien er gyldig og har begge Rutesegmentene med rutenummer 1506_MM_0312", () => {
     const navn = geometri.features
       .filter((f) => f.properties.rutenummer === "1506_MM_0312")
