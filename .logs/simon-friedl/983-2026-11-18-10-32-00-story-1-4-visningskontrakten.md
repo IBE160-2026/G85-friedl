@@ -35,3 +35,18 @@ Kjør story 1.4 med `bmad-build`. Serveren (1.10) og UI-storyene (1.11–1.14) s
 ### Åpne punkter
 - Story 1.4 står som `review` i sprint-status: se over endringen (eventuelt `bmad-walkthrough`) og sett den til `done`.
 - Neste steg: `bmad-build` for story 1.5 (Turdatasettet valideres og rutegeometrien konverteres), i et nytt kontekstvindu.
+
+## 2026-11-18 kl. 10:33 — Simon Friedl
+
+### Oppgave
+Hopp over walkthrough og push story 1.4.
+
+### Plan
+- Sett story 1.4 til `done` i sprint-status, lukk punktet i `issues.md` og push `main`.
+
+### Resultat
+- Sprint-status: story 1.4 er `done` i `2f4c81e`, uten walkthrough etter Simons valg.
+- `main` pushet til origin. Det starter en Production-deploy på Vercel og en CI-kjøring.
+
+### Åpne punkter
+- Neste steg: `bmad-build` for story 1.5 (står allerede i `issues.md`).
