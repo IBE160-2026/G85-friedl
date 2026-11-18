@@ -30,6 +30,10 @@ jobs:
       - name: Vitest
         run: npm test
 
+      # AD-8: testdata/vaerklasse-fasit.json kjøres både av Vitest og av kalibreringsskriptet.
+      - name: Selvtest kalibreringsskript
+        run: python3 scripts/kalibrering_vaerlogg.py --selvtest
+
       - name: Installer Chromium for Playwright
         run: npx playwright install --with-deps chromium
 

@@ -140,7 +140,7 @@ Frarådet-kortet har bare radene Vær og Tid, i den rekkefølgen.
 
 ### Værord (FR-20, NFR-10)
 
-FR-20 sier at værordene og grensene avgjøres i UX og ligger på ett sted, slik Værtersklene gjør. Tabellene under er tilpasset Værtersklene i PRD §4.2 og gir «oppholdsvær og lite vind» for UJ-1. Grensene må kalibreres sammen med tersklene (PRD §10, spørsmål 1).
+FR-20 sier at værordene og grensene avgjøres i UX og ligger på ett sted, slik Værtersklene gjør. Tabellene under er tilpasset Værtersklene i PRD §4.2 og gir «oppholdsvær og lite vind» for UJ-1. Grensene under laveste terskel (0,1 mm/t og 5,5 m/s) ble vurdert sammen med tersklene og beholdt (PRD §10, spørsmål 1): i loggeuka ga nedbøren 6 «oppholdsvær», 5 «lite nedbør» og 3 «noe nedbør», vinden ga 11 «lite vind» og 3 «noe vind», og alle 14 vinduene ble vurdert som «ville gått». Selve ordene ble ikke vurdert direkte.
 
 | Størrelse (høyeste i Tidsvinduet) | Grense | Ord |
 |---|---|---|

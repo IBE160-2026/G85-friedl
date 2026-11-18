@@ -6,7 +6,8 @@ Oppgaven i [PRD §10, spørsmål 1](../prds/prd-turplanlegger-app-2026-11-02/prd
 
 - **Værpunkt:** 62,7617 N, 7,1679 Ø, 400 moh (PRD §3; addendum, Avklarte spørsmål 4).
 - **Tidsvinduer:** formiddag 10:00–12:00 og ettermiddag 13:00–15:00, norsk tid. Begge ligger i dagslys i november.
-- **Værklasse:** den dårligste timen i vinduet, med tersklene i PRD §4.2 (FR-8, FR-9).
+- **Værklasse:** den dårligste timen i vinduet, med tersklene i PRD §4.2 (FR-8, FR-9). Skriptet leser tersklene fra `data/vaerterskler.json`, samme fil som appen bruker (AD-8).
+- **MET:** skriptet kaller MET selv, med egen User-Agent og uten cache. Det er et navngitt unntak fra AD-6, der bare `src/server/vaer/met.ts` skal kalle MET i appen (planlagt, kommer i Story 2.4).
 - **Logg:** [vaerlogg.csv](vaerlogg.csv), som lages ved første kjøring.
 
 ## Slik gjør du det
@@ -31,6 +32,12 @@ Oppgaven i [PRD §10, spørsmål 1](../prds/prd-turplanlegger-app-2026-11-02/prd
    python3 scripts/kalibrering_vaerlogg.py --oppsummer
    ```
 
+Selvtesten sjekker skriptets klassifiseringsfunksjoner (per time og per Tidsvindu) mot fasiten. Den kjører `testdata/vaerklasse-fasit.json` mot tersklene uten å kalle MET, og CI kjører den ved hver push:
+
+```sh
+python3 scripts/kalibrering_vaerlogg.py --selvtest   # alle fasitradene skal bestå
+```
+
 ## Slik leses vurderingen
 
 | Din vurdering | Tilsvarer Værklassen |
@@ -44,5 +51,5 @@ Et avvik er et Tidsvindu der Værklassen ikke stemmer med vurderingen. Er det me
 ## Når uka er ferdig
 
 - Før resultatet inn i PRD §10 spm. 1: antall avvik og eventuelle nye terskler. Endre tabellen i §4.2 og eksemplene i FR-8 hvis tersklene endres.
-- Oppdater `TERSKLER` i skriptet hvis tersklene endres, så loggen og PRD-en bruker de samme verdiene.
+- Endres tersklene, gjør du det i `data/vaerterskler.json`, som både appen og skriptet leser. Kjør deretter `python3 scripts/kalibrering_vaerlogg.py --selvtest` og `npm test`. Fasiten i `testdata/vaerklasse-fasit.json` har rader på grensene, så den må oppdateres sammen med tersklene.
 - Merk punktet som løst i `.logs/simon-friedl/issues.md`.
