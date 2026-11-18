@@ -1,6 +1,7 @@
 import type { Soltid } from "./sol";
 import type { Sok } from "./sok";
-import { klokkeTekst, osloKlokke, osloTilUtc } from "./tid";
+import { klokke } from "./format";
+import { osloTilUtc } from "./tid";
 
 // Mørkevarsel (FR-21): ender Turen senere enn 30 min før solnedgang, eller starter den før
 // soloppgang, får den et Mørkevarsel med klokkeslettet og tipset. Marginen veier opp for at
@@ -47,6 +48,6 @@ export function vurderMorke(
 }
 
 function varsel(arsak: Morkevarsel["arsak"], tidspunktUtc: number): Morkevarsel {
-  // Avkortet til hele minutter, som en klokke viser det. Soltidene fra sol.ts er alt hele minutter.
-  return { arsak, tidspunktUtc, klokkeslett: klokkeTekst(Math.floor(osloKlokke(tidspunktUtc))), tips: TIPS };
+  // format.klokke avkorter til hele minutter, som en klokke viser det. Soltidene fra sol.ts er alt hele minutter.
+  return { arsak, tidspunktUtc, klokkeslett: klokke(tidspunktUtc), tips: TIPS };
 }

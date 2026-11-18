@@ -23,3 +23,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-8-rangering-utvalg-og-den-korteste-turen.md`
   summary: `anbefal` kaster når Turdatasettet ikke har noen Tur med Vanskelighetsgrad Enkel og brukeren velger Enkel, fordi `kortesteTur` da ikke har noe Alternativ. Valideringen (FR-27) sjekker ikke at hver Vanskelighetsgrad har minst én Tur.
   evidence: Blind-hunter-gjennomgangen av story 1.8. Dagens Turdatasett har fem Turer med Enkel, så det skjer ikke nå. En sjekk i `validerTurdatasett` (minst én Tur med G) lukker det før et nytt datasett tas i bruk.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-9-regeltekst-og-innholdet-i-turkortet.md`
+  summary: En Tur som ender etter midnatt, viser «tilbake 03:00» i Mørke-raden, Stokkoversikt-raden og Dagslysstolpen uten å si at det er neste dag.
+  evidence: Blind-hunter-gjennomgangen av story 1.9. Mulig bare med start 22:00 og Tilgjengelig tid over 2 t. Soltidene for Turdagen gjelder (beslutning i 1.7), så Mørkevarselet er riktig. Det er bare teksten som kan misforstås.
