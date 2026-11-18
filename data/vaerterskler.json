@@ -1,0 +1,8 @@
+{
+  "versjon": 1,
+  "klasser": [
+    { "klasse": "fraradet", "nedbor_mm_t_minst": 10, "vind_ms_minst": 17.2, "temp_c_under": null },
+    { "klasse": "darlig", "nedbor_mm_t_minst": 2, "vind_ms_minst": 10.8, "temp_c_under": -10 },
+    { "klasse": "middels", "nedbor_mm_t_minst": 0.5, "vind_ms_minst": 8.0, "temp_c_under": 0 }
+  ]
+}
