@@ -1,0 +1,43 @@
+.merke {
+  flex: none;
+  display: block;
+  width: var(--components-kriteriemerke-size);
+  height: var(--components-kriteriemerke-size);
+}
+
+.ok .fyll {
+  fill: var(--components-kriteriemerke-ok-fill);
+}
+
+.ok .ikon {
+  stroke: var(--components-kriteriemerke-ok-icon);
+}
+
+.se-opp .fyll {
+  fill: var(--components-kriteriemerke-warn-fill);
+}
+
+.se-opp .ikon {
+  stroke: var(--components-kriteriemerke-warn-icon);
+}
+
+.se-opp .prikk {
+  fill: var(--components-kriteriemerke-warn-icon);
+}
+
+.ikon,
+.strek {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ring {
+  fill: var(--components-kriteriemerke-none-fill);
+  stroke: var(--components-kriteriemerke-none-stroke);
+  stroke-width: var(--components-kriteriemerke-none-stroke-width);
+}
+
+.strek {
+  stroke: var(--components-kriteriemerke-none-stroke);
+}

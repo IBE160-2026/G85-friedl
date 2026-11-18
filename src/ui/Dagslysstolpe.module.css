@@ -1,0 +1,89 @@
+.dagslys {
+  width: 100%;
+  max-width: var(--components-dagslysstolpe-max-width);
+  margin-top: var(--spacing-3);
+}
+
+.spor {
+  position: relative;
+  height: var(--components-dagslysstolpe-height);
+  border-radius: calc(var(--components-dagslysstolpe-height) / 2);
+  background: var(--components-dagslysstolpe-track);
+}
+
+/* Mørkt felt fra --fra til --til, rundet i sporets ende. */
+.morkt {
+  position: absolute;
+  inset-block: 0;
+  left: calc(var(--fra) * 100%);
+  width: calc((var(--til) - var(--fra)) * 100%);
+  background: var(--components-dagslysstolpe-dark-zone);
+}
+
+.forSoloppgang {
+  border-radius: calc(var(--components-dagslysstolpe-height) / 2) 0 0 calc(var(--components-dagslysstolpe-height) / 2);
+}
+
+.etterSkumring {
+  border-radius: 0 calc(var(--components-dagslysstolpe-height) / 2) calc(var(--components-dagslysstolpe-height) / 2) 0;
+}
+
+.fyll {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: calc(var(--andel) * 100%);
+  border-radius: calc(var(--components-dagslysstolpe-height) / 2);
+  background: var(--components-dagslysstolpe-fill);
+}
+
+.grense {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  left: calc(var(--andel) * 100%);
+  width: 0;
+  transform: translateX(-50%);
+  border-left: 1.4px dashed var(--components-dagslysstolpe-limit-line-color);
+}
+
+.endepunkt {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--andel) * 100%);
+  width: calc(2 * var(--components-dagslysstolpe-end-dot-radius));
+  height: calc(2 * var(--components-dagslysstolpe-end-dot-radius));
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--components-dagslysstolpe-end-dot-ring);
+  border-radius: 50%;
+  background: var(--components-dagslysstolpe-fill);
+}
+
+.fyll.varsel,
+.endepunkt.varsel {
+  background: var(--components-dagslysstolpe-fill-warn);
+}
+
+/* Starttiden står til venstre. Merkene står ved andelen sin, venstrejustert ved 0 og høyrejustert ved 1. */
+.merker {
+  position: relative;
+  min-height: 1.5em;
+  margin-top: var(--spacing-2);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--colors-ink-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.start {
+  position: absolute;
+  left: 0;
+}
+
+.merke {
+  position: absolute;
+  left: calc(var(--andel) * 100%);
+  transform: translateX(calc(var(--andel) * -100%));
+}

@@ -52,10 +52,53 @@ export const UKJENT_DEMO_OVERSKRIFT = "Ukjent demo";
 /** Panelet for en ukjent demo-ID. Lenkene til de gyldige demoene settes inn etter «Gyldige demoer: ». */
 export const ukjentDemoTekst = (id: string) => `Ukjent demo: «${id}». Gyldige demoer: `;
 
-// --- Resultat (brukes fra story 1.12) ---
+// --- Resultat ---
 
 export const ANSVARSMERKNAD =
   "Du har selv ansvaret for å vurdere forholdene. Værvurderingen er veiledende og vurderer ikke føre (snø, is, gjørme). Følg MET sine farevarsler.";
+
+/** Overlinjene skrives i versaler av CSS (typography.overline), så skjermlesere leser vanlige ord. */
+export const DITT_SOK = "Ditt søk";
+export const ENDRE_SOK = "Endre søk";
+/** Står i Ditt søk på PC når ingen Opplevelsespreferanse er valgt. */
+export const INGEN_PREFERANSE = "ingen";
+/** Flere Opplevelsespreferanser i Ditt søk: «utsikt og vann». */
+export const preferanseliste = (preferanser: readonly string[]) => preferanser.join(" og ");
+
+/** Værmangel-linjen (FR-13): tittelen i fet skrift, og forklaringen etter. */
+export const VAERMANGEL = {
+  tittel: "Været er ikke vurdert.",
+  tekst: "Vi fikk ikke hentet Værmeldingen fra MET.",
+} as const;
+
+export const PASSER_FORDI = "Passer fordi";
+export const BEGRUNNELSE = "Begrunnelse";
+/** Begrunnelsen ordrett, i anførselstegn. */
+export const sitat = (tekst: string) => `«${tekst}»`;
+
+/** Ved Nummerstempelet: «1 av 3» over «Turforslag». */
+export const TURFORSLAG = "Turforslag";
+export const plassTekst = (nummer: number, antall: number) => `${nummer} av ${antall}`;
+
+/** Foran kildens navn i kildelenken: «Kilde: morotur.no». */
+export const KILDE = "Kilde:";
+
+/** De korte etikettene på Kriterieradene, som får plass ved 360 px. */
+export const RADETIKETT = { tid: "Tid", vaer: "Vær", onsker: "Ønsker", morke: "Mørke" } as const;
+/** Det tilgjengelige navnet på Kriterieradene, med PRD-begrepene (EXPERIENCE.md › Voice and Tone). */
+export const RADNAVN = {
+  tid: "Turtid",
+  vaer: "Værklasse",
+  onsker: "Opplevelsespreferanser",
+  morke: "Mørkevarsel",
+} as const;
+/** Tekstalternativet til Kriteriemerket (UX-DR24). */
+export const MERKENAVN = { ok: "passer", "se-opp": "se opp", ingen: "ikke vurdert" } as const;
+/** Skjult tekst for haken i en tekstlinje: «utsikt ✓» leses «utsikt: ja». */
+export const HAKE_TEKST = ": ja";
+
+/** Plassholder for Alternativ og frarådet til visningene kommer i story 1.14 og 2.10. */
+export const RESULTAT_KOMMER = "Visningen av dette Resultatet kommer snart.";
 
 // --- Kreditering og bunntekst ---
 

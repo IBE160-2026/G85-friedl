@@ -1,0 +1,24 @@
+.boks {
+  margin-top: var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4) var(--spacing-4);
+  border-radius: var(--components-begrunnelse-boks-rounded);
+  background: var(--components-begrunnelse-boks-background);
+}
+
+.etikett {
+  margin: 0 0 var(--spacing-1);
+  font-size: var(--typography-overline-font-size);
+  font-weight: var(--typography-overline-font-weight);
+  letter-spacing: var(--typography-overline-letter-spacing);
+  text-transform: var(--typography-overline-text-transform);
+  color: var(--components-begrunnelse-boks-label-color);
+}
+
+.tekst {
+  margin: 0;
+  font-size: var(--typography-rule-text-font-size);
+  font-weight: var(--typography-rule-text-font-weight);
+  font-style: var(--typography-rule-text-font-style);
+  line-height: var(--typography-rule-text-line-height);
+  color: var(--components-begrunnelse-boks-text-color);
+}

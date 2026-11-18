@@ -12,7 +12,14 @@ const SOK: Sok = {
 };
 
 /** Det minste svaret formsjekken godtar. */
-const VISNING = { resultatId: "r1", overskrift: "Tre Turforslag som passer tiden din", sok: SOK };
+const VISNING = {
+  resultatId: "r1",
+  overskrift: "Tre Turforslag som passer tiden din",
+  sok: SOK,
+  utfall: { type: "turforslag" },
+  dittSok: { opplevelsespreferanser: [] },
+  vaer: { type: "mangler" },
+};
 
 const fetchMock = vi.fn<typeof fetch>();
 
@@ -72,6 +79,12 @@ describe("sendSok", () => {
     ["200 uten sok", () => Response.json({ resultatId: "r1", overskrift: "x" })],
     ["200 med sok uten start", () => Response.json({ ...VISNING, sok: { dato: "2026-11-09" } })],
     ["200 med null", () => Response.json(null)],
+    ["200 uten utfall", () => Response.json({ ...VISNING, utfall: undefined })],
+    ["200 med utfall uten type", () => Response.json({ ...VISNING, utfall: {} })],
+    ["200 uten dittSok", () => Response.json({ ...VISNING, dittSok: undefined })],
+    ["200 med dittSok uten opplevelsespreferanser", () => Response.json({ ...VISNING, dittSok: {} })],
+    ["200 uten vaer", () => Response.json({ ...VISNING, vaer: undefined })],
+    ["200 med vaer uten type", () => Response.json({ ...VISNING, vaer: {} })],
   ])("gir kontaktfeil ved %s", async (_, svar) => {
     fetchMock.mockResolvedValue(svar());
     expect(await sendSok(SOK)).toEqual({ type: "kontaktfeil" });

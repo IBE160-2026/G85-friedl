@@ -100,6 +100,11 @@ describe("SokFlate før 22:00", () => {
     expect(knapp(html, "Øk Tilgjengelig tid med 15 min")).not.toMatch(/\saria-disabled=/);
   });
 
+  it("har det tomme live-området på plass før Resultatet kommer", () => {
+    expect(html).toMatch(/<div[^>]*aria-live="polite"[^>]*><\/div>/);
+    expect(html).toContain("Hvor lenge vil du gå?");
+  });
+
   it("har radiogrupper, avkrysningsbokser og «Finn tur» som aldri er låst", () => {
     expect(html.match(/role="radiogroup"/g)).toHaveLength(2);
     expect(html.match(/type="checkbox"/g)).toHaveLength(2);

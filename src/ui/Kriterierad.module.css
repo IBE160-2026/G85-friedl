@@ -1,0 +1,57 @@
+/*
+ * Merket, etiketten og verdien i tre kolonner. Verdien står 92 px inn på mobil og 96 px på PC.
+ * Etikettkolonnen tar resten av innrykket, så luften mellom etikett og verdi ligger i den.
+ */
+.rad {
+  --merke-kolonne: calc(var(--components-kriteriemerke-size) + var(--spacing-2));
+  --etikett-bredde: calc(var(--components-kriterierad-value-indent-mobile) - var(--merke-kolonne));
+  display: grid;
+  grid-template-columns: var(--merke-kolonne) var(--etikett-bredde) minmax(0, 1fr);
+  align-items: start;
+  padding-block: var(--spacing-3);
+}
+
+.rad + .rad {
+  border-top: var(--components-kriterierad-divider-width) solid var(--components-kriterierad-divider-color);
+}
+
+.etikett {
+  padding-top: 2px;
+  font-size: var(--typography-criterion-label-font-size);
+  font-weight: var(--typography-criterion-label-font-weight);
+  line-height: 1.4;
+  overflow-wrap: normal;
+}
+
+.innhold {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.verdi {
+  margin: 0;
+  font-size: var(--typography-criterion-value-font-size);
+  font-weight: var(--typography-criterion-value-font-weight);
+  line-height: 1.35;
+  font-variant-numeric: var(--typography-criterion-value-font-feature);
+  color: var(--components-kriterierad-value-color);
+}
+
+.verdi.varsel {
+  color: var(--components-kriterierad-value-color-warn);
+}
+
+.detalj {
+  margin: 2px 0 0;
+  font-size: var(--typography-detail-font-size);
+  font-weight: var(--typography-detail-font-weight);
+  line-height: var(--typography-detail-line-height);
+  font-variant-numeric: var(--typography-detail-font-feature);
+  color: var(--components-kriterierad-detail-color);
+}
+
+@media (min-width: 1200px) {
+  .rad {
+    --etikett-bredde: calc(var(--components-kriterierad-value-indent) - var(--merke-kolonne));
+  }
+}

@@ -1,3 +1,40 @@
+/* Søk holder seg innenfor tekstbredden. PC bruker nettbrettoppsettet til kartet kommer i Epic 3. */
+.sok {
+  max-width: var(--spacing-text-max-width);
+}
+
+.sokOverskrift {
+  margin: 0;
+  font-size: var(--typography-display-mobile-font-size);
+  font-weight: var(--typography-display-mobile-font-weight);
+  line-height: var(--typography-display-mobile-line-height);
+}
+
+/* Fokus settes på overskriften fra koden når «Endre søk» bringer Søk tilbake, så den får ingen ring. */
+.sokOverskrift:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.ingress {
+  margin: var(--spacing-3) 0 var(--spacing-8);
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+  color: var(--colors-ink-secondary);
+}
+
+@media (min-width: 1200px) {
+  .sokOverskrift {
+    font-size: var(--typography-display-font-size);
+    font-weight: var(--typography-display-font-weight);
+    line-height: var(--typography-display-line-height);
+  }
+
+  .ingress {
+    font-size: 19px;
+  }
+}
+
 /* Starttidspunkt og Tilgjengelig tid står side om side når det er plass, ellers under hverandre. */
 .trinnrad {
   display: grid;
@@ -28,13 +65,3 @@
   gap: var(--spacing-3);
 }
 
-.resultat {
-  margin-top: var(--spacing-8);
-}
-
-.overskrift {
-  margin: 0;
-  font-size: var(--typography-page-title-font-size);
-  font-weight: var(--typography-page-title-font-weight);
-  line-height: var(--typography-page-title-line-height);
-}

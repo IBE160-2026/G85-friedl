@@ -31,7 +31,13 @@ const erResultatvisning = (data: unknown): data is Resultatvisning =>
   typeof data.overskrift === "string" &&
   erObjekt(data.sok) &&
   typeof data.sok.dato === "string" &&
-  typeof data.sok.start === "string";
+  typeof data.sok.start === "string" &&
+  erObjekt(data.utfall) &&
+  typeof data.utfall.type === "string" &&
+  erObjekt(data.dittSok) &&
+  Array.isArray(data.dittSok.opplevelsespreferanser) &&
+  erObjekt(data.vaer) &&
+  typeof data.vaer.type === "string";
 
 const erApiFeil = (data: unknown): data is ApiFeil =>
   typeof data === "object" &&

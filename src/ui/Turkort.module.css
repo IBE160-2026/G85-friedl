@@ -1,0 +1,177 @@
+/*
+ * Turkortet: papirkort med rounded.card og hårstrek, som hviler på en massiv kortfot 6 px under seg.
+ * Ingen uskarpe skygger. Kortet fyller høyden i raden, og foten står nederst, så kortene i samme rad
+ * er like høye.
+ */
+.kort {
+  --kort-pad: var(--components-turkort-padding-mobile);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--kort-pad);
+  border: var(--components-turkort-border-width) solid var(--components-turkort-border-color);
+  border-radius: var(--components-turkort-rounded);
+  background: var(--components-turkort-background);
+  box-shadow: 0 var(--components-turkort-base-offset) 0 var(--components-turkort-base-color);
+  overflow-wrap: anywhere;
+}
+
+.hode {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.plass {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.av {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--colors-ink-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.type {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--colors-ink-muted);
+}
+
+.mal {
+  margin: var(--spacing-5) 0 0;
+  font-size: var(--typography-card-goal-mobile-font-size);
+  font-weight: var(--typography-card-goal-mobile-font-weight);
+  line-height: var(--typography-card-goal-mobile-line-height);
+}
+
+.fra {
+  margin: var(--spacing-1) 0 0;
+  font-size: var(--typography-card-from-mobile-font-size);
+  font-weight: var(--typography-card-from-mobile-font-weight);
+  color: var(--colors-ink-secondary);
+}
+
+.fakta {
+  margin: var(--spacing-2) 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+.startpunkt {
+  margin: var(--spacing-1) 0 0;
+  font-size: var(--typography-detail-font-size);
+  line-height: var(--typography-detail-line-height);
+  color: var(--colors-ink-secondary);
+}
+
+/*
+ * Perforeringen (components.perforering): en stiplet linje med et halvsirkelhakk i hver kortkant.
+ * Den går fra kant til kant inne i kortet. Hakkene ligger midt på kortkanten og har sidens farge.
+ */
+.perforering {
+  position: relative;
+  height: calc(2 * var(--components-perforering-notch-radius));
+  margin: var(--spacing-5) calc(-1 * var(--kort-pad)) var(--spacing-4);
+}
+
+.perforering::before,
+.perforering::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: calc(2 * var(--components-perforering-notch-radius));
+  height: calc(2 * var(--components-perforering-notch-radius));
+  border: var(--components-turkort-border-width) solid var(--components-turkort-border-color);
+  border-radius: 50%;
+  background: var(--colors-surface-base);
+}
+
+/* Bare halvdelen inne i kortet vises. Den dekker også kortkanten der hakket er. */
+.perforering::before {
+  left: calc(-1 * var(--components-perforering-notch-radius) - var(--components-turkort-border-width) / 2);
+  clip-path: inset(-2px -2px -2px calc(50% - 1px));
+}
+
+.perforering::after {
+  right: calc(-1 * var(--components-perforering-notch-radius) - var(--components-turkort-border-width) / 2);
+  clip-path: inset(-2px calc(50% - 1px) -2px -2px);
+}
+
+.stiplet {
+  position: absolute;
+  top: 0;
+  left: var(--spacing-4);
+  width: calc(100% - 2 * var(--spacing-4));
+  height: 100%;
+  overflow: visible;
+}
+
+.stiplet line {
+  stroke: var(--components-perforering-color);
+  stroke-width: var(--components-perforering-width);
+  stroke-dasharray: var(--components-perforering-dash);
+  stroke-linecap: round;
+}
+
+.overlinje {
+  margin: 0;
+  font-size: var(--typography-overline-font-size);
+  font-weight: var(--typography-overline-font-weight);
+  letter-spacing: var(--typography-overline-letter-spacing);
+  text-transform: var(--typography-overline-text-transform);
+  color: var(--colors-forest);
+}
+
+.rader {
+  margin-top: var(--spacing-1);
+}
+
+/* Foten står nederst i kortet, også når kortet er høyere enn innholdet. */
+.fot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-top: auto;
+  padding-top: var(--spacing-3);
+}
+
+/* Kildelenken har trykkflate på minst 44 × 44 px (NFR-1). */
+.kilde {
+  display: inline-flex;
+  align-items: center;
+  min-width: var(--spacing-touch-min);
+  min-height: var(--spacing-touch-min);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--colors-forest);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .kort {
+    --kort-pad: var(--components-turkort-padding);
+  }
+}
+
+@media (min-width: 1200px) {
+  .mal {
+    font-size: var(--typography-card-goal-font-size);
+    font-weight: var(--typography-card-goal-font-weight);
+    line-height: var(--typography-card-goal-line-height);
+  }
+
+  .fra {
+    font-size: var(--typography-card-from-font-size);
+    font-weight: var(--typography-card-from-font-weight);
+  }
+}

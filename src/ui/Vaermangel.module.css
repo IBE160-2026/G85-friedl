@@ -1,0 +1,24 @@
+.linje {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  margin: 0;
+  padding: var(--spacing-4) var(--spacing-5);
+  border: 1px solid var(--components-vaermangel-linje-border-color);
+  border-radius: var(--components-vaermangel-linje-rounded);
+  background: var(--components-vaermangel-linje-background);
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+  color: var(--colors-ink-secondary);
+  overflow-wrap: anywhere;
+}
+
+.linje > svg {
+  width: 24px;
+  height: 24px;
+}
+
+.tittel {
+  font-weight: 600;
+  color: var(--colors-ink-primary);
+}

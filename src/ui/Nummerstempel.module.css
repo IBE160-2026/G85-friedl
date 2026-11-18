@@ -1,0 +1,15 @@
+.stempel {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--components-nummerstempel-size);
+  height: var(--components-nummerstempel-size);
+  border-radius: var(--components-nummerstempel-rounded);
+  background: var(--components-nummerstempel-background);
+  color: var(--components-nummerstempel-text);
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}

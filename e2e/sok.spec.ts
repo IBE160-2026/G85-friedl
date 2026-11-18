@@ -24,6 +24,7 @@ const felt = (page: Page) => ({
   utsikt: page.getByRole("checkbox", { name: "utsikt" }),
   vann: page.getByRole("checkbox", { name: "vann" }),
   finnTur: page.getByRole("button", { name: "Finn tur" }),
+  endreSok: page.getByRole("button", { name: "Endre søk" }),
   reduserStart: page.getByRole("button", { name: "Reduser Starttidspunkt med 15 min" }),
   okStart: page.getByRole("button", { name: "Øk Starttidspunkt med 15 min" }),
   reduserTid: page.getByRole("button", { name: "Reduser Tilgjengelig tid med 15 min" }),
@@ -133,9 +134,10 @@ test("Finn tur sender standard-Søket og melder overskriften", async ({ page }) 
   const live = page.locator('[aria-live="polite"]');
   await expect(live.getByRole("heading", { name: "Tre Turforslag som passer tiden din" })).toBeVisible();
 
-  // Knappen er aldri låst, og Søket står aldri i URL-en.
-  await expect(f.finnTur).toBeEnabled();
+  // Søket står aldri i URL-en, og knappen er ikke låst når Søk kommer tilbake.
   expect(new URL(page.url()).search).toBe("?demo=uten-vaer");
+  await f.endreSok.click();
+  await expect(f.finnTur).toBeEnabled();
 });
 
 test("Finn tur sender endrede verdier", async ({ page }) => {
@@ -157,7 +159,7 @@ test("Finn tur sender endrede verdier", async ({ page }) => {
     vanskelighetsgrad: "R",
     utsikt: true,
   });
-  await expect(page.getByRole("heading", { level: 2 })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Turforslag/ })).toBeVisible();
 });
 
 test("en justering fra serveren står under Starttidspunkt", async ({ page }) => {
@@ -171,6 +173,7 @@ test("en justering fra serveren står under Starttidspunkt", async ({ page }) =>
   await page.goto(DEMO);
   const f = felt(page);
   await f.finnTur.click();
+  await f.endreSok.click();
 
   await expect(page.getByText(justering)).toBeVisible();
   await expect(f.start).toHaveValue("14:15");
@@ -183,10 +186,29 @@ test("en justering fra serveren står under Starttidspunkt", async ({ page }) =>
 
   // … og når Turdag endres.
   await f.finnTur.click();
+  await f.endreSok.click();
   await expect(page.getByText(justering)).toBeVisible();
   await f.iMorgen.check();
   await expect(page.getByText(justering)).toHaveCount(0);
   await expect(f.start).toHaveAccessibleDescription("Hele kvarter, 06:00–22:00.");
+});
+
+test("Endre søk lar skjemaet stå når det ikke kan vise Søket fra serveren", async ({ page }) => {
+  // 13:15 er passert og låst i dag i uten-vaer, så skjemaet kan ikke vise det.
+  const justering = "Flyttet til 13:15, fordi 13:00 har passert.";
+  await page.route("**/api/sok?*", async (route) => {
+    const svar = await route.fetch();
+    const visning = await svar.json();
+    await route.fulfill({ response: svar, json: { ...visning, sok: { ...visning.sok, start: "13:15" }, justering } });
+  });
+
+  await page.goto(DEMO);
+  const f = felt(page);
+  await f.finnTur.click();
+  await f.endreSok.click();
+
+  await expect(f.start).toHaveValue("13:30");
+  await expect(page.getByText(justering)).toHaveCount(0);
 });
 
 test("et nytt Søk forkaster svaret på det forrige", async ({ page }) => {
@@ -224,6 +246,7 @@ test("et nytt Søk forkaster svaret på det forrige", async ({ page }) => {
   await f.finnTur.click();
   await forsteSendt;
   await f.finnTur.click();
+  await f.endreSok.click();
 
   await expect(page.getByText(andreJustering)).toBeVisible();
   await expect(f.start).toHaveValue("14:15");

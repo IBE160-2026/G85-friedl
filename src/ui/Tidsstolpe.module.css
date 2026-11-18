@@ -1,0 +1,38 @@
+.stolpe {
+  position: relative;
+  width: 100%;
+  max-width: var(--components-tidsstolpe-max-width);
+  height: var(--components-tidsstolpe-height);
+  margin-top: var(--spacing-2);
+  border-radius: calc(var(--components-tidsstolpe-height) / 2);
+  background: var(--components-tidsstolpe-track);
+}
+
+.fyll {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: calc(var(--andel) * 100%);
+  border-radius: inherit;
+  background: var(--components-tidsstolpe-fill);
+}
+
+/* Biten over Tilgjengelig tid på Alternativkortet. */
+.over {
+  position: absolute;
+  inset-block: 0;
+  left: calc(var(--start) * 100%);
+  width: calc(var(--andel) * 100%);
+  border-radius: 0 calc(var(--components-tidsstolpe-height) / 2) calc(var(--components-tidsstolpe-height) / 2) 0;
+  background: var(--components-tidsstolpe-fill-warn);
+}
+
+.grense {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: calc(var(--andel) * 100%);
+  width: 1.4px;
+  transform: translateX(-50%);
+  background: var(--colors-ink-primary);
+}

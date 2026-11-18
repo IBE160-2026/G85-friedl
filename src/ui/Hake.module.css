@@ -1,0 +1,13 @@
+/* Like høy som en stor bokstav, i tekstens farge, og står på grunnlinjen. */
+.hake {
+  display: inline-block;
+  width: 0.72em;
+  height: 0.72em;
+  vertical-align: 0;
+  overflow: visible;
+}
+
+/* Mellomrommet foran ✓ i teksten. */
+.mellomrom {
+  margin-inline-start: 0.28em;
+}

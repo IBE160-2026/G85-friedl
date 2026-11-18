@@ -5,16 +5,27 @@ import type { Sok } from "@/kjerne/sok";
 import type { Sidedata } from "@/kjerne/visning/sidedata";
 import { sendSok, type SokSvar } from "./api";
 import { Preferansebrikke } from "./Preferansebrikke";
+import { Resultat } from "./Resultat";
 import { Segmentvelger } from "./Segmentvelger";
 import { Skjemakort } from "./Skjemakort";
 import stil from "./SokFlate.module.css";
-import { ETIKETT, HJELPETEKST, NA, PREFERANSE, VANSKELIGHETSGRAD } from "./tekster";
+import {
+  ETIKETT,
+  HJELPETEKST,
+  NA,
+  PREFERANSE,
+  SOK_INGRESS,
+  SOK_OVERSKRIFT,
+  VANSKELIGHETSGRAD,
+} from "./tekster";
 import { Trinnvelger } from "./Trinnvelger";
 
-// Søk-flaten (FR-1–FR-6). Søket holdes bare i React-state, aldri i URL-en eller lagring.
-// Valg, låser, etiketter og standard-Søket kommer ferdige fra sidedataene (AD-18), så flaten regner
-// ikke ut tider og leser aldri klokka. Resultatet vises fra story 1.12. Til da står overskriften i et
-// høflig live-område, og en `justering` står som hjelpetekst under Starttidspunkt.
+// Søk-flaten (FR-1–FR-6) og byttet til Resultat. Søket og Resultatvisningen holdes bare i React-state,
+// aldri i URL-en eller lagring. Valg, låser, etiketter og standard-Søket kommer ferdige fra
+// sidedataene (AD-18), så flaten regner ikke ut tider og leser aldri klokka.
+// Etter «Finn tur» viser flaten Resultatet. «Endre søk» går tilbake til Søk med Søket fra Resultatet
+// i skjemaet, og en `justering` står som hjelpetekst under Starttidspunkt (UX-DR12). Historikk og
+// nettleserens Tilbake kommer i story 1.14.
 
 /** Starttidspunktet når «I morgen» velges (FR-2, EXPERIENCE.md › Segmentvelger). */
 const I_MORGEN_START = "10:00";
@@ -26,31 +37,30 @@ const VANSKELIGHETSGRADER = (["G", "B", "R"] as const).map((verdi) => ({
 
 type Props = { skjema: Sidedata["skjema"] };
 
-const likeSok = (a: Sok, b: Sok) =>
-  a.dato === b.dato &&
-  a.start === b.start &&
-  a.tilgjengeligMin === b.tilgjengeligMin &&
-  a.vanskelighetsgrad === b.vanskelighetsgrad &&
-  a.utsikt === b.utsikt &&
-  a.vann === b.vann;
-
 export function SokFlate({ skjema }: Props) {
   const { turdager, tilgjengeligTid, standardSok } = skjema;
   const [iDag] = turdager;
 
   const [sok, settSok] = useState<Sok>(standardSok);
   const [justering, settJustering] = useState<string | null>(null);
-  // Svaret på siste Søk. Visningen av Resultatet og Kontaktfeil kommer i story 1.12–1.14.
+  // Svaret på siste Søk. Kontaktfeil og feil fra serveren vises fra story 1.14.
   const [svar, settSvar] = useState<SokSvar | null>(null);
-  // Søket slik det står nå, for å se om brukeren har endret noe mens kallet pågikk.
-  const gjeldendeSok = useRef(sok);
-  useEffect(() => {
-    gjeldendeSok.current = sok;
-  }, [sok]);
+  // Resultatet vises til «Endre søk» trykkes.
+  const [visResultat, settVisResultat] = useState(false);
   // Kallet som pågår. Et nytt Søk avbryter det.
   const pagaendeKall = useRef<AbortController | null>(null);
+  // Fokus går til overskriften på Søk når «Endre søk» bringer flaten tilbake.
+  const sokOverskrift = useRef<HTMLHeadingElement>(null);
+  const fraResultat = useRef(false);
   const preferanseId = useId();
 
+  useEffect(() => {
+    if (visResultat || !fraResultat.current) return;
+    fraResultat.current = false;
+    sokOverskrift.current?.focus();
+  }, [visResultat]);
+
+  const visning = svar?.type === "resultat" ? svar.visning : null;
   const turdag = turdager.find((d) => d.dato === sok.dato) ?? iDag;
   const erNa = sok.dato === iDag.dato && sok.start === standardSok.start;
 
@@ -92,91 +102,96 @@ export function SokFlate({ skjema }: Props) {
     pagaendeKall.current?.abort();
     const kall = new AbortController();
     pagaendeKall.current = kall;
-    const sendt = sok;
 
-    const nyttSvar = await sendSok(sendt, kall.signal);
+    const nyttSvar = await sendSok(sok, kall.signal);
     if (pagaendeKall.current !== kall) return;
     pagaendeKall.current = null;
     settSvar(nyttSvar);
-    if (nyttSvar.type !== "resultat") return;
+    if (nyttSvar.type === "resultat") settVisResultat(true);
+  }
 
-    // Søket fra serveren (og justeringen) brukes bare når brukeren ikke har endret skjemaet imens,
-    // og når skjemaet kan vise det. Ellers står skjemaet urørt, uten justering.
-    const nytt = nyttSvar.visning.sok;
-    if (likeSok(gjeldendeSok.current, sendt) && kanVises(nytt)) {
-      settSok(nytt);
-      settJustering(nyttSvar.visning.justering ?? null);
+  /**
+   * Tilbake til Søk med Søket fra Resultatet og justeringen under Starttidspunkt. Kan ikke skjemaet
+   * vise Søket (for eksempel når siden har stått åpen over midnatt), står skjemaet urørt.
+   */
+  function endreSok() {
+    if (visning && kanVises(visning.sok)) {
+      settSok(visning.sok);
+      settJustering(visning.justering ?? null);
     } else {
       settJustering(null);
     }
+    fraResultat.current = true;
+    settVisResultat(false);
   }
 
-  const visning = svar?.type === "resultat" ? svar.visning : null;
-
+  // Resultat står alltid på samme plass i treet, så live-området i den overlever byttet.
   return (
     <>
-      <Skjemakort onFinnTur={finnTur}>
-        <Segmentvelger
-          etikett={ETIKETT.turdag}
-          valg={turdager.map((d) => ({ verdi: d.dato, etikett: d.etikett, last: d.last }))}
-          verdi={sok.dato}
-          onVelg={velgTurdag}
-          hjelpetekst={iDag.last ? HJELPETEKST.iDagLast : undefined}
-        />
+      {!visResultat && (
+        <div className={stil.sok}>
+          <h1 ref={sokOverskrift} tabIndex={-1} className={stil.sokOverskrift}>
+            {SOK_OVERSKRIFT}
+          </h1>
+          <p className={stil.ingress}>{SOK_INGRESS}</p>
+          <Skjemakort onFinnTur={finnTur}>
+            <Segmentvelger
+              etikett={ETIKETT.turdag}
+              valg={turdager.map((d) => ({ verdi: d.dato, etikett: d.etikett, last: d.last }))}
+              verdi={sok.dato}
+              onVelg={velgTurdag}
+              hjelpetekst={iDag.last ? HJELPETEKST.iDagLast : undefined}
+            />
 
-        <div className={stil.trinnrad}>
-          <Trinnvelger
-            etikett={ETIKETT.starttidspunkt}
-            valg={turdag.startvalg.map((v) => ({ verdi: v.verdi, etikett: v.verdi, last: v.last }))}
-            verdi={sok.start}
-            onEndre={velgStart}
-            under={erNa ? NA : undefined}
-            hjelpetekster={justering ? [HJELPETEKST.starttidspunkt, justering] : [HJELPETEKST.starttidspunkt]}
-          />
-          <Trinnvelger
-            etikett={ETIKETT.tilgjengeligTid}
-            valg={tilgjengeligTid.map((t) => ({ verdi: String(t.verdi), etikett: t.etikett }))}
-            verdi={String(sok.tilgjengeligMin)}
-            onEndre={(verdi) => endre({ tilgjengeligMin: Number(verdi) })}
-            hjelpetekster={[HJELPETEKST.tilgjengeligTid]}
-          />
+            <div className={stil.trinnrad}>
+              <Trinnvelger
+                etikett={ETIKETT.starttidspunkt}
+                valg={turdag.startvalg.map((v) => ({ verdi: v.verdi, etikett: v.verdi, last: v.last }))}
+                verdi={sok.start}
+                onEndre={velgStart}
+                under={erNa ? NA : undefined}
+                hjelpetekster={justering ? [HJELPETEKST.starttidspunkt, justering] : [HJELPETEKST.starttidspunkt]}
+              />
+              <Trinnvelger
+                etikett={ETIKETT.tilgjengeligTid}
+                valg={tilgjengeligTid.map((t) => ({ verdi: String(t.verdi), etikett: t.etikett }))}
+                verdi={String(sok.tilgjengeligMin)}
+                onEndre={(verdi) => endre({ tilgjengeligMin: Number(verdi) })}
+                hjelpetekster={[HJELPETEKST.tilgjengeligTid]}
+              />
+            </div>
+
+            <Segmentvelger
+              etikett={ETIKETT.vanskelighetsgrad}
+              hint={HJELPETEKST.vanskelighetsgrad}
+              valg={VANSKELIGHETSGRADER}
+              verdi={sok.vanskelighetsgrad}
+              onVelg={(vanskelighetsgrad) => endre({ vanskelighetsgrad })}
+            />
+
+            <div
+              role="group"
+              aria-labelledby={`${preferanseId}-etikett`}
+              aria-describedby={`${preferanseId}-hint`}
+            >
+              <p className={stil.etikettlinje}>
+                <span id={`${preferanseId}-etikett`} className={stil.etikett}>
+                  {ETIKETT.opplevelsespreferanser}
+                </span>
+                <span id={`${preferanseId}-hint`} className={stil.hint}>
+                  {HJELPETEKST.opplevelsespreferanser}
+                </span>
+              </p>
+              <div className={stil.brikker}>
+                <Preferansebrikke etikett={PREFERANSE.utsikt} pa={sok.utsikt} onEndre={(utsikt) => endre({ utsikt })} />
+                <Preferansebrikke etikett={PREFERANSE.vann} pa={sok.vann} onEndre={(vann) => endre({ vann })} />
+              </div>
+            </div>
+          </Skjemakort>
         </div>
+      )}
 
-        <Segmentvelger
-          etikett={ETIKETT.vanskelighetsgrad}
-          hint={HJELPETEKST.vanskelighetsgrad}
-          valg={VANSKELIGHETSGRADER}
-          verdi={sok.vanskelighetsgrad}
-          onVelg={(vanskelighetsgrad) => endre({ vanskelighetsgrad })}
-        />
-
-        <div
-          role="group"
-          aria-labelledby={`${preferanseId}-etikett`}
-          aria-describedby={`${preferanseId}-hint`}
-        >
-          <p className={stil.etikettlinje}>
-            <span id={`${preferanseId}-etikett`} className={stil.etikett}>
-              {ETIKETT.opplevelsespreferanser}
-            </span>
-            <span id={`${preferanseId}-hint`} className={stil.hint}>
-              {HJELPETEKST.opplevelsespreferanser}
-            </span>
-          </p>
-          <div className={stil.brikker}>
-            <Preferansebrikke etikett={PREFERANSE.utsikt} pa={sok.utsikt} onEndre={(utsikt) => endre({ utsikt })} />
-            <Preferansebrikke etikett={PREFERANSE.vann} pa={sok.vann} onEndre={(vann) => endre({ vann })} />
-          </div>
-        </div>
-      </Skjemakort>
-
-      <div aria-live="polite" className={stil.resultat}>
-        {visning && (
-          <h2 key={visning.resultatId} className={stil.overskrift}>
-            {visning.overskrift}
-          </h2>
-        )}
-      </div>
+      <Resultat visning={visResultat ? visning : null} onEndreSok={endreSok} />
     </>
   );
 }

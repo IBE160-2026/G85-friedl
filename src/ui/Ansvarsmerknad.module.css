@@ -1,0 +1,20 @@
+.panel {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  margin: 0;
+  padding: var(--spacing-4) var(--spacing-5);
+  border: 1px solid var(--components-ansvarsmerknad-border-color);
+  border-radius: var(--components-ansvarsmerknad-rounded);
+  background: var(--components-ansvarsmerknad-background);
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+  color: var(--colors-ink-secondary);
+  overflow-wrap: anywhere;
+}
+
+.panel > svg {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+}
