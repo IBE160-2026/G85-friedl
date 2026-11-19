@@ -33,11 +33,13 @@ type Props = {
   /** Indeksen til det valgte kortet. */
   valgt: number;
   onVelg: (indeks: number) => void;
+  /** Trykk på Kartutsnittet i et kort: rull til kartet. */
+  onVisPaKartet?: () => void;
   /** Stokken selv, så Stokkoversikten kan flytte fokus hit. */
   ref?: Ref<HTMLElement>;
 };
 
-export function Stokk({ kort, valgt, onVelg, ref }: Props) {
+export function Stokk({ kort, valgt, onVelg, onVisPaKartet, ref }: Props) {
   const antall = kort.length;
   const sveip = useRef<{ id: number; x: number; y: number } | null>(null);
   const kanter = Math.min(antall - 1 - valgt, MAKS_KANTER);
@@ -122,7 +124,7 @@ export function Stokk({ kort, valgt, onVelg, ref }: Props) {
               inert={i !== valgt}
               data-testid={i === valgt ? "stokk-valgt" : undefined}
             >
-              <Turkort kort={k} antall={antall} iStokken />
+              <Turkort kort={k} antall={antall} iStokken onVisPaKartet={onVisPaKartet} vises={i === valgt} />
             </div>
           );
         })}

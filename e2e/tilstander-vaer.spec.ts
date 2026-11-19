@@ -147,7 +147,9 @@ test.describe("Ingen vindu (ingen-bedre)", () => {
 test.describe("Frarådet (uj-3)", () => {
   test.use({ viewport: PC });
 
-  test("Frarådet-kortet og Bedre tidsvindu-kortet, uten kart, Ansvarsmerknad og Turkort", async ({ page }) => {
+  test("Frarådet-kortet og Bedre tidsvindu-kortet, uten hovedkart, Ansvarsmerknad og Turkort", async ({
+    page,
+  }) => {
     const visning = await uj3(page);
     expect(visning.utfall.type).toBe("fraradet");
     if (visning.utfall.type !== "fraradet") return;
@@ -191,7 +193,10 @@ test.describe("Frarådet (uj-3)", () => {
       await expect(page.getByTestId(testid), testid).toHaveCount(0);
     }
     await expect(page.getByTestId("turkort")).toHaveCount(0);
-    await expect(page.locator(".leaflet-container, [data-testid='kart']")).toHaveCount(0);
+    // Ingen kart i Resultatet. Bare Frarådet-kortet har et statisk kart over Moldemarka (story 3.2).
+    await expect(page.getByTestId("kart")).toHaveCount(0);
+    await expect(page.locator(".leaflet-container")).toHaveCount(1);
+    await expect(kort.getByTestId("vindflate").locator(".leaflet-container")).toHaveCount(1);
   });
 
   test("«Bruk i morgen 11:00» gir vanlige Turforslag, og Ditt søk viser i morgen 11:00", async ({ page }) => {

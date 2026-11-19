@@ -75,6 +75,12 @@
   color: var(--colors-ink-secondary);
 }
 
+/* Plassen til kartet. Kartutsnittet ruller hit, med litt luft over. */
+.kartplass {
+  border-radius: var(--components-kart-rounded);
+  scroll-margin-top: var(--spacing-4);
+}
+
 /* Kartet ved Alternativet er like bredt som Alternativkortet. */
 .alternativKart {
   width: 100%;

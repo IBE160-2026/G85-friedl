@@ -16,7 +16,7 @@ import stil from "./Resultat.module.css";
 import skjult from "./skjult.module.css";
 import { Stokk } from "./Stokk";
 import { Stokkoversikt } from "./Stokkoversikt";
-import { ENDRE_TILGJENGELIG_TID } from "./tekster";
+import { ENDRE_TILGJENGELIG_TID, KART } from "./tekster";
 import { useEndreSokIToppfelt } from "./ToppfeltHandling";
 import { Turkort } from "./Turkort";
 import { Vaermangel } from "./Vaermangel";
@@ -50,7 +50,8 @@ import { Vaervarsling } from "./Vaervarsling";
 // `onBrukBedreTidsvindu`, gjennom samme flyt som «Finn tur», og det nye Resultatet erstatter dette.
 //
 // Valgt kort er én tilstand her (indeks, kort 1 fra start). Stokken viser det valgte kortet, og kartet
-// uthever det. Valg fra kartet og fra kortene på PC kommer i story 3.5. Et nytt Søk (ny `resultatId`) setter det tilbake til kort 1.
+// uthever det. Kartutsnittet i kortet på mobil og nettbrett ruller til kartet (story 3.2). Valg fra kartet
+// og fra kortene på PC kommer i story 3.5. Et nytt Søk (ny `resultatId`) setter det tilbake til kort 1.
 //
 // Komponenten står alltid i treet, også på Søk, slik at det høflige live-området overlever byttet
 // mellom flatene. I live-området står `liveTekst` (skjult, bare for skjermlesere), Plassholderstokken med
@@ -77,12 +78,17 @@ type Props = {
   onBrukBedreTidsvindu: (sok: Sok) => void;
 };
 
+/** Kartområdet: en region med navnet «Kart» som Kartutsnittet kan flytte fokus til. Ikke et tabulatorstopp. */
+const KARTOMRADE = { role: "region", "aria-label": KART.navn, tabIndex: -1 } as const;
+
 const tilstandId = (t: Resultattilstand | null) => (t === null ? null : t.type === "resultat" ? t.visning.resultatId : t.id);
 
 export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvIgjen, onBrukBedreTidsvindu }: Props) {
   const overskrift = useRef<HTMLHeadingElement>(null);
   const plassholder = useRef<HTMLParagraphElement>(null);
   const stokk = useRef<HTMLElement>(null);
+  /** Kartet på mobil og nettbrett, som Kartutsnittet ruller til. */
+  const kartet = useRef<HTMLDivElement>(null);
   const id = tilstandId(tilstand);
   const visning = tilstand?.type === "resultat" ? tilstand.visning : null;
   const resultatId = visning?.resultatId ?? null;
@@ -122,6 +128,19 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
   function velgFraOversikt(indeks: number) {
     velg(indeks);
     const element = stokk.current;
+    if (!element) return;
+    element.focus({ preventScroll: true });
+    const rolig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    element.scrollIntoView({ block: "start", behavior: rolig ? "auto" : "smooth" });
+  }
+
+  /**
+   * Kartutsnittet i kortet: rull til kartet, og flytt fokus til kartområdet, så tastatur og skjermleser
+   * følger med. Kortet er allerede det valgte, fordi Stokken viser det valgte kortet, og Alternativet har
+   * bare ett.
+   */
+  function visPaKartet() {
+    const element = kartet.current;
     if (!element) return;
     element.focus({ preventScroll: true });
     const rolig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -183,9 +202,11 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
       {visning && turforslag && (
         <div key={`bunn-${visning.resultatId}`} className={stil.bunn}>
           <div className={stil.mobil}>
-            <Stokk ref={stokk} kort={turforslag} valgt={valgt} onVelg={velg} />
+            <Stokk ref={stokk} kort={turforslag} valgt={valgt} onVelg={velg} onVisPaKartet={visPaKartet} />
           </div>
-          <KartLaster kort={turforslag} valgt={valgt} />
+          <div ref={kartet} className={stil.kartplass} {...KARTOMRADE}>
+            <KartLaster kort={turforslag} valgt={valgt} />
+          </div>
           <div className={stil.mobil}>
             <Stokkoversikt kort={turforslag} valgt={valgt} onVelg={velgFraOversikt} />
           </div>
@@ -206,7 +227,7 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
             </div>
           )}
           <div className={stil.alternativ}>
-            <Turkort kort={alternativ.kort} antall={1} alternativ />
+            <Turkort kort={alternativ.kort} antall={1} alternativ onVisPaKartet={visPaKartet} />
             <div className={stil.alternativHandling}>
               <Knapp className={stil.endreTid} onClick={onEndreTilgjengeligTid}>
                 {ENDRE_TILGJENGELIG_TID}
@@ -217,7 +238,7 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
             </div>
           </div>
           {alternativKart && (
-            <div className={`${stil.mobil} ${stil.alternativKart}`}>
+            <div ref={kartet} className={`${stil.mobil} ${stil.alternativKart} ${stil.kartplass}`} {...KARTOMRADE}>
               <KartLaster kort={alternativKart} valgt={0} />
             </div>
           )}

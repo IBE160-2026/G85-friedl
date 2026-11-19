@@ -1,0 +1,186 @@
+/*
+ * Kartutsnittet (DESIGN.md › Kartutsnitt, UX-DR38): fra kant til kant øverst i kortet, med kortets runde
+ * hjørner øverst og en hårstrek under, som i mob-2. Margen ut til kortkanten er `--kort-pad` fra kortet.
+ * Knappen er 104 px høy på mobil og 160 px fra 768 px. PC har ikke Kartutsnitt.
+ */
+.utsnitt {
+  container: kartutsnitt / inline-size;
+  --utsnitt-hoyde: var(--spacing-map-snippet-height);
+  --utsnitt-hjorne: calc(var(--components-turkort-rounded) - var(--components-turkort-border-width));
+  position: relative;
+  margin: calc(-1 * var(--kort-pad, 0px)) calc(-1 * var(--kort-pad, 0px)) var(--spacing-5);
+  border-bottom: var(--components-turkort-border-width) solid var(--components-turkort-border-color);
+  border-radius: var(--utsnitt-hjorne) var(--utsnitt-hjorne) 0 0;
+}
+
+@media (min-width: 768px) {
+  .utsnitt {
+    --utsnitt-hoyde: 160px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .utsnitt {
+    display: none;
+  }
+}
+
+/* Hele utsnittet er knappen. Kartet klippes til hjørnene. */
+.knapp {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--utsnitt-hoyde);
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: var(--colors-map-land);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+}
+
+/*
+ * Fokusringen står innenfor knappen, over kartet. Den vanlige ringen utenfor ville gått ut over kortkanten,
+ * og en skygge på selve knappen ligger under kartet.
+ */
+.knapp:focus-visible {
+  box-shadow: none;
+}
+
+.knapp:focus-visible::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 var(--components-fokusring-outer-width) var(--components-fokusring-outer-color),
+    inset 0 0 0 calc(var(--components-fokusring-outer-width) + var(--components-fokusring-inner-width))
+      var(--components-fokusring-inner-color);
+  pointer-events: none;
+}
+
+.kart {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+/*
+ * Pillene er små (12 px), så ruten og Startpunktet får mest mulig plass mellom dem. Kartet holder ruten
+ * og Startpunktet klar av pillene (Kart.tsx › tilpassStatisk).
+ */
+
+/* «Turforslag N av M» eller «Alternativ» øverst til venstre, som i mob-2. Brytes på svært smale skjermer. */
+.merke {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 1;
+  max-width: calc(100% - 12px);
+  padding: 1px 8px;
+  border: 1px solid var(--colors-border-card);
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface-card);
+  color: var(--colors-ink-primary);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * Merket nederst til høyre: «omtrentlig rute · © Kartverket» i en papirpille. Begge pillene får ikke plass
+ * ved siden av hverandre øverst ved 360 px, så dette står nederst. Lenken er 44 × 44 px (NFR-1) med
+ * pilledelen nederst, så den når over kartet. Bare lenken tar imot pekeren. På svært smale skjermer
+ * (200 % zoom) brytes «© Kartverket» til egen linje.
+ */
+.bunnmerke {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-end;
+  max-width: calc(100% - 12px);
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  pointer-events: none;
+}
+
+.rutedel,
+.lenkedel {
+  padding: 2px 0;
+  background: var(--colors-surface-card);
+}
+
+.rutedel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 8px;
+  border-radius: var(--rounded-full) 0 0 var(--rounded-full);
+  color: var(--components-kart-route-color);
+  font-weight: 600;
+  white-space: pre;
+}
+
+.strek {
+  width: 16px;
+  height: 8px;
+  stroke: var(--components-kart-route-color);
+  stroke-width: 3;
+  stroke-dasharray: 4 3;
+  stroke-linecap: round;
+}
+
+.lenke {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-width: var(--spacing-touch-min);
+  min-height: var(--spacing-touch-min);
+  color: var(--colors-forest);
+  pointer-events: auto;
+}
+
+.lenkedel {
+  padding-inline: 8px;
+  border-radius: var(--rounded-full);
+  color: var(--colors-forest);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+/* Etter «omtrentlig rute ·» fortsetter pillen: ingen runding til venstre. */
+.etterRute {
+  padding-left: 0;
+  border-radius: 0 var(--rounded-full) var(--rounded-full) 0;
+}
+
+/*
+ * Svært smalt (200 % zoom ved 360 px): «© Kartverket» står på egen linje, og begge delene er hele piller.
+ * Utsnittet blir høyere, så ruten og Startpunktet fortsatt får plass mellom pillene.
+ */
+@container kartutsnitt (max-width: 240px) {
+  .knapp {
+    height: 152px;
+  }
+
+  .rutedel {
+    padding-right: 8px;
+    border-radius: var(--rounded-full);
+    white-space: nowrap;
+  }
+
+  .etterRute {
+    padding-left: 8px;
+    border-radius: var(--rounded-full);
+  }
+}

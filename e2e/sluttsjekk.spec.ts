@@ -247,3 +247,39 @@ for (const bredde of [180, 360]) {
     }
   });
 }
+
+// Story 3.2: Kartutsnittet og kartet på Frarådet-kortet ved 200 % zoom ved 360 px (180 px). Pillene brytes
+// eller står inne i kortet, og siden ruller ikke sidelengs.
+for (const { navn, url, kort } of [
+  { navn: "Kartutsnittet", url: DEMO, kort: "stokk-valgt" },
+  { navn: "Frarådet-kortet", url: "/?demo=uj-3", kort: "fraradet-kort" },
+]) {
+  test(`${navn} ved 180 px`, async ({ page }) => {
+    await page.setViewportSize({ width: 180, height: 800 });
+    await page.goto(url);
+    await finnTur(page);
+    const ramme = page.getByTestId(kort);
+    await expect(ramme.locator(".leaflet-container")).toHaveCount(1);
+
+    const [scrollbredde, klientbredde] = await page.evaluate(() => [
+      document.documentElement.scrollWidth,
+      document.documentElement.clientWidth,
+    ]);
+    expect(scrollbredde, "horisontal rulling").toBeLessThanOrEqual(klientbredde);
+
+    const r = (await ramme.boundingBox())!;
+    const piller = ramme.locator("[data-pille]");
+    expect(await piller.count()).toBeGreaterThan(0);
+    for (const pille of await piller.all()) {
+      const b = (await pille.boundingBox())!;
+      expect(b.x, "pillen står inne i kortet").toBeGreaterThanOrEqual(r.x);
+      expect(b.x + b.width, "pillen står inne i kortet").toBeLessThanOrEqual(r.x + r.width);
+      const overflyt = await pille.evaluate((el) => el.scrollWidth - el.clientWidth);
+      expect(overflyt, "teksten i pillen flyter ikke over").toBeLessThanOrEqual(0);
+    }
+    const lenke = ramme.getByRole("link", { name: /© Kartverket/ });
+    const l = (await lenke.boundingBox())!;
+    expect(l.x).toBeGreaterThanOrEqual(r.x);
+    expect(l.x + l.width).toBeLessThanOrEqual(r.x + r.width);
+  });
+}

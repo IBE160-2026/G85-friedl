@@ -1,10 +1,11 @@
 "use client";
 
 import { divIcon, type FitBoundsOptions, type Map as LeafletKart } from "leaflet";
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { Fragment, type Ref, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { GeoJSON, MapContainer, Marker, TileLayer } from "react-leaflet";
 import {
   etikettTilVenstre,
+  type Grenser,
   grenser,
   grupperStartpunkter,
   harMal,
@@ -29,6 +30,13 @@ import { BAKGRUNNSKART, KART, NY_FANE, ZOOM_INN, ZOOM_UT } from "./tekster";
 // Kartflaten er heller ikke et tabulatorstopp (`keyboard={false}`): zoomknappene er egne knapper på
 // 44 × 44 px med navn, fordi Leaflets knapper har title-attributter og er mindre. Med «Reduser bevegelse»
 // zoomer og panorerer kartet uten animasjon.
+//
+// Statisk modus (`statisk`, story 3.2, UX-DR38) er Kartutsnittet i kortene og kartet på Frarådet-kortet:
+// samme kart uten dragging, zoom, tastatur, zoomknapper, tegnforklaring, etikett og animasjoner. Kartet tar
+// ikke imot pekeren, så et trykk går til knappen rundt (Kartutsnitt), og en sveip til Stokken. Det fyller
+// flaten det står i, og krediteringen står i merket nederst, utenfor kartet (Kartutsnitt.tsx). Det viser
+// bare kortets rute og Startpunkt, ikke Mål, og holder dem klar av merkene over kartet (`tilpassStatisk`).
+// Med `omrade` (Frarådet-kortet) viser det bare området, uten marg.
 
 const MIN_ZOOM = 9;
 const MAKS_ZOOM = 17;
@@ -53,6 +61,97 @@ const marg = (forklaring: number, bredesteMarkor: number): FitBoundsOptions => {
   };
 };
 
+/**
+ * Statisk modus zoomer i kvarte trinn, så ruten fyller det lave utsnittet bedre. Flisene skaleres da litt
+ * og kan bli noe mykere, som er greit i et lite, statisk utsnitt.
+ */
+const ZOOMTRINN_STATISK = 0.25;
+
+/** Klaringen i px mellom merkene og Startpunktet eller ruten i statisk modus. */
+const KLARING = 3;
+/** Halve bredden av ruten med halo, i px, som ruten stikker ut forbi punktene sine. */
+const RUTEKANT = 4;
+/** Minste marg i statisk modus: Startpunktet står helt inne i kartet, med litt klaring. */
+const MIN_STATISK = PIN / 2 + KLARING;
+
+/** Margen i statisk modus, med `topp` og `bunn` i px. Til sidene står hele Startpunktet inne i kartet. */
+function statiskMarg(topp: number, bunn: number, hoyde: number): FitBoundsOptions {
+  // Er merkene så høye at det ikke blir plass igjen (for eksempel ved 200 % zoom), deles plassen.
+  const skala = topp + bunn > hoyde - 8 ? (hoyde - 8) / (topp + bunn) : 1;
+  return {
+    paddingTopLeft: [MIN_STATISK + 6, topp * skala],
+    paddingBottomRight: [MIN_STATISK + 6, bunn * skala],
+    maxZoom: 16,
+    animate: false,
+  };
+}
+
+/** Frarådet-kortet viser et område uten ruter og merker over seg, så det har ingen marg. */
+const MARG_OMRADE: FitBoundsOptions = { padding: [0, 0], animate: false };
+
+/** En boks i px i kartflaten. */
+type Boks = { venstre: number; topp: number; hoyre: number; bunn: number };
+
+const overlapper = (a: Boks, b: Boks) =>
+  a.venstre < b.hoyre && b.venstre < a.hoyre && a.topp < b.bunn && b.topp < a.bunn;
+
+/** Startpunktene og ruten slik kartet tegner dem nå, som bokser i kartflaten. */
+function innholdsbokser(kart: LeafletKart, kort: readonly Kartkort[]): Boks[] {
+  const starter = grupperStartpunkter(kort).map(({ punkt, kort: numre }) => {
+    const { x, y } = kart.latLngToContainerPoint([punkt.lat, punkt.lon]);
+    const halv = (PIN + (numre.length - 1) * PIN_STEG) / 2;
+    return { venstre: x - halv, hoyre: x + halv, topp: y - PIN / 2, bunn: y + PIN / 2 };
+  });
+  const ruter = kort.map(({ kart: k }) => {
+    const punkter = k.rute.geometry.coordinates.flat().map(([lon, lat]) => kart.latLngToContainerPoint([lat, lon]));
+    const xs = punkter.map((p) => p.x);
+    const ys = punkter.map((p) => p.y);
+    return {
+      venstre: Math.min(...xs) - RUTEKANT,
+      hoyre: Math.max(...xs) + RUTEKANT,
+      topp: Math.min(...ys) - RUTEKANT,
+      bunn: Math.max(...ys) + RUTEKANT,
+    };
+  });
+  return [...starter, ...ruter];
+}
+
+/**
+ * Zoomer det statiske kartet til ruten slik at ruten og Startpunktet aldri ligger under merkene. Først
+ * zoomer kartet med minste marg. Treffer innholdet et merke øverst, får kartet marg under det merket, og
+ * tilsvarende nederst, og zoomer på nytt. Margene bare øker, så det ender senest med marg ved begge
+ * merkene, og da er innholdet klar av dem.
+ */
+function tilpassStatisk(kart: LeafletKart, omrade: Grenser, kort: readonly Kartkort[], merker: readonly Element[]) {
+  const flate = kart.getContainer().getBoundingClientRect();
+  const hoyde = flate.height;
+  const piller: Boks[] = merker
+    .map((el) => el.getBoundingClientRect())
+    .filter((r) => r.width > 0 && r.height > 0)
+    .map((r) => ({
+      venstre: r.left - flate.left,
+      hoyre: r.right - flate.left,
+      topp: r.top - flate.top,
+      bunn: r.bottom - flate.top,
+    }));
+  const overst = (b: Boks) => b.topp + b.bunn < hoyde;
+  const fullTopp = Math.max(MIN_STATISK, ...piller.filter(overst).map((b) => b.bunn + MIN_STATISK));
+  const fullBunn = Math.max(MIN_STATISK, ...piller.filter((b) => !overst(b)).map((b) => hoyde - b.topp + MIN_STATISK));
+
+  let topp = MIN_STATISK;
+  let bunn = MIN_STATISK;
+  for (;;) {
+    kart.fitBounds(omrade, statiskMarg(topp, bunn, hoyde));
+    const innhold = innholdsbokser(kart, kort);
+    const treffer = (b: Boks) => innhold.some((i) => overlapper(i, b));
+    const nyTopp = piller.some((b) => overst(b) && treffer(b)) ? fullTopp : topp;
+    const nyBunn = piller.some((b) => !overst(b) && treffer(b)) ? fullBunn : bunn;
+    if (nyTopp === topp && nyBunn === bunn) return;
+    topp = nyTopp;
+    bunn = nyBunn;
+  }
+}
+
 /** Tegnforklaringen er én linje på PC. Kartet zoomer på nytt med den målte høyden når det er klart. */
 const FORKLARING_EN_LINJE = 32;
 
@@ -60,6 +159,15 @@ export type KartProps = {
   kort: readonly Kartkort[];
   /** Indeksen til det valgte kortet. Ruten og Startpunktet uthever det. */
   valgt: number;
+  /** Statisk modus: Kartutsnittet og kartet på Frarådet-kortet. */
+  statisk?: boolean;
+  /** Området kartet viser, når det ikke er grensene til kortene. Frarådet-kortet viser Moldemarka. */
+  omrade?: Grenser;
+  /**
+   * Statisk modus: merkene som står over kartet. Ruten og Startpunktet holdes klar av dem, og kartet
+   * zoomer på nytt når de endrer størrelse.
+   */
+  merker?: () => readonly Element[];
 };
 
 function startikon(numre: readonly { nummer: number; valgt: boolean }[]) {
@@ -115,14 +223,20 @@ function useZoom(kart: LeafletKart | null): number | null {
   );
 }
 
-export function Kart({ kort, valgt }: KartProps) {
+export function Kart({ kort: alleKort, valgt, statisk = false, omrade: fastOmrade, merker }: KartProps) {
+  // Kartutsnittet viser bare kortets egen rute og Startpunkt (UX-DR38), ikke Mål.
+  const kort = useMemo(
+    () => (statisk ? alleKort.map((k) => ({ ...k, kart: { ...k.kart, malpunkt: undefined } })) : alleKort),
+    [alleKort, statisk],
+  );
   const [kart, settKart] = useState<LeafletKart | null>(null);
   const zoom = useZoom(kart);
   const forklaring = useRef<HTMLDivElement>(null);
   // Leaflet leser valgene bare når kartet lages, så «Reduser bevegelse» leses én gang.
-  const [rolig] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  // Det statiske kartet flytter seg aldri selv, så det har ingen animasjoner.
+  const [rolig] = useState(() => statisk || window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
-  const omrade = useMemo(() => grenser(kort), [kort]);
+  const omrade = useMemo(() => fastOmrade ?? grenser(kort), [fastOmrade, kort]);
   const lag = useMemo(() => {
     const andre = [...kort.keys()].filter((i) => i !== valgt);
     // Den valgte ruten tegnes sist, så den ligger øverst.
@@ -141,11 +255,12 @@ export function Kart({ kort, valgt }: KartProps) {
         ikon: startikon(gruppe.kort.map((k) => ({ nummer: k.nummer, valgt: k.indeks === valgt }))),
       };
     });
-    const midt = kort[valgt] ? midtpunkt(kort[valgt].kart.rute) : null;
+    // I statisk modus står «omtrentlig rute» i merket nederst, ikke ved ruten.
+    const midt = kort[valgt] && !statisk ? midtpunkt(kort[valgt].kart.rute) : null;
     const side = midt && omrade && etikettTilVenstre(midt, omrade) ? "venstre" : "hoyre";
     const etikett = midt ? { punkt: midt, ikon: ETIKETT[side] } : null;
     return { ruter, mal, starter, etikett };
-  }, [kort, valgt, omrade]);
+  }, [kort, valgt, omrade, statisk]);
 
   /** Den bredeste Startpunkt-markøren i px. */
   const bredesteMarkor = useMemo(
@@ -162,29 +277,41 @@ export function Kart({ kort, valgt }: KartProps) {
     const tilpass = () => {
       if (flate.clientWidth === 0 || flate.clientHeight === 0) return;
       kart.invalidateSize({ pan: false });
-      kart.fitBounds(omrade, marg(forklaring.current?.offsetHeight ?? FORKLARING_EN_LINJE, bredesteMarkor));
+      if (fastOmrade) kart.fitBounds(omrade, MARG_OMRADE);
+      else if (statisk) tilpassStatisk(kart, omrade, kort, merker?.() ?? []);
+      else kart.fitBounds(omrade, marg(forklaring.current?.offsetHeight ?? FORKLARING_EN_LINJE, bredesteMarkor));
     };
     const observator = new ResizeObserver(tilpass);
     observator.observe(flate);
     if (forklaring.current) observator.observe(forklaring.current);
+    for (const merke of merker?.() ?? []) observator.observe(merke);
     return () => observator.disconnect();
-  }, [kart, omrade, bredesteMarkor]);
+  }, [kart, omrade, kort, bredesteMarkor, statisk, fastOmrade, merker]);
 
   if (!omrade) return null;
 
-  const kanZoomeInn = kart !== null && zoom !== null && zoom < kart.getMaxZoom();
-  const kanZoomeUt = kart !== null && zoom !== null && zoom > kart.getMinZoom();
-
   return (
-    <div className={stil.flate} data-testid="kart">
+    <div className={statisk ? stil.statisk : stil.flate} data-testid={statisk ? "kart-statisk" : "kart"}>
       <div className={stil.kartlag} aria-hidden="true">
         <MapContainer
           ref={settKart}
           className={stil.kartet}
           bounds={omrade}
-          boundsOptions={marg(FORKLARING_EN_LINJE, bredesteMarkor)}
+          boundsOptions={
+            fastOmrade
+              ? MARG_OMRADE
+              : statisk
+                ? statiskMarg(MIN_STATISK, MIN_STATISK, Infinity)
+                : marg(FORKLARING_EN_LINJE, bredesteMarkor)
+          }
           minZoom={MIN_ZOOM}
           maxZoom={MAKS_ZOOM}
+          zoomSnap={statisk ? ZOOMTRINN_STATISK : 1}
+          dragging={!statisk}
+          touchZoom={!statisk}
+          doubleClickZoom={!statisk}
+          scrollWheelZoom={!statisk}
+          boxZoom={!statisk}
           keyboard={false}
           zoomAnimation={!rolig}
           fadeAnimation={!rolig}
@@ -231,6 +358,27 @@ export function Kart({ kort, valgt }: KartProps) {
         </MapContainer>
       </div>
 
+      {!statisk && (
+        <KartKontroller kart={kart} zoom={zoom} forklaring={forklaring} harMal={harMal(kort)} />
+      )}
+    </div>
+  );
+}
+
+type KontrollerProps = {
+  kart: LeafletKart | null;
+  zoom: number | null;
+  forklaring: Ref<HTMLDivElement>;
+  harMal: boolean;
+};
+
+/** Zoomknappene, tegnforklaringen og krediteringspillen over det interaktive kartet. */
+function KartKontroller({ kart, zoom, forklaring, harMal }: KontrollerProps) {
+  const kanZoomeInn = kart !== null && zoom !== null && zoom < kart.getMaxZoom();
+  const kanZoomeUt = kart !== null && zoom !== null && zoom > kart.getMinZoom();
+
+  return (
+    <>
       <div className={stil.zoom}>
         <button
           type="button"
@@ -260,7 +408,7 @@ export function Kart({ kort, valgt }: KartProps) {
         </button>
       </div>
 
-      <Tegnforklaring ref={forklaring} harMal={harMal(kort)} />
+      <Tegnforklaring ref={forklaring} harMal={harMal} />
 
       <a
         className={stil.kreditering}
@@ -272,6 +420,6 @@ export function Kart({ kort, valgt }: KartProps) {
         <span className={stil.pille}>{BAKGRUNNSKART.tekst}</span>
         <span className={skjult.skjult}>{NY_FANE}</span>
       </a>
-    </div>
+    </>
   );
 }

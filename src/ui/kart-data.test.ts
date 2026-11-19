@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 import type { Kart } from "@/kjerne/visning/skjema";
-import { etikettTilVenstre, grenser, grupperStartpunkter, harMal, type Kartkort, midtpunkt } from "./kart-data";
+import turdatasett from "../../data/turer-moldemarka.json";
+import {
+  etikettTilVenstre,
+  grenser,
+  grupperStartpunkter,
+  harMal,
+  type Kartkort,
+  midtpunkt,
+  MOLDEMARKA,
+} from "./kart-data";
 
 // Story 3.1: grupperingen av Startpunkter, grensene kartet zoomer til, punktet for «omtrentlig rute»
 // og Mål i tegnforklaringen. Rutene er GeoJSON i [lon, lat].
@@ -126,5 +135,18 @@ describe("etikettTilVenstre", () => {
     expect(etikettTilVenstre({ lat: 62.75, lon: 7.19 }, omrade)).toBe(true);
     expect(etikettTilVenstre({ lat: 62.75, lon: 7.01 }, omrade)).toBe(false);
     expect(etikettTilVenstre({ lat: 62.75, lon: 7.1 }, omrade)).toBe(false);
+  });
+});
+
+describe("MOLDEMARKA", () => {
+  it("er grensene rundt de 8 Startpunktene i Turdatasettet", () => {
+    const startpunkter = new Map(turdatasett.turer.map(({ startpunkt: p }) => [`${p.lat},${p.lon}`, p]));
+    expect(startpunkter.size).toBe(8);
+    const lat = [...startpunkter.values()].map((p) => p.lat);
+    const lon = [...startpunkter.values()].map((p) => p.lon);
+    expect(MOLDEMARKA).toEqual([
+      [Math.min(...lat), Math.min(...lon)],
+      [Math.max(...lat), Math.max(...lon)],
+    ]);
   });
 });

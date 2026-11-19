@@ -163,8 +163,12 @@ export const KONTAKTFEIL = {
 
 // --- Kartet ---
 
-/** Tegnforklaringen og etiketten ved den valgte ruten (UX-DR36). */
+/**
+ * Tegnforklaringen og etiketten ved den valgte ruten (UX-DR36), og navnet på kartområdet, som
+ * Kartutsnittet flytter fokus til.
+ */
 export const KART = {
+  navn: "Kart",
   startpunkt: "Startpunkt",
   mal: "Mål",
   omtrentligRute: "omtrentlig rute",
@@ -172,6 +176,17 @@ export const KART = {
 /** Tilgjengelige navn på zoomknappene i kartet. */
 export const ZOOM_INN = "Zoom inn";
 export const ZOOM_UT = "Zoom ut";
+
+/**
+ * Kartutsnittet øverst i Turkortet og Alternativkortet på mobil og nettbrett (UX-DR38). Hele utsnittet er
+ * én knapp med navnet «Vis på kartet». Merket øverst til venstre er «Turforslag N av M» (`stokkNavn`)
+ * eller «Alternativ». Merket nederst er «omtrentlig rute · © Kartverket».
+ */
+export const KARTUTSNITT = {
+  visPaKartet: "Vis på kartet",
+  alternativ: "Alternativ",
+  skille: " · ",
+} as const;
 
 // --- Kreditering og bunntekst ---
 

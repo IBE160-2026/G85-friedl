@@ -236,6 +236,28 @@ test("sveip mot venstre gir neste kort, og sveip forbi første kort gjør ingent
   await forventKort(page, kort, 1);
 });
 
+test("sveip som starter på Kartutsnittet blar i Stokken og ruller ikke til kartet", async ({ page }) => {
+  await page.goto(DEMO);
+  const kort = turforslag(await finnTur(page));
+  const utsnitt = page.getByTestId("stokk-valgt").getByTestId("kartutsnitt");
+  await expect(utsnitt).toBeVisible();
+  const boks = (await utsnitt.boundingBox())!;
+  const x = boks.x + boks.width * 0.6;
+  const y = boks.y + boks.height / 2;
+  const rullet = await page.evaluate(() => window.scrollY);
+
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  await page.mouse.move(x - 100, y, { steps: 8 });
+  await page.mouse.up();
+
+  await forventKort(page, kort, 2);
+  // Ingen rulling til kartet, og fokus er ikke flyttet til kartområdet.
+  await page.waitForTimeout(400);
+  expect(await page.evaluate(() => window.scrollY)).toBe(rullet);
+  await expect(page.getByRole("region", { name: "Kart" })).not.toBeFocused();
+});
+
 test("kildelenken i kortet virker, selv om Stokken fanger pekeren ved sveip", async ({ page, context }) => {
   // Kilden ligger utenfor appen, så den nye fanen får et tomt svar i stedet for å gå ut på nettet.
   await context.route(/^https?:\/\/(?!localhost)/, (route) => route.fulfill({ body: "", contentType: "text/plain" }));

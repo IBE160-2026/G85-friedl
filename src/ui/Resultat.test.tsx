@@ -295,7 +295,7 @@ describe("Resultat med Alternativ", () => {
     expect(pc).toBeLessThan(html.indexOf('data-testid="alternativkort"'));
     expect(html.slice(0, pc)).toMatch(/<div class="[^"]*pc[^"]*alternativKart[^"]*"><div[^>]*$/);
     expect(mobil).toBeGreaterThan(html.indexOf('data-testid="passer-med"'));
-    expect(html.slice(0, mobil)).toMatch(/<div class="[^"]*mobil[^"]*alternativKart[^"]*"><div[^>]*$/);
+    expect(html.slice(0, mobil)).toMatch(/<div class="[^"]*mobil[^"]*alternativKart[^"]*"[^>]*><div[^>]*$/);
     expect(mobil).toBeLessThan(html.indexOf('data-testid="ansvarsmerknad"'));
   });
 
@@ -404,7 +404,14 @@ describe("Resultat ved frarådet", () => {
     expect(html).toMatch(/<article[^>]*aria-labelledby="([^"]+) ([^"]+)" data-testid="fraradet-kort">/);
     const [, ingenId, tittelId] = /aria-labelledby="([^"]+) ([^"]+)" data-testid="fraradet-kort"/.exec(html)!;
     expect(kortet).toMatch(/data-testid="vindflate"/);
-    expect(kortet).toMatch(/<div[^>]*aria-hidden="true" data-testid="vindflate"><svg/);
+    // Story 3.2: kartet over Moldemarka (en tom flate på serveren) og vindstrekene, begge skjult for
+    // skjermlesere, og «© Kartverket» som lenke.
+    const vindflate = del(kortet, 'data-testid="vindflate"', 'data-testid="nummerstempel"');
+    expect(vindflate).toMatch(/<div[^>]*aria-hidden="true"><div[^>]*data-testid="kart-statisk-laster"><\/div><\/div>/);
+    expect(vindflate).toMatch(/<svg[^>]*aria-hidden="true" data-testid="vindstreker">(<path[^>]*><\/path>){12}<\/svg>/);
+    const lenke = /<a[^>]*href="https:\/\/www\.kartverket\.no\/" target="_blank"[^>]*><span[^>]*>© Kartverket<\/span>/;
+    expect(vindflate).toMatch(lenke);
+    expect(vindflate).not.toContain("kartutsnitt");
     expect(kortet).toMatch(/<span class="[^"]*varsel[^"]*" aria-hidden="true" data-testid="nummerstempel">!<\/span>/);
     expect(kortet).toContain(`id="${ingenId}"`);
     expect(kortet).toMatch(new RegExp(`<h2 id="${tittelId}"[^>]*>Værklasse frarådet</h2>`));

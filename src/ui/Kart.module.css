@@ -19,6 +19,29 @@
   }
 }
 
+/*
+ * Det statiske kartet (story 3.2): Kartutsnittet og kartet på Frarådet-kortet. Det fyller flaten det står
+ * i, som gir høyde, kant og hjørner. Kartet tar ikke imot pekeren: et trykk går til knappen rundt, og en
+ * sveip eller rulling til siden og Stokken.
+ */
+.statisk {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100%;
+  background: var(--colors-map-land);
+  pointer-events: none;
+}
+
+/* Leaflet-flaten i det statiske kartet: ingen egne hjørner, og ingen grep-peker. */
+.statisk .kartet {
+  width: 100%;
+  height: 100%;
+  background: var(--colors-map-land);
+  font: inherit;
+  cursor: inherit;
+}
+
 /* Laget rundt Leaflet-flaten er skjult for skjermlesere og fyller kartflaten. */
 .kartlag {
   width: 100%;

@@ -1,16 +1,27 @@
 import type { Turkort as TurkortData } from "@/kjerne/visning/skjema";
 import { Begrunnelse } from "./Begrunnelse";
 import { Dagslysstolpe } from "./Dagslysstolpe";
+import { Kartutsnitt } from "./Kartutsnitt";
 import { Kriterierad } from "./Kriterierad";
 import { Nummerstempel } from "./Nummerstempel";
 import skjult from "./skjult.module.css";
-import { ALTERNATIV, KILDE, NY_FANE, PASSER_FORDI, plassTekst, SLIK_STAR_DEN, TURFORSLAG } from "./tekster";
+import {
+  ALTERNATIV,
+  KARTUTSNITT,
+  KILDE,
+  NY_FANE,
+  PASSER_FORDI,
+  plassTekst,
+  SLIK_STAR_DEN,
+  stokkNavn,
+  TURFORSLAG,
+} from "./tekster";
 import { Tidsstolpe } from "./Tidsstolpe";
 import stil from "./Turkort.module.css";
 
 // Turkortet på PC (DESIGN.md › Turkort), ovenfra: Nummerstempel og «1 av 3», Mål og «fra …»,
 // faktalinjen, Startpunkt, perforeringen, PASSER FORDI med de fire Kriterieradene, Begrunnelse-boksen
-// og foten med kildelenken. Kartutsnittet og «Vis på kartet» kommer med kartet i Epic 3.
+// og foten med kildelenken. «Vis på kartet» på PC kommer i story 3.5.
 // Kortet er én artikkel med lesetekst fra serveren som navn (UX-DR43).
 // I Stokken (`iStokken`, mobil og nettbrett) er Begrunnelsen én kursiv linje, med kildelenken under.
 //
@@ -18,10 +29,30 @@ import stil from "./Turkort.module.css";
 // «Alternativ · den korteste Turen» ved stempelet og overlinjen SLIK STÅR DEN MOT SØKET DITT i dempet
 // tone. Tid-raden er warn, og Tidsstolpen har biten over grensen. Det rendres én gang for alle bredder,
 // så begge formene av Begrunnelsen står i kortet, og CSS viser boksen fra 1200 px og linjen under.
+//
+// Kartutsnittet (story 3.2) står øverst i kortet i Stokken og i Alternativkortet, bare under 1200 px, med
+// merket «Turforslag N av M» eller «Alternativ». Et trykk på det kaller `onVisPaKartet`. Bare kortet som
+// `vises`, får kart i utsnittet. Kortraden på PC har ikke Kartutsnitt.
 
-type Props = { kort: TurkortData; antall: number; iStokken?: boolean; alternativ?: boolean };
+type Props = {
+  kort: TurkortData;
+  antall: number;
+  iStokken?: boolean;
+  alternativ?: boolean;
+  /** Trykk på Kartutsnittet: rull til kartet. Uten den har kortet ikke Kartutsnitt. */
+  onVisPaKartet?: () => void;
+  /** Kortet vises, så Kartutsnittet får kart. Kortene bak i Stokken har bare den tomme flaten. */
+  vises?: boolean;
+};
 
-export function Turkort({ kort, antall, iStokken = false, alternativ = false }: Props) {
+export function Turkort({
+  kort,
+  antall,
+  iStokken = false,
+  alternativ = false,
+  onVisPaKartet,
+  vises = true,
+}: Props) {
   const [tid, vaer, onsker, morke] = kort.kriterier;
   // Plassen kommer fra serveren, så stempelet og «N av M» sier det samme som leseteksten.
   const { nummer } = kort.kart;
@@ -31,6 +62,14 @@ export function Turkort({ kort, antall, iStokken = false, alternativ = false }: 
       aria-label={kort.lesetekst}
       data-testid={alternativ ? "alternativkort" : "turkort"}
     >
+      {(iStokken || alternativ) && onVisPaKartet && (
+        <Kartutsnitt
+          kort={kort}
+          merke={alternativ ? KARTUTSNITT.alternativ : stokkNavn(nummer, antall)}
+          onVisPaKartet={onVisPaKartet}
+          medKart={vises}
+        />
+      )}
       <div className={stil.hode}>
         {alternativ ? <Nummerstempel pil /> : <Nummerstempel nummer={nummer} />}
         {alternativ ? (

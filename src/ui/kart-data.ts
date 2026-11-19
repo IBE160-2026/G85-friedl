@@ -92,3 +92,14 @@ export const harMal = (kort: readonly Kartkort[]) => kort.some(({ kart }) => kar
  * grensene, står den til venstre i stedet, så den peker inn mot kartet og ikke klippes i kanten.
  */
 export const etikettTilVenstre = (midt: Punkt, [[, vest], [, ost]]: Grenser) => midt.lon > (vest + ost) / 2;
+
+/**
+ * Moldemarka: grensene rundt de 8 Startpunktene i Turdatasettet (data/turer-moldemarka.json), som det
+ * statiske kartet på Frarådet-kortet viser (story 3.2). Sør er Kaia i Molde sentrum (62,73451), nord og
+ * øst er Tusten skisenter (62,76412 og 7,27154), og vest er Romsdalsmuseet (7,14728). Kartet zoomer til
+ * grensene med litt marg. kart-data.test.ts sjekker tallene mot Turdatasettet.
+ */
+export const MOLDEMARKA: Grenser = [
+  [62.73451, 7.14728],
+  [62.76412, 7.27154],
+];
