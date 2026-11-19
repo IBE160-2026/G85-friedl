@@ -50,6 +50,17 @@
   color: var(--components-kriterierad-detail-color);
 }
 
+/*
+ * Under 360 px, som er 200 % zoom ved 360 px, ville verdikolonnen bare fått noen få tegn.
+ * Da står verdien og detaljene under etiketten og får hele bredden ved merket.
+ */
+@media (max-width: 359.98px) {
+  .innhold {
+    grid-column: 2 / -1;
+    padding-top: var(--spacing-1);
+  }
+}
+
 @media (min-width: 1200px) {
   .rad {
     --etikett-bredde: calc(var(--components-kriterierad-value-indent) - var(--merke-kolonne));
