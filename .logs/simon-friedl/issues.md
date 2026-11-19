@@ -97,3 +97,5 @@
 - [ ] 2026-11-19 [story-2-4-met](970-2026-11-19-01-34-44-story-2-4-met.md) — Valgfritt: avgjør om `server-only` skal inn som avhengighet, så `met.ts` er skjermet fra nettleseren i bygget
 - [ ] 2026-11-19 [story-2-7-vaersammendrag](967-2026-11-19-09-07-14-story-2-7-vaersammendrag.md) — Valgfritt: tallene for UJ-2 i dataene (3,4 mm/t, 5–7 °C) avviker fra eksempelet i EXPERIENCE (3,5 mm/t, 2–4 °C)
 - [ ] 2026-11-19 [story-2-7-vaersammendrag](967-2026-11-19-09-07-14-story-2-7-vaersammendrag.md) — En Værklasse som bare skyldes temperaturen, forklares ikke av værordene i Regelteksten (UX-spørsmål)
+- [ ] 2026-11-19 [story-2-8-resultatmodell-vaer](966-2026-11-19-09-23-47-story-2-8-resultatmodell-vaer.md) — Walkthrough av story 2.8 gjenstår (sprint-status er review)
+- [ ] 2026-11-19 [story-2-8-resultatmodell-vaer](966-2026-11-19-09-23-47-story-2-8-resultatmodell-vaer.md) — Ikke push 2.8 til Production før 2.9 og 2.10 viser været i UI-et
