@@ -5,12 +5,25 @@ import { KART } from "./tekster";
 // Tegnforklaringen nede til venstre i kartet (UX-DR36): Startpunkt, Mål bare når minst ett kort har Mål,
 // og den stiplede «omtrentlig rute». Den står i egen fil uten Leaflet, så den kan testes på serveren.
 // Kartet er pynt for skjermlesere, fordi alt det viser, står i kortene. Derfor er også forklaringen skjult.
+// På Søk-kartet (`bareStartpunkt`, story 3.3) viser den bare Startpunkt, med prikken uten nummer.
 
 /** Trekanten for Mål, rundt (0, 0). Brukes både i kartet og i tegnforklaringen. */
 export const MAL_STI = "M0,-8 L7,5 L-7,5 Z";
 export const MAL_VIEWBOX = "-8 -9 16 15";
 
-export function Tegnforklaring({ harMal, ref }: { harMal: boolean; ref?: Ref<HTMLDivElement> }) {
+type Props = { harMal: boolean; bareStartpunkt?: boolean; ref?: Ref<HTMLDivElement> };
+
+export function Tegnforklaring({ harMal, bareStartpunkt = false, ref }: Props) {
+  if (bareStartpunkt) {
+    return (
+      <div ref={ref} className={stil.forklaring} aria-hidden="true" data-testid="tegnforklaring">
+        <span className={stil.forklaringsdel}>
+          <span className={stil.prikk} />
+          {KART.startpunkt}
+        </span>
+      </div>
+    );
+  }
   return (
     <div ref={ref} className={stil.forklaring} aria-hidden="true" data-testid="tegnforklaring">
       <span className={stil.forklaringsdel}>

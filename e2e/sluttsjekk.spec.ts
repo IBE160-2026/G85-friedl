@@ -36,6 +36,18 @@ const VISNINGER: { navn: string; url?: string; apne: (page: Page) => Promise<voi
     navn: "Søk",
     apne: async (page) => {
       await expect(page.getByRole("heading", { level: 1, name: "Hvor lenge vil du gå?" })).toBeVisible();
+      // Story 3.3: fra 1200 px står Søk-kartet med zoomknappene og krediteringen, og de sjekkes også. Under
+      // 1200 px venter testen til siden er hydrert og stille, så et kart som ikke skulle kommet, rekker å komme.
+      const bredde = page.viewportSize()?.width ?? (await page.evaluate(() => window.innerWidth));
+      const kart = page.getByTestId("sok-kart");
+      if (bredde >= 1200) {
+        await expect(kart.getByRole("button", { name: "Zoom inn" })).toBeVisible();
+        await expect(kart.getByRole("button", { name: "Zoom ut" })).toBeVisible();
+        await expect(kart.getByRole("link", { name: /© Kartverket/ })).toBeVisible();
+      } else {
+        await page.waitForLoadState("networkidle");
+        await expect(kart).toHaveCount(0);
+      }
     },
   },
   {

@@ -20,6 +20,15 @@
 }
 
 /*
+ * Søk-kartet på PC (story 3.3): fyller høyden ved siden av Skjemakortet, og er minst like høyt som kartet
+ * i Resultatet. Søk-kartet finnes bare fra 1200 px.
+ */
+.flate.fyll {
+  height: 100%;
+  min-height: var(--spacing-map-height-desktop);
+}
+
+/*
  * Det statiske kartet (story 3.2): Kartutsnittet og kartet på Frarådet-kortet. Det fyller flaten det står
  * i, som gir høyde, kant og hjørner. Kartet tar ikke imot pekeren: et trykk går til knappen rundt, og en
  * sveip eller rulling til siden og Stokken.
@@ -130,6 +139,20 @@
   background: var(--components-kart-start-pin-color);
 }
 
+/*
+ * Startpunktet på Søk-kartet: en prikk uten nummer med papirring, i kartet og i tegnforklaringen. Målene
+ * (17 px, ring 2,5 px) er tatt fra skissen pc-1, og 17 px er `SOK_PRIKK` i kart-data.ts.
+ */
+.prikk {
+  display: block;
+  flex: none;
+  width: 17px;
+  height: 17px;
+  border: 2.5px solid var(--components-kart-start-pin-ring);
+  border-radius: var(--rounded-full);
+  background: var(--colors-ink-secondary);
+}
+
 /* Den lille sirkelen i tegnforklaringen. */
 .pinLiten {
   width: 20px;
@@ -182,6 +205,50 @@
   z-index: 1000;
   display: flex;
   flex-direction: column;
+}
+
+/* Søk-kartet: Omradeboksen øverst til venstre, og zoomknappene under den. */
+.hjorne {
+  position: absolute;
+  top: var(--spacing-3);
+  left: var(--spacing-3);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  max-width: calc(100% - 2 * var(--spacing-3));
+}
+
+.zoomgruppe {
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+ * «Moldemarka» og telleteksten i en papirboks. Tekststørrelsene (17 og 13,5 px) er tatt fra skissen pc-1,
+ * fordi DESIGN.md ikke har egne tokens for dem.
+ */
+.omradeboks {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-card);
+}
+
+.omradenavn {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--colors-ink-primary);
+}
+
+.telletekst {
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--colors-ink-secondary);
 }
 
 .zoomknapp {

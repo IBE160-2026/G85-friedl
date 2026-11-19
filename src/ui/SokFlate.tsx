@@ -5,6 +5,8 @@ import type { Sok } from "@/kjerne/sok";
 import type { Sidedata } from "@/kjerne/visning/sidedata";
 import type { DittSok, Resultatvisning } from "@/kjerne/visning/skjema";
 import { sendSok } from "./api";
+import { StartpunktkartLaster, TomSokFlate } from "./KartLaster";
+import { usePc } from "./brytepunkt";
 import { Preferansebrikke } from "./Preferansebrikke";
 import { Resultat, type Resultattilstand } from "./Resultat";
 import { Segmentvelger } from "./Segmentvelger";
@@ -13,6 +15,7 @@ import stil from "./SokFlate.module.css";
 import {
   ETIKETT,
   HJELPETEKST,
+  KART,
   NA,
   PREFERANSE,
   SOK_INGRESS,
@@ -42,6 +45,13 @@ import { Trinnvelger, type TrinnvelgerHandle } from "./Trinnvelger";
 // Fokus: til «Finner turer …» i Plassholderstokken, til overskriften i Resultatet eller tittelen på
 // Kontaktfeil-kortet (Resultat), og til overskriften på Søk, eller til Tilgjengelig tid etter «Endre
 // Tilgjengelig tid».
+//
+// Søk-kartet (story 3.3, UX-DR40): fra 1200 px står Skjemakortet i 5 av 12 kolonner og kartet over
+// Moldemarka i 7, med Startpunktene og telleteksten fra sidedataene. Kartet står etter Skjemakortet i
+// DOM-en, så tabulatorrekkefølgen er skjemaet først. Selve kartet monteres bare fra 1200 px (`usePc`), så
+// mobil og nettbrett lager ingen Leaflet-instans og henter ingen fliser. Før det (på serveren og under
+// hydreringen) står den tomme kartflaten i kolonnen, så PC-oppsettet ikke hopper. CSS skjuler den under
+// 1200 px. Uten Startpunkter er det verken kart eller tom flate. Resultatet har ikke Søk-kartet.
 
 /** Nøkkelen i `history.state` som merker oppføringen for Resultatet. */
 const HISTORIKK = "turplanleggerResultat";
@@ -67,10 +77,11 @@ const VANSKELIGHETSGRADER = (["G", "B", "R"] as const).map((verdi) => ({
   etikett: VANSKELIGHETSGRAD[verdi],
 }));
 
-type Props = { skjema: Sidedata["skjema"] };
+type Props = Pick<Sidedata, "skjema" | "startpunkter" | "telletekst">;
 
-export function SokFlate({ skjema }: Props) {
+export function SokFlate({ skjema, startpunkter, telletekst }: Props) {
   const { turdager, tilgjengeligTid, standardSok } = skjema;
+  const pc = usePc();
   const [iDag] = turdager;
 
   const [sok, settSok] = useState<Sok>(standardSok);
@@ -292,65 +303,82 @@ export function SokFlate({ skjema }: Props) {
     <>
       {flate.type === "sok" && (
         <div className={stil.sok}>
-          <h1 ref={sokOverskrift} tabIndex={-1} className={stil.sokOverskrift}>
-            {SOK_OVERSKRIFT}
-          </h1>
-          <p className={stil.ingress}>{SOK_INGRESS}</p>
-          <Skjemakort onFinnTur={() => void send(sok)}>
-            <Segmentvelger
-              etikett={ETIKETT.turdag}
-              valg={turdager.map((d) => ({ verdi: d.dato, etikett: d.etikett, last: d.last }))}
-              verdi={sok.dato}
-              onVelg={velgTurdag}
-              hjelpetekst={iDag.last ? HJELPETEKST.iDagLast : undefined}
-            />
-
-            <div className={stil.trinnrad}>
-              <Trinnvelger
-                etikett={ETIKETT.starttidspunkt}
-                valg={turdag.startvalg.map((v) => ({ verdi: v.verdi, etikett: v.verdi, last: v.last }))}
-                verdi={sok.start}
-                onEndre={velgStart}
-                under={erNa ? NA : undefined}
-                hjelpetekster={justering ? [HJELPETEKST.starttidspunkt, justering] : [HJELPETEKST.starttidspunkt]}
+          <div className={stil.skjemakolonne}>
+            <h1 ref={sokOverskrift} tabIndex={-1} className={stil.sokOverskrift}>
+              {SOK_OVERSKRIFT}
+            </h1>
+            <p className={stil.ingress}>{SOK_INGRESS}</p>
+            <Skjemakort onFinnTur={() => void send(sok)}>
+              <Segmentvelger
+                etikett={ETIKETT.turdag}
+                valg={turdager.map((d) => ({ verdi: d.dato, etikett: d.etikett, last: d.last }))}
+                verdi={sok.dato}
+                onVelg={velgTurdag}
+                hjelpetekst={iDag.last ? HJELPETEKST.iDagLast : undefined}
               />
-              <Trinnvelger
-                ref={tilgjengeligTidFelt}
-                etikett={ETIKETT.tilgjengeligTid}
-                valg={tilgjengeligTid.map((t) => ({ verdi: String(t.verdi), etikett: t.etikett }))}
-                verdi={String(sok.tilgjengeligMin)}
-                onEndre={(verdi) => endre({ tilgjengeligMin: Number(verdi) })}
-                hjelpetekster={[HJELPETEKST.tilgjengeligTid]}
-              />
-            </div>
 
-            <Segmentvelger
-              etikett={ETIKETT.vanskelighetsgrad}
-              hint={HJELPETEKST.vanskelighetsgrad}
-              valg={VANSKELIGHETSGRADER}
-              verdi={sok.vanskelighetsgrad}
-              onVelg={(vanskelighetsgrad) => endre({ vanskelighetsgrad })}
-            />
-
-            <div
-              role="group"
-              aria-labelledby={`${preferanseId}-etikett`}
-              aria-describedby={`${preferanseId}-hint`}
-            >
-              <p className={stil.etikettlinje}>
-                <span id={`${preferanseId}-etikett`} className={stil.etikett}>
-                  {ETIKETT.opplevelsespreferanser}
-                </span>
-                <span id={`${preferanseId}-hint`} className={stil.hint}>
-                  {HJELPETEKST.opplevelsespreferanser}
-                </span>
-              </p>
-              <div className={stil.brikker}>
-                <Preferansebrikke etikett={PREFERANSE.utsikt} pa={sok.utsikt} onEndre={(utsikt) => endre({ utsikt })} />
-                <Preferansebrikke etikett={PREFERANSE.vann} pa={sok.vann} onEndre={(vann) => endre({ vann })} />
+              <div className={stil.trinnrad}>
+                <Trinnvelger
+                  etikett={ETIKETT.starttidspunkt}
+                  valg={turdag.startvalg.map((v) => ({ verdi: v.verdi, etikett: v.verdi, last: v.last }))}
+                  verdi={sok.start}
+                  onEndre={velgStart}
+                  under={erNa ? NA : undefined}
+                  hjelpetekster={justering ? [HJELPETEKST.starttidspunkt, justering] : [HJELPETEKST.starttidspunkt]}
+                />
+                <Trinnvelger
+                  ref={tilgjengeligTidFelt}
+                  etikett={ETIKETT.tilgjengeligTid}
+                  valg={tilgjengeligTid.map((t) => ({ verdi: String(t.verdi), etikett: t.etikett }))}
+                  verdi={String(sok.tilgjengeligMin)}
+                  onEndre={(verdi) => endre({ tilgjengeligMin: Number(verdi) })}
+                  hjelpetekster={[HJELPETEKST.tilgjengeligTid]}
+                />
               </div>
+
+              <Segmentvelger
+                etikett={ETIKETT.vanskelighetsgrad}
+                hint={HJELPETEKST.vanskelighetsgrad}
+                valg={VANSKELIGHETSGRADER}
+                verdi={sok.vanskelighetsgrad}
+                onVelg={(vanskelighetsgrad) => endre({ vanskelighetsgrad })}
+              />
+
+              <div
+                role="group"
+                aria-labelledby={`${preferanseId}-etikett`}
+                aria-describedby={`${preferanseId}-hint`}
+              >
+                <p className={stil.etikettlinje}>
+                  <span id={`${preferanseId}-etikett`} className={stil.etikett}>
+                    {ETIKETT.opplevelsespreferanser}
+                  </span>
+                  <span id={`${preferanseId}-hint`} className={stil.hint}>
+                    {HJELPETEKST.opplevelsespreferanser}
+                  </span>
+                </p>
+                <div className={stil.brikker}>
+                  <Preferansebrikke
+                    etikett={PREFERANSE.utsikt}
+                    pa={sok.utsikt}
+                    onEndre={(utsikt) => endre({ utsikt })}
+                  />
+                  <Preferansebrikke etikett={PREFERANSE.vann} pa={sok.vann} onEndre={(vann) => endre({ vann })} />
+                </div>
+              </div>
+            </Skjemakort>
+          </div>
+          {startpunkter.length > 0 && (
+            <div className={stil.kart}>
+              {pc ? (
+                <div className={stil.kartregion} role="region" aria-label={KART.navn} data-testid="sok-kart">
+                  <StartpunktkartLaster startpunkter={startpunkter} telletekst={telletekst} />
+                </div>
+              ) : (
+                <TomSokFlate />
+              )}
             </div>
-          </Skjemakort>
+          )}
         </div>
       )}
 

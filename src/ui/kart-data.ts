@@ -18,6 +18,12 @@ export type Kartkort = { turId: string; kart: Kart };
 /** Et punkt i WGS84. */
 export type Punkt = Kart["startpunkt"];
 
+/**
+ * Et Startpunkt på Søk-kartet, fra sidedataene (story 3.3). Navnet vises med vilje ikke på kartet: skissen
+ * pc-1 har ingen etikett ved hover eller fokus, og ingenting skal kreve hover. Det brukes som nøkkel.
+ */
+export type NavngittPunkt = Punkt & { navn: string };
+
 /** Grenser som Leaflet tar imot: [[sør, vest], [nord, øst]]. */
 export type Grenser = [[number, number], [number, number]];
 
@@ -46,6 +52,11 @@ export function grenser(kort: readonly Kartkort[]): Grenser | null {
     ...(kart.malpunkt ? [kart.malpunkt] : []),
     ...kart.rute.geometry.coordinates.flat().map(([lon, lat]) => ({ lat, lon })),
   ]);
+  return punktgrenser(punkter);
+}
+
+/** Grensene rundt punktene (Søk-kartet, story 3.3). `null` når det ikke er noen punkter. */
+export function punktgrenser(punkter: readonly Punkt[]): Grenser | null {
   if (punkter.length === 0) return null;
   const lat = punkter.map((p) => p.lat);
   const lon = punkter.map((p) => p.lon);
@@ -53,6 +64,35 @@ export function grenser(kort: readonly Kartkort[]): Grenser | null {
     [Math.min(...lat), Math.min(...lon)],
     [Math.max(...lat), Math.max(...lon)],
   ];
+}
+
+/** Startpunktet på Søk-kartet: en prikk uten nummer, 17 px med papirringen (skissen pc-1). */
+export const SOK_PRIKK = 17;
+/** Avstanden i px mellom en prikk og boksen øverst, eller tegnforklaringen og krediteringen nederst. */
+const SOK_KLARING = 16;
+
+/** Det som står over Søk-kartet, målt i px fra toppen av kartflaten. */
+export type Sokflate = {
+  /** Høyden til kartflaten. */
+  hoyde: number;
+  /** Bunnen av hjørnet øverst til venstre (Omradeboksen med zoomknappene), eller `null` før det er målt. */
+  hjorneBunn: number | null;
+  /** Den øverste toppen av tegnforklaringen og krediteringen nederst, eller `null` før de er målt. */
+  bunnTopp: number | null;
+};
+
+/**
+ * Margen i px rundt Startpunktene på Søk-kartet (story 3.3). Prikkene holdes under hjørnet øverst og over
+ * tegnforklaringen og krediteringen nederst, og til sidene står hele prikken inne i kartet. Er kartflaten
+ * for lav til margene, krymper de like mye, så det alltid er minst 1 px igjen til prikkene.
+ */
+export function sokMarg({ hoyde, hjorneBunn, bunnTopp }: Sokflate): { side: number; topp: number; bunn: number } {
+  const side = SOK_PRIKK / 2 + SOK_KLARING;
+  const topp = hjorneBunn === null ? side : hjorneBunn + SOK_KLARING;
+  const bunn = bunnTopp === null ? side : Math.max(0, hoyde - bunnTopp) + SOK_KLARING;
+  const rom = Math.max(1, hoyde - SOK_PRIKK);
+  const skala = topp + bunn > rom ? Math.max(0, rom / (topp + bunn)) : 1;
+  return { side, topp: topp * skala, bunn: bunn * skala };
 }
 
 /**

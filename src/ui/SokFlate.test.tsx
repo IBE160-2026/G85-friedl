@@ -43,6 +43,15 @@ function skjema(iDagLast: boolean): Sidedata["skjema"] {
   };
 }
 
+/** Startpunktene og telleteksten fra sidedataene (story 3.3). Søk-kartet viser dem bare på PC i nettleseren. */
+const SOKKART = {
+  startpunkter: [
+    { navn: "Startpunkt A", lat: 62.74, lon: 7.15 },
+    { navn: "Startpunkt B", lat: 62.76, lon: 7.27 },
+  ],
+  telletekst: "3 Turer fra 2 Startpunkter",
+};
+
 /** Knappen med det tilgjengelige navnet `navn`, som HTML. */
 const knapp = (html: string, navn: string) => {
   const treff = [...html.matchAll(/<button[^>]*>/g)].map((m) => m[0]).filter((b) => b.includes(`aria-label="${navn}"`));
@@ -58,7 +67,7 @@ const radio = (html: string, verdi: string) => {
 };
 
 describe("SokFlate etter 22:00", () => {
-  const html = renderToString(<SokFlate skjema={skjema(true)} />);
+  const html = renderToString(<SokFlate skjema={skjema(true)} {...SOKKART} />);
 
   it("låser «I dag» og velger «I morgen»", () => {
     expect(radio(html, "2026-11-09")).toMatch(/\sdisabled=""/);
@@ -79,7 +88,7 @@ describe("SokFlate etter 22:00", () => {
 });
 
 describe("SokFlate før 22:00", () => {
-  const html = renderToString(<SokFlate skjema={skjema(false)} />);
+  const html = renderToString(<SokFlate skjema={skjema(false)} {...SOKKART} />);
 
   it("velger «I dag» uten forklaring om låsen", () => {
     expect(radio(html, "2026-11-09")).toMatch(/\schecked=""/);
@@ -109,5 +118,28 @@ describe("SokFlate før 22:00", () => {
     expect(html.match(/role="radiogroup"/g)).toHaveLength(2);
     expect(html.match(/type="checkbox"/g)).toHaveLength(2);
     expect(html).toMatch(/<button type="submit"(?![^>]*disabled)[^>]*>Finn tur<\/button>/);
+  });
+});
+
+describe("SokFlate og Søk-kartet (story 3.3)", () => {
+  const html = renderToString(<SokFlate skjema={skjema(false)} {...SOKKART} />);
+
+  it("rendrer bare den tomme kartflaten på serveren, uten Leaflet og uten kartregionen", () => {
+    const tomFlate = /<div class="[^"]*kart[^"]*"><div class="[^"]*flate[^"]*fyll[^"]*" data-testid="sok-kart-laster">/;
+    expect(html).toMatch(tomFlate);
+    expect(html).not.toContain('data-testid="sok-kart"');
+    expect(html).not.toContain('role="region"');
+    expect(html).not.toContain("leaflet");
+    expect(html).not.toContain(SOKKART.telletekst);
+  });
+
+  it("har verken kart eller tom kartflate uten Startpunkter", () => {
+    const tom = renderToString(<SokFlate skjema={skjema(false)} startpunkter={[]} telletekst="0 Turer" />);
+    expect(tom).not.toContain("sok-kart");
+    expect(tom).not.toContain('role="region"');
+  });
+
+  it("har Skjemakortet i en egen kolonne, så PC kan sette kartet ved siden av", () => {
+    expect(html).toMatch(/<div class="[^"]*skjemakolonne[^"]*"><h1/);
   });
 });

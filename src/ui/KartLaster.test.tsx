@@ -1,6 +1,6 @@
 import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { KartFeilgrense, KartLaster } from "./KartLaster";
+import { KartFeilgrense, KartLaster, StartpunktkartLaster } from "./KartLaster";
 
 // Story 3.1: lasteren for kartet. På serveren står bare den tomme kartflaten. Feilgrensen viser den
 // samme tomme flaten hvis kartet ikke kan lastes (for eksempel en del av koden som ikke kan hentes),
@@ -9,11 +9,18 @@ import { KartFeilgrense, KartLaster } from "./KartLaster";
 
 const TOM_FLATE = /^<div class="[^"]*flate[^"]*" data-testid="kart-laster"><\/div>$/;
 const TOM_STATISK_FLATE = /^<div class="[^"]*statisk[^"]*" data-testid="kart-statisk-laster"><\/div>$/;
+const TOM_SOK_FLATE = /^<div class="[^"]*flate[^"]*fyll[^"]*" data-testid="sok-kart-laster"><\/div>$/;
 
 describe("KartLaster", () => {
   it("rendrer bare den tomme kartflaten på serveren, uten Leaflet", () => {
     const html = renderToString(<KartLaster kort={[]} valgt={0} />);
     expect(html).toMatch(TOM_FLATE);
+    expect(html).not.toContain("leaflet");
+  });
+
+  it("rendrer den tomme flaten til Søk-kartet på serveren (story 3.3)", () => {
+    const html = renderToString(<StartpunktkartLaster startpunkter={[]} telletekst="x" />);
+    expect(html).toMatch(TOM_SOK_FLATE);
     expect(html).not.toContain("leaflet");
   });
 
@@ -50,5 +57,12 @@ describe("KartFeilgrense", () => {
     grense.state = KartFeilgrense.getDerivedStateFromError();
     const html = renderToString(<>{grense.render()}</>);
     expect(html).toMatch(TOM_STATISK_FLATE);
+  });
+
+  it("bytter til den tomme flaten til Søk-kartet når Søk-kartet feiler (story 3.3)", () => {
+    const grense = new KartFeilgrense({ children: <p>kartet</p>, sok: true });
+    grense.state = KartFeilgrense.getDerivedStateFromError();
+    const html = renderToString(<>{grense.render()}</>);
+    expect(html).toMatch(TOM_SOK_FLATE);
   });
 });

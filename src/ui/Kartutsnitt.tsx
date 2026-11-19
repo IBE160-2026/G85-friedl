@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useSyncExternalStore } from "react";
+import { useCallback, useMemo, useRef } from "react";
+import { useUnderPc } from "./brytepunkt";
 import type { Kartkort } from "./kart-data";
 import { KartLaster } from "./KartLaster";
 import stil from "./Kartutsnitt.module.css";
@@ -21,24 +22,6 @@ import { BAKGRUNNSKART, KART, KARTUTSNITT, NY_FANE } from "./tekster";
 // forsvinner. CSS skjuler det fra 1200 px, og PC har ikke Kartutsnitt. Selve kartet monteres bare når
 // `medKart` (kortet som vises i Stokken, eller Alternativkortet) og under 1200 px (`useUnderPc`). Ellers
 // står den tomme kartflaten, og PC og kortene bak i Stokken lager ingen Leaflet-kart og henter ingen fliser.
-
-/** Samme grense som CSS bruker for PC-oppsettet. */
-const PC = "(min-width: 1200px)";
-
-function abonner(varsle: () => void) {
-  const medie = window.matchMedia(PC);
-  medie.addEventListener("change", varsle);
-  return () => medie.removeEventListener("change", varsle);
-}
-
-/** Sann under 1200 px (mobil og nettbrett). Usann på serveren, så kartet monteres bare på klienten. */
-export function useUnderPc(): boolean {
-  return useSyncExternalStore(
-    abonner,
-    () => !window.matchMedia(PC).matches,
-    () => false,
-  );
-}
 
 type Props = {
   kort: Kartkort;

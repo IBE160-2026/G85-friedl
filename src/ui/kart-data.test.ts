@@ -9,6 +9,9 @@ import {
   type Kartkort,
   midtpunkt,
   MOLDEMARKA,
+  punktgrenser,
+  SOK_PRIKK,
+  sokMarg,
 } from "./kart-data";
 
 // Story 3.1: grupperingen av Startpunkter, grensene kartet zoomer til, punktet for «omtrentlig rute»
@@ -83,6 +86,53 @@ describe("grenser", () => {
 
   it("gir null uten kort", () => {
     expect(grenser([])).toBeNull();
+  });
+});
+
+describe("punktgrenser", () => {
+  it("er grensene rundt punktene, som [[sør, vest], [nord, øst]]", () => {
+    expect(
+      punktgrenser([
+        { lat: 62.75, lon: 7.2 },
+        { lat: 62.73, lon: 7.27 },
+        { lat: 62.76, lon: 7.14 },
+      ]),
+    ).toEqual([
+      [62.73, 7.14],
+      [62.76, 7.27],
+    ]);
+  });
+
+  it("gir null uten punkter", () => {
+    expect(punktgrenser([])).toBeNull();
+  });
+});
+
+describe("sokMarg", () => {
+  it("holder prikkene under hjørnet og over tegnforklaringen og krediteringen i et høyt kart", () => {
+    const m = sokMarg({ hoyde: 900, hjorneBunn: 180, bunnTopp: 850 });
+    expect(m).toEqual({ side: SOK_PRIKK / 2 + 16, topp: 196, bunn: 66 });
+  });
+
+  it("bruker halve prikken med klaring før overleggene er målt", () => {
+    const side = SOK_PRIKK / 2 + 16;
+    expect(sokMarg({ hoyde: 900, hjorneBunn: null, bunnTopp: null })).toEqual({ side, topp: side, bunn: side });
+  });
+
+  it("krymper margene likt i et lavt kart, så det blir plass igjen til prikkene", () => {
+    const m = sokMarg({ hoyde: 300, hjorneBunn: 180, bunnTopp: 200 });
+    expect(m.topp + m.bunn).toBeCloseTo(300 - SOK_PRIKK, 6);
+    expect(m.topp / m.bunn).toBeCloseTo(196 / 116, 6);
+  });
+
+  it("gir aldri negative marger når kartet er lavere enn overleggene", () => {
+    for (const hoyde of [0, 5, SOK_PRIKK, 40]) {
+      const m = sokMarg({ hoyde, hjorneBunn: 180, bunnTopp: hoyde + 20 });
+      expect(m.topp).toBeGreaterThanOrEqual(0);
+      expect(m.bunn).toBeGreaterThanOrEqual(0);
+      expect(m.topp + m.bunn).toBeLessThanOrEqual(Math.max(1, hoyde - SOK_PRIKK) + 1e-9);
+      expect(Number.isFinite(m.topp) && Number.isFinite(m.bunn)).toBe(true);
+    }
   });
 });
 

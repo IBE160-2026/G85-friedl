@@ -1,6 +1,39 @@
-/* Søk holder seg innenfor tekstbredden. PC bruker nettbrettoppsettet til kartet kommer i Epic 3. */
+/*
+ * Søk holder seg innenfor tekstbredden under 1200 px. Fra 1200 px er Søk et rutenett på 12 kolonner:
+ * overskriften, ingressen og Skjemakortet i 5, og kartet over Moldemarka i 7 (story 3.3, UX-DR40,
+ * skissen pc-1). Kartet står fra toppen av overskriften og fyller høyden ved siden av Skjemakortet.
+ */
 .sok {
   max-width: var(--spacing-text-max-width);
+}
+
+/* Kolonnen til kartet finnes bare fra 1200 px. Den tomme flaten fra serveren skjules under det. */
+.kart {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .sok {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--spacing-card-gap-desktop-max);
+    max-width: none;
+  }
+
+  .skjemakolonne {
+    grid-column: 1 / span 5;
+    min-width: 0;
+  }
+
+  .kart {
+    display: block;
+    grid-column: 6 / span 7;
+    min-width: 0;
+  }
+
+  .kartregion {
+    height: 100%;
+  }
 }
 
 .sokOverskrift {

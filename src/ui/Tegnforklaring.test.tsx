@@ -27,4 +27,13 @@ describe("Tegnforklaringen", () => {
   it("er skjult for skjermlesere, fordi kortene har alt kartet viser", () => {
     expect(renderToString(<Tegnforklaring harMal />)).toMatch(/^<div[^>]*aria-hidden="true"/);
   });
+
+  it("viser bare Startpunkt, med prikken uten nummer, på Søk-kartet (story 3.3)", () => {
+    const html = renderToString(<Tegnforklaring harMal bareStartpunkt />);
+    expect(html).toMatch(/^<div[^>]*aria-hidden="true"/);
+    expect(html).toMatch(/<span class="[^"]*prikk[^"]*"><\/span>Startpunkt<\/span>/);
+    expect(html).not.toContain("Mål");
+    expect(html).not.toContain("omtrentlig rute");
+    expect(html).not.toMatch(/>1</);
+  });
 });

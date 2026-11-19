@@ -1,5 +1,6 @@
 import type { Locator, Page } from "@playwright/test";
 import { expect, KARTFLISER, KARTFLISER_URL, test } from "./fixtures";
+import turdatasett from "../data/turer-moldemarka.json";
 import type { Resultatvisning, Turkort } from "../src/kjerne/visning/skjema";
 import { grupperStartpunkter } from "../src/ui/kart-data";
 import { BAKGRUNNSKART } from "../src/ui/tekster";
@@ -9,7 +10,9 @@ import { BAKGRUNNSKART } from "../src/ui/tekster";
 // antall og plassering, aldri Turnavn (AR-26). Kartet er ikke interaktivt ennå (story 3.5).
 //
 // Story 3.2: Kartutsnittet øverst i kortene på mobil og nettbrett, og det statiske kartet over Moldemarka
-// på Frarådet-kortet, nederst i fila.
+// på Frarådet-kortet.
+//
+// Story 3.3: Søk-kartet på PC med Startpunktene og telleteksten, nederst i fila.
 
 const PC = { width: 1440, height: 1000 } as const;
 const NETTBRETT = { width: 768, height: 1024 } as const;
@@ -812,3 +815,257 @@ for (const [navn, viewport, hoyde] of [
     });
   });
 }
+
+// Story 3.3: Søk-kartet på PC. Antallet Startpunkter og telleteksten regnes fra Turdatasettet slik
+// sidedataene gjør det (lag-sidedata.ts): Startpunktene er unike etter navn, og entall eller flertall følger
+// antallet.
+const flertall = (n: number, en: string, flere: string) => `${n} ${n === 1 ? en : flere}`;
+const ANTALL_STARTPUNKTER = new Set(turdatasett.turer.map(({ startpunkt }) => startpunkt.navn)).size;
+const TELLETEKST = `${flertall(turdatasett.turer.length, "Tur", "Turer")} fra ${flertall(
+  ANTALL_STARTPUNKTER,
+  "Startpunkt",
+  "Startpunkter",
+)}`;
+
+const sokKart = (page: Page) => {
+  const kart = page.getByTestId("sok-kart");
+  return {
+    kart,
+    leaflet: kart.locator(".leaflet-container"),
+    startpunkter: kart.getByTestId("sok-kart-startpunkt"),
+    omradeboks: kart.getByTestId("omradeboks"),
+    telletekst: kart.getByTestId("telletekst"),
+    forklaring: kart.getByTestId("tegnforklaring"),
+    kreditering: kart.getByTestId("kart-kreditering"),
+    zoomInn: kart.getByRole("button", { name: "Zoom inn" }),
+    zoomUt: kart.getByRole("button", { name: "Zoom ut" }),
+  };
+};
+
+const skjemakortet = (page: Page) => page.getByRole("form", { name: "Søk" });
+
+/**
+ * Startpunktene på Søk-kartet ligger helt inne i kartflaten, og ingen ligger under Omradeboksen,
+ * zoomknappene, tegnforklaringen eller krediteringen.
+ */
+async function sjekkStartpunkter(page: Page) {
+  const k = sokKart(page);
+  await expect(k.startpunkter).toHaveCount(ANTALL_STARTPUNKTER);
+  await rolig(k.kart);
+  const flate = await boks(k.kart);
+  const overlegg = await Promise.all(
+    [k.omradeboks, k.zoomInn, k.zoomUt, k.forklaring, k.kreditering].map(async (l) => ({
+      navn: (await l.getAttribute("data-testid")) ?? (await l.getAttribute("aria-label")) ?? "",
+      boks: await boks(l),
+    })),
+  );
+  for (const punkt of await k.startpunkter.all()) {
+    const b = await boks(punkt);
+    expect(inneI(b, flate), "Startpunktet ligger inne i kartflaten").toBe(true);
+    for (const o of overlegg) expect(overlapper(b, o.boks), `Startpunktet ligger under ${o.navn}`).toBe(false);
+  }
+}
+
+test.describe("Søk-kartet på PC", () => {
+  test.use({ viewport: PC });
+
+  test("står til høyre for Skjemakortet i 7 av 12 kolonner, med Startpunktene og telleteksten", async ({
+    page,
+    kartfliser,
+  }) => {
+    await page.goto("/?demo=uten-vaer");
+    const k = sokKart(page);
+    await expect(page.getByRole("region", { name: "Kart" })).toHaveAttribute("data-testid", "sok-kart");
+    await expect(k.kart).toBeVisible();
+    await expect(k.leaflet).toHaveCount(1);
+
+    // Kartet står til høyre for Skjemakortet, fra toppen av overskriften, og fyller høyden ved siden av det.
+    const kart = await boks(k.kart);
+    const skjema = await boks(skjemakortet(page));
+    const overskrift = await boks(page.getByRole("heading", { level: 1 }));
+    expect(kart.x).toBeGreaterThan(skjema.x + skjema.width);
+    expect(Math.abs(kart.y - overskrift.y)).toBeLessThan(24);
+    expect(kart.y + kart.height).toBeGreaterThanOrEqual(skjema.y + skjema.height);
+    expect(kart.height).toBeGreaterThanOrEqual(340);
+    // Bredden er ca. 7/12 av innholdet, og Skjemakortet ca. 5/12.
+    const innhold = kart.x + kart.width - overskrift.x;
+    expect(kart.width / innhold).toBeGreaterThan(0.54);
+    expect(kart.width / innhold).toBeLessThan(7 / 12 + 0.01);
+    expect(skjema.width / innhold).toBeGreaterThan(5 / 12 - 0.04);
+    expect(skjema.width / innhold).toBeLessThan(5 / 12 + 0.01);
+
+    // Startpunktene fra sidedataene, uten nummer, inne i kartet og klar av overleggene, og telleteksten.
+    await sjekkStartpunkter(page);
+    expect(await k.startpunkter.evaluateAll((p) => p.map((el) => el.textContent))).toEqual(
+      Array(ANTALL_STARTPUNKTER).fill(""),
+    );
+    await expect(k.telletekst).toHaveText(TELLETEKST);
+    await expect(k.omradeboks).toContainText("Moldemarka");
+
+    // Ingen ruter, Mål, etikett eller nummererte Startpunkter.
+    await expect(k.kart.locator(".leaflet-overlay-pane path")).toHaveCount(0);
+    await expect(k.kart.getByTestId("kart-startpunkt")).toHaveCount(0);
+    await expect(k.kart.getByTestId("kart-mal")).toHaveCount(0);
+    await expect(k.kart.getByTestId("kart-etikett")).toHaveCount(0);
+
+    // Tegnforklaringen viser bare Startpunkt. Krediteringen er «© Kartverket» i ny fane.
+    await expect(k.forklaring).toHaveText("Startpunkt");
+    await expect(k.kreditering).toHaveAccessibleName(/© Kartverket/);
+    await expect(k.kreditering).toHaveAttribute("href", BAKGRUNNSKART.lenke);
+    await expect(k.kreditering).toHaveAttribute("target", "_blank");
+    await expect(k.kart.locator(".leaflet-control-attribution, .leaflet-control-zoom")).toHaveCount(0);
+
+    // Zoomknappene virker (FR-25), og flisene er stubbet.
+    const z = await rolig(k.kart);
+    await k.zoomInn.click();
+    await ventPaZoom(k.kart, z + 1);
+    await k.zoomUt.click();
+    await ventPaZoom(k.kart, z);
+    await expect.poll(() => kartfliser.length).toBeGreaterThan(0);
+  });
+
+  test("Startpunktene står klar av overleggene når bredden endres innenfor PC, og kartet blir stående", async ({
+    page,
+  }) => {
+    await page.goto("/?demo=uten-vaer");
+    const k = sokKart(page);
+    await sjekkStartpunkter(page);
+    await k.leaflet.evaluate((el) => el.setAttribute("data-merket", ""));
+
+    for (const viewport of [
+      { width: 1250, height: 800 },
+      { width: 1200, height: 700 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await expect(k.leaflet).toHaveAttribute("data-merket", "");
+      await sjekkStartpunkter(page);
+    }
+  });
+
+  test("kartet kan panoreres med musa, og utsnittet blir stående", async ({ page }) => {
+    await page.goto("/?demo=uten-vaer");
+    const k = sokKart(page);
+    await rolig(k.kart);
+    const forste = k.startpunkter.first();
+    const start = await boks(forste);
+    const kart = await boks(k.kart);
+    await page.mouse.move(kart.x + kart.width / 2, kart.y + kart.height - 120);
+    await page.mouse.down();
+    await page.mouse.move(kart.x + kart.width / 2 - 80, kart.y + kart.height - 160, { steps: 8 });
+    await page.mouse.up();
+    await expect.poll(async () => (await boks(forste)).x).toBeLessThan(start.x - 40);
+    // Når treghetsrullingen er ferdig, blir utsnittet stående: kartet zoomer ikke tilbake til Startpunktene.
+    let forrige = Number.NaN;
+    await expect
+      .poll(async () => {
+        const x = (await boks(forste)).x;
+        const stille = Math.abs(x - forrige) < 0.5;
+        forrige = x;
+        return stille;
+      }, { intervals: [300] })
+      .toBe(true);
+    await ventLitt(page);
+    expect((await boks(forste)).x).toBeCloseTo(forrige, 0);
+    expect(forrige).toBeLessThan(start.x - 40);
+  });
+
+  test("Tab går gjennom Skjemakortet før kartet, og bare kontrollene i kartet er tabulatorstopp", async ({
+    page,
+  }) => {
+    await page.goto("/?demo=uten-vaer");
+    const k = sokKart(page);
+    await expect(k.zoomInn).toBeVisible();
+
+    const fokusnavn = () =>
+      page.evaluate((): string => {
+        const el = document.activeElement;
+        return el?.getAttribute("aria-label") ?? el?.textContent ?? "";
+      });
+    const navn: string[] = [];
+    for (let i = 0; i < 30 && !navn.includes("Zoom inn"); i++) {
+      await page.keyboard.press("Tab");
+      navn.push(await fokusnavn());
+    }
+    expect(navn.at(-1)).toBe("Zoom inn");
+    expect(navn.at(-2)).toBe("Finn tur");
+    await page.keyboard.press("Tab");
+    await expect(k.zoomUt).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(k.kreditering).toBeFocused();
+
+    // Ingenting i kartlaget, som er skjult for skjermlesere, kan få fokus.
+    const fokuserbare = await k.kart.locator('[aria-hidden="true"]').evaluateAll((lag) =>
+      lag.flatMap((el) =>
+        [...el.querySelectorAll("a[href], button, input, select, textarea, [tabindex]")].filter(
+          (f) => (f as HTMLElement).tabIndex >= 0,
+        ),
+      ),
+    );
+    expect(fokuserbare).toHaveLength(0);
+  });
+
+  test("«Finn tur» gir Resultatet med hovedkartet, uten Søk-kartet", async ({ page }) => {
+    await page.goto("/?demo=uten-vaer");
+    await expect(sokKart(page).startpunkter).toHaveCount(ANTALL_STARTPUNKTER);
+    await finnTur(page);
+    await expect(page.getByTestId("sok-kart")).toHaveCount(0);
+    await expect(deler(page).kart).toBeVisible();
+    await expect(page.locator(".leaflet-container")).toHaveCount(1);
+  });
+});
+
+test.describe("Søk-kartet med «Reduser bevegelse»", () => {
+  test.use({ viewport: PC, reducedMotion: "reduce" });
+
+  test("zoomer og panorerer uten animasjon", async ({ page }) => {
+    await page.goto("/?demo=uten-vaer");
+    const k = sokKart(page);
+    await expect(k.leaflet).toHaveCount(1);
+    await expect(k.leaflet).not.toHaveClass(/leaflet-fade-anim/);
+    await expect(k.kart.locator(".leaflet-proxy")).toHaveCount(0);
+  });
+});
+
+for (const [navn, viewport] of [
+  ["nettbrett", NETTBRETT],
+  ["mobil", MOBIL],
+] as const) {
+  test.describe(`Søk på ${navn}`, () => {
+    test.use({ viewport });
+
+    test("har ikke Søk-kartet, ingen Leaflet-instans og henter ingen fliser", async ({ page, kartfliser }) => {
+      await page.goto("/?demo=uten-vaer");
+      await expect(skjemakortet(page)).toBeVisible();
+      await page.waitForLoadState("networkidle");
+      await ventLitt(page);
+      await expect(page.getByTestId("sok-kart")).toHaveCount(0);
+      // Den tomme kartflaten fra serveren er skjult under 1200 px.
+      await expect(page.getByTestId("sok-kart-laster")).toBeHidden();
+      await expect(page.locator(".leaflet-container")).toHaveCount(0);
+      expect(kartfliser).toEqual([]);
+    });
+  });
+}
+
+test("Søk-kartet forsvinner under 1200 px og kommer tilbake, og skjemaet beholder verdiene", async ({ page }) => {
+  await page.setViewportSize(PC);
+  await page.goto("/?demo=uten-vaer");
+  await expect(sokKart(page).startpunkter).toHaveCount(ANTALL_STARTPUNKTER);
+  const tid = page.getByRole("combobox", { name: "Tilgjengelig tid" });
+  const utsikt = page.getByRole("checkbox", { name: "utsikt" });
+  await tid.selectOption("15");
+  await utsikt.check();
+  await page.getByRole("radio", { name: "Enkel" }).check();
+
+  await page.setViewportSize(NETTBRETT);
+  await expect(page.getByTestId("sok-kart")).toHaveCount(0);
+  await expect(page.locator(".leaflet-container")).toHaveCount(0);
+  await expect(tid).toHaveValue("15");
+
+  await page.setViewportSize(PC);
+  await expect(sokKart(page).kart).toBeVisible();
+  await sjekkStartpunkter(page);
+  await expect(tid).toHaveValue("15");
+  await expect(utsikt).toBeChecked();
+  await expect(page.getByRole("radio", { name: "Enkel" })).toBeChecked();
+});

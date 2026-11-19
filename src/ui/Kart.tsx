@@ -1,7 +1,17 @@
 "use client";
 
 import { divIcon, type FitBoundsOptions, type Map as LeafletKart } from "leaflet";
-import { Fragment, type Ref, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import {
+  Fragment,
+  type ReactNode,
+  type Ref,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { GeoJSON, MapContainer, Marker, TileLayer } from "react-leaflet";
 import {
   etikettTilVenstre,
@@ -12,8 +22,14 @@ import {
   KARTFLISER_URL,
   type Kartkort,
   midtpunkt,
+  type NavngittPunkt,
+  punktgrenser,
+  SOK_PRIKK,
+  type Sokflate,
+  sokMarg,
 } from "./kart-data";
 import stil from "./Kart.module.css";
+import { Omradeboks } from "./Omradeboks";
 import skjult from "./skjult.module.css";
 import { MAL_STI, MAL_VIEWBOX, Tegnforklaring } from "./Tegnforklaring";
 import { BAKGRUNNSKART, KART, NY_FANE, ZOOM_INN, ZOOM_UT } from "./tekster";
@@ -37,6 +53,12 @@ import { BAKGRUNNSKART, KART, NY_FANE, ZOOM_INN, ZOOM_UT } from "./tekster";
 // flaten det står i, og krediteringen står i merket nederst, utenfor kartet (Kartutsnitt.tsx). Det viser
 // bare kortets rute og Startpunkt, ikke Mål, og holder dem klar av merkene over kartet (`tilpassStatisk`).
 // Med `omrade` (Frarådet-kortet) viser det bare området, uten marg.
+//
+// Søk-kartet på PC (`Startpunktkart`, story 3.3, UX-DR40) er samme interaktive kart uten ruter, Mål og
+// etikett. Det viser de 8 Startpunktene fra sidedataene som prikker uten nummer, som i skissen pc-1, og
+// zoomer slik at alle synes. Øverst til venstre står «Moldemarka» og telleteksten (Omradeboks), med
+// zoomknappene under. Tegnforklaringen viser bare Startpunkt. Prikkene har ingen etikett: skissen har
+// ingen etikett ved hover eller fokus, og ingenting skal kreve hover (EXPERIENCE.md › Interaction).
 
 const MIN_ZOOM = 9;
 const MAKS_ZOOM = 17;
@@ -365,52 +387,204 @@ export function Kart({ kort: alleKort, valgt, statisk = false, omrade: fastOmrad
   );
 }
 
+const PRIKKIKON = divIcon({
+  className: "",
+  html: `<span class="${stil.prikk}" aria-hidden="true" data-testid="sok-kart-startpunkt"></span>`,
+  iconSize: [SOK_PRIKK, SOK_PRIKK],
+  iconAnchor: [SOK_PRIKK / 2, SOK_PRIKK / 2],
+});
+
+/**
+ * Søk-kartet zoomer i halve trinn, så de 8 Startpunktene fyller det høye kartet bedre. Flisene skaleres da
+ * litt mellom trinnene og kan bli noe mykere, som er en grei pris for et oversiktskart.
+ */
+const ZOOMTRINN_SOK = 0.5;
+
+/** Hvordan Søk-kartet zoomer til Startpunktene, både første gang og senere (`sokMarg` i kart-data.ts). */
+function sokTilpasning(flate: Sokflate): FitBoundsOptions {
+  const { side, topp, bunn } = sokMarg(flate);
+  return { paddingTopLeft: [side, topp], paddingBottomRight: [side, bunn], maxZoom: 16, animate: false };
+}
+
+/** Første tilpasning, før overleggene er målt. Kartet tilpasses på nytt med målene før det tegnes. */
+const SOK_FORSTE = sokTilpasning({ hoyde: Infinity, hjorneBunn: null, bunnTopp: null });
+
+/** Målene til overleggene i Søk-kartet, i px fra toppen av kartflaten. */
+function malSokflate(flate: HTMLElement, hjorne: HTMLElement | null, bunn: (HTMLElement | null)[]): Sokflate {
+  const topper = bunn.filter((el): el is HTMLElement => el !== null).map((el) => el.offsetTop);
+  return {
+    hoyde: flate.clientHeight,
+    hjorneBunn: hjorne ? hjorne.offsetTop + hjorne.offsetHeight : null,
+    bunnTopp: topper.length > 0 ? Math.min(...topper) : null,
+  };
+}
+
+export type StartpunktkartProps = {
+  /** Startpunktene fra sidedataene. */
+  startpunkter: readonly NavngittPunkt[];
+  /** «12 Turer fra 8 Startpunkter» fra sidedataene. */
+  telletekst: string;
+};
+
+/** Søk-kartet på PC (story 3.3): Startpunktene og telleteksten, med zoom og panorering. */
+export function Startpunktkart({ startpunkter, telletekst }: StartpunktkartProps) {
+  const [kart, settKart] = useState<LeafletKart | null>(null);
+  const zoom = useZoom(kart);
+  const flate = useRef<HTMLDivElement>(null);
+  const forklaring = useRef<HTMLDivElement>(null);
+  const kreditering = useRef<HTMLAnchorElement>(null);
+  const hjorne = useRef<HTMLDivElement>(null);
+  const [rolig] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const omrade = useMemo(() => punktgrenser(startpunkter), [startpunkter]);
+
+  // Kartet zoomer til Startpunktene på nytt når kartflaten, boksen, tegnforklaringen eller krediteringen
+  // endrer størrelse. Har brukeren dratt eller zoomet, beholdes utsnittet hennes, til kartflaten selv får en
+  // ny størrelse. Kartets egne tilpasninger (`egen`) teller ikke som brukerens.
+  useEffect(() => {
+    if (!kart || !omrade) return;
+    let egen = false;
+    let brukerStyrt = false;
+    let forrige = { bredde: 0, hoyde: 0 };
+    const merkBruker = () => {
+      if (!egen) brukerStyrt = true;
+    };
+    kart.on("dragstart zoomstart", merkBruker);
+    const tilpass = () => {
+      const f = flate.current;
+      if (!f || f.clientWidth === 0 || f.clientHeight === 0) return;
+      const nyStorrelse = f.clientWidth !== forrige.bredde || f.clientHeight !== forrige.hoyde;
+      forrige = { bredde: f.clientWidth, hoyde: f.clientHeight };
+      if (brukerStyrt && !nyStorrelse) return;
+      egen = true;
+      try {
+        kart.invalidateSize({ pan: false });
+        const maal = malSokflate(f, hjorne.current, [forklaring.current, kreditering.current]);
+        kart.fitBounds(omrade, sokTilpasning(maal));
+      } finally {
+        egen = false;
+      }
+    };
+    const observator = new ResizeObserver(tilpass);
+    for (const el of [flate.current, hjorne.current, forklaring.current, kreditering.current]) {
+      if (el) observator.observe(el);
+    }
+    return () => {
+      observator.disconnect();
+      kart.off("dragstart zoomstart", merkBruker);
+    };
+  }, [kart, omrade]);
+
+  if (!omrade) return null;
+
+  return (
+    <div ref={flate} className={`${stil.flate} ${stil.fyll}`} data-testid="sok-kart-flate">
+      <div className={stil.kartlag} aria-hidden="true">
+        <MapContainer
+          ref={settKart}
+          className={stil.kartet}
+          bounds={omrade}
+          boundsOptions={SOK_FORSTE}
+          minZoom={MIN_ZOOM}
+          maxZoom={MAKS_ZOOM}
+          zoomSnap={ZOOMTRINN_SOK}
+          keyboard={false}
+          zoomAnimation={!rolig}
+          fadeAnimation={!rolig}
+          markerZoomAnimation={!rolig}
+          inertia={!rolig}
+          zoomControl={false}
+          attributionControl={false}
+        >
+          <TileLayer url={KARTFLISER_URL} minZoom={MIN_ZOOM} maxZoom={MAKS_ZOOM} />
+          {startpunkter.map((p) => (
+            <Marker
+              key={`${p.navn}|${p.lat},${p.lon}`}
+              position={[p.lat, p.lon]}
+              icon={PRIKKIKON}
+              interactive={false}
+              keyboard={false}
+            />
+          ))}
+        </MapContainer>
+      </div>
+
+      <KartKontroller
+        kart={kart}
+        zoom={zoom}
+        forklaring={forklaring}
+        kreditering={kreditering}
+        harMal={false}
+        bareStartpunkt
+        hjorne={<Omradeboks ref={hjorne} telletekst={telletekst} />}
+      />
+    </div>
+  );
+}
+
 type KontrollerProps = {
   kart: LeafletKart | null;
   zoom: number | null;
   forklaring: Ref<HTMLDivElement>;
+  /** Søk-kartet måler krediteringen, så Startpunktene holdes klar av den. */
+  kreditering?: Ref<HTMLAnchorElement>;
   harMal: boolean;
+  /** Søk-kartet: tegnforklaringen viser bare Startpunkt. */
+  bareStartpunkt?: boolean;
+  /** Søk-kartet: boksen øverst til venstre, med zoomknappene under. */
+  hjorne?: ReactNode;
 };
 
 /** Zoomknappene, tegnforklaringen og krediteringspillen over det interaktive kartet. */
-function KartKontroller({ kart, zoom, forklaring, harMal }: KontrollerProps) {
+function KartKontroller({ kart, zoom, forklaring, kreditering, harMal, bareStartpunkt, hjorne }: KontrollerProps) {
   const kanZoomeInn = kart !== null && zoom !== null && zoom < kart.getMaxZoom();
   const kanZoomeUt = kart !== null && zoom !== null && zoom > kart.getMinZoom();
 
+  const zoomknapper = (
+    <div className={hjorne ? stil.zoomgruppe : stil.zoom}>
+      <button
+        type="button"
+        className={stil.zoomknapp}
+        aria-label={ZOOM_INN}
+        aria-disabled={!kanZoomeInn || undefined}
+        onClick={() => {
+          if (kanZoomeInn) kart.zoomIn();
+        }}
+      >
+        <svg className={stil.zoomikon} viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 2v12M2 8h12" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        className={stil.zoomknapp}
+        aria-label={ZOOM_UT}
+        aria-disabled={!kanZoomeUt || undefined}
+        onClick={() => {
+          if (kanZoomeUt) kart.zoomOut();
+        }}
+      >
+        <svg className={stil.zoomikon} viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M2 8h12" />
+        </svg>
+      </button>
+    </div>
+  );
+
   return (
     <>
-      <div className={stil.zoom}>
-        <button
-          type="button"
-          className={stil.zoomknapp}
-          aria-label={ZOOM_INN}
-          aria-disabled={!kanZoomeInn || undefined}
-          onClick={() => {
-            if (kanZoomeInn) kart.zoomIn();
-          }}
-        >
-          <svg className={stil.zoomikon} viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M8 2v12M2 8h12" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          className={stil.zoomknapp}
-          aria-label={ZOOM_UT}
-          aria-disabled={!kanZoomeUt || undefined}
-          onClick={() => {
-            if (kanZoomeUt) kart.zoomOut();
-          }}
-        >
-          <svg className={stil.zoomikon} viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M2 8h12" />
-          </svg>
-        </button>
-      </div>
+      {hjorne ? (
+        <div className={stil.hjorne}>
+          {hjorne}
+          {zoomknapper}
+        </div>
+      ) : (
+        zoomknapper
+      )}
 
-      <Tegnforklaring ref={forklaring} harMal={harMal} />
+      <Tegnforklaring ref={forklaring} harMal={harMal} bareStartpunkt={bareStartpunkt} />
 
       <a
+        ref={kreditering}
         className={stil.kreditering}
         href={BAKGRUNNSKART.lenke}
         target="_blank"
