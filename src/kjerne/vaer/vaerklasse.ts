@@ -12,6 +12,11 @@ export function darligsteKlasse(a: Vaerklasse, b: Vaerklasse): Vaerklasse {
   return RANG[b] > RANG[a] ? b : a;
 }
 
+/** `kandidat` er en strengt bedre Værklasse enn `klasse`. */
+export function erBedreKlasse(kandidat: Vaerklasse, klasse: Vaerklasse): boolean {
+  return RANG[kandidat] < RANG[klasse];
+}
+
 const minst = (verdi: number, grense: number | null) => grense !== null && verdi >= grense;
 const under = (verdi: number, grense: number | null) => grense !== null && verdi < grense;
 

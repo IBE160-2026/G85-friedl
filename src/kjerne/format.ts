@@ -53,6 +53,12 @@ export function tall(x: number): string {
   return medFortegn(v, tekst);
 }
 
+/** Et antall som siffer: «0», «1», «12». Kaster for negative tall og tall som ikke er hele. */
+export function heltall(n: number): string {
+  if (!Number.isInteger(n) || n < 0) throw new Error(`Ugyldig antall: ${n}`);
+  return String(n);
+}
+
 /**
  * Lengde i kilometer som i Turdatasettet, med minst én og høyst to desimaler:
  * «5,0 km», «3,46 km», «8,8 km».

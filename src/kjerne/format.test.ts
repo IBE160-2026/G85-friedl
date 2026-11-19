@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dag, klokke, km, meter, tall, tallord, varighet } from "./format";
+import { dag, heltall, klokke, km, meter, tall, tallord, varighet } from "./format";
 
 // Tall i tekst (AD-7, Voice and Tone). Forventningene for klokka står som UTC-øyeblikk, så testene
 // ikke bruker koden de tester. November er vintertid (UTC+1), juni er sommertid (UTC+2).
@@ -72,6 +72,20 @@ describe("tall", () => {
   it("kaster for tall som ikke er endelige", () => {
     expect(() => tall(Number.POSITIVE_INFINITY)).toThrow();
     expect(() => tall(Number.NaN)).toThrow();
+  });
+});
+
+describe("heltall", () => {
+  it.each([
+    [0, "0"],
+    [1, "1"],
+    [12, "12"],
+  ])("%s gir %s", (n, tekst) => {
+    expect(heltall(n)).toBe(tekst);
+  });
+
+  it.each([-1, 1.5, Number.NaN, Number.POSITIVE_INFINITY])("kaster for %s", (n) => {
+    expect(() => heltall(n)).toThrow();
   });
 });
 
