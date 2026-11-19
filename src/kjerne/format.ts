@@ -53,6 +53,29 @@ export function tall(x: number): string {
   return medFortegn(v, tekst);
 }
 
+/** Hele grader uten enhet: «4», «−2», «0» (aldri «−0»). */
+function heleGrader(x: number): string {
+  const v = avrund(x, 0);
+  if (v === 0) return "0";
+  return medFortegn(v, String(Math.abs(v)));
+}
+
+/**
+ * Temperaturspennet i hele grader: «3–5 °C», «−2 til 1 °C» når en av verdiene er under null, og
+ * «4 °C» når verdiene er like. Hver verdi rundes for seg før de sammenlignes, så (4,2, 3,8) blir
+ * «4 °C» og (−0,4, −0,2) blir «0 °C».
+ */
+export function temperaturTekst(minC: number, maksC: number): string {
+  sjekkEndelig(minC);
+  sjekkEndelig(maksC);
+  const a = avrund(minC, 0);
+  const b = avrund(maksC, 0);
+  const [lav, hoy] = a <= b ? [a, b] : [b, a];
+  if (lav === hoy) return `${heleGrader(lav)} °C`;
+  if (lav < 0) return `${heleGrader(lav)} til ${heleGrader(hoy)} °C`;
+  return `${heleGrader(lav)}–${heleGrader(hoy)} °C`;
+}
+
 /** Et antall som siffer: «0», «1», «12». Kaster for negative tall og tall som ikke er hele. */
 export function heltall(n: number): string {
   if (!Number.isInteger(n) || n < 0) throw new Error(`Ugyldig antall: ${n}`);

@@ -1,7 +1,8 @@
-import type { Alternativ, RangertTur } from "./anbefaling";
+import { erLavtliggende, type Alternativ, type RangertTur } from "./anbefaling";
 import { klokke, km, meter, varighet } from "./format";
 import { MARGIN_FOR_SOLNEDGANG_MIN, type Morkevarsel, type Soltider } from "./morke";
 import {
+  darligVaerDeler,
   lagRegeltekst,
   OPPLEVELSESPREFERANSER,
   type Opplevelsespreferanse,
@@ -12,12 +13,15 @@ import type { Sok } from "./sok";
 import { osloTilUtc } from "./tid";
 import type { Tur } from "./turdata/skjema";
 import { type Linje, type Rutegeometri, rutesegmentNokkel } from "./turdata/rutegeometri";
+import { KLASSEORD, klasseTekst } from "./vaer/sammendrag";
 import type { Kriterium, Turkort } from "./visning/skjema";
 
 // Innholdet i Turkortet og Alternativkortet (FR-20, UX-DR23–UX-DR26, UX-DR43, UX-DR47).
 // Rent og deterministisk: samme kandidat og samme input gir samme kort. Alle tall i tekst er laget
 // av format.ts. Kandidaten bærer Mørkevarselet fra rangeringen, så det regnes ikke på nytt her.
-// Værklasse og værord kommer i story 2.7; til da er Vær-raden alltid «ikke vurdert».
+// Vær-raden viser Værklassen, værordene og temperaturen, og ved dårlig vær «Øverst fordi: …» med
+// bare reglene som slo inn. Alternativkortet får ikke «Øverst fordi», fordi den korteste Turen ikke
+// er valgt av rangeringen for dårlig vær. Mangler Værmeldingen, er Vær-raden «ikke vurdert».
 
 const MINUTT_MS = 60_000;
 
@@ -126,10 +130,34 @@ function tidRad(kandidat: Kandidat, tilgjengeligMin: number): Rad<"tid"> {
   return { rad: "tid", merke: "ok", tekst, detalj: ["gangtid, uten pauser"] };
 }
 
-function vaerRad(vaer: VaerGrunnlag): Rad<"vaer"> {
+/** Det Regelteksten og Vær-raden trenger om Turen ved dårlig vær. */
+type DarligVaer = { hoyestePunktMoh: number; lavtliggende: boolean; egnetDarligVaer: boolean | null };
+
+/** Alternativet er ikke rangert, så verdiene hentes fra Turen på samme måte som i rangeringen. */
+function darligVaer(kandidat: Kandidat): DarligVaer {
+  const { tur } = kandidat;
+  const hoyestePunktMoh = tur.hoyeste_punkt_moh;
+  if (erAlternativ(kandidat)) {
+    return { hoyestePunktMoh, lavtliggende: erLavtliggende(tur), egnetDarligVaer: tur.egnet_darlig_vaer };
+  }
+  return { hoyestePunktMoh, lavtliggende: kandidat.lavtliggende, egnetDarligVaer: kandidat.egnetDarligVaer };
+}
+
+/** `turen` er `null` for Alternativkortet, som ikke har «Øverst fordi». */
+function vaerRad(vaer: VaerGrunnlag, turen: DarligVaer | null): Rad<"vaer"> {
   switch (vaer.type) {
     case "mangler":
       return { rad: "vaer", merke: "ingen", tekst: "ikke vurdert", detalj: ["Værmeldingen fra MET mangler"] };
+    case "vurdert": {
+      const tekst = klasseTekst(vaer.klasse);
+      const linje = `${vaer.vaerord} · ${vaer.temperatur}`;
+      if (vaer.klasse === "god" || vaer.klasse === "middels") {
+        return { rad: "vaer", merke: "ok", tekst, detalj: [linje] };
+      }
+      const deler = turen ? darligVaerDeler({ vaer, ...turen }) : [];
+      const fordi = deler.length > 0 ? [`Øverst fordi: ${deler.join(", ")}`] : [];
+      return { rad: "vaer", merke: "se-opp", tekst, detalj: [linje, ...fordi] };
+    }
   }
 }
 
@@ -243,7 +271,10 @@ function lesetekst(
     ? `Turtid: ${tid.tekst}, trenger ${varighet(kandidat.trengerMerMin)} mer, uten pauser.`
     : `Turtid: ${tid.tekst}, gangtid uten pauser.`;
 
-  const vaerklasse = [`Værklasse: ${vaer.tekst}.`, ...vaer.detalj.map(setning)].join(" ");
+  // Skilletegnet «·» leses ikke godt, så det blir «, » i lesteksten.
+  const klasse = input.vaer.type === "vurdert" ? KLASSEORD[input.vaer.klasse] : vaer.tekst;
+  const vaerDetalj = vaer.detalj.map((d) => setning(d.replaceAll(" · ", ", ")));
+  const vaerklasse = [`Værklasse: ${klasse}.`, ...vaerDetalj].join(" ");
 
   const valgtTekst =
     pref.valgt.length === 0
@@ -284,9 +315,10 @@ export function lagTurkort(kandidat: Kandidat, input: KortInput): Turkort {
   };
 
   const pref = preferanser(tur, sok);
+  const turen = darligVaer(kandidat);
   const kriterier: Turkort["kriterier"] = [
     tidRad(kandidat, sok.tilgjengeligMin),
-    vaerRad(vaer),
+    vaerRad(vaer, erAlternativ(kandidat) ? null : turen),
     onskerRad(pref),
     morkeRad(kandidat.morkevarsel, tider),
   ];
@@ -302,7 +334,7 @@ export function lagTurkort(kandidat: Kandidat, input: KortInput): Turkort {
     kriterier,
     tidsstolpe: tidsstolpe(turtidMin, sok.tilgjengeligMin),
     dagslysstolpe: dagslysstolpe(tider),
-    regeltekst: lagRegeltekst({ turtidMin, tilgjengeligMin: sok.tilgjengeligMin, vaer, treff: pref.treff }),
+    regeltekst: lagRegeltekst({ turtidMin, tilgjengeligMin: sok.tilgjengeligMin, vaer, treff: pref.treff, ...turen }),
     kartinfoboks: {
       navn: tur.navn,
       tekst: `${km(tur.lengde_km_totalt)} · ${tur.gradering_tekst} · ${startpunkt}`,

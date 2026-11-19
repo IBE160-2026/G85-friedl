@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dag, heltall, klokke, km, meter, tall, tallord, varighet } from "./format";
+import { dag, heltall, klokke, km, meter, tall, tallord, temperaturTekst, varighet } from "./format";
 
 // Tall i tekst (AD-7, Voice and Tone). Forventningene for klokka står som UTC-øyeblikk, så testene
 // ikke bruker koden de tester. November er vintertid (UTC+1), juni er sommertid (UTC+2).
@@ -72,6 +72,33 @@ describe("tall", () => {
   it("kaster for tall som ikke er endelige", () => {
     expect(() => tall(Number.POSITIVE_INFINITY)).toThrow();
     expect(() => tall(Number.NaN)).toThrow();
+  });
+});
+
+describe("temperaturTekst", () => {
+  it.each([
+    [2.6, 4.6, "3–5 °C"],
+    [-2.4, 1.2, "\u22122 til 1 °C"],
+    [4.2, 3.8, "4 °C"],
+    [-0.4, -0.2, "0 °C"],
+    [-0.4, 2, "0–2 °C"],
+    [3, 5, "3–5 °C"],
+    [-5.6, -2.5, "\u22126 til \u22123 °C"],
+    [-0.5, 2, "\u22121 til 2 °C"],
+    [0, 0, "0 °C"],
+    [-3, -3, "\u22123 °C"],
+  ])("(%s, %s) er «%s»", (min, maks, tekst) => {
+    expect(temperaturTekst(min, maks)).toBe(tekst);
+  });
+
+  it("bruker tankestrek (U+2013) og minustegn (U+2212)", () => {
+    expect(temperaturTekst(3, 5)).toContain("\u2013");
+    expect(temperaturTekst(-2, 1).startsWith("\u2212")).toBe(true);
+  });
+
+  it("kaster for tall som ikke er endelige", () => {
+    expect(() => temperaturTekst(Number.NaN, 2)).toThrow();
+    expect(() => temperaturTekst(1, Number.POSITIVE_INFINITY)).toThrow();
   });
 });
 

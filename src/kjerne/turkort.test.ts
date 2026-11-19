@@ -1,15 +1,18 @@
 import { describe, expect, it } from "vitest";
 import rutegeometriJson from "../../data/rutegeometri.geojson";
 import turerJson from "../../testdata/turer.json";
-import { anbefal, erLavtliggende, type Alternativ, type RangertTur } from "./anbefaling";
+import { anbefal, erLavtliggende, kortesteTur, type Alternativ, type RangertTur } from "./anbefaling";
 import { vurderMorke, type Soltider } from "./morke";
 import { soltider as beregnSoltider } from "./sol";
+import type { VaerGrunnlag } from "./regeltekst";
 import type { Sok } from "./sok";
 import { osloTilUtc } from "./tid";
 import { fraTekst, type KortInput, lagTurkort } from "./turkort";
 import { RutegeometriSkjema, rutesegmentNokkel } from "./turdata/rutegeometri";
 import { TurdatasettSkjema } from "./turdata/skjema";
 import { turtidMin } from "./turtid";
+import type { Vaerklasse } from "./vaer/typer";
+import { VAERPUNKT } from "./vaerpunkt";
 import { type Turkort, TurkortSkjema } from "./visning/skjema";
 
 // Innholdet i Turkortet (story 1.9) mot testdata/turer.json og den committede rutegeometrien,
@@ -21,6 +24,15 @@ const geometri = RutegeometriSkjema.parse(rutegeometriJson);
 const DATO = "2026-11-09";
 const SOLTIDER: Soltider = { [DATO]: { oppUtc: osloTilUtc(DATO, "08:30"), nedUtc: osloTilUtc(DATO, "15:59") } };
 const MANGLER = { type: "mangler" } as const;
+
+const GODE_ORD = "oppholdsvær og lite vind";
+const DARLIGE_ORD = "nedbør opptil 3,5 mm/t og frisk vind";
+const vurdert = (klasse: Vaerklasse, vaerord = klasse === "darlig" ? DARLIGE_ORD : GODE_ORD): VaerGrunnlag => ({
+  type: "vurdert",
+  klasse,
+  vaerord,
+  temperatur: "3–5 °C",
+});
 
 const tur = (id: string) => {
   const funnet = turer.find((t) => t.id === id);
@@ -211,6 +223,182 @@ describe("I/O-matrisen (story 1.9)", () => {
         "Opplevelsespreferanser: ingen valgt. Har utsikt (ikke valgt). " +
         "Mørkevarsel: ingen. Tilbake 13:46. Sola går ned 15:59.",
     );
+  });
+});
+
+describe("Vær-raden og Regelteksten med vær (story 2.7)", () => {
+  it("god, UJ-1: ok, «Værklasse god» og værordene med temperatur", () => {
+    const s = sok({ utsikt: true });
+    const kort = lagTurkort(rangert("tusenarsvarden-fra-damefallet", s), input(s, { vaer: vurdert("god") }));
+    expect(rad(kort, "vaer")).toEqual({ merke: "ok", tekst: "Værklasse god", detalj: [`${GODE_ORD} · 3–5 °C`] });
+    expect(kort.regeltekst).toBe("passer tiden din (1 t 32 min av 2 t), oppholdsvær og lite vind, utsikt");
+    expect(kort.lesetekst).toContain("Værklasse: god. Oppholdsvær og lite vind, 3–5 °C. Opplevelsespreferanser");
+  });
+
+  it("middels: ok og «Værklasse middels»", () => {
+    const s = sok();
+    const ord = "noe nedbør og lite vind";
+    const kort = lagTurkort(rangert("bergsvatnet", s), input(s, { vaer: vurdert("middels", ord) }));
+    expect(rad(kort, "vaer")).toEqual({ merke: "ok", tekst: "Værklasse middels", detalj: [`${ord} · 3–5 °C`] });
+  });
+
+  it("god, lav og egnet Tur: ingen del 3 eller 4", () => {
+    const s = sok({ start: "10:00", tilgjengeligMin: 180 });
+    const kort = lagTurkort(rangert("moldevatnet-fra-jensgurilia", s), input(s, { vaer: vurdert("god") }));
+    expect(kort.regeltekst).toBe("passer tiden din (1 t 33 min av 3 t), oppholdsvær og lite vind");
+    expect(rad(kort, "vaer").detalj).toEqual(["oppholdsvær og lite vind · 3–5 °C"]);
+  });
+
+  it("dårlig, UJ-2: Moldevatnet fra Jensgurilia, 340 moh og egnet", () => {
+    const s = sok({ start: "10:00", tilgjengeligMin: 180, vanskelighetsgrad: "R" });
+    const kort = lagTurkort(rangert("moldevatnet-fra-jensgurilia", s), input(s, { vaer: vurdert("darlig") }));
+    expect(kort.regeltekst).toBe(
+      "passer tiden din (1 t 33 min av 3 t), nedbør opptil 3,5 mm/t og frisk vind, lavtliggende tur (340 moh), " +
+        "egnet i dårlig vær",
+    );
+    expect(rad(kort, "vaer")).toEqual({
+      merke: "se-opp",
+      tekst: "Værklasse dårlig",
+      detalj: [
+        "nedbør opptil 3,5 mm/t og frisk vind · 3–5 °C",
+        "Øverst fordi: lavtliggende tur (340 moh), egnet i dårlig vær",
+      ],
+    });
+    expect(kort.lesetekst).toContain(
+      "Værklasse: dårlig. Nedbør opptil 3,5 mm/t og frisk vind, 3–5 °C. " +
+        "Øverst fordi: lavtliggende tur (340 moh), egnet i dårlig vær. Opplevelsespreferanser",
+    );
+  });
+
+  it("dårlig, høy Tur og egnet ukjent: verken del 3 eller 4, og ingen «Øverst fordi»", () => {
+    const s = sok({ start: "10:00", tilgjengeligMin: 180, utsikt: true });
+    const kort = lagTurkort(rangert("tusenarsvarden-fra-grua", s), input(s, { vaer: vurdert("darlig") }));
+    expect(kort.regeltekst).toBe(`passer tiden din (2 t 16 min av 3 t), ${DARLIGE_ORD}, utsikt`);
+    expect(rad(kort, "vaer")).toEqual({
+      merke: "se-opp",
+      tekst: "Værklasse dårlig",
+      detalj: [`${DARLIGE_ORD} · 3–5 °C`],
+    });
+  });
+
+  it("dårlig, lav Tur med egnet ukjent: bare lavtliggende tur", () => {
+    const s = sok();
+    const kort = lagTurkort(rangert("storlihytta-fra-museet", s), input(s, { vaer: vurdert("darlig") }));
+    expect(kort.regeltekst.endsWith(`${DARLIGE_ORD}, lavtliggende tur (270 moh)`)).toBe(true);
+    expect(rad(kort, "vaer").detalj).toEqual([`${DARLIGE_ORD} · 3–5 °C`, "Øverst fordi: lavtliggende tur (270 moh)"]);
+  });
+
+  it("frarådet: se-opp, «Værklasse frarådet» og uten «Øverst fordi»", () => {
+    const s = sok({ start: "10:00", tilgjengeligMin: 180 });
+    const ord = "lite nedbør og sterk kuling, vind opp mot 19 m/s";
+    const kort = lagTurkort(rangert("moldevatnet-fra-jensgurilia", s), input(s, { vaer: vurdert("fraradet", ord) }));
+    expect(rad(kort, "vaer")).toEqual({ merke: "se-opp", tekst: "Værklasse frarådet", detalj: [`${ord} · 3–5 °C`] });
+    expect(kort.regeltekst).toBe(`passer tiden din (1 t 33 min av 3 t), ${ord}`);
+  });
+
+  it("Alternativkortet i dårlig vær har del 3 i Regelteksten, men ikke «Øverst fordi»", () => {
+    const s = sok({ tilgjengeligMin: 15 });
+    const anbefaling = anbefal(turer, s, SOLTIDER, "darlig");
+    if (anbefaling.type !== "kortesteTur") throw new Error("Ventet den korteste Turen.");
+    const kort = lagTurkort(anbefaling.alternativ, input(s, { vaer: vurdert("darlig") }));
+    expect(kort.turId).toBe("storlihytta-fra-vardeveien");
+    expect(kort.regeltekst).toBe(
+      `passer ikke tiden din: trenger 1 min mer (16 min av 15 min), ${DARLIGE_ORD}, lavtliggende tur (301 moh)`,
+    );
+    expect(rad(kort, "vaer")).toEqual({
+      merke: "se-opp",
+      tekst: "Værklasse dårlig",
+      detalj: [`${DARLIGE_ORD} · 3–5 °C`],
+    });
+  });
+
+  it("Alternativkortet i dårlig vær med en lav og egnet Tur: del 3 og 4 fra Turdatasettet", () => {
+    const s = sok({ tilgjengeligMin: 15 });
+    const alternativ = kortesteTur([tur("moldevatnet-fra-jensgurilia")], s, SOLTIDER);
+    const kort = lagTurkort(alternativ, input(s, { vaer: vurdert("darlig") }));
+    expect(kort.regeltekst).toBe(
+      `passer ikke tiden din: trenger 1 t 18 min mer (1 t 33 min av 15 min), ${DARLIGE_ORD}, ` +
+        "lavtliggende tur (340 moh), egnet i dårlig vær",
+    );
+    expect(rad(kort, "vaer").detalj).toEqual([`${DARLIGE_ORD} · 3–5 °C`]);
+  });
+
+  it("lesteksten bruker «, » i stedet for «·», også i dårlig vær", () => {
+    const s = sok({ start: "10:00", tilgjengeligMin: 180 });
+    const kort = lagTurkort(rangert("moldevatnet-fra-jensgurilia", s), input(s, { vaer: vurdert("darlig") }));
+    expect(kort.lesetekst).not.toContain("·");
+    expect(kort.lesetekst).toContain("Værklasse: dårlig. Nedbør opptil 3,5 mm/t og frisk vind, 3–5 °C.");
+  });
+
+  it("mangler gir samme Regeltekst og Vær-rad som før, også for en lav og egnet Tur", () => {
+    const s = sok({ start: "10:00", tilgjengeligMin: 180 });
+    const kort = lagTurkort(rangert("moldevatnet-fra-jensgurilia", s), input(s));
+    expect(kort.regeltekst).toBe("passer tiden din (1 t 33 min av 3 t), værdata mangler");
+    expect(rad(kort, "vaer")).toEqual({
+      merke: "ingen",
+      tekst: "ikke vurdert",
+      detalj: ["Værmeldingen fra MET mangler"],
+    });
+  });
+
+  describe("alle Værklasser over et lite rutenett av Søk", () => {
+    const KLASSER: Vaerklasse[] = ["god", "middels", "darlig", "fraradet"];
+    const alle: { kort: Turkort; kandidat: RangertTur | Alternativ; input: KortInput }[] = [];
+    for (const klasse of KLASSER) {
+      for (const start of ["08:15", "13:30", "15:00"]) {
+        for (const tilgjengeligMin of [15, 60, 180, 300]) {
+          for (const utsikt of [false, true]) {
+            const s = sok({ start, tilgjengeligMin, vanskelighetsgrad: "R", utsikt });
+            const anbefaling = anbefal(turer, s, SOLTIDER, klasse);
+            const kandidater = anbefaling.type === "turforslag" ? anbefaling.forslag : [anbefaling.alternativ];
+            kandidater.forEach((kandidat, i) => {
+              const inn = input(s, { nummer: i + 1, antall: kandidater.length, vaer: vurdert(klasse) });
+              alle.push({ kort: lagTurkort(kandidat, inn), kandidat, input: inn });
+            });
+          }
+        }
+      }
+    }
+
+    it("validerer mot TurkortSkjema", () => {
+      expect(alle.length).toBeGreaterThan(40);
+      expect(alle.filter(({ kort }) => !TurkortSkjema.safeParse(kort).success)).toEqual([]);
+    });
+
+    it("ingen tekst inneholder «trygg» eller «trygt», og Regelteksten har ikke temperatur", () => {
+      const strenger = new Set(alle.flatMap(({ kort }) => tekster(kort)));
+      expect([...strenger].filter((t) => /trygg|trygt/i.test(t))).toEqual([]);
+      expect(alle.filter(({ kort }) => kort.regeltekst.includes("°C"))).toEqual([]);
+    });
+
+    it("Vær-raden er ok ved god og middels og se-opp ved dårlig og frarådet", () => {
+      for (const { kort, input: inn } of alle) {
+        const klasse = inn.vaer.type === "vurdert" ? inn.vaer.klasse : null;
+        expect(kort.kriterier[1].merke).toBe(klasse === "god" || klasse === "middels" ? "ok" : "se-opp");
+      }
+    });
+
+    it("«Øverst fordi» følger Turdatasettet, bare for Turforslag i dårlig vær", () => {
+      expect(alle.some(({ kort }) => kort.kriterier[1].detalj.some((d) => d.startsWith("Øverst fordi: ")))).toBe(true);
+      for (const { kort, kandidat, input: inn } of alle) {
+        const { hoyeste_punkt_moh: hoyde, egnet_darlig_vaer: egnet } = kandidat.tur;
+        const deler = [
+          ...(hoyde < VAERPUNKT.hoydeMoh ? [`lavtliggende tur (${hoyde} moh)`] : []),
+          ...(egnet === true ? ["egnet i dårlig vær"] : []),
+        ];
+        const darlig = inn.vaer.type === "vurdert" && inn.vaer.klasse === "darlig";
+        const forventet = darlig && !("trengerMerMin" in kandidat) && deler.length > 0;
+        expect(kort.kriterier[1].detalj.slice(1)).toEqual(forventet ? [`Øverst fordi: ${deler.join(", ")}`] : []);
+      }
+    });
+
+    it("lesteksten har ikke «·»", () => {
+      expect(alle.filter(({ kort }) => kort.lesetekst.includes("·"))).toEqual([]);
+    });
+
+    it("samme input gir samme kort", () => {
+      for (const { kort, kandidat, input: inn } of alle) expect(lagTurkort(kandidat, inn)).toEqual(kort);
+    });
   });
 });
 

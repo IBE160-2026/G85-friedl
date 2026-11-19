@@ -41,3 +41,9 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-4-vaermeldingen-hentes-fra-met.md`
   summary: MET-adapteren er skjermet fra nettleseren bare med ESLint-regler, ikke med `import "server-only"`.
   evidence: Gjennomgangen av story 2.4 (BH5). `server-only` er en ny npm-avhengighet og krever Simons godkjenning. Det dekkes av ESLint-reglene `ingentingFraServer` og `serverUtenomSide` og testene i `lagregler.test.ts`.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-7-vaersammendrag-vaerord-og-regeltekst-med-vaer.md`
+  summary: En Værklasse som bare skyldes temperaturen (under 0 °C gir middels, under −10 °C gir dårlig), forklares ikke av værordene i Regelteksten.
+  evidence: Gjennomgangen av story 2.7 (BH2, EC1). EXPERIENCE bestemmer at Regelteksten ikke har temperatur. Vær-raden viser temperaturspennet, og Værvarslingen i 2.8 setter den utløsende verdien først. Kan tas opp i UX hvis brukertester viser at det forvirrer.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-7-vaersammendrag-vaerord-og-regeltekst-med-vaer.md`
+  summary: `ikonSti` peker på `/vaerikoner/{kode}.svg`, men `public/vaerikoner/` med METs ikoner og LICENSE finnes ikke ennå.
+  evidence: Gjennomgangen av story 2.7 (EC5). Ikonene legges inn i story 2.9 (AR-20, AD-15).

@@ -6,6 +6,7 @@ import { klokkeTekst, leggTilDager, osloDato, osloTilUtc } from "./tid";
 import type { Tur } from "./turdata/skjema";
 import { VAERTERSKLER, type Vaerterskler } from "./vaer/terskler";
 import type { Vaerklasse, Vaermelding, VindusKlasse } from "./vaer/typer";
+import { KLASSEORD } from "./vaer/sammendrag";
 import { erBedreKlasse, klasseForTidsvindu } from "./vaer/vaerklasse";
 import type { BedreTidsvindu } from "./visning/skjema";
 
@@ -33,13 +34,6 @@ export type BedreTidsvinduInput = {
 
 const MINUTT_MS = 60_000;
 const TIME_MIN = 60;
-
-const KLASSEORD: Record<Vaerklasse, string> = {
-  god: "god",
-  middels: "middels",
-  darlig: "dårlig",
-  fraradet: "frarådet",
-};
 
 const INGEN_I_DAG = "Det finnes ikke noe bedre tidsvindu i dagslys i dag eller i morgen.";
 const INGEN_I_MORGEN = "Det finnes ikke noe bedre tidsvindu i dagslys i morgen.";

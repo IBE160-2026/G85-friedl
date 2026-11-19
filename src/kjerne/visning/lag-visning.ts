@@ -63,6 +63,9 @@ function vaer(grunnlag: VaerGrunnlag): Vaer {
   switch (grunnlag.type) {
     case "mangler":
       return { type: "mangler", tekst: VAER_MANGLER_TEKST };
+    case "vurdert":
+      // Bare for at switchen skal være uttømmende: story 2.8 kobler Værsammendraget inn her.
+      throw new Error("Resultatvisningen med vurdert vær kommer i story 2.8.");
   }
 }
 
