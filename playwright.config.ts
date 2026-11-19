@@ -18,5 +18,7 @@ export default defineConfig({
     url: `http://localhost:${port}`,
     reuseExistingServer: !ci,
     timeout: 180_000,
+    // AR-26: serveren får aldri en nøkkel fra skallet. Next lar en satt tom verdi stå foran .env.local.
+    env: { ANTHROPIC_API_KEY: "" },
   },
 });

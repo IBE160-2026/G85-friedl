@@ -18,11 +18,21 @@ npm install && npm run dev
 
 Åpne så http://localhost:3000.
 
-- Du trenger ingen `.env`, ingen `ANTHROPIC_API_KEY` og ingen andre nøkler eller betalte kontoer (NFR-3). Uten språkmodellnøkkel virker alt unntatt Språkmodellteksten, og den er ikke bygget ennå (Epic 4).
+- Du trenger ingen `.env`, ingen `ANTHROPIC_API_KEY` og ingen andre nøkler eller betalte kontoer (NFR-3). Uten språkmodellnøkkel virker alt unntatt Språkmodellteksten (se «Språkmodellteksten» under).
 - Uten Demomodus henter serveren Værmeldingen fra MET Locationforecast for Værpunktet (400 moh). MET krever ingen nøkkel. Får serveren ikke kontakt med MET, står «Været er ikke vurdert.» i Resultatet, og Turforslagene vises likevel.
 - Bakgrunnskartet i Resultatet er Kartverkets gråtonekart. Nettleseren henter kartflisene direkte fra `cache.kartverket.no`, uten nøkkel. Kartverket får da brukerens IP-adresse og hvilket kartutsnitt som vises. Ellers kontakter nettleseren bare appens egen server (AR-20).
 - `.env.example` viser den eneste valgfrie variabelen, `ANTHROPIC_API_KEY`. Den leses bare på serveren. Legg aldri en ekte nøkkel i repoet.
 - Produksjonsbygget startes med `npm run build && npm start`.
+
+## Språkmodellteksten
+
+Med `ANTHROPIC_API_KEY` satt på serveren skriver Claude Haiku (`claude-haiku-5-5`) Begrunnelsen om i mer naturlig språk. Teksten brukes bare hvis den består kontrollen og kommer innen 5 s. Ellers står Regelteksten (FR-22).
+
+- Nøkkelen er valgfri. Uten den, eller med en tom verdi, virker alt annet som før, og Begrunnelsen er Regelteksten.
+- Med `?demo=` brukes alltid den falske språkmodellen, også når nøkkelen er satt.
+- Nøkkelen settes bare i Production på Vercel, under test og demo, og med en lav utgiftsgrense i Anthropic-konsollen. Lokalt og i CI trengs den ikke.
+- Gi den aldri `NEXT_PUBLIC_`-prefiks. Da havner den i JavaScript-koden som sendes til nettleseren.
+- `src/server/sprakmodell/claude.ts` er eneste fil som bruker `@anthropic-ai/sdk`, og ESLint sperrer pakken andre steder. Ingen test kaller Anthropic.
 
 ## Demomodus
 

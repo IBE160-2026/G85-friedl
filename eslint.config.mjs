@@ -85,6 +85,40 @@ const ingenUseCache = {
 // AD-7: src/kjerne/tid.ts er eneste bruker av @date-fns/tz. Grunnregelen no-restricted-imports
 // brukes, så sperren ikke kolliderer med @typescript-eslint/no-restricted-imports i lagreglene over.
 const TIDSSONE = "Lagregel AD-7: bare src/kjerne/tid.ts bruker @date-fns/tz. Bruk Oslo-hjelperne der.";
+const tidssone = {
+  paths: [{ name: "@date-fns/tz", message: TIDSSONE }],
+  patterns: [{ group: ["@date-fns/tz/*"], message: TIDSSONE }],
+};
+
+// AD-12 (story 4.3): src/server/sprakmodell/claude.ts (og testen) er eneste sted som bruker @anthropic-ai/sdk. Samme
+// grunnregel som AD-7, og flat config slår ikke sammen to objekter som setter den. Derfor har det globale
+// objektet begge sperrene, og unntaksfilene (tid.ts og CLAUDEFILER) har bare den andre.
+const ANTHROPIC = "Lagregel AD-12: bare src/server/sprakmodell/claude.ts bruker @anthropic-ai/sdk.";
+const anthropic = {
+  paths: [{ name: "@anthropic-ai/sdk", message: ANTHROPIC }],
+  patterns: [{ group: ["@anthropic-ai/sdk/*"], message: ANTHROPIC }],
+};
+const pakkeregel = (...sperrer) => ({
+  "no-restricted-imports": [
+    "error",
+    { paths: sperrer.flatMap((s) => s.paths), patterns: sperrer.flatMap((s) => s.patterns) },
+  ],
+});
+const TIDSFIL = "src/kjerne/tid.ts";
+// Testen av claude.ts lager feilene SDK-en kaster, og er derfor også unntatt.
+const CLAUDEFILER = ["src/server/sprakmodell/claude.ts", "src/server/sprakmodell/claude.test.ts"];
+
+// Dynamisk import() og require() av SDK-en fanges ikke av no-restricted-imports. Selektorene står i alle
+// objektene som setter no-restricted-syntax (globalt, src/** og src/kjerne/**), unntatt for CLAUDEFILER.
+// Esquery-regexen kan ikke ha «/». Derfor står «.» for skråstreken etter @anthropic-ai, og «[^\w-]» for den
+// foran en understi.
+const anthropicSyntaks = [
+  { selector: "ImportExpression[source.value=/^@anthropic-ai.sdk($|[^\\w-])/]", message: `${ANTHROPIC} (import())` },
+  {
+    selector: "CallExpression[callee.name='require'][arguments.0.value=/^@anthropic-ai.sdk($|[^\\w-])/]",
+    message: `${ANTHROPIC} (require())`,
+  },
+];
 
 // new TZDate() leser klokka, og new TZDate('Europe/Oslo') og TZDate.tz('Europe/Oslo') gjør det
 // samme i en gitt sone. Regelen fanger bare disse klokkelesingene: new TZDate(2026, 10, 9) har to
@@ -116,10 +150,29 @@ const eslintConfig = defineConfig([
     rules: importregel(side),
   },
 
+  // Alle filer: ingen import() eller require() av @anthropic-ai/sdk (AD-12).
+  {
+    name: "lagregler/anthropic-syntaks",
+    ignores: CLAUDEFILER,
+    rules: {
+      "no-restricted-syntax": ["error", ...anthropicSyntaks],
+    },
+  },
+
   // Hele src/: ingen "use cache" (flettet inn i kjerneobjektet under).
   {
     name: "lagregler/cache",
     files: ["src/**"],
+    ignores: CLAUDEFILER,
+    rules: {
+      "no-restricted-syntax": ["error", ingenUseCache, ...anthropicSyntaks],
+    },
+  },
+
+  // CLAUDEFILER: bare "use cache"-regelen.
+  {
+    name: "lagregler/cache-claude",
+    files: CLAUDEFILER,
     rules: {
       "no-restricted-syntax": ["error", ingenUseCache],
     },
@@ -149,6 +202,7 @@ const eslintConfig = defineConfig([
       "no-restricted-syntax": [
         "error",
         ingenUseCache,
+        ...anthropicSyntaks,
         {
           selector: "NewExpression[callee.name='Date'][arguments.length=0]",
           message: `${KLOKKE} (new Date() uten argument)`,
@@ -178,17 +232,21 @@ const eslintConfig = defineConfig([
   },
 
   {
-    name: "lagregler/tidssone",
-    ignores: ["src/kjerne/tid.ts"],
-    rules: {
-      "no-restricted-imports": [
-        "error",
-        {
-          paths: [{ name: "@date-fns/tz", message: TIDSSONE }],
-          patterns: [{ group: ["@date-fns/tz/*"], message: TIDSSONE }],
-        },
-      ],
-    },
+    name: "lagregler/pakker",
+    ignores: [TIDSFIL, ...CLAUDEFILER],
+    rules: pakkeregel(tidssone, anthropic),
+  },
+
+  {
+    name: "lagregler/pakker-tid",
+    files: [TIDSFIL],
+    rules: pakkeregel(anthropic),
+  },
+
+  {
+    name: "lagregler/pakker-claude",
+    files: CLAUDEFILER,
+    rules: pakkeregel(tidssone),
   },
 
   {

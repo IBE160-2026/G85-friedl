@@ -1,4 +1,5 @@
 import type { UkjentDemoFeil } from "@/kjerne/visning/feil";
+import { lagClaudeKlient, lagClaudeSprakmodell } from "./sprakmodell/claude";
 import { falsk } from "./sprakmodell/falsk";
 import type { Sprakmodell } from "./sprakmodell/typer";
 import { lagMetVaerkilde } from "./vaer/met";
@@ -7,7 +8,8 @@ import type { Vaerkilde } from "./vaer/typer";
 
 // Miljøet for én forespørsel (AD-13): klokka, værkilden, språkmodellen og Demomodus. Fila er eneste sted
 // appen leser klokka. Med `?demo=` kommer «nå» og været fra scenarioet, ellers fra systemklokka og MET.
-// Språkmodellen er den falske i Demomodus. Uten demo er den `null` til Claude kobles til (story 4.3).
+// Språkmodellen er den falske i Demomodus. Uten demo er den Claude når ANTHROPIC_API_KEY er satt og ikke
+// tom (story 4.3), og ellers `null` (NFR-3).
 
 export type Demo = { id: string; beskrivelse: string };
 
@@ -47,6 +49,23 @@ function vaerkildeFor(scenario: Scenario): Vaerkilde {
   }
 }
 
+/**
+ * Claude-modellen og nøkkelen den ble laget med. Én klient for prosessen så lenge nøkkelen er den samme.
+ * Kunne ikke klienten lages, er modellen `null` til nøkkelen endres, så feilen logges én gang.
+ */
+let claude: { nokkel: string; sprakmodell: Sprakmodell | null } | null = null;
+
+/** Språkmodellen uten Demomodus: Claude når `ANTHROPIC_API_KEY` er satt og ikke tom, ellers `null`. */
+function sprakmodellUtenDemo(): Sprakmodell | null {
+  const nokkel = process.env.ANTHROPIC_API_KEY?.trim();
+  if (!nokkel) return null;
+  if (claude?.nokkel !== nokkel) {
+    const klient = lagClaudeKlient(nokkel);
+    claude = { nokkel, sprakmodell: klient ? lagClaudeSprakmodell({ klient }) : null };
+  }
+  return claude.sprakmodell;
+}
+
 /** Demo-ID-en fra `?demo=`, eller `null` når parameteren mangler. En tom verdi er en ukjent demo-ID. */
 export function lesDemoId(url: URL | string): string | null {
   return new URL(url).searchParams.get("demo");
@@ -54,7 +73,9 @@ export function lesDemoId(url: URL | string): string | null {
 
 /** Miljøet for demo-ID-en, eller `UkjentDemoFeil` med de gyldige ID-ene. */
 export function lagMiljo(demoId: string | null): Miljo | UkjentDemoFeil {
-  if (demoId === null) return { na: Date.now(), vaerkilde: metVaerkilde, sprakmodell: null, demo: null };
+  if (demoId === null) {
+    return { na: Date.now(), vaerkilde: metVaerkilde, sprakmodell: sprakmodellUtenDemo(), demo: null };
+  }
 
   const scenario = finnScenario(demoId);
   if (!scenario) return { feil: "ukjent-demo", gyldigeDemoIder: [...DEMO_IDER] };

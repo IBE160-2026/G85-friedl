@@ -3,8 +3,20 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { parseMetCompact } from "@/kjerne/vaer/met-compact";
 import { TESTSCENARIOER } from "@/kjerne/vaer/testscenarioer";
 import { lagMiljo, lesDemoId, type Miljo } from "./miljo";
+import type { ClaudeKlient } from "./sprakmodell/claude";
 import { falsk } from "./sprakmodell/falsk";
 import { DEMO_IDER, finnScenario, lesScenario, ScenarioSkjema } from "./vaer/scenarioer";
+
+// Klienten for Claude byttes med en falsk, og fabrikken for modellen pakkes inn i en spion, så testen ser
+// hva Miljøet lager uten å lage en ekte klient. Ingen test kaller Anthropic (AR-26).
+vi.mock("./sprakmodell/claude", async (importOriginal) => {
+  const ekte = await importOriginal<typeof import("./sprakmodell/claude")>();
+  return {
+    ...ekte,
+    lagClaudeKlient: vi.fn<typeof ekte.lagClaudeKlient>(() => ({ messages: {} }) as unknown as ClaudeKlient),
+    lagClaudeSprakmodell: vi.fn(ekte.lagClaudeSprakmodell),
+  };
+});
 
 const MAPPE = new URL("../../data/vaerscenarioer/", import.meta.url);
 const lesJson = (sti: string): unknown => JSON.parse(readFileSync(new URL(sti, MAPPE), "utf8"));
@@ -13,6 +25,7 @@ const lesJson = (sti: string): unknown => JSON.parse(readFileSync(new URL(sti, M
 
 afterEach(() => {
   vi.useRealTimers();
+  vi.unstubAllEnvs();
 });
 
 describe("lesDemoId", () => {
@@ -85,11 +98,12 @@ describe("lagMiljo", () => {
     });
 
     it("systemklokka og MET-adapteren, med én instans og den globale fetch", async () => {
+      vi.stubEnv("ANTHROPIC_API_KEY", undefined);
       const lag = await ferskLagMiljo();
       const miljo = lag(null) as Miljo;
       expect(miljo.na).toBe(NA);
       expect(miljo.demo).toBeNull();
-      // Story 4.2: ingen språkmodell uten demo. Story 4.3 kobler til Claude.
+      // Uten nøkkel er det ingen språkmodell (NFR-3).
       expect(miljo.sprakmodell).toBeNull();
       expect((lag(null) as Miljo).vaerkilde).toBe(miljo.vaerkilde);
       await expect(miljo.vaerkilde()).resolves.toEqual(parseMetCompact(met));
@@ -109,6 +123,78 @@ describe("lagMiljo", () => {
       vi.setSystemTime(EXPIRES + 1);
       await expect((lag(null) as Miljo).vaerkilde()).resolves.toEqual(parseMetCompact(met));
       expect(fetch).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe("språkmodellen (story 4.3)", () => {
+    // Ingen ekte nøkkel: verdiene er bare strenger, og modellen kalles aldri.
+    const NOKKEL = "test-nokkel-ikke-ekte";
+
+    /** `lagMiljo` og spionene fra en ny import, så klienten for prosessen lages på nytt. */
+    async function fersk() {
+      vi.resetModules();
+      const { lagMiljo: lag } = await import("./miljo");
+      const { lagClaudeKlient, lagClaudeSprakmodell } = await import("./sprakmodell/claude");
+      const { falsk: nyFalsk } = await import("./sprakmodell/falsk");
+      return { lag, falsk: nyFalsk, klient: vi.mocked(lagClaudeKlient), fabrikk: vi.mocked(lagClaudeSprakmodell) };
+    }
+
+    it("med nøkkel uten demo: Claude, med én klient for prosessen og nøkkelen trimmet", async () => {
+      vi.stubEnv("ANTHROPIC_API_KEY", ` ${NOKKEL} `);
+      const { lag, falsk: nyFalsk, klient, fabrikk } = await fersk();
+      const miljo = lag(null) as Miljo;
+      expect(klient.mock.calls).toEqual([[NOKKEL]]);
+      expect(fabrikk).toHaveBeenCalledTimes(1);
+      expect(fabrikk.mock.calls[0][0].klient).toBe(klient.mock.results[0].value);
+      expect(miljo.sprakmodell).toBe(fabrikk.mock.results[0].value);
+      expect(miljo.sprakmodell).not.toBe(nyFalsk);
+
+      expect((lag(null) as Miljo).sprakmodell).toBe(miljo.sprakmodell);
+      expect(klient).toHaveBeenCalledTimes(1);
+    });
+
+    it("ny nøkkel i samme prosess: ny klient. Samme nøkkel med mellomrom rundt: samme klient", async () => {
+      vi.stubEnv("ANTHROPIC_API_KEY", `${NOKKEL}-a`);
+      const { lag, klient } = await fersk();
+      const forste = (lag(null) as Miljo).sprakmodell;
+
+      vi.stubEnv("ANTHROPIC_API_KEY", `${NOKKEL}-b`);
+      const andre = (lag(null) as Miljo).sprakmodell;
+      expect(andre).not.toBeNull();
+      expect(andre).not.toBe(forste);
+      expect(klient.mock.calls).toEqual([[`${NOKKEL}-a`], [`${NOKKEL}-b`]]);
+
+      vi.stubEnv("ANTHROPIC_API_KEY", `\t${NOKKEL}-b \n`);
+      expect((lag(null) as Miljo).sprakmodell).toBe(andre);
+      expect(klient).toHaveBeenCalledTimes(2);
+    });
+
+    it("klienten kan ikke lages: `null`, og den prøves ikke på nytt med samme nøkkel", async () => {
+      vi.stubEnv("ANTHROPIC_API_KEY", NOKKEL);
+      const { lag, klient, fabrikk } = await fersk();
+      klient.mockReturnValueOnce(null);
+      expect((lag(null) as Miljo).sprakmodell).toBeNull();
+      expect((lag(null) as Miljo).sprakmodell).toBeNull();
+      expect(klient).toHaveBeenCalledTimes(1);
+      expect(fabrikk).not.toHaveBeenCalled();
+    });
+
+    it.each(DEMO_IDER)("med nøkkel og demo %s: den falske", async (id) => {
+      vi.stubEnv("ANTHROPIC_API_KEY", NOKKEL);
+      const { lag, falsk: nyFalsk, klient } = await fersk();
+      expect((lag(id) as Miljo).sprakmodell).toBe(nyFalsk);
+      expect(klient).not.toHaveBeenCalled();
+    });
+
+    it.each([
+      ["tom", ""],
+      ["bare mellomrom", "  \n"],
+      ["ingen", undefined],
+    ])("%s nøkkel uten demo: `null`", async (_navn, verdi) => {
+      vi.stubEnv("ANTHROPIC_API_KEY", verdi);
+      const { lag, klient } = await fersk();
+      expect((lag(null) as Miljo).sprakmodell).toBeNull();
+      expect(klient).not.toHaveBeenCalled();
     });
   });
 

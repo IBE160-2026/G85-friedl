@@ -23,5 +23,7 @@ export default defineConfig({
     environment: "node",
     include: ["src/**/*.test.{ts,tsx}", "scripts/**/*.test.ts", "*.test.ts"],
     exclude: [...configDefaults.exclude, "e2e/**"],
+    // Tømmer ANTHROPIC_API_KEY før hver test (AR-26).
+    setupFiles: ["./vitest.setup.ts"],
   },
 });

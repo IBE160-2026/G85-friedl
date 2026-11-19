@@ -248,6 +248,57 @@ describe("lagregler: bare src/kjerne/tid.ts bruker @date-fns/tz (AD-7)", () => {
   });
 });
 
+describe("lagregler: bare src/server/sprakmodell/claude.ts bruker @anthropic-ai/sdk (AD-12, story 4.3)", () => {
+  const sdkImport = (sti: string) => `import Anthropic from '${sti}';\nexport const A = Anthropic;`;
+
+  it.each([
+    ["src/server/miljo.ts", "@anthropic-ai/sdk"],
+    ["src/server/begrunnelse.ts", "@anthropic-ai/sdk"],
+    ["src/server/sprakmodell/falsk.ts", "@anthropic-ai/sdk/core/error"],
+    ["src/server/sprakmodell/falsk.test.ts", "@anthropic-ai/sdk"],
+    ["src/kjerne/tid.ts", "@anthropic-ai/sdk"],
+    ["src/app/api/begrunnelse/route.ts", "@anthropic-ai/sdk"],
+    ["src/ui/X.tsx", "@anthropic-ai/sdk"],
+    ["e2e/x.spec.ts", "@anthropic-ai/sdk"],
+  ])("%s: import av %s feiler", async (fil, sti) => {
+    await forventBrudd(fil, sdkImport(sti));
+  });
+
+  it("src/server/x.ts: import type og re-eksport feiler også", async () => {
+    const typeImport = "import type Anthropic from '@anthropic-ai/sdk';\nexport type A = Anthropic;";
+    await forventBrudd("src/server/x.ts", typeImport);
+    await forventBrudd("src/server/x.ts", "export { default } from '@anthropic-ai/sdk';");
+  });
+
+  it.each(["src/server/sprakmodell/claude.ts", "src/server/sprakmodell/claude.test.ts"])(
+    "%s: import av @anthropic-ai/sdk går gjennom, men ikke @date-fns/tz",
+    async (fil) => {
+      await forventOk(fil, sdkImport("@anthropic-ai/sdk"));
+      await forventOk(fil, "export const a = import('@anthropic-ai/sdk');");
+      await forventBrudd(fil, "import { TZDate } from '@date-fns/tz';\nexport const T = TZDate;");
+      await forventBrudd(fil, 'export async function f() {\n  "use cache";\n  return 1;\n}');
+    },
+  );
+
+  it.each([
+    ["src/server/miljo.ts", "export const a = import('@anthropic-ai/sdk');"],
+    ["src/server/x.ts", "export const a = await import('@anthropic-ai/sdk/core/error');"],
+    ["src/kjerne/x.ts", "export const a = import('@anthropic-ai/sdk');"],
+    ["src/ui/X.tsx", "export const a = import('@anthropic-ai/sdk');"],
+    ["src/app/api/x/route.ts", "export const a = import('@anthropic-ai/sdk');"],
+    ["e2e/x.spec.ts", "export const a = import('@anthropic-ai/sdk');"],
+    ["scripts/x.ts", "export const a = require('@anthropic-ai/sdk');"],
+    ["src/server/x.ts", "export const a = require('@anthropic-ai/sdk/error');"],
+  ])("%s: %s feiler", async (fil, kode) => {
+    await forventBrudd(fil, kode);
+  });
+
+  it("andre dynamiske importer og require() går gjennom", async () => {
+    await forventOk("src/server/x.ts", "export const a = import('zod');");
+    await forventOk("scripts/x.ts", "export const a = import('@anthropic-ai/sdkx');");
+  });
+});
+
 describe("lagregler: MET-adapteren er skjermet fra nettleseren (story 2.4, AR-10)", () => {
   const metImport = (sti: string) => `import { lagMetVaerkilde } from '${sti}';\nexport const f = lagMetVaerkilde;`;
 

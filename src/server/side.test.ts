@@ -11,6 +11,7 @@ import { DEMO_IDER } from "./vaer/scenarioer";
 
 afterEach(() => {
   vi.useRealTimers();
+  vi.unstubAllEnvs();
 });
 
 function sidedata(demoId: string | null): Sidedata {
@@ -51,12 +52,22 @@ describe("lagSidedata", () => {
   it("uten demo: systemklokka, og ingen demo", () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-11-12T09:07:00+01:00"));
+    vi.stubEnv("ANTHROPIC_API_KEY", "");
     const s = sidedata(null);
     expect(s.demo).toBeNull();
-    // Story 4.2: ingen språkmodell uten demo, så klienten ber ikke om Språkmodelltekster.
+    // Uten demo og uten nøkkel er det ingen språkmodell, så klienten ber ikke om Språkmodelltekster.
     expect(s.sprakmodell).toBe(false);
     expect(s.skjema.standardSok).toEqual(lagStandardSok(Date.now()));
     expect(s.skjema.turdager.map((d) => d.dato)).toEqual(["2026-11-12", "2026-11-13"]);
+  });
+
+  it("uten demo med nøkkel: språkmodellen er satt opp (story 4.3)", async () => {
+    // Ingen ekte nøkkel, og ingenting kaller modellen. En ny import av modulene, så klienten for prosessen
+    // lages bare for denne testen og ikke deles med de andre.
+    vi.stubEnv("ANTHROPIC_API_KEY", "test-nokkel-ikke-ekte");
+    vi.resetModules();
+    const { lagSidedata: fersk } = await import("./side");
+    expect(SidedataSkjema.parse(fersk(null)).sprakmodell).toBe(true);
   });
 
   it("uten demo etter 22:00: «I dag» er låst, og standard er i morgen 10:00", () => {

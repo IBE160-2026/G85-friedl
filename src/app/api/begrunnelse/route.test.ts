@@ -41,6 +41,7 @@ afterEach(() => {
   kast.pa = false;
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
   vi.useRealTimers();
 });
 
@@ -171,6 +172,7 @@ describe("I/O-matrisen (story 4.2)", () => {
   });
 
   it("uten demo og uten nøkkel: 200 { tekst: null }, uten å hente været", async () => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "");
     const [k] = await turforslag(UJ1, "uj-1");
     expect(await tekst(await post({ sok: UJ1, turId: k.turId }, null))).toBeNull();
     expect(fetch).not.toHaveBeenCalled();
