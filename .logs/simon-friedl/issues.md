@@ -115,3 +115,7 @@
 - [ ] 2026-11-19 [story-4-2-begrunnelse-endepunkt](956-2026-11-19-21-15-16-story-4-2-begrunnelse-endepunkt.md) — Walkthrough av story 4.2 gjenstår
 - [ ] 2026-11-19 [story-4-2-begrunnelse-endepunkt](956-2026-11-19-21-15-16-story-4-2-begrunnelse-endepunkt.md) — /api/begrunnelse har ingen grense for antall forespørsler, og bare utgiftsgrensen begrenser misbruk når Claude er koblet til
 - [ ] 2026-11-19 [story-4-2-begrunnelse-endepunkt](956-2026-11-19-21-15-16-story-4-2-begrunnelse-endepunkt.md) — e2e/vaer.spec.ts:73 kan være ustabil (venter ikke på at værikonet er lastet)
+- [ ] 2026-11-19 [story-4-3-claude-haiku](955-2026-11-19-21-31-22-story-4-3-claude-haiku.md) — Walkthrough av story 4.3 gjenstår
+- [ ] 2026-11-19 [story-4-3-claude-haiku](955-2026-11-19-21-31-22-story-4-3-claude-haiku.md) — Sett ANTHROPIC_API_KEY i Production på Vercel med lav utgiftsgrense (AR-23)
+- [ ] 2026-11-19 [story-4-3-claude-haiku](955-2026-11-19-21-31-22-story-4-3-claude-haiku.md) — Manuell prøve med fem Søk uten demo og Fast 4G: Turforslag innen 3 s, Språkmodelltekst innen 5 s, hvor ofte kontrollen avviste
+- [ ] 2026-11-19 [story-4-3-claude-haiku](955-2026-11-19-21-31-22-story-4-3-claude-haiku.md) — Lokalt får en dev-server som allerede kjører, ikke den tomme nøkkelen fra Playwright
