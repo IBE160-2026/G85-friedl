@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { Sok } from "@/kjerne/sok";
 import type { DittSok as DittSokData, Resultatvisning } from "@/kjerne/visning/skjema";
 import { Ansvarsmerknad } from "./Ansvarsmerknad";
+import { BedreTidsvinduKort } from "./BedreTidsvinduKort";
 import { DittSok } from "./DittSok";
 import { DittSokLinje } from "./DittSokLinje";
+import { FraradetKort } from "./FraradetKort";
 import { Knapp } from "./Knapp";
 import { Kontaktfeil } from "./Kontaktfeil";
 import { Plassholderstokk } from "./Plassholderstokk";
@@ -12,7 +15,7 @@ import stil from "./Resultat.module.css";
 import skjult from "./skjult.module.css";
 import { Stokk } from "./Stokk";
 import { Stokkoversikt } from "./Stokkoversikt";
-import { ENDRE_SOK, ENDRE_TILGJENGELIG_TID, RESULTAT_KOMMER } from "./tekster";
+import { ENDRE_TILGJENGELIG_TID } from "./tekster";
 import { useEndreSokIToppfelt } from "./ToppfeltHandling";
 import { Turkort } from "./Turkort";
 import { Vaermangel } from "./Vaermangel";
@@ -28,10 +31,17 @@ import { Vaervarsling } from "./Vaervarsling";
 //   Turkortene side om side og Ansvarsmerknaden. Mobil og nettbrett: Ditt søk som én linje med «Endre
 //   søk» i toppfeltet, vær-delen, overskriften, Stokken med Stokknavigasjon, Stokkoversikten og
 //   Ansvarsmerknaden. Begge oppsettene står i DOM-en, og CSS viser ett av dem ved 1200 px.
-//   Vær-delen er Værsammendraget (god og middels), Værvarslingen (dårlig) eller Værmangel-linjen.
+//   Vær-delen er Værsammendraget (god og middels), Værvarslingen med Bedre tidsvindu-boksen (dårlig)
+//   eller Værmangel-linjen.
 // - Resultat med Alternativ: som over, men med Alternativkortet, «Endre Tilgjengelig tid», teksten
 //   under og Ansvarsmerknaden. Ingen Stokk og ingen Stokkoversikt, og kortet står likt ved alle bredder.
+// - Frarådet: Ditt søk med «Endre søk», overskriften «Ingen Turforslag», Frarådet-kortet og Bedre
+//   tidsvindu-kortet, ved siden av hverandre på PC og under hverandre på mobil. Ingen vær-del, kart,
+//   Ansvarsmerknad eller Turkort.
 // - Kontaktfeil: Ditt søk og Kontaktfeil-kortet. Ingen kart, Ansvarsmerknad eller Stokkoversikt.
+//
+// «Bruk …» i Bedre tidsvindu-boksen og Bedre tidsvindu-kortet sender `nyttSok` fra serveren med
+// `onBrukBedreTidsvindu`, gjennom samme flyt som «Finn tur», og det nye Resultatet erstatter dette.
 //
 // Valgt kort er én tilstand her (indeks, kort 1 fra start). Stokken viser det valgte kortet, og kartet
 // kobles til samme tilstand i story 3.5. Et nytt Søk (ny `resultatId`) setter det tilbake til kort 1.
@@ -42,8 +52,6 @@ import { Vaervarsling } from "./Vaervarsling";
 // og ved dårlig vær også tittelen på Værvarslingen. Overskriften står rett etter live-området. Hver ny
 // tilstand flytter fokus: til overskriften, til tittelen på Kontaktfeil-kortet, eller til
 // Plassholderstokken, og siden ruller dit.
-//
-// Frarådet får en plassholder til story 2.10.
 
 export type Resultattilstand =
   /** Søket er sendt, og svaret venter. `dittSok` er Søket som ble sendt. */
@@ -59,11 +67,13 @@ type Props = {
   onEndreSok: () => void;
   onEndreTilgjengeligTid: () => void;
   onProvIgjen: () => void;
+  /** «Bruk …» i Bedre tidsvindu: sender det nye Søket fra serveren. */
+  onBrukBedreTidsvindu: (sok: Sok) => void;
 };
 
 const tilstandId = (t: Resultattilstand | null) => (t === null ? null : t.type === "resultat" ? t.visning.resultatId : t.id);
 
-export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvIgjen }: Props) {
+export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvIgjen, onBrukBedreTidsvindu }: Props) {
   const overskrift = useRef<HTMLHeadingElement>(null);
   const plassholder = useRef<HTMLParagraphElement>(null);
   const stokk = useRef<HTMLElement>(null);
@@ -90,10 +100,16 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
 
   const turforslag = visning?.utfall.type === "turforslag" ? visning.utfall.kort : null;
   const alternativ = visning?.utfall.type === "kortesteTur" ? visning.utfall : null;
-  const harKort = turforslag !== null || alternativ !== null;
+  // Frarådet: utfallet og Værklassen smalnes én gang. Skjemaet krever vurdert vær og Bedre tidsvindu ved
+  // frarådet. Mangler været likevel, står Ditt søk med «Endre søk» og overskriften, så siden aldri er tom.
+  // Mangler Bedre tidsvindu, står Frarådet-kortet alene.
+  const fraradet =
+    visning?.utfall.type === "fraradet" && visning.vaer.type === "vurdert"
+      ? { utfall: visning.utfall, vaer: visning.vaer, bedreTidsvindu: visning.bedreTidsvindu }
+      : null;
 
-  // «Endre søk» står i toppfeltet på mobil og nettbrett når Resultatet har kort.
-  useEndreSokIToppfelt(harKort ? onEndreSok : null);
+  // «Endre søk» står i toppfeltet på mobil og nettbrett ved et Resultat, også ved frarådet.
+  useEndreSokIToppfelt(visning ? onEndreSok : null);
 
   /** Stokkoversikten: velg kortet, og gå tilbake til Stokken med fokus. */
   function velgFraOversikt(indeks: number) {
@@ -106,11 +122,9 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
   }
 
   // Ditt søk øverst: fra Resultatvisningen, eller Søket som ble sendt mens svaret venter og ved Kontaktfeil.
-  // Bare Resultatet med kort har «Endre søk» i Ditt søk. Kontaktfeil-kortet har knappen selv.
+  // Bare Resultatet har «Endre søk» i Ditt søk. Kontaktfeil-kortet har knappen selv.
   const dittSok = visning
-    ? harKort
-      ? visning.dittSok
-      : null
+    ? visning.dittSok
     : tilstand && tilstand.type !== "resultat"
       ? tilstand.dittSok
       : null;
@@ -120,12 +134,18 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
       {tilstand && dittSok && (
         <div key={`topp-${id}`} className={stil.topp}>
           <div className={stil.pc}>
-            <DittSok dittSok={dittSok} onEndreSok={harKort ? onEndreSok : undefined} />
+            <DittSok dittSok={dittSok} onEndreSok={visning ? onEndreSok : undefined} />
           </div>
           <div className={stil.mobil}>
             <DittSokLinje dittSok={dittSok} />
           </div>
-          {visning && <Vaerdelen vaer={visning.vaer} />}
+          {visning && (
+            <Vaerdelen
+              vaer={visning.vaer}
+              bedreTidsvindu={visning.bedreTidsvindu}
+              onBrukBedreTidsvindu={onBrukBedreTidsvindu}
+            />
+          )}
         </div>
       )}
 
@@ -185,26 +205,35 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
         </div>
       )}
 
-      {visning && !harKort && (
-        <div key={`plassholder-${visning.resultatId}`} className={stil.plassholder} data-testid="resultat-kommer">
-          <p className={stil.plassholdertekst}>{RESULTAT_KOMMER}</p>
-          <Knapp variant="sekundaer" onClick={onEndreSok}>
-            {ENDRE_SOK}
-          </Knapp>
+      {visning && fraradet && (
+        <div key={`bunn-${visning.resultatId}`} className={stil.bunn}>
+          <div className={stil.fraradet}>
+            <FraradetKort vaer={fraradet.vaer} utfall={fraradet.utfall} />
+            {fraradet.bedreTidsvindu && (
+              <BedreTidsvinduKort bedreTidsvindu={fraradet.bedreTidsvindu} onBruk={onBrukBedreTidsvindu} />
+            )}
+          </div>
         </div>
       )}
     </div>
   );
 }
 
+type VaerdelenProps = {
+  vaer: Resultatvisning["vaer"];
+  bedreTidsvindu: Resultatvisning["bedreTidsvindu"];
+  onBrukBedreTidsvindu: (sok: Sok) => void;
+};
+
 /**
- * Vær-delen mellom Ditt søk og overskriften: Værsammendraget, Værvarslingen eller Værmangel-linjen.
- * Den står i toppen, som bare vises når Resultatet har kort (`dittSok`). Ved frarådet vises toppen ikke,
- * så grenen for frarådet nås ikke her. Story 2.10 flytter den.
+ * Vær-delen mellom Ditt søk og overskriften: Værsammendraget, Værvarslingen med Bedre tidsvindu-boksen,
+ * eller Værmangel-linjen. Ved frarådet er det ingen vær-del, fordi Frarådet-kortet har verdiene.
  */
-function Vaerdelen({ vaer }: { vaer: Resultatvisning["vaer"] }) {
+function Vaerdelen({ vaer, bedreTidsvindu, onBrukBedreTidsvindu }: VaerdelenProps) {
   if (vaer.type === "mangler") return <Vaermangel />;
-  if (vaer.klasse === "darlig") return <Vaervarsling vaer={vaer} />;
+  if (vaer.klasse === "darlig") {
+    return <Vaervarsling vaer={vaer} bedreTidsvindu={bedreTidsvindu} onBrukBedreTidsvindu={onBrukBedreTidsvindu} />;
+  }
   if (vaer.klasse === "god" || vaer.klasse === "middels") return <Vaersammendrag vaer={vaer} />;
   return null;
 }

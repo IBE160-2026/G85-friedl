@@ -1,0 +1,91 @@
+/*
+ * Bedre tidsvindu-kortet (components.bedre-tidsvindu-kort): papirkort med skoggrønn kant og skoggrønn
+ * kortfot. Knappen fyller bredden på mobil, i tommelsonen, og står nederst i kortet.
+ */
+.kort {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--components-bedre-tidsvindu-kort-padding-mobile);
+  border: var(--components-bedre-tidsvindu-kort-border-width) solid var(--components-bedre-tidsvindu-kort-border-color);
+  border-radius: var(--components-bedre-tidsvindu-kort-rounded);
+  background: var(--components-bedre-tidsvindu-kort-background);
+  box-shadow: 0 var(--components-bedre-tidsvindu-kort-base-offset) 0 var(--components-bedre-tidsvindu-kort-base-color);
+  overflow-wrap: anywhere;
+}
+
+.hode {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.overlinje {
+  margin: 0;
+  font-size: var(--typography-overline-font-size);
+  font-weight: var(--typography-overline-font-weight);
+  letter-spacing: var(--typography-overline-letter-spacing);
+  text-transform: var(--typography-overline-text-transform);
+  line-height: 1.4;
+  color: var(--colors-forest);
+}
+
+.overlinje > span[aria-hidden] {
+  white-space: pre;
+}
+
+.dag {
+  margin: var(--spacing-5) 0 0;
+  font-size: var(--typography-page-title-font-size);
+  font-weight: var(--typography-page-title-font-weight);
+  line-height: var(--typography-page-title-line-height);
+}
+
+.detalj {
+  margin: var(--spacing-1) 0 0;
+  font-size: var(--typography-card-from-mobile-font-size);
+  font-weight: var(--typography-card-from-mobile-font-weight);
+  font-variant-numeric: tabular-nums;
+  color: var(--colors-ink-secondary);
+}
+
+.antall {
+  margin: var(--spacing-3) 0 0;
+  font-size: var(--typography-detail-font-size);
+  line-height: var(--typography-detail-line-height);
+  font-variant-numeric: var(--typography-detail-font-feature);
+  color: var(--colors-ink-secondary);
+}
+
+.tekst {
+  margin: var(--spacing-4) 0 0;
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+}
+
+.knapp {
+  width: 100%;
+  margin-top: var(--spacing-5);
+}
+
+@media (min-width: 768px) {
+  .kort {
+    padding: var(--components-bedre-tidsvindu-kort-padding);
+  }
+
+  .knapp {
+    width: auto;
+    align-self: flex-start;
+  }
+}
+
+@media (min-width: 1200px) {
+  .detalj {
+    font-size: var(--typography-card-from-font-size);
+    font-weight: var(--typography-card-from-font-weight);
+  }
+
+  .knapp {
+    width: 100%;
+  }
+}

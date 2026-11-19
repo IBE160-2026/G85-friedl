@@ -2,8 +2,9 @@ import { expect, type Page, test } from "@playwright/test";
 import type { Resultatvisning } from "../src/kjerne/visning/skjema";
 
 // Story 1.15: sjekklisten i SM-4 (NFR-1) ved 360, 768 og 1440 px, for Søk, Turforslag (standard-Søk),
-// Alternativ (15 min), Kontaktfeil og panelet for en ukjent demo-ID, mot ?demo=uten-vaer, og fra
-// story 2.9 Værsammendraget (?demo=uj-1) og Værvarslingen (?demo=uj-2). For hver
+// Alternativ (15 min), Kontaktfeil og panelet for en ukjent demo-ID, mot ?demo=uten-vaer, fra
+// story 2.9 Værsammendraget (?demo=uj-1) og Værvarslingen med Bedre tidsvindu-boksen (?demo=uj-2), og fra
+// story 2.10 Frarådet (?demo=uj-3) og boksen uten Bedre tidsvindu (?demo=ingen-bedre). For hver
 // visning og bredde sjekkes det at siden ikke ruller sidelengs, at alle synlige kontroller har en
 // trykkflate på minst 44 × 44 px, og at ingenting krever hover: ingen title-attributter, ingen
 // SVG-<title> og ingen :hover-regel som viser, skjuler eller flytter noe.
@@ -76,6 +77,29 @@ const VISNINGER: { navn: string; url?: string; apne: (page: Page) => Promise<voi
       const visning = await finnTur(page);
       expect(visning.vaer).toMatchObject({ type: "vurdert", klasse: "darlig" });
       await expect(page.getByTestId("vaervarsling")).toBeVisible();
+      await expect(page.getByRole("button", { name: "Bruk 14:00" })).toBeVisible();
+    },
+  },
+  {
+    // Story 2.10: Frarådet-kortet og Bedre tidsvindu-kortet (UJ-3, standard-Søket).
+    navn: "Frarådet (uj-3)",
+    url: "/?demo=uj-3",
+    apne: async (page) => {
+      const visning = await finnTur(page);
+      expect(visning.utfall.type).toBe("fraradet");
+      await expect(page.getByTestId("fraradet-kort")).toBeVisible();
+      await expect(page.getByTestId("bedre-tidsvindu-kort")).toBeVisible();
+      await expect(page.getByRole("button", { name: "Bruk i morgen 11:00" })).toBeVisible();
+    },
+  },
+  {
+    // Story 2.10: Værvarslingen med boksen uten Bedre tidsvindu (standard-Søket).
+    navn: "Ingen Bedre tidsvindu (ingen-bedre)",
+    url: "/?demo=ingen-bedre",
+    apne: async (page) => {
+      const visning = await finnTur(page);
+      expect(visning.bedreTidsvindu?.type).toBe("ingen");
+      await expect(page.getByTestId("bedre-tidsvindu-boks")).toBeVisible();
     },
   },
   {

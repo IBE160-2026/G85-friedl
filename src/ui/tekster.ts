@@ -126,8 +126,22 @@ export const NESTE_TURFORSLAG = "Neste Turforslag";
 /** Overskriften på Stokkoversikten, etter antall kort. Ved ett kort vises ingen Stokkoversikt. */
 export const STOKKOVERSIKT = { 2: "Begge i stokken", 3: "Alle tre i stokken" } as const;
 
-/** Plassholder for frarådet til visningen kommer i story 2.10. */
-export const RESULTAT_KOMMER = "Visningen av dette Resultatet kommer snart.";
+// --- Bedre tidsvindu og Frarådet ---
+
+/** Overlinjen i Bedre tidsvindu-boksen, i versaler av CSS. */
+export const BEDRE_TIDSVINDU = "Bedre tidsvindu";
+/** Overlinjen ved stempelet «→» på Bedre tidsvindu-kortet: ALTERNATIV · BEDRE TIDSVINDU. */
+export const ALTERNATIV_BEDRE_TIDSVINDU = { type: "Alternativ", tekst: "Bedre tidsvindu" } as const;
+
+/** Ved stempelet «!» på Frarådet-kortet. */
+export const INGEN_TURFORSLAG = "Ingen Turforslag";
+/** Overlinjen over radene Vær og Tid på Frarådet-kortet, i versaler av CSS. */
+export const DERFOR_INGEN_TUR = "Derfor ingen tur";
+/** Lenken nederst på Frarådet-kortet. Den åpner i ny fane. */
+export const MET_FAREVARSLER = {
+  tekst: "Sjekk også MET sine farevarsler.",
+  lenke: "https://www.met.no/vaer-og-klima/ekstremvaervarsler-og-andre-farevarsler",
+} as const;
 
 // --- Alternativ, Plassholder og Kontaktfeil ---
 

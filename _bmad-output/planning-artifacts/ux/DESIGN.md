@@ -317,6 +317,11 @@ components:
     rounded: '{rounded.card}'
     borderColor: '{colors.forest}'
     borderWidth: 2.5px
+    background: '{colors.surface-card}'
+    baseColor: '{colors.forest}'
+    baseOffset: 6px
+    padding: '{spacing.card-pad-desktop}'
+    paddingMobile: '{spacing.card-pad-mobile}'
   alternativkort:
     rounded: '{rounded.card}'
     overlineColor: '{colors.ink-secondary}'

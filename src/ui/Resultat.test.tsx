@@ -76,7 +76,12 @@ const visning: Resultatvisning = {
 };
 
 /** Handlingene i Resultatet, som ikke kalles i disse testene. */
-const handlinger = { onEndreSok: () => {}, onEndreTilgjengeligTid: () => {}, onProvIgjen: () => {} };
+const handlinger = {
+  onEndreSok: () => {},
+  onEndreTilgjengeligTid: () => {},
+  onProvIgjen: () => {},
+  onBrukBedreTidsvindu: () => {},
+};
 
 /** Resultatet som tilstand for Resultat-komponenten. */
 const som = (v: Resultatvisning): Resultattilstand => ({ type: "resultat", visning: v });
@@ -263,10 +268,10 @@ describe("Resultat med Alternativ", () => {
     expect(html).toContain('style="--andel:0.06;--start:0.94"');
   });
 
-  it("har ingen Stokk, Stokkoversikt eller plassholder, men «Endre Tilgjengelig tid», teksten og Ansvarsmerknaden", () => {
+  it("har ingen Stokk, Stokkoversikt eller Frarådet-kort, men «Endre Tilgjengelig tid», teksten og Ansvarsmerknaden", () => {
     expect(html).not.toContain('data-testid="stokk"');
     expect(html).not.toContain("stokkoversikt");
-    expect(html).not.toContain("Visningen av dette Resultatet kommer snart.");
+    expect(html).not.toContain('data-testid="fraradet-kort"');
     expect(html).toMatch(/<button[^>]*>Endre Tilgjengelig tid<\/button><p[^>]*>Med 30 min eller mer passer minst én Tur.<\/p>/);
     expect(html.indexOf("Endre Tilgjengelig tid")).toBeLessThan(html.indexOf('data-testid="ansvarsmerknad"'));
     expect(html).toMatch(/<div aria-live="polite"><p[^>]*>Ingen Tur passer 15 min.<\/p><\/div><h1[^>]*>Ingen Tur passer 15 min.<\/h1>/);
@@ -333,23 +338,135 @@ describe("Resultat ved Kontaktfeil", () => {
 });
 
 describe("Resultat ved frarådet", () => {
-  it("viser plassholderen med «Endre søk» til story 2.10", () => {
-    const fraradet: Resultatvisning = {
-      ...visning,
-      overskrift: "Ingen Turforslag",
-      utfall: {
-        type: "fraradet",
-        melding: "Det er meldt sterk kuling.",
-        kriterier: [
-          { rad: "vaer", merke: "se-opp", tekst: "Værklasse frarådet", detalj: [] },
-          { rad: "tid", merke: "ingen", tekst: "ikke vurdert", detalj: [] },
-        ],
-      },
-    };
-    const html = renderToString(<Resultat tilstand={som(fraradet)} {...handlinger} />);
-    expect(html).toMatch(/data-testid="resultat-kommer"><p[^>]*>Visningen av dette Resultatet kommer snart.<\/p><button[^>]*>Endre søk<\/button>/);
-    expect(html).not.toContain("<article");
-    expect(html).not.toContain('data-testid="ditt-sok"');
+  const FRARADET_VAER: Resultatvisning["vaer"] = {
+    type: "vurdert",
+    klasse: "fraradet",
+    klasseTekst: "Værklasse frarådet",
+    symbol: { ord: "regn", ikonSti: "/vaerikoner/rain.svg" },
+    sammendrag: "regn · 4–6 °C · nedbør 1,2 mm/t · vind opptil 19 m/s",
+    verdier: "4–6 °C · nedbør 1,2 mm/t · vind opptil 19 m/s",
+    tidsvindu: "10:00–12:00",
+    hoydemerknad: "Værmelding for ca. 400 moh. På toppene kan det være kaldere og mer vind.",
+  };
+  const FUNNET: NonNullable<Resultatvisning["bedreTidsvindu"]> = {
+    type: "funnet",
+    nyttSok: { dato: "2026-11-15", start: "11:00", tilgjengeligMin: 120, vanskelighetsgrad: "B", utsikt: false, vann: false },
+    tekst: "I morgen fra kl. 11:00 er Værklassen god.",
+    dag: "I morgen, søn. 15. nov.",
+    detalj: "fra kl. 11:00 · samme 2 t, Middels",
+    antallTekst: "7 Turer passer før mørket.",
+    knappTekst: "Bruk i morgen 11:00",
+  };
+  const fraradet: Resultatvisning = {
+    ...visning,
+    overskrift: "Ingen Turforslag",
+    liveTekst: "Ingen Turforslag",
+    vaer: FRARADET_VAER,
+    utfall: {
+      type: "fraradet",
+      melding: "Det er meldt sterk kuling, vind opp mot 19 m/s i Tidsvinduet ditt (10:00–12:00).",
+      kriterier: [
+        { rad: "vaer", merke: "se-opp", tekst: "Værklasse frarådet", detalj: ["sterk kuling, vind opp mot 19 m/s"] },
+        { rad: "tid", merke: "ingen", tekst: "ikke vurdert", detalj: ["Frarådet går foran tid og ønsker."] },
+      ],
+    },
+    bedreTidsvindu: FUNNET,
+  };
+  const html = renderToString(<Resultat tilstand={som(fraradet)} {...handlinger} />);
+  /** Frarådet-kortet: fra artikkelen til Bedre tidsvindu-kortet. */
+  const kortet = del(html, 'data-testid="fraradet-kort"', 'data-testid="bedre-tidsvindu-kort"');
+
+  it("har Frarådet-kortet med vindflaten, «!», «Ingen Turforslag», Værklassen, verdiene og meldingen i rekkefølge", () => {
+    expect(html).toMatch(/<article[^>]*aria-labelledby="([^"]+) ([^"]+)" data-testid="fraradet-kort">/);
+    const [, ingenId, tittelId] = /aria-labelledby="([^"]+) ([^"]+)" data-testid="fraradet-kort"/.exec(html)!;
+    expect(kortet).toMatch(/data-testid="vindflate"/);
+    expect(kortet).toMatch(/<div[^>]*aria-hidden="true" data-testid="vindflate"><svg/);
+    expect(kortet).toMatch(/<span class="[^"]*varsel[^"]*" aria-hidden="true" data-testid="nummerstempel">!<\/span>/);
+    expect(kortet).toContain(`id="${ingenId}"`);
+    expect(kortet).toMatch(new RegExp(`<h2 id="${tittelId}"[^>]*>Værklasse frarådet</h2>`));
+    const deler = [
+      'data-testid="vindflate"',
+      'data-testid="nummerstempel">!',
+      ">Ingen Turforslag</p>",
+      ">Værklasse frarådet</h2>",
+      ">4–6 °C · nedbør 1,2 mm/t · vind opptil 19 m/s</p>",
+      ">Det er meldt sterk kuling, vind opp mot 19 m/s i Tidsvinduet ditt (10:00–12:00).</p>",
+      ">Derfor ingen tur</p>",
+      'aria-label="Værklasse"',
+      'aria-label="Turtid"',
+      'data-testid="met-farevarsler"',
+    ];
+    const plasser = deler.map((d) => kortet.indexOf(d));
+    expect(plasser.every((p) => p >= 0), JSON.stringify(plasser)).toBe(true);
+    expect([...plasser].sort((a, b) => a - b)).toEqual(plasser);
+  });
+
+  it("har bare radene Vær og Tid, med merkene se opp og ikke vurdert", () => {
+    expect(kortet.match(/role="group"/g)).toHaveLength(2);
+    expect(kortet).toMatch(/aria-label="Værklasse"[^>]*><svg[^>]*role="img" aria-label="se opp"/);
+    expect(kortet).toMatch(/aria-label="Turtid"[^>]*><svg[^>]*role="img" aria-label="ikke vurdert"/);
+    expect(kortet).toMatch(/<p class="[^"]*varsel[^"]*">Værklasse frarådet<\/p>/);
+  });
+
+  it("har lenken til MET sine farevarsler i ny fane, med skjult tekst for skjermlesere", () => {
+    expect(kortet).toMatch(
+      /<a[^>]*href="https:\/\/www.met.no\/vaer-og-klima\/ekstremvaervarsler-og-andre-farevarsler" target="_blank" rel="noopener noreferrer"[^>]*>Sjekk også MET sine farevarsler.<span[^>]*> \(åpnes i ny fane\)<\/span><\/a>/,
+    );
+  });
+
+  it("har Bedre tidsvindu-kortet med «→», overlinjen, dagen, detaljen, antallet og knappen", () => {
+    const bedre = html.slice(html.indexOf('data-testid="bedre-tidsvindu-kort"'));
+    expect(bedre).toMatch(/data-testid="nummerstempel"><svg[^>]*data-testid="stempel-pil"/);
+    expect(bedre).toMatch(/<h2[^>]*><span>Alternativ<\/span><span aria-hidden="true"> · <\/span><span>Bedre tidsvindu<\/span><\/h2>/);
+    const [, dagId] = /<p id="([^"]+)"[^>]*data-testid="bedre-tidsvindu-dag">I morgen, søn. 15. nov.<\/p>/.exec(bedre)!;
+    const [, detaljId] = /<p id="([^"]+)"[^>]*data-testid="bedre-tidsvindu-detalj">fra kl. 11:00 · samme 2 t, Middels<\/p>/
+      .exec(bedre)!;
+    const [, antallId] = /<p id="([^"]+)"[^>]*data-testid="bedre-tidsvindu-antall">7 Turer passer før mørket.<\/p>/.exec(bedre)!;
+    // Knappen er beskrevet av dagen, detaljen og antallet.
+    expect(bedre).toMatch(
+      new RegExp(`<button type="button" class="[^"]*_primaer[^"]*" aria-describedby="${dagId} ${detaljId} ${antallId}">Bruk i morgen 11:00</button>`),
+    );
+  });
+
+  it("har Ditt søk med «Endre søk» og live-teksten, men ingen vær-del, Ansvarsmerknad eller Turkort", () => {
+    expect(html).toContain('data-testid="ditt-sok"');
+    expect(html).toMatch(/<button[^>]*>Endre søk<\/button>/);
+    expect(html).toMatch(/<div aria-live="polite"><p[^>]*data-testid="live-tekst">Ingen Turforslag<\/p><\/div><h1[^>]*>Ingen Turforslag<\/h1>/);
+    for (const testid of ["vaersammendrag", "vaervarsling", "vaermangel", "ansvarsmerknad", "turkort", "alternativkort", "stokk"]) {
+      expect(html).not.toContain(`data-testid="${testid}"`);
+    }
+    expect(html.indexOf("<h1")).toBeLessThan(html.indexOf('data-testid="fraradet-kort"'));
+    expect(html.match(/<article/g)).toHaveLength(2);
+  });
+
+  it("viser teksten uten knapp når det ikke finnes noe Bedre tidsvindu", () => {
+    const tekst = "Det finnes ikke noe bedre tidsvindu i dagslys i dag eller i morgen.";
+    const ingen = renderToString(
+      <Resultat tilstand={som({ ...fraradet, bedreTidsvindu: { type: "ingen", tekst } })} {...handlinger} />,
+    );
+    const bedre = ingen.slice(ingen.indexOf('data-testid="bedre-tidsvindu-kort"'));
+    expect(bedre).toContain(`data-testid="bedre-tidsvindu-tekst">${tekst}</p>`);
+    expect(bedre).not.toContain("<button");
+    expect(bedre).not.toContain("bedre-tidsvindu-dag");
+    // Samme overskriftsnivå som når Bedre tidsvindu finnes.
+    expect(bedre).toMatch(/<h2[^>]*>.*Bedre tidsvindu<\/span><\/h2>/);
+  });
+
+  it("viser Ditt søk med «Endre søk» og overskriften når frarådet mangler vurdert vær", () => {
+    const utenVaer = renderToString(
+      <Resultat tilstand={som({ ...fraradet, vaer: visning.vaer, bedreTidsvindu: undefined })} {...handlinger} />,
+    );
+    expect(utenVaer).toContain('data-testid="ditt-sok"');
+    expect(utenVaer).toMatch(/<button[^>]*>Endre søk<\/button>/);
+    expect(utenVaer).toMatch(/<h1[^>]*>Ingen Turforslag<\/h1>/);
+    expect(utenVaer).not.toContain('data-testid="fraradet-kort"');
+  });
+
+  it("viser Frarådet-kortet alene når Bedre tidsvindu mangler", () => {
+    const utenBedre = renderToString(<Resultat tilstand={som({ ...fraradet, bedreTidsvindu: undefined })} {...handlinger} />);
+    expect(utenBedre).toContain('data-testid="fraradet-kort"');
+    expect(utenBedre).not.toContain('data-testid="bedre-tidsvindu-kort"');
+    expect(utenBedre).toMatch(/<button[^>]*>Endre søk<\/button>/);
   });
 });
 

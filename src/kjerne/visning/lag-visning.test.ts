@@ -275,6 +275,8 @@ describe("lagVisning med Værklasse", () => {
     expect(v.bedreTidsvindu).toMatchObject({
       type: "funnet",
       nyttSok: { ...UJ3_SOK, dato: "2026-11-15", start: "11:00" },
+      dag: "I morgen, søn. 15. nov.",
+      detalj: "fra kl. 11:00 · samme 2 t, Middels",
       knappTekst: "Bruk i morgen 11:00",
     });
     expect(v.overskrift).toBe("Ingen Turforslag");

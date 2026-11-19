@@ -1,7 +1,7 @@
 /*
  * Panelet med `vaervarsling`-flate: merket og tittelen i rust øverst, og under dem verdiene, symbolet,
- * forklaringen og Høydemerknaden, innrykket til teksten i tittelen. Bedre tidsvindu-boksen (story 2.10)
- * får plassen til høyre på PC og under på mobil.
+ * forklaringen og Høydemerknaden, innrykket til teksten i tittelen. Bedre tidsvindu-boksen står til
+ * høyre på PC og under på mobil.
  */
 .panel {
   display: flex;
@@ -82,5 +82,11 @@
 
   .innhold {
     flex: 1 1 auto;
+  }
+
+  .bedre {
+    flex: 0 1 460px;
+    align-self: center;
+    min-width: 0;
   }
 }

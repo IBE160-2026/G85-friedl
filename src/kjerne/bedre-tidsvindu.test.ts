@@ -79,6 +79,8 @@ describe("de navngitte eksemplene", () => {
     const svar = funnet(finn({ sok: s, na: uj2.na, melding: uj2.vaermelding }));
     expect(svar.nyttSok).toEqual({ ...s, dato: "2026-11-09", start: "14:00" });
     expect(svar.tekst).toBe("I morgen fra kl. 14:00 er Værklassen god.");
+    expect(svar.dag).toBe("I morgen, man. 9. nov.");
+    expect(svar.detalj).toBe("fra kl. 14:00 · samme 3 t, Krevende");
     expect(svar.antallTekst).toBe("5 Turer passer før mørket.");
     expect(svar.knappTekst).toBe("Bruk 14:00");
   });
@@ -88,6 +90,8 @@ describe("de navngitte eksemplene", () => {
     const svar = funnet(finn({ sok: s, klasse: "fraradet", na: uj3.na, melding: uj3.vaermelding }));
     expect(svar.nyttSok).toEqual({ ...s, dato: "2026-11-15", start: "11:00" });
     expect(svar.tekst).toMatch(/^I morgen fra kl\. 11:00 er Værklassen /);
+    expect(svar.dag).toBe("I morgen, søn. 15. nov.");
+    expect(svar.detalj).toBe("fra kl. 11:00 · samme 2 t, Middels");
     expect(svar.antallTekst).toBe("7 Turer passer før mørket.");
     expect(svar.knappTekst).toBe("Bruk i morgen 11:00");
   });
@@ -97,6 +101,8 @@ describe("de navngitte eksemplene", () => {
     expect(svar.nyttSok.dato).toBe("2026-11-09");
     expect(svar.nyttSok.start).toBe("15:00");
     expect(svar.tekst).toBe("I dag fra kl. 15:00 er Værklassen god.");
+    expect(svar.dag).toBe("I dag, man. 9. nov.");
+    expect(svar.detalj).toBe("fra kl. 15:00 · samme 3 t, Krevende");
     expect(svar.antallTekst).toBe("1 Tur passer før mørket.");
     expect(svar.knappTekst).toBe("Bruk 15:00");
   });

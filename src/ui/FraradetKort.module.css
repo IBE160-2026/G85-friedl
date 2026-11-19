@@ -1,0 +1,145 @@
+/*
+ * Frarådet-kortet (components.fraradet-kort): formet som et Turkort, med samme papirflate, hårstrek og
+ * kortfot. Perforeringen lånes fra Turkort.module.css og bruker `--kort-pad` herfra.
+ */
+.kort {
+  --kort-pad: var(--components-turkort-padding-mobile);
+  --vindflate-hoyde: var(--spacing-map-snippet-height);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--kort-pad);
+  border: var(--components-turkort-border-width) solid var(--components-turkort-border-color);
+  border-radius: var(--components-fraradet-kort-rounded);
+  background: var(--components-turkort-background);
+  box-shadow: 0 var(--components-turkort-base-offset) 0 var(--components-turkort-base-color);
+  overflow-wrap: anywhere;
+}
+
+/*
+ * Papirflaten med vindstreker der Kartutsnittet ellers står: fra kant til kant øverst i kortet, med
+ * kortets runde hjørner. Ikke et kart (story 3.2 gjelder Kartutsnittet i Turkortet).
+ */
+.vindflate {
+  height: var(--vindflate-hoyde);
+  margin: calc(-1 * var(--kort-pad)) calc(-1 * var(--kort-pad)) 0;
+  border-bottom: var(--components-turkort-border-width) solid var(--components-turkort-border-color);
+  border-radius: calc(var(--components-fraradet-kort-rounded) - var(--components-turkort-border-width))
+    calc(var(--components-fraradet-kort-rounded) - var(--components-turkort-border-width)) 0 0;
+  background: var(--colors-map-land);
+  overflow: hidden;
+}
+
+.vindflate svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.kote,
+.vind {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.kote {
+  stroke: var(--colors-map-contour);
+  stroke-width: 1.4px;
+}
+
+.vind {
+  stroke: var(--colors-ink-muted);
+  stroke-opacity: 0.55;
+  stroke-width: 2.4px;
+  stroke-linecap: round;
+}
+
+/* Stempelet ligger halvveis over kanten på flaten, med «Ingen Turforslag» ved siden av. */
+.hode {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-3);
+  margin-top: calc(-1 * var(--components-nummerstempel-size) / 2);
+}
+
+.ingen {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--colors-ink-secondary);
+}
+
+.klasse {
+  margin: var(--spacing-4) 0 0;
+  font-size: var(--typography-card-goal-mobile-font-size);
+  font-weight: var(--typography-card-goal-mobile-font-weight);
+  line-height: var(--typography-card-goal-mobile-line-height);
+  color: var(--components-fraradet-kort-title-color);
+}
+
+.verdier {
+  margin: var(--spacing-2) 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+.melding {
+  margin: var(--spacing-3) 0 0;
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+}
+
+.overlinje {
+  margin: 0;
+  font-size: var(--typography-overline-font-size);
+  font-weight: var(--typography-overline-font-weight);
+  letter-spacing: var(--typography-overline-letter-spacing);
+  text-transform: var(--typography-overline-text-transform);
+  color: var(--components-fraradet-kort-title-color);
+}
+
+.rader {
+  margin-top: var(--spacing-1);
+}
+
+.fot {
+  margin-top: auto;
+  padding-top: var(--spacing-3);
+}
+
+/* Lenken har trykkflate på minst 44 × 44 px (NFR-1). */
+.lenke {
+  display: inline-flex;
+  align-items: center;
+  min-width: var(--spacing-touch-min);
+  min-height: var(--spacing-touch-min);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--colors-forest);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .kort {
+    --kort-pad: var(--components-turkort-padding);
+    --vindflate-hoyde: 160px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .kort {
+    --vindflate-hoyde: 200px;
+  }
+
+  .klasse {
+    font-size: var(--typography-card-goal-font-size);
+    font-weight: var(--typography-card-goal-font-weight);
+    line-height: var(--typography-card-goal-line-height);
+  }
+}

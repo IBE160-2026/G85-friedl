@@ -137,7 +137,9 @@ const MANGLER: Vaer = { type: "mangler", tekst: "Været er ikke vurdert. Vi fikk
 const FUNNET = {
   type: "funnet",
   nyttSok: { ...SOK, dato: "2026-11-10", start: "11:00" },
-  tekst: "I morgen (tir. 10. nov.) fra kl. 11:00",
+  tekst: "I morgen fra kl. 11:00 er Værklassen god.",
+  dag: "I morgen, tir. 10. nov.",
+  detalj: "fra kl. 11:00 · samme 2 t, Middels",
   antallTekst: "5 Turer passer før mørket.",
   knappTekst: "Bruk i morgen 11:00",
 } as const;

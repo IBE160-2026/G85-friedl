@@ -1,6 +1,6 @@
 import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import type { Resultatvisning, Turkort as TurkortData, Vaer } from "@/kjerne/visning/skjema";
+import type { BedreTidsvindu, Resultatvisning, Turkort as TurkortData, Vaer } from "@/kjerne/visning/skjema";
 import { Resultat } from "./Resultat";
 import { Vaersammendrag } from "./Vaersammendrag";
 import { Vaervarsling } from "./Vaervarsling";
@@ -72,7 +72,7 @@ describe("Værsammendraget", () => {
 });
 
 describe("Værvarslingen", () => {
-  const html = renderToString(<Vaervarsling vaer={DARLIG} />);
+  const html = renderToString(<Vaervarsling vaer={DARLIG} onBrukBedreTidsvindu={() => {}} />);
 
   it("er en region med tittelen som navn, merket se opp som pynt og tittelen", () => {
     expect(html).toMatch(
@@ -82,7 +82,7 @@ describe("Værvarslingen", () => {
   });
 
   it("viser ingenting uten vaervarsling", () => {
-    expect(renderToString(<Vaervarsling vaer={GOD} />)).toBe("");
+    expect(renderToString(<Vaervarsling vaer={GOD} onBrukBedreTidsvindu={() => {}} />)).toBe("");
   });
 
   it("har verdiene, symbolet, forklaringen og Høydemerknaden i den rekkefølgen", () => {
@@ -97,10 +97,54 @@ describe("Værvarslingen", () => {
     expect(plasser.every((p) => p >= 0)).toBe(true);
     expect([...plasser].sort((a, b) => a - b)).toEqual(plasser);
   });
+});
 
-  it("har ingen Bedre tidsvindu-boks ennå (story 2.10)", () => {
-    expect(html).not.toMatch(/bedre tidsvindu/i);
+describe("Bedre tidsvindu-boksen i Værvarslingen", () => {
+  const FUNNET: BedreTidsvindu = {
+    type: "funnet",
+    nyttSok: { dato: "2026-11-09", start: "14:00", tilgjengeligMin: 180, vanskelighetsgrad: "R", utsikt: true, vann: false },
+    tekst: "I morgen fra kl. 14:00 er Værklassen god.",
+    dag: "I morgen, man. 9. nov.",
+    detalj: "fra kl. 14:00 · samme 3 t, Krevende",
+    antallTekst: "5 Turer passer før mørket.",
+    knappTekst: "Bruk 14:00",
+  };
+  const vis = (bedre: BedreTidsvindu) =>
+    renderToString(<Vaervarsling vaer={DARLIG} bedreTidsvindu={bedre} onBrukBedreTidsvindu={() => {}} />);
+
+  it("står etter innholdet i Værvarslingen, med overlinjen, teksten, antallet og knappen", () => {
+    const html = vis(FUNNET);
+    expect(html.indexOf('data-testid="bedre-tidsvindu-boks"')).toBeGreaterThan(html.indexOf(HOYDEMERKNAD));
+    // Ingen egen region inne i Værvarslingen.
+    expect(html).toMatch(/<div class="[^"]*" data-testid="bedre-tidsvindu-boks"><p class="[^"]*">Bedre tidsvindu<\/p>/);
+    expect(html.match(/<section/g)).toHaveLength(1);
+    const [, tekstId] = /<p id="([^"]+)"[^>]*data-testid="bedre-tidsvindu-tekst">I morgen fra kl. 14:00 er Værklassen god.<\/p>/
+      .exec(html)!;
+    const [, antallId] = /<p id="([^"]+)"[^>]*data-testid="bedre-tidsvindu-antall">5 Turer passer før mørket.<\/p>/.exec(html)!;
+    // Knappen er beskrevet av teksten og antallet, så dagen leses med «Bruk 14:00».
+    expect(html).toContain(`aria-describedby="${tekstId} ${antallId}">Bruk 14:00</button>`);
+    expect(html).toMatch(/<button type="button" class="[^"]*_primaer[^"]*"[^>]*>Bruk 14:00<\/button>/);
+    expect(html.match(/<button/g)).toHaveLength(1);
+  });
+
+  it("viser bare teksten, uten antall og knapp, når det ikke finnes noe Bedre tidsvindu", () => {
+    const tekst = "Det finnes ikke noe bedre tidsvindu i dagslys i dag eller i morgen.";
+    const html = vis({ type: "ingen", tekst });
+    expect(html).toContain(`data-testid="bedre-tidsvindu-tekst">${tekst}</p>`);
+    expect(html).not.toContain("bedre-tidsvindu-antall");
     expect(html).not.toContain("<button");
+  });
+
+  it("står i Værvarslingen i Resultatet ved dårlig vær", () => {
+    const v: Resultatvisning = {
+      ...visning(DARLIG, { rad: "vaer", merke: "se-opp", tekst: "Værklasse dårlig", detalj: [] }, "Ett Turforslag i dårlig vær", "x"),
+      bedreTidsvindu: FUNNET,
+    };
+    const html = renderToString(<Resultat tilstand={{ type: "resultat", visning: v }} {...handlinger} />);
+    const varsling = html.indexOf('data-testid="vaervarsling"');
+    const boks = html.indexOf('data-testid="bedre-tidsvindu-boks"');
+    expect(boks).toBeGreaterThan(varsling);
+    expect(boks).toBeLessThan(html.indexOf("<h1"));
   });
 });
 
@@ -149,7 +193,12 @@ const visning = (vaer: Vaer, vaerRad: TurkortData["kriterier"][1], overskrift: s
   utfall: { type: "turforslag", kort: [kort(vaerRad)] },
 });
 
-const handlinger = { onEndreSok: () => {}, onEndreTilgjengeligTid: () => {}, onProvIgjen: () => {} };
+const handlinger = {
+  onEndreSok: () => {},
+  onEndreTilgjengeligTid: () => {},
+  onProvIgjen: () => {},
+  onBrukBedreTidsvindu: () => {},
+};
 const vis = (v: Resultatvisning) => renderToString(<Resultat tilstand={{ type: "resultat", visning: v }} {...handlinger} />);
 
 describe("vær-delen i Resultatet", () => {

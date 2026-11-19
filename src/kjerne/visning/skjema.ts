@@ -174,7 +174,12 @@ export const BedreTidsvinduSkjema = z.discriminatedUnion("type", [
   z.strictObject({
     type: z.literal("funnet"),
     nyttSok: SokSkjema,
+    /** Teksten i Bedre tidsvindu-boksen: «I morgen fra kl. 14:00 er Værklassen god.». */
     tekst: Tekst,
+    /** Dagen i Bedre tidsvindu-kortet: «I morgen, søn. 15. nov.». */
+    dag: Tekst,
+    /** Linjen under dagen i Bedre tidsvindu-kortet: «fra kl. 11:00 · samme 2 t, Middels». */
+    detalj: Tekst,
     antallTekst: Tekst,
     knappTekst: Tekst,
   }),

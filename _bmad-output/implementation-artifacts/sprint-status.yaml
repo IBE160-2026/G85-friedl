@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 11-16-2026 09:01
-last_updated: 11-19-2026 10:40
+last_updated: 11-19-2026 10:59
 project: turplanlegger-app
 project_key: NOKEY
 tracking_system: file-system
@@ -63,7 +63,7 @@ development_status:
   2-7-værsammendrag-værord-og-regeltekst-med-vær: done
   2-8-resultatmodell-for-dårlig-og-frarådet-vær: review
   2-9-vær-delen-i-resultatet: review
-  2-10-bedre-tidsvindu-og-frarådet-i-resultatet: backlog
+  2-10-bedre-tidsvindu-og-frarådet-i-resultatet: review
   2-11-readme-og-prøvekjøring-for-sensor: backlog
   epic-2-retrospective: optional
 

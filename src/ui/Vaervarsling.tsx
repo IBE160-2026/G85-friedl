@@ -1,5 +1,7 @@
 import { useId } from "react";
-import type { Vaer } from "@/kjerne/visning/skjema";
+import type { Sok } from "@/kjerne/sok";
+import type { BedreTidsvindu, Vaer } from "@/kjerne/visning/skjema";
+import { BedreTidsvinduBoks } from "./BedreTidsvinduBoks";
 import { Kriteriemerke } from "./Kriteriemerke";
 import { VAERVARSLING_FORKLARING } from "./tekster";
 import stil from "./Vaervarsling.module.css";
@@ -10,12 +12,19 @@ import { Vaersymbol } from "./Vaersymbol";
 // om rekkefølgen og Høydemerknaden. Står der Værmangel-linjen ellers står, over Turforslagene eller
 // Alternativet. Panelet er en region med tittelen som navn, så det kan nås med landemerkenavigasjon.
 // Tittelen sier at det er en varsling, så merket er pynt. Live-området melder tittelen.
-// Bedre tidsvindu-boksen kommer til høyre på PC og under på mobil i story 2.10.
+// Bedre tidsvindu-boksen står til høyre på PC (fra 1200 px) og under på mobil (story 2.10).
 
 type VaerVurdert = Extract<Vaer, { type: "vurdert" }>;
 
+type Props = {
+  vaer: VaerVurdert;
+  /** Bedre tidsvindu fra Resultatvisningen. Skjemaet krever det ved dårlig vær. */
+  bedreTidsvindu?: BedreTidsvindu;
+  onBrukBedreTidsvindu: (sok: Sok) => void;
+};
+
 /** Værvarslingen for `vaer`. Uten `vaervarsling` (alle klasser utenom dårlig) vises ingenting. */
-export function Vaervarsling({ vaer }: { vaer: VaerVurdert }) {
+export function Vaervarsling({ vaer, bedreTidsvindu, onBrukBedreTidsvindu }: Props) {
   const tittelId = useId();
   const varsling = vaer.vaervarsling;
   if (!varsling) return null;
@@ -43,6 +52,11 @@ export function Vaervarsling({ vaer }: { vaer: VaerVurdert }) {
           </p>
         </div>
       </div>
+      {bedreTidsvindu && (
+        <div className={stil.bedre}>
+          <BedreTidsvinduBoks bedreTidsvindu={bedreTidsvindu} onBruk={onBrukBedreTidsvindu} />
+        </div>
+      )}
     </section>
   );
 }

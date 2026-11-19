@@ -1,9 +1,9 @@
 import { filtrerTurer } from "./filtrering";
-import { heltall } from "./format";
+import { dag, heltall, varighet } from "./format";
 import { MARGIN_FOR_SOLNEDGANG_MIN, vurderMorke, type Soltider } from "./morke";
 import { erPassert, SENEST_MIN, TIDLIGST_MIN, type Sok } from "./sok";
 import { klokkeTekst, leggTilDager, osloDato, osloTilUtc } from "./tid";
-import type { Tur } from "./turdata/skjema";
+import { GRADERINGSTEKST, type Tur } from "./turdata/skjema";
 import { VAERTERSKLER, type Vaerterskler } from "./vaer/terskler";
 import type { Vaerklasse, Vaermelding, VindusKlasse } from "./vaer/typer";
 import { KLASSEORD } from "./vaer/sammendrag";
@@ -42,6 +42,11 @@ const EN_TUR = "1 Tur passer før mørket.";
 const flereTurer = (n: number) => `${heltall(n)} Turer passer før mørket.`;
 const tekst = (dagord: string, start: string, klasse: Vaerklasse) =>
   `${dagord} fra kl. ${start} er Værklassen ${KLASSEORD[klasse]}.`;
+/** Dagen i Bedre tidsvindu-kortet: «I morgen, søn. 15. nov.». */
+const dagTekst = (dagord: string, dato: string) => `${dagord}, ${dag(dato)}`;
+/** Linjen under dagen i Bedre tidsvindu-kortet: «fra kl. 11:00 · samme 2 t, Middels». */
+const detaljTekst = (start: string, sok: Sok) =>
+  `fra kl. ${start} · samme ${varighet(sok.tilgjengeligMin)}, ${GRADERINGSTEKST[sok.vanskelighetsgrad]}`;
 const knappIDag = (start: string) => `Bruk ${start}`;
 const knappIMorgen = (start: string) => `Bruk i morgen ${start}`;
 
@@ -100,10 +105,13 @@ export function finnBedreTidsvindu({
       const antall = filtrerTurer(turer, sok).filter(
         (t) => vurderMorke(nyttSok, t.turtidMin, soltider) === null,
       ).length;
+      const dagord = dato === iDag ? "I dag" : "I morgen";
       return {
         type: "funnet",
         nyttSok,
-        tekst: tekst(dato === iDag ? "I dag" : "I morgen", start, kandidat),
+        tekst: tekst(dagord, start, kandidat),
+        dag: dagTekst(dagord, dato),
+        detalj: detaljTekst(start, sok),
         antallTekst: antallTekst(antall),
         knappTekst: dato === sok.dato ? knappIDag(start) : knappIMorgen(start),
       };

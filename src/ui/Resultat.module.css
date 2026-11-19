@@ -82,21 +82,11 @@
   }
 }
 
-.plassholder {
+/* Frarådet: Frarådet-kortet og Bedre tidsvindu-kortet under hverandre. */
+.fraradet {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-4);
-  padding: var(--spacing-5);
-  border: 1px solid var(--colors-border-hairline);
-  border-radius: var(--rounded-md);
-  background: var(--colors-surface-card);
-}
-
-.plassholdertekst {
-  margin: 0;
-  color: var(--colors-ink-secondary);
+  flex-direction: column;
+  gap: var(--spacing-8);
 }
 
 /*
@@ -104,7 +94,13 @@
  * vokser fra 24 px ved 1200 px til 32 px ved 1440 px, som sidemargen.
  */
 @media (min-width: 1200px) {
+  /* Mellomrommet mellom kortene, brukt av kortraden og frarådet. */
   .resultat {
+    --kortmellomrom: clamp(
+      var(--spacing-card-gap-desktop-min),
+      calc(100vw / 30 - 16px),
+      var(--spacing-card-gap-desktop-max)
+    );
     max-width: none;
   }
 
@@ -116,14 +112,18 @@
     display: none;
   }
 
+  /* Frarådet: Bedre tidsvindu-kortet ved siden av Frarådet-kortet, som i pc-4. */
+  .fraradet {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(var(--components-turkort-min-width-desktop), 1fr);
+    align-items: start;
+    gap: var(--kortmellomrom);
+  }
+
   /* To klasser, så griden vinner over `.pc` uansett rekkefølge. */
   .pc.kortene {
     display: grid;
     grid-template-columns: repeat(3, minmax(var(--components-turkort-min-width-desktop), 1fr));
-    gap: clamp(
-      var(--spacing-card-gap-desktop-min),
-      calc(100vw / 30 - 16px),
-      var(--spacing-card-gap-desktop-max)
-    );
+    gap: var(--kortmellomrom);
   }
 }

@@ -159,8 +159,9 @@ for (const [navn, viewport] of [
       await expect(page.getByRole("region", { name: vaer.vaervarsling.tittel })).toBeVisible();
       await expect(page.getByTestId("vaersammendrag")).toHaveCount(0);
       await expect(page.getByTestId("vaermangel")).toHaveCount(0);
-      // Ingen Bedre tidsvindu-boks ennå (story 2.10).
-      await expect(varsling.getByRole("button")).toHaveCount(0);
+      // Den eneste knappen i Værvarslingen er den i Bedre tidsvindu-boksen (story 2.10).
+      await expect(varsling.getByRole("button")).toHaveCount(1);
+      await expect(varsling.getByTestId("bedre-tidsvindu-boks").getByRole("button")).toHaveCount(1);
 
       // Over Turforslagene.
       const overskrift = page.getByRole("heading", { level: 1, name: "Tre Turforslag i dårlig vær" });

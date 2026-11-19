@@ -278,6 +278,11 @@
   --components-bedre-tidsvindu-kort-rounded: var(--rounded-card);
   --components-bedre-tidsvindu-kort-border-color: var(--colors-forest);
   --components-bedre-tidsvindu-kort-border-width: 2.5px;
+  --components-bedre-tidsvindu-kort-background: var(--colors-surface-card);
+  --components-bedre-tidsvindu-kort-base-color: var(--colors-forest);
+  --components-bedre-tidsvindu-kort-base-offset: 6px;
+  --components-bedre-tidsvindu-kort-padding: var(--spacing-card-pad-desktop);
+  --components-bedre-tidsvindu-kort-padding-mobile: var(--spacing-card-pad-mobile);
   --components-alternativkort-rounded: var(--rounded-card);
   --components-alternativkort-overline-color: var(--colors-ink-secondary);
   --components-kontaktfeil-kort-background: var(--colors-surface-card);

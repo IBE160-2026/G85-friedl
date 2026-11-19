@@ -1,0 +1,70 @@
+/*
+ * Bedre tidsvindu-boksen (components.bedre-tidsvindu-boks): papirflate med skoggrønn kant inne i
+ * Værvarslingen. Teksten står til venstre og knappen til høyre. Er det ikke plass (mobil ved 360 px),
+ * går knappen ned under teksten.
+ */
+.boks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  min-width: 0;
+  padding: var(--spacing-4) var(--spacing-5);
+  border: var(--components-bedre-tidsvindu-boks-border-width) solid var(--components-bedre-tidsvindu-boks-border-color);
+  border-radius: var(--components-bedre-tidsvindu-boks-rounded);
+  background: var(--components-bedre-tidsvindu-boks-background);
+  color: var(--colors-ink-primary);
+}
+
+.overlinje {
+  margin: 0;
+  font-size: var(--typography-overline-font-size);
+  font-weight: var(--typography-overline-font-weight);
+  letter-spacing: var(--typography-overline-letter-spacing);
+  text-transform: var(--typography-overline-text-transform);
+  color: var(--colors-forest);
+}
+
+.rad {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-3) var(--spacing-4);
+}
+
+.tekster {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.tekst,
+.antall {
+  margin: 0;
+}
+
+.tekst {
+  font-size: var(--typography-body-font-size);
+  font-weight: 600;
+  line-height: var(--typography-body-line-height);
+  font-variant-numeric: tabular-nums;
+}
+
+.antall {
+  font-size: var(--typography-detail-font-size);
+  line-height: var(--typography-detail-line-height);
+  font-variant-numeric: var(--typography-detail-font-feature);
+  color: var(--colors-ink-secondary);
+}
+
+.knapp {
+  flex: 0 1 auto;
+  max-width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .boks {
+    padding: var(--spacing-4) var(--spacing-5) var(--spacing-4) var(--spacing-6);
+  }
+}

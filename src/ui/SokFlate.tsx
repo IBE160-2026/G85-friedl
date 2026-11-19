@@ -25,10 +25,10 @@ import { Trinnvelger, type TrinnvelgerHandle } from "./Trinnvelger";
 // aldri i URL-en eller lagring. Valg, låser, etiketter og standard-Søket kommer ferdige fra
 // sidedataene (AD-18), så flaten regner ikke ut tider og leser aldri klokka.
 //
-// Flaten har fire tilstander: `sok`, `venter`, `resultat` og `kontaktfeil`. «Finn tur» og «Prøv igjen»
-// går til `venter`, og svaret gir `resultat` eller `kontaktfeil`. Et `feil`-svar (400) gir også
-// Kontaktfeil, fordi skjemaet ikke kan lage ugyldige Søk. Da står bare «Endre søk» på kortet, fordi
-// samme Søk ville fått samme feil, og feilen fra serveren skrives til konsollen.
+// Flaten har fire tilstander: `sok`, `venter`, `resultat` og `kontaktfeil`. «Finn tur», «Prøv igjen» og
+// «Bruk …» i Bedre tidsvindu går til `venter`, og svaret gir `resultat` eller `kontaktfeil`. Et `feil`-svar
+// (400) gir også Kontaktfeil, fordi skjemaet ikke kan lage ugyldige Søk. Da står bare «Endre søk» på
+// kortet, fordi samme Søk ville fått samme feil, og feilen fra serveren skrives til konsollen.
 //
 // Historikken (EXPERIENCE.md › Nettleserens Tilbake): første overgang fra Søk lager én oppføring med
 // `pushState`, merket med `HISTORIKK`. Et nytt Søk mens oppføringen er den gjeldende, bruker
@@ -217,6 +217,20 @@ export function SokFlate({ skjema }: Props) {
     visFlate({ type: "sok" });
   }
 
+  /**
+   * «Bruk …» i Bedre tidsvindu: sender `nyttSok` fra serveren gjennom samme flyt som «Finn tur», og setter
+   * det i skjemaet når skjemaet kan vise det. Det nye Resultatet erstatter det forrige i historikken.
+   * Mens «Endre søk» venter på `popstate`, gjør knappen ingenting.
+   */
+  function brukBedreTidsvindu(nytt: Sok) {
+    if (tilbakePagar.current) return;
+    if (kanVises(nytt)) {
+      settJustering(null);
+      settSok(nytt);
+    }
+    void send(nytt);
+  }
+
   /** «Endre søk» og «Endre Tilgjengelig tid»: tilbake i historikken når Resultatet har en oppføring. */
   function endreSok(mal: Fokusmal = "overskrift") {
     if (tilbakePagar.current) return;
@@ -252,13 +266,17 @@ export function SokFlate({ skjema }: Props) {
 
   // Handlingene i Resultatet får en stabil identitet, så toppfeltet ikke registrerer «Endre søk» på nytt
   // ved hver rendring. Innpakningene kaller alltid de nyeste funksjonene.
-  const sisteHandlinger = useRef({ endreSok, provIgjen });
+  const sisteHandlinger = useRef({ endreSok, provIgjen, brukBedreTidsvindu });
   useEffect(() => {
-    sisteHandlinger.current = { endreSok, provIgjen };
+    sisteHandlinger.current = { endreSok, provIgjen, brukBedreTidsvindu };
   });
   const stabilEndreSok = useCallback(() => sisteHandlinger.current.endreSok("overskrift"), []);
   const stabilEndreTid = useCallback(() => sisteHandlinger.current.endreSok("tilgjengeligTid"), []);
   const stabilProvIgjen = useCallback(() => sisteHandlinger.current.provIgjen(), []);
+  const stabilBrukBedreTidsvindu = useCallback(
+    (nytt: Sok) => sisteHandlinger.current.brukBedreTidsvindu(nytt),
+    [],
+  );
 
   const tilstand: Resultattilstand | null =
     flate.type === "sok"
@@ -341,6 +359,7 @@ export function SokFlate({ skjema }: Props) {
         onEndreSok={stabilEndreSok}
         onEndreTilgjengeligTid={stabilEndreTid}
         onProvIgjen={stabilProvIgjen}
+        onBrukBedreTidsvindu={stabilBrukBedreTidsvindu}
       />
     </>
   );
