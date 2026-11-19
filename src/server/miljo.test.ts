@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync } from "node:fs";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { parseMetCompact } from "@/kjerne/vaer/met-compact";
 import { TESTSCENARIOER } from "@/kjerne/vaer/testscenarioer";
 import { lagMiljo, lesDemoId, type Miljo } from "./miljo";
@@ -53,23 +53,56 @@ describe("lagMiljo", () => {
     expect(await miljo.vaerkilde()).toEqual(parseMetCompact(lesJson(`${id}/met.json`)));
   });
 
-  it("uten demo: systemklokka, ingen Værmelding og ingen fetch", async () => {
-    vi.useFakeTimers({ toFake: ["Date"] });
-    vi.setSystemTime(Date.UTC(2026, 10, 12, 8, 7));
-    // MET kobles inn i 2.8. Til da kaller værkilden ikke fetch.
-    const fetch = vi.fn(() => {
-      throw new Error("Værkilden uten demo kalte fetch.");
-    });
-    vi.stubGlobal("fetch", fetch);
-    try {
-      const miljo = lagMiljo(null) as Miljo;
-      expect(miljo.na).toBe(Date.UTC(2026, 10, 12, 8, 7));
-      expect(miljo.demo).toBeNull();
-      await expect(miljo.vaerkilde()).resolves.toBeNull();
-      expect(fetch).not.toHaveBeenCalled();
-    } finally {
-      vi.unstubAllGlobals();
+  describe("uten demo", () => {
+    const met = lesJson("uj-1/met.json");
+    const NA = Date.UTC(2026, 10, 9, 12, 30);
+    const EXPIRES = Date.UTC(2026, 10, 9, 13);
+    let fetch: ReturnType<typeof vi.fn<(url: string, init: RequestInit) => Promise<Response>>>;
+
+    /** `lagMiljo` fra en ny import av miljo.ts, så hver test får en ny MET-instans med tom cache. */
+    async function ferskLagMiljo(): Promise<typeof lagMiljo> {
+      vi.resetModules();
+      return (await import("./miljo")).lagMiljo;
     }
+
+    beforeEach(() => {
+      vi.useFakeTimers({ toFake: ["Date"] });
+      vi.setSystemTime(NA);
+      // Den globale fetch byttes ut, så ingen test kaller MET.
+      fetch = vi.fn<(url: string, init: RequestInit) => Promise<Response>>(async () =>
+        Response.json(met, { status: 200, headers: { Expires: new Date(EXPIRES).toUTCString() } }),
+      );
+      vi.stubGlobal("fetch", fetch);
+    });
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    it("systemklokka og MET-adapteren, med én instans og den globale fetch", async () => {
+      const lag = await ferskLagMiljo();
+      const miljo = lag(null) as Miljo;
+      expect(miljo.na).toBe(NA);
+      expect(miljo.demo).toBeNull();
+      expect((lag(null) as Miljo).vaerkilde).toBe(miljo.vaerkilde);
+      await expect(miljo.vaerkilde()).resolves.toEqual(parseMetCompact(met));
+      expect(fetch).toHaveBeenCalledTimes(1);
+      const [url, init] = fetch.mock.calls[0];
+      expect(url).toMatch(/^https:\/\/api\.met\.no\/weatherapi\/locationforecast\/2\.0\/compact\?/);
+      expect(init.headers).toMatchObject({ "User-Agent": expect.stringMatching(/^turplanlegger-ibe160\//) });
+    });
+
+    it("MET-instansen bruker systemklokka: cachen svarer innenfor Expires, og etter Expires kalles fetch igjen", async () => {
+      const lag = await ferskLagMiljo();
+      await (lag(null) as Miljo).vaerkilde();
+      vi.setSystemTime(EXPIRES - 1);
+      await (lag(null) as Miljo).vaerkilde();
+      expect(fetch).toHaveBeenCalledTimes(1);
+
+      vi.setSystemTime(EXPIRES + 1);
+      await expect((lag(null) as Miljo).vaerkilde()).resolves.toEqual(parseMetCompact(met));
+      expect(fetch).toHaveBeenCalledTimes(2);
+    });
   });
 
   it.each(["finnes-ikke", "", "toString", "__proto__"])("ukjent demo «%s» gir UkjentDemoFeil", (id) => {

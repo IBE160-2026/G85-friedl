@@ -10,7 +10,7 @@ import { darligsteKlasse, erBedreKlasse, klasseForTime } from "./vaerklasse";
 // Værsammendraget og Værsymbolet (FR-10, FR-20, UX-DR16, UX-DR17). Tidsvinduet oppsummeres over de
 // samme timene som Værklassen (`timerITidsvindu`): høyeste nedbør og vind, laveste og høyeste
 // temperatur, og symbolet fra timen med dårligst Værklasse (den første ved likhet).
-// Ren og deterministisk. Alle tall i tekst lages i format.ts. `vaervarsling` kommer i story 2.8.
+// Ren og deterministisk. Alle tall i tekst lages i format.ts. `vaervarsling` legges til i lag-visning.ts.
 
 /** Det Værsammendraget, Værordene og Regelteksten trenger om Tidsvinduet. */
 export type Tidsvinduoppsummering = {
@@ -141,7 +141,7 @@ export function klasseTekst(klasse: Vaerklasse): string {
   return `Værklasse ${KLASSEORD[klasse]}`;
 }
 
-/** `vurdert`-delen av visningens `vaer`, uten Værvarsling (story 2.8). */
+/** `vurdert`-delen av visningens `vaer`, uten Værvarsling, som lag-visning.ts legger til ved dårlig vær. */
 export type VaerVurdert = Omit<Extract<Vaer, { type: "vurdert" }>, "vaervarsling">;
 
 export type VaerVurdertInput = {
@@ -153,17 +153,17 @@ export type VaerVurdertInput = {
 };
 
 /**
- * Værsammendraget for Tidsvinduet og grunnlaget Turkortet og Regelteksten bruker. Gir `null` når en
- * av timene mangler i Værmeldingen. Sammendraget er
- * «{symbolord} · {temperatur} · nedbør {X} mm/t · vind opptil {Y} m/s», uten symbolordet når koden er
- * ukjent.
+ * Værsammendraget for Tidsvinduet, grunnlaget Turkortet og Regelteksten bruker, og oppsummeringen
+ * (med Værklassen) som Værvarslingen og Frarådet-meldingen trenger. Gir `null` når en av timene mangler
+ * i Værmeldingen. Sammendraget er «{symbolord} · {temperatur} · nedbør {X} mm/t · vind opptil {Y} m/s»,
+ * uten symbolordet når koden er ukjent.
  */
 export function lagVaerVurdert({
   melding,
   startUtc,
   sluttUtc,
   terskler = VAERTERSKLER,
-}: VaerVurdertInput): { vaer: VaerVurdert; grunnlag: VaerGrunnlag } | null {
+}: VaerVurdertInput): { vaer: VaerVurdert; grunnlag: VaerGrunnlag; oppsummering: Tidsvinduoppsummering } | null {
   const o = oppsummerTidsvindu(melding, startUtc, sluttUtc, terskler);
   if (o === null) return null;
 
@@ -192,5 +192,6 @@ export function lagVaerVurdert({
       vaerord: vaerord(o.maksNedborMmT, o.maksVindMs, terskler),
       temperatur,
     },
+    oppsummering: o,
   };
 }

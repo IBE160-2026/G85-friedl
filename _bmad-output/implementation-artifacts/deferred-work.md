@@ -47,3 +47,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-7-vaersammendrag-vaerord-og-regeltekst-med-vaer.md`
   summary: `ikonSti` peker på `/vaerikoner/{kode}.svg`, men `public/vaerikoner/` med METs ikoner og LICENSE finnes ikke ennå.
   evidence: Gjennomgangen av story 2.7 (EC5). Ikonene legges inn i story 2.9 (AR-20, AD-15).
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-8-resultatmodell-for-darlig-og-fraradet-vaer.md`
+  summary: Ingenting tvinger e2e-testene til å bruke `?demo`. Et Søk uten demo i Playwright ville kalle ekte MET.
+  evidence: Gjennomgangen av story 2.8 (BH7). Alle e2e-testene bruker `?demo` i dag. En hard sperre (miljøflagg eller statisk sjekk) kan legges inn hvis e2e-testene vokser.

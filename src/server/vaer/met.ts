@@ -11,7 +11,7 @@ import pakke from "../../../package.json";
 // Fila er skjermet fra nettleseren av lagreglene i eslint.config.mjs: src/ui/ og src/app/
 // (utenom API-rutene) importerer ikke fra src/server/. `fetch` og klokka kommer inn som
 // avhengigheter, så testene aldri kaller MET, og klokka fortsatt bare leses i miljo.ts.
-// Kobles inn i `lagMiljo` i story 2.8.
+// `lagMiljo` i src/server/miljo.ts har den ene instansen.
 
 const MET_URL = "https://api.met.no/weatherapi/locationforecast/2.0/compact";
 const USER_AGENT = `turplanlegger-ibe160/${pakke.version} https://github.com/IBE160-2026/G85-friedl`;

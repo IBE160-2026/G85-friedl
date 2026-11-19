@@ -1,17 +1,17 @@
-import { anbefal } from "@/kjerne/anbefaling";
 import type { Soltider } from "@/kjerne/morke";
-import type { VaerGrunnlag } from "@/kjerne/regeltekst";
 import { normaliserSok, type Sok, SokSkjema } from "@/kjerne/sok";
 import { soltider } from "@/kjerne/sol";
 import { leggTilDager } from "@/kjerne/tid";
+import type { Vaermelding } from "@/kjerne/vaer/typer";
 import type { UgyldigSokFeil } from "@/kjerne/visning/feil";
-import { lagVisning } from "@/kjerne/visning/lag-visning";
+import { lagResultatvisning } from "@/kjerne/visning/lag-visning";
 import { type Resultatvisning, ResultatvisningSkjema } from "@/kjerne/visning/skjema";
 import { GEOMETRI, TURER } from "./data";
 import type { Miljo } from "./miljo";
 
-// Ett Søk (AR-3, AD-2): validering, justering, soltider, Anbefaling og Resultatvisning.
-// Skallet gjør bare det kjernen ikke kan: henter været, lager resultatId og validerer svaret.
+// Ett Søk (AR-3, AD-2): validering, justering, soltider, Værklasse, Anbefaling, Bedre tidsvindu og
+// Resultatvisning. Skallet gjør bare det kjernen ikke kan: henter været, lager resultatId og
+// validerer svaret. Kjernen (`lagResultatvisning`) setter sammen resten.
 
 /** Søket fra forespørselen, validert strengt mot `SokSkjema`, eller `UgyldigSokFeil`. */
 export function lesSok(data: unknown): { sok: Sok } | UgyldigSokFeil {
@@ -29,24 +29,30 @@ function soltiderFor(dato: string): Soltider {
   return { [dato]: soltider(dato), [dagenEtter]: soltider(dagenEtter) };
 }
 
+/**
+ * Værmeldingen fra værkilden, eller `null` når den mangler eller værkilden kaster (FR-13). Feilen
+ * logges bare med navn og melding, aldri med noe fra forespørselen.
+ */
+async function hentVaermelding(miljo: Miljo): Promise<Vaermelding | null> {
+  try {
+    return await miljo.vaerkilde();
+  } catch (feil) {
+    console.error("Værkilden feilet:", feil instanceof Error ? `${feil.name}: ${feil.message}` : typeof feil);
+    return null;
+  }
+}
+
 /** Resultatvisningen for et gyldig Søk i miljøet `miljo`, validert mot `ResultatvisningSkjema`. */
 export async function svarPaSok(sok: Sok, miljo: Miljo): Promise<Resultatvisning> {
   const normalisert = normaliserSok(sok, miljo.na);
-  const sol = soltiderFor(normalisert.sok.dato);
-
-  // Værscenarioene (story 2.3) har en Værmelding, men værkilden kalles ikke ennå: story 2.8 kobler inn
-  // Værklassen. Til da følger Resultatet FR-13 («Været er ikke vurdert.») også i demoene, og
-  // Anbefalingen får Værklassen `mangler`, som gir rangeringen for godt vær.
-  const vaer: VaerGrunnlag = { type: "mangler" };
-
-  const visning = lagVisning({
+  const visning = lagResultatvisning({
     resultatId: crypto.randomUUID(),
     normalisert,
     na: miljo.na,
-    anbefaling: anbefal(TURER, normalisert.sok, sol, "mangler"),
-    soltider: sol,
+    melding: await hentVaermelding(miljo),
+    turer: TURER,
+    soltider: soltiderFor(normalisert.sok.dato),
     geometri: GEOMETRI,
-    vaer,
   });
   return ResultatvisningSkjema.parse(visning);
 }

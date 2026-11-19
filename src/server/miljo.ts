@@ -1,9 +1,10 @@
 import type { UkjentDemoFeil } from "@/kjerne/visning/feil";
+import { lagMetVaerkilde } from "./vaer/met";
 import { DEMO_IDER, finnScenario, type Scenario } from "./vaer/scenarioer";
 import type { Vaerkilde } from "./vaer/typer";
 
 // Miljøet for én forespørsel (AD-13): klokka, værkilden og Demomodus. Fila er eneste sted
-// appen leser klokka. Med `?demo=` kommer «nå» og været fra scenarioet, ellers fra systemklokka.
+// appen leser klokka. Med `?demo=` kommer «nå» og været fra scenarioet, ellers fra systemklokka og MET.
 
 export type Demo = { id: string; beskrivelse: string };
 
@@ -16,6 +17,15 @@ export type Miljo = {
 
 /** Værkilden uten Værmelding (FR-13). */
 const utenVaermelding: Vaerkilde = async () => null;
+
+/**
+ * MET-adapteren, én instans for hele prosessen, så cachen deles mellom forespørslene.
+ * `fetch` slås opp i `globalThis` ved hvert kall, så testene kan bytte den ut.
+ */
+const metVaerkilde: Vaerkilde = lagMetVaerkilde({
+  fetch: (url, init) => globalThis.fetch(url, init),
+  klokke: () => Date.now(),
+});
 
 /**
  * Værkilden for et scenario. `met` gir scenarioets Værmelding, parset fra met.json ved import.
@@ -39,11 +49,7 @@ export function lesDemoId(url: URL | string): string | null {
 
 /** Miljøet for demo-ID-en, eller `UkjentDemoFeil` med de gyldige ID-ene. */
 export function lagMiljo(demoId: string | null): Miljo | UkjentDemoFeil {
-  if (demoId === null) {
-    // MET-adapteren (src/server/vaer/met.ts) kobles inn her i story 2.8. Til da mangler
-    // Værmeldingen uten demo også, og ingen kall går til MET.
-    return { na: Date.now(), vaerkilde: utenVaermelding, demo: null };
-  }
+  if (demoId === null) return { na: Date.now(), vaerkilde: metVaerkilde, demo: null };
 
   const scenario = finnScenario(demoId);
   if (!scenario) return { feil: "ukjent-demo", gyldigeDemoIder: [...DEMO_IDER] };
