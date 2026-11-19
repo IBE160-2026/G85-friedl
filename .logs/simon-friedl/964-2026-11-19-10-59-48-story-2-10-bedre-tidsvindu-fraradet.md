@@ -50,3 +50,17 @@ Simon valgte å pushe 2.8–2.10 til `main` uten walkthrough, så 2.11 kan måle
 
 ### Åpne punkter
 - Ingen nye.
+
+## 2026-11-19 kl. 11:17 — Simon Friedl
+
+### Oppgave
+Simon godkjente de fem nye tokens for `bedre-tidsvindu-kort` i `DESIGN.md`.
+
+### Plan
+- Lukk punktet i `issues.md`.
+
+### Resultat
+- Godkjent av Simon. Tokens står uendret i `DESIGN.md` og `tokens.css` (committet i `ee33200`): `background`, `baseColor`, `baseOffset`, `padding` og `paddingMobile`.
+
+### Åpne punkter
+- Ingen nye.
