@@ -359,3 +359,62 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/*
+ * Når bakgrunnskartet ikke laster (story 3.4, UX-DR39): flislaget er fjernet, og flaten er papirfarget.
+ * Reglene står sist, så de vinner over bakgrunnene til `.flate`, `.statisk` og `.kartet` over.
+ */
+.flisfeil,
+.flisfeil .kartet {
+  background: var(--colors-surface-card);
+}
+
+/*
+ * «Bakgrunnskartet kunne ikke lastes.» øverst i midten av det interaktive kartet, i en papirpille med kant,
+ * så den skiller seg fra den papirfargede flaten. Den holder seg klar av zoomknappene til venstre, like langt
+ * fra begge kantene, og brytes til flere linjer når det ikke er plass. På smale skjermer står den midt i
+ * plassen til høyre for zoomknappene, så den får plass på én linje. Uten feil er den tom og 0 px høy.
+ */
+.bakgrunnsfeil {
+  --feil-side: calc(var(--spacing-3) + var(--spacing-touch-min) + var(--spacing-2));
+  position: absolute;
+  top: var(--spacing-3);
+  right: var(--feil-side);
+  left: var(--feil-side);
+  z-index: 1000;
+  width: max-content;
+  max-width: calc(100% - 2 * var(--feil-side));
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+/*
+ * Søk-kartet: Omradeboksen står øverst til venstre, så teksten står midt i plassen til høyre for den.
+ * `--hjorne-hoyre` er høyre kant av boksen, målt av Startpunktkart.
+ */
+.fyll .bakgrunnsfeil {
+  right: var(--spacing-3);
+  left: calc(var(--hjorne-hoyre, var(--feil-side)) + var(--spacing-3));
+  max-width: calc(100% - var(--hjorne-hoyre, var(--feil-side)) - 2 * var(--spacing-3));
+}
+
+@media (max-width: 599px) {
+  .bakgrunnsfeil {
+    right: var(--spacing-3);
+    max-width: calc(100% - var(--feil-side) - var(--spacing-3));
+  }
+}
+
+/* Målene (12,5 px, 4 × 12 px) er som i de andre pillene i kartet, fordi DESIGN.md ikke har egne tokens for dem. */
+.feilpille {
+  display: block;
+  padding: 4px 12px;
+  border: 1px solid var(--colors-border-card);
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-card);
+  color: var(--colors-ink-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+}

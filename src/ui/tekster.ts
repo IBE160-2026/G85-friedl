@@ -173,6 +173,8 @@ export const KART = {
   mal: "Mål",
   omtrentligRute: "omtrentlig rute",
 } as const;
+/** Teksten på kartet når flisene til bakgrunnskartet ikke laster (story 3.4, UX-DR39). */
+export const BAKGRUNNSKART_FEIL = "Bakgrunnskartet kunne ikke lastes.";
 /** Tilgjengelige navn på zoomknappene i kartet. */
 export const ZOOM_INN = "Zoom inn";
 export const ZOOM_UT = "Zoom ut";

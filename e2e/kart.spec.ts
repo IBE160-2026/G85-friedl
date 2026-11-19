@@ -1,9 +1,9 @@
 import type { Locator, Page } from "@playwright/test";
-import { expect, KARTFLISER, KARTFLISER_URL, test } from "./fixtures";
+import { blokkerFliser, expect, KARTFLISER, KARTFLISER_URL, test } from "./fixtures";
 import turdatasett from "../data/turer-moldemarka.json";
 import type { Resultatvisning, Turkort } from "../src/kjerne/visning/skjema";
 import { grupperStartpunkter } from "../src/ui/kart-data";
-import { BAKGRUNNSKART } from "../src/ui/tekster";
+import { BAKGRUNNSKART, BAKGRUNNSKART_FEIL } from "../src/ui/tekster";
 
 // Story 3.1: kartet i Resultatet, på PC (1440 px), nettbrett (768 px) og mobil (360 px). Kartflisene er stubbet av
 // fixtures.ts, så ingen test kaller Kartverket. Alle Søk går med `?demo=`. Testene sjekker tilstand,
@@ -13,6 +13,8 @@ import { BAKGRUNNSKART } from "../src/ui/tekster";
 // på Frarådet-kortet.
 //
 // Story 3.3: Søk-kartet på PC med Startpunktene og telleteksten, nederst i fila.
+//
+// Story 3.4: når bakgrunnskartet ikke laster. Flisene feiler med `blokkerFliser`, aller nederst i fila.
 
 const PC = { width: 1440, height: 1000 } as const;
 const NETTBRETT = { width: 768, height: 1024 } as const;
@@ -864,6 +866,28 @@ async function sjekkStartpunkter(page: Page) {
     expect(inneI(b, flate), "Startpunktet ligger inne i kartflaten").toBe(true);
     for (const o of overlegg) expect(overlapper(b, o.boks), `Startpunktet ligger under ${o.navn}`).toBe(false);
   }
+  // Toppmargen kartet zoomet med, regnet tilbake fra Startpunktene, holder dem under hele hjørnet, med
+  // zoomknappene. Kartet sentrerer Startpunktene i flaten innenfor margene, så midten av dem står midt mellom
+  // toppmargen og bunnmargen: topp = øverst + nederst − høyden + bunnmargen. Det gjelder uansett om bredden
+  // eller høyden bestemmer zoomen, så sjekken feiler også når prikkene tilfeldigvis står klar av hjørnet.
+  const KLARING = 16;
+  const innside = await boks(k.leaflet);
+  const hjorneBunn = Math.max(...(await Promise.all([k.omradeboks, k.zoomUt].map(boks))).map((b) => b.y + b.height));
+  const bunnTopp = Math.min(...(await Promise.all([k.forklaring, k.kreditering].map(boks))).map((b) => b.y));
+  const bunnmarg = innside.y + innside.height - bunnTopp + KLARING;
+  const toppmarg = async () => {
+    const midter = await k.startpunkter.evaluateAll((p) =>
+      p.map((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top + r.height / 2;
+      }),
+    );
+    return Math.min(...midter) + Math.max(...midter) - 2 * innside.y - innside.height + bunnmarg;
+  };
+  await expect.poll(toppmarg, "toppmargen holder Startpunktene under zoomknappene").toBeGreaterThan(
+    hjorneBunn - innside.y + KLARING - 2,
+  );
+  expect(await toppmarg()).toBeLessThan(hjorneBunn - innside.y + KLARING + 2);
 }
 
 test.describe("Søk-kartet på PC", () => {
@@ -1068,4 +1092,380 @@ test("Søk-kartet forsvinner under 1200 px og kommer tilbake, og skjemaet behold
   await expect(tid).toHaveValue("15");
   await expect(utsikt).toBeChecked();
   await expect(page.getByRole("radio", { name: "Enkel" })).toBeChecked();
+});
+
+// --- Story 3.4: når bakgrunnskartet ikke laster ---
+
+/** `{colors.surface-card}` (#FFFBF5): papirfargen kartflaten får når flisene feiler. */
+const PAPIR = "rgb(255, 251, 245)";
+
+const bakgrunn = (l: Locator) => l.evaluate((el) => getComputedStyle(el).backgroundColor);
+
+/** Leaflet-flaten er papirfarget, uten fliser og uten ødelagte flisbilder. */
+async function sjekkPapirflate(leaflet: Locator) {
+  await expect.poll(() => bakgrunn(leaflet)).toBe(PAPIR);
+  await expect(leaflet.locator(".leaflet-tile")).toHaveCount(0);
+  await expect(leaflet.locator("img")).toHaveCount(0);
+}
+
+/** Bredden av ruten (den siste stien) i px, som vokser når kartet zoomer inn. */
+const rutebredde = async (stier: Locator) => (await boks(stier.last())).width;
+
+/** Kontrollene og innholdet i det store kartet, som pillen ikke skal ligge over. */
+const kartinnhold = (d: ReturnType<typeof deler>) => [
+  d.zoomInn,
+  d.zoomUt,
+  d.startpunkter,
+  d.etikett,
+  d.kart.getByTestId("kart-mal"),
+  d.forklaring,
+  d.kreditering,
+];
+
+/** Ingen Tur i Turdatasettet har Mål. Svaret fra serveren får Mål på kort 1 og 2: siste punkt i ruten. */
+async function giMal(page: Page) {
+  await page.route(ER_SOK, async (route) => {
+    const svar = await route.fetch();
+    const visning = (await svar.json()) as Resultatvisning;
+    const kort = turforslag(visning).map((k, i) => {
+      if (i > 1) return k;
+      const [lon, lat] = k.kart.rute.geometry.coordinates.at(-1)!.at(-1)!;
+      return { ...k, kart: { ...k.kart, malpunkt: { lat, lon } } };
+    });
+    await route.fulfill({ response: svar, json: { ...visning, utfall: { type: "turforslag", kort } } });
+  });
+}
+
+/**
+ * Pillen «Bakgrunnskartet kunne ikke lastes.» står øverst i midten av kartflaten i en status, og ligger
+ * ikke over noen av `andre` (kontrollene og innholdet i kartet).
+ */
+async function sjekkFeilpille(kart: Locator, andre: Locator[], midtIKartet = true) {
+  const pille = kart.getByTestId("kart-bakgrunn-feil");
+  await expect(pille).toBeVisible();
+  await expect(pille).toHaveText(BAKGRUNNSKART_FEIL);
+  await expect(kart.getByRole("status").filter({ hasText: BAKGRUNNSKART_FEIL })).toHaveCount(1);
+  const p = await boks(pille);
+  const flate = await boks(kart);
+  expect(inneI(p, flate), "pillen inne i kartflaten").toBe(true);
+  expect(p.y - flate.y, "pillen står øverst").toBeLessThan(24);
+  // Under 600 px står pillen midt i plassen til høyre for zoomknappene, ellers midt i kartet.
+  if (midtIKartet && (kart.page().viewportSize()?.width ?? 0) >= 600) {
+    expect(Math.abs(p.x + p.width / 2 - (flate.x + flate.width / 2)), "pillen står i midten").toBeLessThan(2);
+  }
+  for (const l of andre) {
+    for (const el of await l.all()) {
+      const navn = await el.evaluate((e) => e.outerHTML.slice(0, 60));
+      expect(overlapper(p, await boks(el)), `pillen ligger over ${navn}`).toBe(false);
+    }
+  }
+}
+
+/**
+ * Toppen av alt i `innhold` står under bunnen av pillen. Kartet zoomer på nytt når pillen kommer, så
+ * testen venter til det har skjedd.
+ */
+async function sjekkUnderPillen(kart: Locator, innhold: Locator[]) {
+  const p = await boks(kart.getByTestId("kart-bakgrunn-feil"));
+  const overst = async () => {
+    const elementer = (await Promise.all(innhold.map((l) => l.all()))).flat();
+    expect(elementer.length).toBeGreaterThan(0);
+    return Math.min(...(await Promise.all(elementer.map(async (el) => (await boks(el)).y))));
+  };
+  await expect.poll(overst, "toppen av innholdet står under pillen").toBeGreaterThanOrEqual(p.y + p.height);
+}
+
+/**
+ * Venter til alle flisene i `flate` er ferdige, lastet eller feilet, og det finnes minst én. Leaflet merker
+ * bare fliser som har lastet, så testen ser på om bildet er ferdig.
+ */
+async function ventPaFliser(flate: Locator) {
+  await expect(flate.locator(".leaflet-tile").first()).toBeAttached();
+  await expect
+    .poll(() => flate.locator("img.leaflet-tile").evaluateAll((f) => f.every((e) => (e as HTMLImageElement).complete)))
+    .toBe(true);
+}
+
+/** Avstanden i px mellom de to første Startpunkt-markørene, som følger zoomen, men ikke panoreringen. */
+async function startavstand(startpunkter: Locator) {
+  const [a, b] = [await boks(startpunkter.nth(0)), await boks(startpunkter.nth(1))];
+  return Math.hypot(a.x + a.width / 2 - (b.x + b.width / 2), a.y + a.height / 2 - (b.y + b.height / 2));
+}
+
+test.describe("Bakgrunnskartet laster ikke, Resultat på PC", () => {
+  test.use({ viewport: PC });
+
+  test("kartet er papirfarget med ruter, Startpunkter, Mål og teksten, kortene står, og zoom virker", async ({
+    page,
+  }) => {
+    const feilet = await blokkerFliser(page);
+    await giMal(page);
+    await page.goto("/?demo=uten-vaer");
+    const kort = turforslag(await finnTur(page));
+    const d = deler(page);
+    await expect(d.kart.getByTestId("kart-bakgrunn-feil")).toBeVisible();
+    expect(feilet.length).toBeGreaterThan(0);
+
+    await sjekkPapirflate(d.kart.locator(".leaflet-container"));
+    // Tre ruter (halo og linje), Startpunktene med alle numrene, to Mål, etiketten, tegnforklaringen og
+    // krediteringen.
+    await expect(d.stier).toHaveCount(6);
+    expect((await numre(d.startpunkter)).flat().sort()).toEqual(kort.map((k) => k.kart.nummer).sort());
+    await expect(d.kart.getByTestId("kart-mal")).toHaveCount(2);
+    await expect(d.etikett).toBeVisible();
+    await expect(d.forklaring).toBeVisible();
+    await expect(d.kreditering).toBeVisible();
+    await sjekkUnderPillen(d.kart, [d.stier, d.kart.getByTestId("kart-mal"), d.etikett, d.startpunkter]);
+    await sjekkFeilpille(d.kart, kartinnhold(d));
+
+    // Turkortene står som før.
+    await expect(page.getByTestId("turkort").filter({ visible: true })).toHaveCount(3);
+
+    // Zoomknappene virker: ruten blir større og mindre igjen.
+    const for_ = await rutebredde(d.stier);
+    await d.zoomInn.click();
+    await expect.poll(() => rutebredde(d.stier)).toBeGreaterThan(for_ * 1.5);
+    // Leaflet overser et nytt trykk mens kartet zoomer.
+    await expect(d.kart.locator(".leaflet-zoom-anim")).toHaveCount(0);
+    await d.zoomUt.click();
+    await expect.poll(() => rutebredde(d.stier)).toBeCloseTo(for_, 0);
+    // Teksten står fortsatt, og ingen fliser er hentet på nytt i kartet.
+    await expect(d.kart.getByTestId("kart-bakgrunn-feil")).toBeVisible();
+    await expect(d.kart.locator(".leaflet-tile")).toHaveCount(0);
+  });
+
+  test("et avbrutt nettverkskall gir samme papirflate og tekst som et svar som ikke er et bilde", async ({ page }) => {
+    await blokkerFliser(page, "avbryt");
+    await page.goto("/?demo=uten-vaer");
+    await finnTur(page);
+    const d = deler(page);
+    await expect(d.kart.getByTestId("kart-bakgrunn-feil")).toHaveText(BAKGRUNNSKART_FEIL);
+    await sjekkPapirflate(d.kart.locator(".leaflet-container"));
+    await expect(d.stier).toHaveCount(6);
+  });
+});
+
+test.describe("Bakgrunnskartet feiler etter at brukeren har zoomet", () => {
+  test.use({ viewport: PC, reducedMotion: "reduce" });
+
+  test("kartet zoomer ikke tilbake til rutene når teksten kommer", async ({ page }) => {
+    // Flisene laster til `feil` settes. Da feiler de nye flisene.
+    let feil = false;
+    await page.route(`${KARTFLISER}/**`, (route) =>
+      feil ? route.fulfill({ status: 503, contentType: "text/html", body: "<p>Utilgjengelig</p>" }) : route.fallback(),
+    );
+    await page.goto("/?demo=uten-vaer");
+    await finnTur(page);
+    const d = deler(page);
+    const z = await rolig(d.kart);
+    const for_ = await startavstand(d.startpunkter);
+    await d.zoomInn.click();
+    await ventPaZoom(d.kart, z + 1);
+    const zoomet = await startavstand(d.startpunkter);
+    expect(zoomet).toBeGreaterThan(for_ * 1.5);
+
+    // Brukeren drar kartet, og flisene som kommer til, feiler.
+    feil = true;
+    const kart = await boks(d.kart);
+    await page.mouse.move(kart.x + kart.width / 2, kart.y + kart.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(kart.x + kart.width / 2 - 600, kart.y + kart.height / 2 - 150, { steps: 10 });
+    await page.mouse.up();
+    await expect(d.kart.getByTestId("kart-bakgrunn-feil")).toBeVisible();
+    await ventLitt(page);
+    // Samme zoom som brukeren valgte: Startpunktene står like langt fra hverandre som etter «Zoom inn».
+    expect(await startavstand(d.startpunkter)).toBeCloseTo(zoomet, 0);
+  });
+});
+
+for (const viewport of [NETTBRETT, { width: 600, height: 900 }, { width: 599, height: 900 }]) {
+  test(`hovedkartet uten bakgrunnskart ved ${viewport.width} px har teksten klar av innholdet`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await blokkerFliser(page);
+    await giMal(page);
+    await page.goto("/?demo=uten-vaer");
+    await finnTur(page);
+    const d = deler(page);
+    await expect(d.kart.getByTestId("kart-bakgrunn-feil")).toHaveText(BAKGRUNNSKART_FEIL);
+    await sjekkPapirflate(d.kart.locator(".leaflet-container"));
+    await sjekkUnderPillen(d.kart, [d.stier, d.kart.getByTestId("kart-mal"), d.etikett, d.startpunkter]);
+    await sjekkFeilpille(d.kart, kartinnhold(d));
+    // Teksten står på én linje.
+    expect((await boks(d.kart.getByTestId("kart-bakgrunn-feil"))).height).toBeLessThan(32);
+  });
+}
+
+test.describe("Bakgrunnskartet laster ikke, Resultat på mobil", () => {
+  test.use({ viewport: MOBIL });
+
+  test("hovedkartet og Kartutsnittet er papirfarget, Stokken blar, og «Vis på kartet» ruller", async ({ page }) => {
+    await blokkerFliser(page);
+    await giMal(page);
+    await page.goto("/?demo=uten-vaer");
+    await finnTur(page);
+    const d = deler(page);
+    await expect(d.kart.getByTestId("kart-bakgrunn-feil")).toHaveText(BAKGRUNNSKART_FEIL);
+    await sjekkPapirflate(d.kart.locator(".leaflet-container"));
+    await expect(d.stier).toHaveCount(6);
+    await expect(d.startpunkter.first()).toBeVisible();
+    await sjekkUnderPillen(d.kart, [d.stier, d.kart.getByTestId("kart-mal"), d.etikett, d.startpunkter]);
+    await sjekkFeilpille(d.kart, kartinnhold(d));
+
+    for (const nummer of [1, 2]) {
+      const artikkel = synligKort(page);
+      const u = utsnitt(artikkel);
+      await expect(u.merke).toHaveText(`Turforslag ${nummer} av 3`);
+      await sjekkPapirflate(u.leaflet);
+      await expect(u.stier).toHaveCount(2);
+      await expect.poll(() => numre(u.startpunkter)).toEqual([[nummer]]);
+      // Ingen synlig tekst i utsnittet, bare den skjulte teksten for skjermlesere, utenfor knappen.
+      await expect(artikkel.getByTestId("kart-bakgrunn-feil")).toHaveCount(0);
+      const skjult = artikkel.getByTestId("kart-bakgrunn-feil-skjult");
+      await expect(skjult).toHaveText(BAKGRUNNSKART_FEIL);
+      await expect(skjult).toHaveAttribute("role", "status");
+      expect(await skjult.evaluate((el) => el.closest("button, [aria-hidden='true']"))).toBeNull();
+      expect(await skjult.evaluate((el) => (el as HTMLElement).offsetWidth)).toBeLessThanOrEqual(1);
+      if (nummer === 1) await page.getByRole("button", { name: "Neste Turforslag" }).click();
+    }
+
+    // Kort 1 er ikke lenger det synlige kortet. Kartet i det er fjernet, og den skjulte teksten er tom.
+    const kort1 = page
+      .getByTestId("stokk")
+      .getByRole("article")
+      .filter({ has: page.getByTestId("kartutsnitt-merke").filter({ hasText: "Turforslag 1 av 3" }) });
+    await expect(kort1.locator(".leaflet-container")).toHaveCount(0);
+    await expect(kort1.getByTestId("kart-bakgrunn-feil-skjult")).toHaveText("");
+
+    // «Vis på kartet» ruller til hovedkartet.
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(d.kart).not.toBeInViewport();
+    await utsnitt(synligKort(page)).knapp.click();
+    await expect(d.kart).toBeInViewport({ ratio: 1 });
+    await expect(page.getByRole("region", { name: "Kart" })).toBeFocused();
+
+    // Fra 1200 px har kortene ingen Kartutsnitt, og ingen skjult tekst står igjen.
+    await page.setViewportSize(PC);
+    await expect(page.getByTestId("stokk").locator(".leaflet-container")).toHaveCount(0);
+    const skjulte = page.getByTestId("kart-bakgrunn-feil-skjult");
+    await expect(skjulte.first()).toBeAttached();
+    for (const skjult of await skjulte.all()) await expect(skjult).toHaveText("");
+  });
+});
+
+for (const viewport of [PC, { width: 1200, height: 900 }]) {
+  test(`Søk-kartet uten bakgrunnskart er papirfarget med Startpunktene og teksten ved ${viewport.width} px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await blokkerFliser(page);
+    await page.goto("/?demo=uten-vaer");
+    const k = sokKart(page);
+    await expect(k.kart.getByTestId("kart-bakgrunn-feil")).toHaveText(BAKGRUNNSKART_FEIL);
+    await sjekkPapirflate(k.leaflet);
+    await expect(k.startpunkter).toHaveCount(ANTALL_STARTPUNKTER);
+    await expect(k.telletekst).toHaveText(TELLETEKST);
+    // Teksten står midt i plassen til høyre for Omradeboksen, ikke over den, og Startpunktene står under den.
+    const andre = [k.omradeboks, k.zoomInn, k.zoomUt, k.startpunkter, k.forklaring, k.kreditering];
+    await sjekkUnderPillen(k.kart, [k.startpunkter]);
+    await sjekkFeilpille(k.kart, andre, false);
+    const flate = await boks(k.kart);
+    const [p, o] = [await boks(k.kart.getByTestId("kart-bakgrunn-feil")), await boks(k.omradeboks)];
+    const fri = { fra: o.x + o.width, til: flate.x + flate.width };
+    expect(Math.abs(p.x + p.width / 2 - (fri.fra + fri.til) / 2), "midt i plassen til høyre").toBeLessThan(8);
+    for (const punkt of await k.startpunkter.all()) expect(inneI(await boks(punkt), flate)).toBe(true);
+
+    // Skjemaet virker: «Finn tur» gir Resultatet.
+    await finnTur(page);
+    await expect(page.getByTestId("sok-kart")).toHaveCount(0);
+    await expect(deler(page).kart.getByTestId("kart-bakgrunn-feil")).toBeVisible();
+  });
+}
+
+test.describe("Søk-kartet med noen feilede fliser", () => {
+  test.use({ viewport: PC });
+
+  test("to fliser som feiler etter at de andre har lastet, gir ingen tekst, og bakgrunnen står", async ({ page }) => {
+    // Forespørsel nr. 2 og 3 feiler etter 500 ms, så de andre har lastet først. Resten laster.
+    let antall = 0;
+    let feilet = 0;
+    await page.route(`${KARTFLISER}/**`, async (route) => {
+      antall++;
+      if (antall !== 2 && antall !== 3) return route.fallback();
+      await new Promise((ferdig) => setTimeout(ferdig, 500));
+      feilet++;
+      return route.fulfill({ status: 503, contentType: "text/html", body: "<p>Utilgjengelig</p>" });
+    });
+    await page.goto("/?demo=uten-vaer");
+    const k = sokKart(page);
+    await ventPaFliser(k.leaflet);
+    expect(feilet).toBe(2);
+    await expect(k.kart.getByTestId("kart-bakgrunn-feil")).toHaveCount(0);
+    await expect(k.leaflet.locator(".leaflet-tile").first()).toBeVisible();
+    expect(await bakgrunn(k.leaflet)).not.toBe(PAPIR);
+  });
+
+  test("fliser som aldri svarer, gir teksten etter fristen", async ({ page }) => {
+    test.setTimeout(40_000);
+    await page.route(`${KARTFLISER}/**`, () => {});
+    await page.goto("/?demo=uten-vaer");
+    const k = sokKart(page);
+    await expect(k.startpunkter).toHaveCount(ANTALL_STARTPUNKTER);
+    await page.waitForTimeout(3000);
+    await expect(k.kart.getByTestId("kart-bakgrunn-feil")).toHaveCount(0);
+    await expect(k.kart.getByTestId("kart-bakgrunn-feil")).toHaveText(BAKGRUNNSKART_FEIL, { timeout: 15_000 });
+    await sjekkPapirflate(k.leaflet);
+  });
+});
+
+test.describe("Bakgrunnskartet laster ikke, Frarådet (uj-3)", () => {
+  test.use({ viewport: MOBIL });
+
+  test("kartet på Frarådet-kortet er papirfarget med vindstreker, og «Bruk i morgen 11:00» virker", async ({
+    page,
+  }) => {
+    await blokkerFliser(page);
+    await page.goto("/?demo=uj-3");
+    expect((await finnTur(page)).utfall.type).toBe("fraradet");
+    const kort = page.getByTestId("fraradet-kort");
+    const flate = kort.getByTestId("vindflate");
+    const skjult = kort.getByTestId("kart-bakgrunn-feil-skjult");
+    await expect(skjult).toHaveText(BAKGRUNNSKART_FEIL);
+    await expect(skjult).toHaveAttribute("role", "status");
+    expect(await skjult.evaluate((el) => el.closest("[aria-hidden='true']"))).toBeNull();
+    await sjekkPapirflate(flate.locator(".leaflet-container"));
+    await expect(flate.getByTestId("vindstreker")).toBeVisible();
+    await expect(flate.getByRole("link", { name: /© Kartverket/ })).toBeVisible();
+    await expect(page.getByTestId("kart-bakgrunn-feil")).toHaveCount(0);
+
+    const svar = page.waitForResponse((r) => r.request().method() === "POST" && ER_SOK(new URL(r.url())));
+    await page.getByRole("button", { name: "Bruk i morgen 11:00" }).click();
+    expect((await svar).ok()).toBe(true);
+    await expect(page.getByTestId("turkort").filter({ visible: true }).first()).toBeVisible();
+    await expect(page.getByTestId("fraradet-kort")).toHaveCount(0);
+  });
+});
+
+test.describe("Bakgrunnskartet laster", () => {
+  for (const [navn, viewport] of [
+    ["PC", PC],
+    ["mobil", MOBIL],
+  ] as const) {
+    test(`ingen tekst om bakgrunnskartet når flisene laster (${navn})`, async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await page.goto("/?demo=uten-vaer");
+      if (viewport === PC) {
+        await ventPaFliser(sokKart(page).leaflet);
+        await expect(page.getByTestId("kart-bakgrunn-feil")).toHaveCount(0);
+      }
+      await finnTur(page);
+      const d = deler(page);
+      await ventPaFliser(d.kart.locator(".leaflet-container"));
+      if (viewport === MOBIL) await ventPaFliser(utsnitt(synligKort(page)).leaflet);
+      await expect(page.getByTestId("kart-bakgrunn-feil")).toHaveCount(0);
+      for (const skjult of await page.getByTestId("kart-bakgrunn-feil-skjult").all()) {
+        await expect(skjult).toHaveText("");
+      }
+      expect(await bakgrunn(d.kart.locator(".leaflet-container"))).not.toBe(PAPIR);
+    });
+  }
 });

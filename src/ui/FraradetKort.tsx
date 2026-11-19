@@ -1,5 +1,8 @@
-import { useId } from "react";
+"use client";
+
+import { useId, useState } from "react";
 import type { Utfall, Vaer } from "@/kjerne/visning/skjema";
+import { SkjultBakgrunnsfeil } from "./Bakgrunnsfeil";
 import stil from "./FraradetKort.module.css";
 import { MOLDEMARKA } from "./kart-data";
 import { KartLaster } from "./KartLaster";
@@ -18,6 +21,9 @@ import turkort from "./Turkort.module.css";
 // overlinjen DERFOR INGEN TUR med radene Vær og Tid, og nederst lenken til MET sine farevarsler, som
 // åpner i ny fane. Kortet er ikke interaktivt utenom lenkene. Det er én artikkel med «Ingen Turforslag» og
 // Værklassen som navn.
+//
+// Laster ikke bakgrunnskartet (story 3.4), er kartet papirfarget med vindstrekene over, og teksten om det står
+// bare for skjermlesere.
 
 type VaerVurdert = Extract<Vaer, { type: "vurdert" }>;
 type Fraradet = Extract<Utfall, { type: "fraradet" }>;
@@ -41,12 +47,14 @@ export function FraradetKort({ vaer, utfall }: Props) {
   const ingenId = useId();
   const tittelId = useId();
   const [vaerRad, tidRad] = utfall.kriterier;
+  const [bakgrunnFeilet, settBakgrunnFeilet] = useState(false);
   return (
     <article className={stil.kort} aria-labelledby={`${ingenId} ${tittelId}`} data-testid="fraradet-kort">
       <div className={stil.vindflate} data-testid="vindflate">
         <div className={stil.kart} aria-hidden="true">
-          <KartLaster kort={INGEN_KORT} valgt={0} statisk omrade={MOLDEMARKA} />
+          <KartLaster kort={INGEN_KORT} valgt={0} statisk omrade={MOLDEMARKA} onBakgrunnFeil={settBakgrunnFeilet} />
         </div>
+        <SkjultBakgrunnsfeil feilet={bakgrunnFeilet} />
         <svg
           className={stil.vindstreker}
           viewBox="0 0 400 120"

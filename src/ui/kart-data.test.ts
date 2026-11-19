@@ -11,6 +11,7 @@ import {
   MOLDEMARKA,
   punktgrenser,
   SOK_PRIKK,
+  sokflate,
   sokMarg,
 } from "./kart-data";
 
@@ -105,6 +106,32 @@ describe("punktgrenser", () => {
 
   it("gir null uten punkter", () => {
     expect(punktgrenser([])).toBeNull();
+  });
+});
+
+describe("sokflate", () => {
+  // Kartflaten starter 100 px ned i vinduet, med kant på 1,4 px. Hjørnegruppen står 12 px inn: Omradeboksen
+  // er 66 px høy, og zoomknappene står 12 px under den og er 88 px høye, så gruppen slutter 178 px ned.
+  const innside = { top: 101.4, hoyde: 900 };
+  const hjorne = { top: 113.4, bottom: 113.4 + 178 };
+
+  it("måler bunnen av hele hjørnegruppen fra innsiden av kartflaten, ikke bare høyden til boksen", () => {
+    const m = sokflate(innside, hjorne, null, [{ top: 950, bottom: 980 }, { top: 960, bottom: 1000 }]);
+    expect(m.hoyde).toBe(900);
+    expect(m.hjorneBunn).toBeCloseTo(190, 6);
+    expect(m.bunnTopp).toBeCloseTo(950 - 101.4, 6);
+    // Toppmargen i kartet holder prikkene under zoomknappene.
+    expect(sokMarg(m).topp).toBeCloseTo(190 + 16, 6);
+  });
+
+  it("bruker teksten om bakgrunnskartet når den står lavere enn hjørnet, og hopper over den når den er tom", () => {
+    expect(sokflate(innside, hjorne, { top: 113.4, bottom: 400 }, []).hjorneBunn).toBeCloseTo(400 - 101.4, 6);
+    expect(sokflate(innside, hjorne, { top: 113.4, bottom: 113.4 }, []).hjorneBunn).toBeCloseTo(190, 6);
+    expect(sokflate(innside, null, { top: 113.4, bottom: 140 }, []).hjorneBunn).toBeCloseTo(140 - 101.4, 6);
+  });
+
+  it("gir `null` for det som ikke er målt", () => {
+    expect(sokflate(innside, null, null, [null, null])).toEqual({ hoyde: 900, hjorneBunn: null, bunnTopp: null });
   });
 });
 

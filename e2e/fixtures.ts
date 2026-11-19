@@ -1,10 +1,13 @@
 import { crc32, deflateSync } from "node:zlib";
-import { test as base, expect } from "@playwright/test";
+import { test as base, expect, type Page } from "@playwright/test";
 import { KARTFLISER_URL } from "../src/ui/kart-data";
 
 // Felles `test` og `expect` for alle e2e-filer (story 3.1, AR-20). En automatisk fixture stubber
 // kartflisene fra Kartverket med en liten grå PNG for hele nettleserkonteksten, så ingen test kaller
 // cache.kartverket.no. `kartfliser` er URL-ene til flisene som ble stubbet, i rekkefølge.
+//
+// Story 3.4: `blokkerFliser` lar flisene feile for én side. Ruten på siden går foran fixturen på konteksten,
+// så heller ikke da kalles Kartverket.
 
 /** Opphavet til kartflisene (KARTFLISER_URL). Alle forespørsler hit stubbes. */
 export const KARTFLISER = new URL(KARTFLISER_URL).origin;
@@ -47,5 +50,19 @@ export const test = base.extend<{ kartfliser: string[] }>({
     { auto: true },
   ],
 });
+
+/**
+ * Lar alle kartfliser feile for `page`: «503» svarer 503 med en HTML-side (ikke et bilde), og «avbryt»
+ * avbryter forespørselen som et nettverksbrudd. Gir URL-ene til flisene som feilet, i rekkefølge.
+ */
+export async function blokkerFliser(page: Page, maate: "503" | "avbryt" = "503"): Promise<string[]> {
+  const urler: string[] = [];
+  await page.route(`${KARTFLISER}/**`, (route) => {
+    urler.push(route.request().url());
+    if (maate === "avbryt") return route.abort("failed");
+    return route.fulfill({ status: 503, contentType: "text/html", body: "<!doctype html><p>Utilgjengelig</p>" });
+  });
+  return urler;
+}
 
 export { expect, KARTFLISER_URL };

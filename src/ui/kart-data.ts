@@ -81,6 +81,31 @@ export type Sokflate = {
   bunnTopp: number | null;
 };
 
+/** En boks målt i px i vinduet, som fra `getBoundingClientRect`. */
+export type Malt = { top: number; bottom: number };
+
+/**
+ * Overleggene på Søk-kartet i px fra toppen av innsiden av kartflaten (der Leaflet-flaten starter), fra
+ * boksene slik nettleseren har målt dem. `innside` er toppen av innsiden og høyden. Øverst er det den laveste
+ * av hjørnegruppen (Omradeboksen med zoomknappene under) og teksten om bakgrunnskartet. En boks uten høyde
+ * (teksten uten feil) eller `null` (ikke målt ennå) teller ikke.
+ */
+export function sokflate(
+  innside: { top: number; hoyde: number },
+  hjorne: Malt | null,
+  feil: Malt | null,
+  bunn: readonly (Malt | null)[],
+): Sokflate {
+  const har = (b: Malt | null): b is Malt => b !== null && b.bottom > b.top;
+  const overst = [hjorne, feil].filter(har).map((b) => b.bottom - innside.top);
+  const nederst = bunn.filter(har).map((b) => b.top - innside.top);
+  return {
+    hoyde: innside.hoyde,
+    hjorneBunn: overst.length > 0 ? Math.max(...overst) : null,
+    bunnTopp: nederst.length > 0 ? Math.min(...nederst) : null,
+  };
+}
+
 /**
  * Margen i px rundt Startpunktene på Søk-kartet (story 3.3). Prikkene holdes under hjørnet øverst og over
  * tegnforklaringen og krediteringen nederst, og til sidene står hele prikken inne i kartet. Er kartflaten

@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { SkjultBakgrunnsfeil } from "./Bakgrunnsfeil";
 import { useUnderPc } from "./brytepunkt";
 import type { Kartkort } from "./kart-data";
 import { KartLaster } from "./KartLaster";
@@ -22,6 +23,9 @@ import { BAKGRUNNSKART, KART, KARTUTSNITT, NY_FANE } from "./tekster";
 // forsvinner. CSS skjuler det fra 1200 px, og PC har ikke Kartutsnitt. Selve kartet monteres bare når
 // `medKart` (kortet som vises i Stokken, eller Alternativkortet) og under 1200 px (`useUnderPc`). Ellers
 // står den tomme kartflaten, og PC og kortene bak i Stokken lager ingen Leaflet-kart og henter ingen fliser.
+//
+// Laster ikke bakgrunnskartet (story 3.4), er utsnittet papirfarget med ruten og Startpunktet. Teksten om det
+// står bare for skjermlesere, utenfor knappen, fordi den ikke får plass på 104 px.
 
 type Props = {
   kort: Kartkort;
@@ -38,6 +42,7 @@ export function Kartutsnitt({ kort, merke, onVisPaKartet, medKart }: Props) {
   const rot = useRef<HTMLDivElement>(null);
   // Pillene kartet holder ruten og Startpunktet klar av.
   const merker = useCallback(() => [...(rot.current?.querySelectorAll("[data-pille]") ?? [])], []);
+  const [bakgrunnFeilet, settBakgrunnFeilet] = useState(false);
 
   return (
     <div ref={rot} className={stil.utsnitt}>
@@ -49,13 +54,16 @@ export function Kartutsnitt({ kort, merke, onVisPaKartet, medKart }: Props) {
         data-testid="kartutsnitt"
       >
         <span className={stil.kart} aria-hidden="true">
-          {medKart && underPc && <KartLaster kort={kortene} valgt={0} statisk merker={merker} />}
+          {medKart && underPc && (
+            <KartLaster kort={kortene} valgt={0} statisk merker={merker} onBakgrunnFeil={settBakgrunnFeilet} />
+          )}
         </span>
         <span className={stil.merke} aria-hidden="true" data-pille data-testid="kartutsnitt-merke">
           {merke}
         </span>
       </button>
       <Kartmerke rute />
+      <SkjultBakgrunnsfeil feilet={bakgrunnFeilet} />
     </div>
   );
 }

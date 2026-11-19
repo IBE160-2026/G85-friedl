@@ -1,6 +1,7 @@
 import type { Page } from "@playwright/test";
-import { expect, test } from "./fixtures";
+import { blokkerFliser, expect, test } from "./fixtures";
 import type { Resultatvisning } from "../src/kjerne/visning/skjema";
+import { BAKGRUNNSKART_FEIL } from "../src/ui/tekster";
 
 // Story 1.15: sjekklisten i SM-4 (NFR-1) ved 360, 768 og 1440 px, for Søk, Turforslag (standard-Søk),
 // Alternativ (15 min), Kontaktfeil og panelet for en ukjent demo-ID, mot ?demo=uten-vaer, fra
@@ -210,24 +211,71 @@ function hoverRegler(page: Page) {
   });
 }
 
+/** Sjekklisten i SM-4 for siden slik den står. */
+async function sjekkSm4(page: Page) {
+  const [scrollbredde, klientbredde] = await page.evaluate(() => [
+    document.documentElement.scrollWidth,
+    document.documentElement.clientWidth,
+  ]);
+  expect(scrollbredde, "horisontal rulling").toBeLessThanOrEqual(klientbredde);
+
+  expect(await smaTrykkflater(page), "trykkflater under 44 × 44 px").toEqual([]);
+
+  await expect(page.locator("[title]"), "title-attributter").toHaveCount(0);
+  await expect(page.locator("svg title"), "SVG-<title>").toHaveCount(0);
+  expect(await hoverRegler(page), ":hover-regler som viser eller skjuler noe").toEqual([]);
+}
+
 for (const { bredde, hoyde } of BREDDER) {
   for (const visning of VISNINGER) {
     test(`SM-4: ${visning.navn} ved ${bredde} px`, async ({ page }) => {
       await page.setViewportSize({ width: bredde, height: hoyde });
       await page.goto(visning.url ?? DEMO);
       await visning.apne(page);
+      await sjekkSm4(page);
+    });
+  }
+}
 
-      const [scrollbredde, klientbredde] = await page.evaluate(() => [
-        document.documentElement.scrollWidth,
-        document.documentElement.clientWidth,
-      ]);
-      expect(scrollbredde, "horisontal rulling").toBeLessThanOrEqual(klientbredde);
+// Story 3.4: SM-4 også når kartflisene feiler, for visningene med kart. Teksten om bakgrunnskartet står da
+// som pille på det store kartet og Søk-kartet, og som skjult tekst ved det statiske kartet.
+const MED_KART = ["Søk", "Turforslag", "Alternativ", "Frarådet (uj-3)"];
 
-      expect(await smaTrykkflater(page), "trykkflater under 44 × 44 px").toEqual([]);
+test("visningene med kart finnes i VISNINGER", () => {
+  expect(VISNINGER.map((v) => v.navn)).toEqual(expect.arrayContaining(MED_KART));
+});
 
-      await expect(page.locator("[title]"), "title-attributter").toHaveCount(0);
-      await expect(page.locator("svg title"), "SVG-<title>").toHaveCount(0);
-      expect(await hoverRegler(page), ":hover-regler som viser eller skjuler noe").toEqual([]);
+for (const { bredde, hoyde } of BREDDER) {
+  for (const visning of VISNINGER.filter((v) => MED_KART.includes(v.navn))) {
+    test(`SM-4 uten bakgrunnskart: ${visning.navn} ved ${bredde} px`, async ({ page }) => {
+      await page.setViewportSize({ width: bredde, height: hoyde });
+      await blokkerFliser(page);
+      await page.goto(visning.url ?? DEMO);
+      await visning.apne(page);
+      const pille = page.getByTestId("kart-bakgrunn-feil");
+      const skjult = page.getByTestId("kart-bakgrunn-feil-skjult").filter({ hasText: BAKGRUNNSKART_FEIL });
+      if (visning.navn === "Søk") {
+        if (bredde >= 1200) {
+          await expect(page.getByTestId("sok-kart").getByTestId("kart-bakgrunn-feil")).toHaveText(BAKGRUNNSKART_FEIL);
+        } else {
+          // Under 1200 px har Søk ikke noe kart, så ingen tekst om bakgrunnskartet.
+          await expect(pille).toHaveCount(0);
+          await expect(skjult).toHaveCount(0);
+        }
+      } else if (visning.navn === "Frarådet (uj-3)") {
+        // Bare det statiske kartet på Frarådet-kortet: skjult tekst, ingen pille.
+        await expect(skjult).toHaveCount(1);
+        await expect(pille).toHaveCount(0);
+      } else {
+        // Turforslag og Alternativ har det store kartet med pillen. Ved Alternativet står det store kartet
+        // både for PC og for mobil i DOM-en, og CSS viser ett, så bare det synlige sjekkes. Under 1200 px har
+        // kortet i tillegg Kartutsnittet med den skjulte teksten.
+        const kart = page.getByTestId("kart").filter({ visible: true });
+        await expect(kart.getByTestId("kart-bakgrunn-feil")).toHaveText(BAKGRUNNSKART_FEIL);
+        if (bredde < 1200) await expect(skjult.first()).toBeAttached();
+        else await expect(skjult).toHaveCount(0);
+      }
+      await sjekkSm4(page);
     });
   }
 }

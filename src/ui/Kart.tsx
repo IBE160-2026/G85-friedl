@@ -7,6 +7,7 @@ import {
   type Ref,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -26,8 +27,10 @@ import {
   punktgrenser,
   SOK_PRIKK,
   type Sokflate,
+  sokflate,
   sokMarg,
 } from "./kart-data";
+import { Bakgrunnsfeil, flisvakt } from "./Bakgrunnsfeil";
 import stil from "./Kart.module.css";
 import { Omradeboks } from "./Omradeboks";
 import skjult from "./skjult.module.css";
@@ -59,6 +62,13 @@ import { BAKGRUNNSKART, KART, NY_FANE, ZOOM_INN, ZOOM_UT } from "./tekster";
 // zoomer slik at alle synes. Øverst til venstre står «Moldemarka» og telleteksten (Omradeboks), med
 // zoomknappene under. Tegnforklaringen viser bare Startpunkt. Prikkene har ingen etikett: skissen har
 // ingen etikett ved hover eller fokus, og ingenting skal kreve hover (EXPERIENCE.md › Interaction).
+//
+// Laster ikke kartflisene (flisvakten i Bakgrunnsfeil.tsx, story 3.4, UX-DR39), fjernes flislaget, og flaten
+// blir papirfarget. Ruter, Startpunkter, Mål og kontrollene står som før. Det interaktive kartet og Søk-kartet
+// viser teksten «Bakgrunnskartet kunne ikke lastes.» øverst i midten, og begge holder innholdet under den,
+// med mindre brukeren har flyttet kartet. På Søk-kartet står teksten midt i plassen til høyre for Omradeboksen. Det statiske kartet
+// melder feilen til kortet (`onBakgrunnFeil`), som har den skjulte teksten for skjermlesere
+// (Bakgrunnsfeil.tsx).
 
 const MIN_ZOOM = 9;
 const MAKS_ZOOM = 17;
@@ -71,12 +81,14 @@ const PIN_STEG = 26;
  * Margen rundt rutene når kartet zoomer til dem. Til venstre står zoomknappene, og nederst står
  * tegnforklaringen, som er `forklaring` px høy. Til sidene er margen minst halve den bredeste
  * Startpunkt-markøren, så en delt markør i kanten ikke klippes. Etiketten «omtrentlig rute» peker inn
- * mot kartet (se `etikettTilVenstre`) og trenger ikke egen marg.
+ * mot kartet (se `etikettTilVenstre`) og trenger ikke egen marg. Står teksten om bakgrunnskartet øverst,
+ * er `feilBunn` bunnen av den i px, og innholdet holdes under den.
  */
-const marg = (forklaring: number, bredesteMarkor: number): FitBoundsOptions => {
+const marg = (forklaring: number, bredesteMarkor: number, feilBunn = 0): FitBoundsOptions => {
   const side = bredesteMarkor / 2 + 8;
+  const topp = Math.max(24, PIN / 2 + 8, feilBunn > 0 ? feilBunn + PIN / 2 + 4 : 0);
   return {
-    paddingTopLeft: [Math.max(64, side), Math.max(24, PIN / 2 + 8)],
+    paddingTopLeft: [Math.max(64, side), topp],
     paddingBottomRight: [Math.max(24, side), forklaring + 24],
     maxZoom: 16,
     animate: false,
@@ -190,6 +202,11 @@ export type KartProps = {
    * zoomer på nytt når de endrer størrelse.
    */
   merker?: () => readonly Element[];
+  /**
+   * Statisk modus: får `true` når bakgrunnskartet ikke laster, og `false` når kartet fjernes. Kortet viser
+   * da den skjulte teksten for skjermlesere (story 3.4).
+   */
+  onBakgrunnFeil?: (feilet: boolean) => void;
 };
 
 function startikon(numre: readonly { nummer: number; valgt: boolean }[]) {
@@ -245,7 +262,25 @@ function useZoom(kart: LeafletKart | null): number | null {
   );
 }
 
-export function Kart({ kort: alleKort, valgt, statisk = false, omrade: fastOmrade, merker }: KartProps) {
+/** Feiltilstanden når flisene ikke laster (story 3.4), med hendelsene til flislaget. */
+function useBakgrunnFeil() {
+  const [feilet, settFeilet] = useState(false);
+  const vakt = useMemo(() => flisvakt(() => settFeilet(true)), []);
+  useEffect(() => vakt.stopp, [vakt]);
+  return [feilet, vakt.hendelser] as const;
+}
+
+/** Bunnen av elementet i px fra toppen av kartflaten, eller 0 når det er tomt. */
+const bunnAv = (el: HTMLElement | null) => (el && el.offsetHeight > 0 ? el.offsetTop + el.offsetHeight : 0);
+
+export function Kart({
+  kort: alleKort,
+  valgt,
+  statisk = false,
+  omrade: fastOmrade,
+  merker,
+  onBakgrunnFeil,
+}: KartProps) {
   // Kartutsnittet viser bare kortets egen rute og Startpunkt (UX-DR38), ikke Mål.
   const kort = useMemo(
     () => (statisk ? alleKort.map((k) => ({ ...k, kart: { ...k.kart, malpunkt: undefined } })) : alleKort),
@@ -254,6 +289,8 @@ export function Kart({ kort: alleKort, valgt, statisk = false, omrade: fastOmrad
   const [kart, settKart] = useState<LeafletKart | null>(null);
   const zoom = useZoom(kart);
   const forklaring = useRef<HTMLDivElement>(null);
+  const feil = useRef<HTMLDivElement>(null);
+  const [bakgrunnFeilet, flis] = useBakgrunnFeil();
   // Leaflet leser valgene bare når kartet lages, så «Reduser bevegelse» leses én gang.
   // Det statiske kartet flytter seg aldri selv, så det har ingen animasjoner.
   const [rolig] = useState(() => statisk || window.matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -293,27 +330,63 @@ export function Kart({ kort: alleKort, valgt, statisk = false, omrade: fastOmrad
   // Kartet zoomer til rutene på nytt hver gang kartflaten eller tegnforklaringen endrer størrelse: når
   // kartet er klart, når tegnforklaringen brytes til flere linjer på smale skjermer, og når høyden
   // endres ved 1200 px. En skjult kartflate (0 px) hoppes over, og den tilpasses når den vises.
+  // Har brukeren dratt eller zoomet det interaktive kartet, beholdes utsnittet hennes til kartflaten selv får
+  // en ny størrelse, også når teksten om bakgrunnskartet kommer, som i Startpunktkart.
   useEffect(() => {
     if (!kart || !omrade) return;
     const flate = kart.getContainer();
+    let egen = false;
+    let brukerStyrt = false;
+    let forrige = { bredde: 0, hoyde: 0 };
+    const merkBruker = () => {
+      if (!egen) brukerStyrt = true;
+    };
+    if (!statisk) kart.on("dragstart zoomstart", merkBruker);
     const tilpass = () => {
       if (flate.clientWidth === 0 || flate.clientHeight === 0) return;
-      kart.invalidateSize({ pan: false });
-      if (fastOmrade) kart.fitBounds(omrade, MARG_OMRADE);
-      else if (statisk) tilpassStatisk(kart, omrade, kort, merker?.() ?? []);
-      else kart.fitBounds(omrade, marg(forklaring.current?.offsetHeight ?? FORKLARING_EN_LINJE, bredesteMarkor));
+      const nyStorrelse = flate.clientWidth !== forrige.bredde || flate.clientHeight !== forrige.hoyde;
+      forrige = { bredde: flate.clientWidth, hoyde: flate.clientHeight };
+      if (brukerStyrt && !nyStorrelse) return;
+      egen = true;
+      try {
+        kart.invalidateSize({ pan: false });
+        if (fastOmrade) kart.fitBounds(omrade, MARG_OMRADE);
+        else if (statisk) tilpassStatisk(kart, omrade, kort, merker?.() ?? []);
+        else {
+          const hoyde = forklaring.current?.offsetHeight ?? FORKLARING_EN_LINJE;
+          kart.fitBounds(omrade, marg(hoyde, bredesteMarkor, bunnAv(feil.current)));
+        }
+      } finally {
+        egen = false;
+      }
     };
     const observator = new ResizeObserver(tilpass);
     observator.observe(flate);
     if (forklaring.current) observator.observe(forklaring.current);
+    // Teksten om bakgrunnskartet er 0 px høy til flisene feiler. Da zoomer kartet på nytt under den.
+    if (feil.current) observator.observe(feil.current);
     for (const merke of merker?.() ?? []) observator.observe(merke);
-    return () => observator.disconnect();
+    return () => {
+      observator.disconnect();
+      kart.off("dragstart zoomstart", merkBruker);
+    };
   }, [kart, omrade, kort, bredesteMarkor, statisk, fastOmrade, merker]);
+
+  // Det statiske kartet melder feilen til kortet, og trekker den tilbake når kartet fjernes.
+  useEffect(() => {
+    if (!bakgrunnFeilet || !onBakgrunnFeil) return;
+    onBakgrunnFeil(true);
+    return () => onBakgrunnFeil(false);
+  }, [bakgrunnFeilet, onBakgrunnFeil]);
 
   if (!omrade) return null;
 
+  const flateklasse = statisk ? stil.statisk : stil.flate;
   return (
-    <div className={statisk ? stil.statisk : stil.flate} data-testid={statisk ? "kart-statisk" : "kart"}>
+    <div
+      className={bakgrunnFeilet ? `${flateklasse} ${stil.flisfeil}` : flateklasse}
+      data-testid={statisk ? "kart-statisk" : "kart"}
+    >
       <div className={stil.kartlag} aria-hidden="true">
         <MapContainer
           ref={settKart}
@@ -342,7 +415,9 @@ export function Kart({ kort: alleKort, valgt, statisk = false, omrade: fastOmrad
           zoomControl={false}
           attributionControl={false}
         >
-          <TileLayer url={KARTFLISER_URL} minZoom={MIN_ZOOM} maxZoom={MAKS_ZOOM} />
+          {!bakgrunnFeilet && (
+            <TileLayer url={KARTFLISER_URL} minZoom={MIN_ZOOM} maxZoom={MAKS_ZOOM} eventHandlers={flis} />
+          )}
           {/* Et nytt valg tegner lagene på nytt, så den valgte ruten havner øverst. */}
           <Fragment key={valgt}>
             {/* Klassen settes med `style`, før stien lages. Farge, bredde og strek står i CSS. */}
@@ -381,7 +456,14 @@ export function Kart({ kort: alleKort, valgt, statisk = false, omrade: fastOmrad
       </div>
 
       {!statisk && (
-        <KartKontroller kart={kart} zoom={zoom} forklaring={forklaring} harMal={harMal(kort)} />
+        <KartKontroller
+          kart={kart}
+          zoom={zoom}
+          forklaring={forklaring}
+          harMal={harMal(kort)}
+          feil={feil}
+          bakgrunnFeilet={bakgrunnFeilet}
+        />
       )}
     </div>
   );
@@ -409,14 +491,20 @@ function sokTilpasning(flate: Sokflate): FitBoundsOptions {
 /** Første tilpasning, før overleggene er målt. Kartet tilpasses på nytt med målene før det tegnes. */
 const SOK_FORSTE = sokTilpasning({ hoyde: Infinity, hjorneBunn: null, bunnTopp: null });
 
-/** Målene til overleggene i Søk-kartet, i px fra toppen av kartflaten. */
-function malSokflate(flate: HTMLElement, hjorne: HTMLElement | null, bunn: (HTMLElement | null)[]): Sokflate {
-  const topper = bunn.filter((el): el is HTMLElement => el !== null).map((el) => el.offsetTop);
-  return {
-    hoyde: flate.clientHeight,
-    hjorneBunn: hjorne ? hjorne.offsetTop + hjorne.offsetHeight : null,
-    bunnTopp: topper.length > 0 ? Math.min(...topper) : null,
-  };
+/**
+ * Målene til overleggene i Søk-kartet (`sokflate` i kart-data.ts). `hjorne` er hele hjørnegruppen, med
+ * Omradeboksen og zoomknappene, og `feil` er teksten om bakgrunnskartet. Alt måles i vinduet, så det ikke
+ * avhenger av hvilket element som er utgangspunktet for `offsetTop`.
+ */
+function malSokflate(
+  flate: HTMLElement,
+  hjorne: HTMLElement | null,
+  feil: HTMLElement | null,
+  bunn: (HTMLElement | null)[],
+): Sokflate {
+  const mal = (el: HTMLElement | null) => el?.getBoundingClientRect() ?? null;
+  const innside = { top: flate.getBoundingClientRect().top + flate.clientTop, hoyde: flate.clientHeight };
+  return sokflate(innside, mal(hjorne), mal(feil), bunn.map(mal));
 }
 
 export type StartpunktkartProps = {
@@ -434,6 +522,9 @@ export function Startpunktkart({ startpunkter, telletekst }: StartpunktkartProps
   const forklaring = useRef<HTMLDivElement>(null);
   const kreditering = useRef<HTMLAnchorElement>(null);
   const hjorne = useRef<HTMLDivElement>(null);
+  const hjornegruppe = useRef<HTMLDivElement>(null);
+  const feil = useRef<HTMLDivElement>(null);
+  const [bakgrunnFeilet, flis] = useBakgrunnFeil();
   const [rolig] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   const omrade = useMemo(() => punktgrenser(startpunkter), [startpunkter]);
 
@@ -458,14 +549,16 @@ export function Startpunktkart({ startpunkter, telletekst }: StartpunktkartProps
       egen = true;
       try {
         kart.invalidateSize({ pan: false });
-        const maal = malSokflate(f, hjorne.current, [forklaring.current, kreditering.current]);
+        const bunn = [forklaring.current, kreditering.current];
+        const maal = malSokflate(f, hjornegruppe.current, feil.current, bunn);
         kart.fitBounds(omrade, sokTilpasning(maal));
       } finally {
         egen = false;
       }
     };
     const observator = new ResizeObserver(tilpass);
-    for (const el of [flate.current, hjorne.current, forklaring.current, kreditering.current]) {
+    const overlegg = [hjornegruppe.current, feil.current, forklaring.current, kreditering.current];
+    for (const el of [flate.current, ...overlegg]) {
       if (el) observator.observe(el);
     }
     return () => {
@@ -474,10 +567,31 @@ export function Startpunktkart({ startpunkter, telletekst }: StartpunktkartProps
     };
   }, [kart, omrade]);
 
+  // Teksten om bakgrunnskartet (story 3.4) står midt i plassen til høyre for Omradeboksen. Høyre kant av
+  // boksen settes før kartet tegnes første gang, og på nytt når boksen eller kartflaten endrer størrelse.
+  useLayoutEffect(() => {
+    const f = flate.current;
+    const h = hjorne.current;
+    if (!f || !h) return;
+    const mal = () => {
+      const hoyre = h.getBoundingClientRect().right - f.getBoundingClientRect().left;
+      f.style.setProperty("--hjorne-hoyre", `${hoyre}px`);
+    };
+    mal();
+    const observator = new ResizeObserver(mal);
+    observator.observe(h);
+    observator.observe(f);
+    return () => observator.disconnect();
+  }, [omrade]);
+
   if (!omrade) return null;
 
   return (
-    <div ref={flate} className={`${stil.flate} ${stil.fyll}`} data-testid="sok-kart-flate">
+    <div
+      ref={flate}
+      className={`${stil.flate} ${stil.fyll}${bakgrunnFeilet ? ` ${stil.flisfeil}` : ""}`}
+      data-testid="sok-kart-flate"
+    >
       <div className={stil.kartlag} aria-hidden="true">
         <MapContainer
           ref={settKart}
@@ -495,7 +609,9 @@ export function Startpunktkart({ startpunkter, telletekst }: StartpunktkartProps
           zoomControl={false}
           attributionControl={false}
         >
-          <TileLayer url={KARTFLISER_URL} minZoom={MIN_ZOOM} maxZoom={MAKS_ZOOM} />
+          {!bakgrunnFeilet && (
+            <TileLayer url={KARTFLISER_URL} minZoom={MIN_ZOOM} maxZoom={MAKS_ZOOM} eventHandlers={flis} />
+          )}
           {startpunkter.map((p) => (
             <Marker
               key={`${p.navn}|${p.lat},${p.lon}`}
@@ -516,6 +632,9 @@ export function Startpunktkart({ startpunkter, telletekst }: StartpunktkartProps
         harMal={false}
         bareStartpunkt
         hjorne={<Omradeboks ref={hjorne} telletekst={telletekst} />}
+        hjorneRef={hjornegruppe}
+        feil={feil}
+        bakgrunnFeilet={bakgrunnFeilet}
       />
     </div>
   );
@@ -532,10 +651,27 @@ type KontrollerProps = {
   bareStartpunkt?: boolean;
   /** Søk-kartet: boksen øverst til venstre, med zoomknappene under. */
   hjorne?: ReactNode;
+  /** Søk-kartet måler hele hjørnet, med zoomknappene, så Startpunktene holdes under det. */
+  hjorneRef?: Ref<HTMLDivElement>;
+  /** Bakgrunnskartet laster ikke (story 3.4): teksten står øverst i midten. */
+  bakgrunnFeilet: boolean;
+  /** Kartet måler teksten, så innholdet holdes under den. */
+  feil?: Ref<HTMLDivElement>;
 };
 
 /** Zoomknappene, tegnforklaringen og krediteringspillen over det interaktive kartet. */
-function KartKontroller({ kart, zoom, forklaring, kreditering, harMal, bareStartpunkt, hjorne }: KontrollerProps) {
+function KartKontroller({
+  kart,
+  zoom,
+  forklaring,
+  kreditering,
+  harMal,
+  bareStartpunkt,
+  hjorne,
+  hjorneRef,
+  bakgrunnFeilet,
+  feil,
+}: KontrollerProps) {
   const kanZoomeInn = kart !== null && zoom !== null && zoom < kart.getMaxZoom();
   const kanZoomeUt = kart !== null && zoom !== null && zoom > kart.getMinZoom();
 
@@ -573,13 +709,15 @@ function KartKontroller({ kart, zoom, forklaring, kreditering, harMal, bareStart
   return (
     <>
       {hjorne ? (
-        <div className={stil.hjorne}>
+        <div ref={hjorneRef} className={stil.hjorne}>
           {hjorne}
           {zoomknapper}
         </div>
       ) : (
         zoomknapper
       )}
+
+      <Bakgrunnsfeil ref={feil} feilet={bakgrunnFeilet} />
 
       <Tegnforklaring ref={forklaring} harMal={harMal} bareStartpunkt={bareStartpunkt} />
 
