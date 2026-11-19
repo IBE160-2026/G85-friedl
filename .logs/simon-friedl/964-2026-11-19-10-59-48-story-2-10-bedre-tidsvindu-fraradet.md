@@ -36,3 +36,17 @@ Kjør story 2.10 med `bmad-build` under målet «kjør alle stories ferdig». Be
   - bredden på knappen fra 768 px
 - Godkjenn eller rull tilbake de fem nye tokens i `DESIGN.md` (`components.bedre-tidsvindu-kort`).
 - Epic 2 i UI-et er nå komplett. 2.8–2.10 kan pushes sammen når walkthrough er gjort.
+
+## 2026-11-19 kl. 11:00 — Simon Friedl
+
+### Oppgave
+Simon valgte å pushe 2.8–2.10 til `main` uten walkthrough, så 2.11 kan måle NFR-5 mot Production.
+
+### Plan
+- Sett 2.8, 2.9 og 2.10 til `done` i sprint-status, og push.
+
+### Resultat
+- Sprint-status er `done` i `b19a287`. Pushet til `main`.
+
+### Åpne punkter
+- Ingen nye.

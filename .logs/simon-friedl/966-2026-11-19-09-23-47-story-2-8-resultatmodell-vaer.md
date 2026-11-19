@@ -32,3 +32,17 @@ Kjør story 2.8 med `bmad-build`. Delene fra 2.4–2.7 skal kobles sammen, så R
 - **Walkthrough av 2.8 gjenstår.** Etterpå settes 2.8 til `done`.
 - **Ikke push 2.8 alene til Production.** UI-et viser ikke Værsammendraget, Værvarslingen eller Frarådet-kortet før 2.9 og 2.10. Uten demo forsvinner Værmangel-linjen, og ved frarådet står bare overskriften.
 - Ingenting tvinger e2e-testene til å bruke `?demo` (se `deferred-work.md`).
+
+## 2026-11-19 kl. 11:00 — Simon Friedl
+
+### Oppgave
+Simon valgte å pushe 2.8–2.10 til `main` uten walkthrough, så 2.11 kan måle NFR-5 mot Production.
+
+### Plan
+- Sett 2.8, 2.9 og 2.10 til `done` i sprint-status, og push.
+
+### Resultat
+- Sprint-status er `done` i `b19a287`. Pushet til `main`.
+
+### Åpne punkter
+- Ingen nye.
