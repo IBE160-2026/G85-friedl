@@ -109,3 +109,4 @@
 - [ ] 2026-11-19 [story-3-1-kartet](962-2026-11-19-15-38-06-story-3-1-kartet.md) — Se kartet med ekte Kartverket-fliser på Production (kontrast mot ruten). Testene bruker bare stubbede fliser
 - [ ] 2026-11-19 [story-3-2-kartutsnitt](961-2026-11-19-16-10-30-story-3-2-kartutsnitt.md) — Walkthrough av story 3.2 gjenstår (små ruter ved 104 px, Kartverket-merket nederst mot øverst i skissen, stempelet overlapper ikke utsnittet)
 - [ ] 2026-11-19 [story-3-3-sok-kartet](960-2026-11-19-16-29-45-story-3-3-sok-kartet.md) — Walkthrough av story 3.3 gjenstår (halve zoomtrinn kan gi linjer mellom fliser, navn på Startpunkter vises ikke, smalere Skjemakort enn pc-1)
+- [ ] 2026-11-19 [story-3-4-flisfeil](959-2026-11-19-16-55-16-story-3-4-flisfeil.md) — Walkthrough av story 3.4 gjenstår (plassering av pillen, meldingen to ganger på mobil, grensen på 3 feil og 8 s)
