@@ -198,6 +198,8 @@ const handlinger = {
   onEndreTilgjengeligTid: () => {},
   onProvIgjen: () => {},
   onBrukBedreTidsvindu: () => {},
+  demoId: null,
+  sprakmodell: false,
 };
 const vis = (v: Resultatvisning) => renderToString(<Resultat tilstand={{ type: "resultat", visning: v }} {...handlinger} />);
 

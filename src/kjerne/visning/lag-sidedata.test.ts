@@ -11,7 +11,7 @@ import { type Sidedata, SidedataSkjema } from "./sidedata";
 const { turer } = TurdatasettSkjema.parse(turerJson);
 
 function sidedata(na: number, demo: SidedataInput["demo"] = null): Sidedata {
-  const s = byggSidedata({ na, turer, demo });
+  const s = byggSidedata({ na, turer, demo, sprakmodell: false });
   const lest = SidedataSkjema.safeParse(s);
   expect(lest.error?.issues).toBeUndefined();
   return s;
@@ -80,7 +80,7 @@ describe("byggSidedata", () => {
     expect(s.startpunkter).toHaveLength(8);
     expect(new Set(s.startpunkter.map((p) => p.navn)).size).toBe(8);
     expect(s.telletekst).toBe("12 Turer fra 8 Startpunkter");
-    expect(byggSidedata({ na: 0, turer: turer.slice(0, 1), demo: null }).telletekst).toBe("1 Tur fra 1 Startpunkt");
+    expect(byggSidedata({ na: 0, turer: turer.slice(0, 1), demo: null, sprakmodell: false }).telletekst).toBe("1 Tur fra 1 Startpunkt");
   });
 
   it("demo: naTekst med dag og klokke", () => {

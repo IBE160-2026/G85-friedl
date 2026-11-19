@@ -22,6 +22,8 @@ export type SidedataInput = {
   na: number;
   turer: readonly Tur[];
   demo: { id: string; beskrivelse: string } | null;
+  /** Miljøet har en språkmodell, så klienten kan be om Språkmodelltekster (story 4.2). */
+  sprakmodell: boolean;
 };
 
 /** Starttidspunktene 06:00–22:00 hvert kvarter. */
@@ -52,7 +54,7 @@ function startpunkter(turer: readonly Tur[]): Sidedata["startpunkter"] {
 const flertall = (n: number, en: string, flere: string) => `${n} ${n === 1 ? en : flere}`;
 
 /** Sidedataene for øyeblikket `na`. Skallet validerer dem mot `SidedataSkjema`. */
-export function byggSidedata({ na, turer, demo }: SidedataInput): Sidedata {
+export function byggSidedata({ na, turer, demo, sprakmodell }: SidedataInput): Sidedata {
   const iDag = osloDato(na);
   const iDagLast = erIDagLast(na);
   const punkter = startpunkter(turer);
@@ -72,5 +74,6 @@ export function byggSidedata({ na, turer, demo }: SidedataInput): Sidedata {
     },
     startpunkter: punkter,
     telletekst: `${flertall(turer.length, "Tur", "Turer")} fra ${flertall(punkter.length, "Startpunkt", "Startpunkter")}`,
+    sprakmodell,
   };
 }

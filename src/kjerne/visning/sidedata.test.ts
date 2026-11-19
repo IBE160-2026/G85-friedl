@@ -36,6 +36,7 @@ const tilgjengeligTid = Array.from({ length: 20 }, (_, i) => {
 
 const sidedata = (endring: Partial<Sidedata> = {}): Sidedata => ({
   demo: null,
+  sprakmodell: false,
   skjema: {
     turdager: [iDag(), iMorgen()],
     tilgjengeligTid,

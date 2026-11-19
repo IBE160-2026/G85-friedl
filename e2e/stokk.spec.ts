@@ -63,6 +63,9 @@ async function minstTrykkflate(l: Locator) {
 const topp = async (l: Locator) => (await l.boundingBox())!.y;
 
 test("tre Turforslag ved 390 px: Ditt søk-linjen, Stokken, Stokknavigasjon og Stokkoversikt", async ({ page }) => {
+  // Testen sjekker Regelteksten i Begrunnelsen, så Språkmodellteksten (story 4.2, e2e/begrunnelse.spec.ts)
+  // stoppes.
+  await page.route((url) => url.pathname === "/api/begrunnelse", (route) => route.abort());
   await page.goto(DEMO);
   await page.getByRole("checkbox", { name: "utsikt" }).check();
   const visning = await finnTur(page);

@@ -98,6 +98,9 @@ test("Ditt søk viser «ingen» uten Opplevelsespreferanse", async ({ page }) =>
 });
 
 test("hvert kort har alle feltene", async ({ page }) => {
+  // Testen sjekker Regelteksten i Begrunnelsen, så Språkmodellteksten (story 4.2, e2e/begrunnelse.spec.ts)
+  // stoppes.
+  await page.route((url) => url.pathname === "/api/begrunnelse", (route) => route.abort());
   await page.goto(DEMO);
   await page.getByRole("checkbox", { name: "utsikt" }).check();
   const kort = turforslag(await finnTur(page));

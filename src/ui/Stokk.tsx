@@ -35,11 +35,13 @@ type Props = {
   onVelg: (indeks: number) => void;
   /** Trykk på Kartutsnittet i et kort: rull til kartet. */
   onVisPaKartet?: () => void;
+  /** Språkmodelltekstene etter `turId` (story 4.2). Et kort uten tekst viser Regelteksten. */
+  begrunnelser?: ReadonlyMap<string, string>;
   /** Stokken selv, så Stokkoversikten kan flytte fokus hit. */
   ref?: Ref<HTMLElement>;
 };
 
-export function Stokk({ kort, valgt, onVelg, onVisPaKartet, ref }: Props) {
+export function Stokk({ kort, valgt, onVelg, onVisPaKartet, begrunnelser, ref }: Props) {
   const antall = kort.length;
   const sveip = useRef<{ id: number; x: number; y: number } | null>(null);
   const kanter = Math.min(antall - 1 - valgt, MAKS_KANTER);
@@ -124,7 +126,14 @@ export function Stokk({ kort, valgt, onVelg, onVisPaKartet, ref }: Props) {
               inert={i !== valgt}
               data-testid={i === valgt ? "stokk-valgt" : undefined}
             >
-              <Turkort kort={k} antall={antall} iStokken onVisPaKartet={onVisPaKartet} vises={i === valgt} />
+              <Turkort
+                kort={k}
+                antall={antall}
+                iStokken
+                onVisPaKartet={onVisPaKartet}
+                vises={i === valgt}
+                begrunnelse={begrunnelser?.get(k.turId)}
+              />
             </div>
           );
         })}

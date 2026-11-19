@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { parseMetCompact } from "@/kjerne/vaer/met-compact";
 import { TESTSCENARIOER } from "@/kjerne/vaer/testscenarioer";
 import { lagMiljo, lesDemoId, type Miljo } from "./miljo";
+import { falsk } from "./sprakmodell/falsk";
 import { DEMO_IDER, finnScenario, lesScenario, ScenarioSkjema } from "./vaer/scenarioer";
 
 const MAPPE = new URL("../../data/vaerscenarioer/", import.meta.url);
@@ -32,6 +33,10 @@ describe("lagMiljo", () => {
     expect(miljo.na).toBe(Date.UTC(2026, 10, 9, 12, 30));
     expect(miljo.demo).toEqual({ id: "uten-vaer", beskrivelse: "Værmeldingen mangler" });
     await expect(miljo.vaerkilde()).resolves.toBeNull();
+  });
+
+  it.each(DEMO_IDER)("%s: den falske språkmodellen (story 4.2)", (id) => {
+    expect((lagMiljo(id) as Miljo).sprakmodell).toBe(falsk);
   });
 
   it("uj-1: «nå» fra scenarioet og en værkilde som gir Værmeldingen fra met.json", async () => {
@@ -84,6 +89,8 @@ describe("lagMiljo", () => {
       const miljo = lag(null) as Miljo;
       expect(miljo.na).toBe(NA);
       expect(miljo.demo).toBeNull();
+      // Story 4.2: ingen språkmodell uten demo. Story 4.3 kobler til Claude.
+      expect(miljo.sprakmodell).toBeNull();
       expect((lag(null) as Miljo).vaerkilde).toBe(miljo.vaerkilde);
       await expect(miljo.vaerkilde()).resolves.toEqual(parseMetCompact(met));
       expect(fetch).toHaveBeenCalledTimes(1);

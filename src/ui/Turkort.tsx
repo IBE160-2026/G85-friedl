@@ -25,7 +25,8 @@ import stil from "./Turkort.module.css";
 
 // Turkortet på PC (DESIGN.md › Turkort), ovenfra: Nummerstempel og «1 av 3», Mål og «fra …»,
 // faktalinjen, Startpunkt, perforeringen, PASSER FORDI med de fire Kriterieradene, Begrunnelse-boksen
-// og foten med kildelenken og «Vis på kartet».
+// og foten med kildelenken og «Vis på kartet». Begrunnelsen er Språkmodellteksten (`begrunnelse`) når den
+// finnes (story 4.2), ellers Regelteksten.
 // Kortet er én artikkel med lesetekst fra serveren som navn (UX-DR43).
 // I Stokken (`iStokken`, mobil og nettbrett) er Begrunnelsen én kursiv linje, med kildelenken under.
 //
@@ -58,6 +59,8 @@ type Props = {
   valgt?: boolean;
   /** PC: velg kortet. Gir kortet tabulatorstopp og knappen «Vis på kartet» i foten. */
   onVelg?: () => void;
+  /** Språkmodellteksten (story 4.2), som står i stedet for Regelteksten når den finnes. */
+  begrunnelse?: string;
 };
 
 /** Et trykk i kortet på en lenke eller knapp, eller etter at teksten er markert, velger ikke kortet. */
@@ -77,7 +80,9 @@ export function Turkort({
   vises = true,
   valgt = false,
   onVelg,
+  begrunnelse,
 }: Props) {
+  const tekst = begrunnelse ?? kort.regeltekst;
   const [tid, vaer, onsker, morke] = kort.kriterier;
   // Plassen kommer fra serveren, så stempelet og «N av M» sier det samme som leseteksten.
   const { nummer } = kort.kart;
@@ -157,14 +162,14 @@ export function Turkort({
       {alternativ ? (
         <>
           <div className={stil.barePc}>
-            <Begrunnelse tekst={kort.regeltekst} />
+            <Begrunnelse tekst={tekst} />
           </div>
           <div className={stil.bareMobil}>
-            <Begrunnelse tekst={kort.regeltekst} linje />
+            <Begrunnelse tekst={tekst} linje />
           </div>
         </>
       ) : (
-        <Begrunnelse tekst={kort.regeltekst} linje={iStokken} />
+        <Begrunnelse tekst={tekst} linje={iStokken} />
       )}
 
       <div className={stil.fot}>

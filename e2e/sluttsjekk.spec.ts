@@ -6,10 +6,11 @@ import { BAKGRUNNSKART_FEIL } from "../src/ui/tekster";
 // Story 1.15: sjekklisten i SM-4 (NFR-1) ved 360, 768 og 1440 px, for Søk, Turforslag (standard-Søk),
 // Alternativ (15 min), Kontaktfeil og panelet for en ukjent demo-ID, mot ?demo=uten-vaer, fra
 // story 2.9 Værsammendraget (?demo=uj-1) og Værvarslingen med Bedre tidsvindu-boksen (?demo=uj-2), og fra
-// story 2.10 Frarådet (?demo=uj-3) og boksen uten Bedre tidsvindu (?demo=ingen-bedre). For hver
-// visning og bredde sjekkes det at siden ikke ruller sidelengs, at alle synlige kontroller har en
-// trykkflate på minst 44 × 44 px, og at ingenting krever hover: ingen title-attributter, ingen
-// SVG-<title> og ingen :hover-regel som viser, skjuler eller flytter noe.
+// story 2.10 Frarådet (?demo=uj-3) og boksen uten Bedre tidsvindu (?demo=ingen-bedre), og fra story 4.2
+// Begrunnelsen med Språkmodellteksten (?demo=uj-1). For hver visning og bredde sjekkes det at siden ikke
+// ruller sidelengs, at alle synlige kontroller har en trykkflate på minst 44 × 44 px, og at ingenting
+// krever hover: ingen title-attributter, ingen SVG-<title> og ingen :hover-regel som viser, skjuler eller
+// flytter noe.
 // Testene sjekker tilstand og mål, aldri Turnavn (AR-26).
 
 const DEMO = "/?demo=uten-vaer";
@@ -77,6 +78,19 @@ const VISNINGER: { navn: string; url?: string; apne: (page: Page) => Promise<voi
       const visning = await finnTur(page);
       expect(visning.vaer).toMatchObject({ type: "vurdert", klasse: "god" });
       await expect(page.getByTestId("vaersammendrag")).toBeVisible();
+    },
+  },
+  {
+    // Story 4.2: Begrunnelsen etter at Språkmodellteksten fra den falske modellen er byttet inn (UJ-1).
+    navn: "Begrunnelse (uj-1)",
+    url: "/?demo=uj-1",
+    apne: async (page) => {
+      await page.getByRole("checkbox", { name: "utsikt" }).check();
+      const visning = await finnTur(page);
+      if (visning.utfall.type !== "turforslag") throw new Error(`Utfallet er ${visning.utfall.type}`);
+      const synlige = page.getByTestId("begrunnelse").filter({ visible: true });
+      await expect(synlige.first()).toBeVisible();
+      for (const boks of await synlige.all()) await expect(boks).toContainText("«Kort fortalt: ");
     },
   },
   {

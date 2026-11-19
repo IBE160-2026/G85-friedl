@@ -67,7 +67,7 @@ const radio = (html: string, verdi: string) => {
 };
 
 describe("SokFlate etter 22:00", () => {
-  const html = renderToString(<SokFlate skjema={skjema(true)} {...SOKKART} />);
+  const html = renderToString(<SokFlate demoId={null} sprakmodell={false} skjema={skjema(true)} {...SOKKART} />);
 
   it("låser «I dag» og velger «I morgen»", () => {
     expect(radio(html, "2026-11-09")).toMatch(/\sdisabled=""/);
@@ -88,7 +88,7 @@ describe("SokFlate etter 22:00", () => {
 });
 
 describe("SokFlate før 22:00", () => {
-  const html = renderToString(<SokFlate skjema={skjema(false)} {...SOKKART} />);
+  const html = renderToString(<SokFlate demoId={null} sprakmodell={false} skjema={skjema(false)} {...SOKKART} />);
 
   it("velger «I dag» uten forklaring om låsen", () => {
     expect(radio(html, "2026-11-09")).toMatch(/\schecked=""/);
@@ -122,7 +122,7 @@ describe("SokFlate før 22:00", () => {
 });
 
 describe("SokFlate og Søk-kartet (story 3.3)", () => {
-  const html = renderToString(<SokFlate skjema={skjema(false)} {...SOKKART} />);
+  const html = renderToString(<SokFlate demoId={null} sprakmodell={false} skjema={skjema(false)} {...SOKKART} />);
 
   it("rendrer bare den tomme kartflaten på serveren, uten Leaflet og uten kartregionen", () => {
     const tomFlate = /<div class="[^"]*kart[^"]*"><div class="[^"]*flate[^"]*fyll[^"]*" data-testid="sok-kart-laster">/;
@@ -134,7 +134,7 @@ describe("SokFlate og Søk-kartet (story 3.3)", () => {
   });
 
   it("har verken kart eller tom kartflate uten Startpunkter", () => {
-    const tom = renderToString(<SokFlate skjema={skjema(false)} startpunkter={[]} telletekst="0 Turer" />);
+    const tom = renderToString(<SokFlate demoId={null} sprakmodell={false} skjema={skjema(false)} startpunkter={[]} telletekst="0 Turer" />);
     expect(tom).not.toContain("sok-kart");
     expect(tom).not.toContain('role="region"');
   });

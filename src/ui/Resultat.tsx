@@ -5,6 +5,7 @@ import type { Sok } from "@/kjerne/sok";
 import type { DittSok as DittSokData, Resultatvisning } from "@/kjerne/visning/skjema";
 import { Ansvarsmerknad } from "./Ansvarsmerknad";
 import { BedreTidsvinduKort } from "./BedreTidsvinduKort";
+import { useBegrunnelser } from "./begrunnelser";
 import { DittSok } from "./DittSok";
 import { DittSokLinje } from "./DittSokLinje";
 import { FraradetKort } from "./FraradetKort";
@@ -58,6 +59,9 @@ import { Vaervarsling } from "./Vaervarsling";
 // nettbrett ruller til kartet (story 3.2). «Vis på kartet» på PC ruller kartet inn bare når det ikke synes
 // helt. Et nytt Søk (ny `resultatId`) setter valget tilbake til kort 1.
 //
+// Begrunnelsen (story 4.2): for hvert Turforslag ber `useBegrunnelser` om en Språkmodelltekst, og
+// Turkortene i Stokken og på PC viser den i stedet for Regelteksten når den kom innen 5 s i samme Resultat.
+//
 // Komponenten står alltid i treet, også på Søk, slik at det høflige live-området overlever byttet
 // mellom flatene. I live-området står `liveTekst` (skjult, bare for skjermlesere), Plassholderstokken med
 // «Finner turer …» eller Kontaktfeil-kortet, så de meldes når de settes inn. `liveTekst` er overskriften,
@@ -81,6 +85,10 @@ type Props = {
   onProvIgjen: () => void;
   /** «Bruk …» i Bedre tidsvindu: sender det nye Søket fra serveren. */
   onBrukBedreTidsvindu: (sok: Sok) => void;
+  /** Demo-ID-en fra sidedataene, eller `null` uten Demomodus. Går som `?demo=` til `/api/begrunnelse`. */
+  demoId: string | null;
+  /** Miljøet har en språkmodell (sidedataene). Uten den sendes ingen forespørsler til `/api/begrunnelse`. */
+  sprakmodell: boolean;
 };
 
 /** Kartområdet: en region med navnet «Kart» som Kartutsnittet kan flytte fokus til. Ikke et tabulatorstopp. */
@@ -88,7 +96,15 @@ const KARTOMRADE = { role: "region", "aria-label": KART.navn, tabIndex: -1 } as 
 
 const tilstandId = (t: Resultattilstand | null) => (t === null ? null : t.type === "resultat" ? t.visning.resultatId : t.id);
 
-export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvIgjen, onBrukBedreTidsvindu }: Props) {
+export function Resultat({
+  tilstand,
+  onEndreSok,
+  onEndreTilgjengeligTid,
+  onProvIgjen,
+  onBrukBedreTidsvindu,
+  demoId,
+  sprakmodell,
+}: Props) {
   const overskrift = useRef<HTMLHeadingElement>(null);
   const plassholder = useRef<HTMLParagraphElement>(null);
   const stokk = useRef<HTMLElement>(null);
@@ -97,6 +113,7 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
   const id = tilstandId(tilstand);
   const visning = tilstand?.type === "resultat" ? tilstand.visning : null;
   const resultatId = visning?.resultatId ?? null;
+  const begrunnelser = useBegrunnelser(visning, demoId, sprakmodell);
 
   // Valget gjelder Resultatet det ble gjort i. Et nytt Resultat starter på kort 1.
   const [valg, settValg] = useState<{ resultatId: string | null; indeks: number }>({ resultatId, indeks: 0 });
@@ -227,7 +244,14 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
       {visning && turforslag && (
         <div key={`bunn-${visning.resultatId}`} className={stil.bunn}>
           <div className={stil.mobil}>
-            <Stokk ref={stokk} kort={turforslag} valgt={valgt} onVelg={velg} onVisPaKartet={visPaKartet} />
+            <Stokk
+              ref={stokk}
+              kort={turforslag}
+              valgt={valgt}
+              onVelg={velg}
+              onVisPaKartet={visPaKartet}
+              begrunnelser={begrunnelser}
+            />
           </div>
           <div ref={kartet} className={stil.kartplass} {...KARTOMRADE}>
             {turforslag[valgt] && (
@@ -244,6 +268,7 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
                 key={kort.turId}
                 kort={kort}
                 antall={turforslag.length}
+                begrunnelse={begrunnelser.get(kort.turId)}
                 valgt={i === valgt}
                 onVelg={() => velg(i)}
                 onVisPaKartet={rullInnKartet}

@@ -49,6 +49,8 @@ export const SidedataSkjema = z
     }),
     startpunkter: z.array(StartpunktSkjema).min(1),
     telletekst: Tekst,
+    /** Miljøet har en språkmodell (story 4.2). Uten den ber klienten ikke om Språkmodelltekster. */
+    sprakmodell: z.boolean(),
   })
   .superRefine((s, ctx) => {
     const { turdager, tilgjengeligTid, standardSok } = s.skjema;

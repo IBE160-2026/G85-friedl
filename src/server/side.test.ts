@@ -22,6 +22,10 @@ function sidedata(demoId: string | null): Sidedata {
 }
 
 describe("lagSidedata", () => {
+  it.each(DEMO_IDER)("%s: språkmodellen finnes i Demomodus (story 4.2)", (id) => {
+    expect(sidedata(id).sprakmodell).toBe(true);
+  });
+
   it("uten-vaer: fast «nå» fra scenarioet", () => {
     const s = sidedata("uten-vaer");
     expect(s.demo).toEqual({ id: "uten-vaer", beskrivelse: "Værmeldingen mangler", naTekst: "man. 9. nov. 13:30" });
@@ -49,6 +53,8 @@ describe("lagSidedata", () => {
     vi.setSystemTime(new Date("2026-11-12T09:07:00+01:00"));
     const s = sidedata(null);
     expect(s.demo).toBeNull();
+    // Story 4.2: ingen språkmodell uten demo, så klienten ber ikke om Språkmodelltekster.
+    expect(s.sprakmodell).toBe(false);
     expect(s.skjema.standardSok).toEqual(lagStandardSok(Date.now()));
     expect(s.skjema.turdager.map((d) => d.dato)).toEqual(["2026-11-12", "2026-11-13"]);
   });

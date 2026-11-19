@@ -1,10 +1,13 @@
 import type { UkjentDemoFeil } from "@/kjerne/visning/feil";
+import { falsk } from "./sprakmodell/falsk";
+import type { Sprakmodell } from "./sprakmodell/typer";
 import { lagMetVaerkilde } from "./vaer/met";
 import { DEMO_IDER, finnScenario, type Scenario } from "./vaer/scenarioer";
 import type { Vaerkilde } from "./vaer/typer";
 
-// Miljøet for én forespørsel (AD-13): klokka, værkilden og Demomodus. Fila er eneste sted
+// Miljøet for én forespørsel (AD-13): klokka, værkilden, språkmodellen og Demomodus. Fila er eneste sted
 // appen leser klokka. Med `?demo=` kommer «nå» og været fra scenarioet, ellers fra systemklokka og MET.
+// Språkmodellen er den falske i Demomodus. Uten demo er den `null` til Claude kobles til (story 4.3).
 
 export type Demo = { id: string; beskrivelse: string };
 
@@ -12,6 +15,8 @@ export type Miljo = {
   /** «Nå» som epoke-ms i UTC. */
   na: number;
   vaerkilde: Vaerkilde;
+  /** Språkmodellen for Begrunnelsen, eller `null` når ingen er satt opp (NFR-3). */
+  sprakmodell: Sprakmodell | null;
   demo: Demo | null;
 };
 
@@ -49,7 +54,7 @@ export function lesDemoId(url: URL | string): string | null {
 
 /** Miljøet for demo-ID-en, eller `UkjentDemoFeil` med de gyldige ID-ene. */
 export function lagMiljo(demoId: string | null): Miljo | UkjentDemoFeil {
-  if (demoId === null) return { na: Date.now(), vaerkilde: metVaerkilde, demo: null };
+  if (demoId === null) return { na: Date.now(), vaerkilde: metVaerkilde, sprakmodell: null, demo: null };
 
   const scenario = finnScenario(demoId);
   if (!scenario) return { feil: "ukjent-demo", gyldigeDemoIder: [...DEMO_IDER] };
@@ -57,6 +62,7 @@ export function lagMiljo(demoId: string | null): Miljo | UkjentDemoFeil {
   return {
     na: Date.parse(scenario.na),
     vaerkilde: vaerkildeFor(scenario),
+    sprakmodell: falsk,
     demo: { id: demoId, beskrivelse: scenario.beskrivelse },
   };
 }

@@ -10,5 +10,7 @@ import { erUkjentDemo, lagMiljo } from "./miljo";
 export function lagSidedata(demoId: string | null): SidedataSvar {
   const miljo = lagMiljo(demoId);
   if (erUkjentDemo(miljo)) return miljo;
-  return SidedataSkjema.parse(byggSidedata({ na: miljo.na, turer: TURER, demo: miljo.demo }));
+  return SidedataSkjema.parse(
+    byggSidedata({ na: miljo.na, turer: TURER, demo: miljo.demo, sprakmodell: miljo.sprakmodell !== null }),
+  );
 }

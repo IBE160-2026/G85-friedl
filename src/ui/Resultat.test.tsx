@@ -6,6 +6,7 @@ import { medHake } from "./Hake";
 import { Kartinfoboks } from "./Kartinfoboks";
 import { Resultat, type Resultattilstand } from "./Resultat";
 import { Tidsstolpe } from "./Tidsstolpe";
+import { Turkort } from "./Turkort";
 
 // Komponenttest for Resultatet uten vær. Flaten rendres på serveren og sjekkes i HTML-en, uten
 // nettleser. Oppførselen i nettleseren testes i e2e/resultat.spec.ts og e2e/stokk.spec.ts.
@@ -82,6 +83,8 @@ const handlinger = {
   onEndreTilgjengeligTid: () => {},
   onProvIgjen: () => {},
   onBrukBedreTidsvindu: () => {},
+  demoId: null,
+  sprakmodell: false,
 };
 
 /** Resultatet som tilstand for Resultat-komponenten. */
@@ -653,5 +656,35 @@ describe("medHake", () => {
     expect(html).not.toContain("✓");
     expect(pcDel(html).match(/<p class="[^"]*">har vann<svg/g)).toHaveLength(2);
     expect(stokkDel(html).match(/<p class="[^"]*">har vann<svg/g)).toHaveLength(2);
+  });
+});
+
+// Story 4.2: Språkmodellteksten står i stedet for Regelteksten på alle tre plassene for Begrunnelsen, og
+// bare der. Uten tekst står Regelteksten. Serveren rendrer uten effekter, så Resultatet sender ingen
+// forespørsel her.
+describe("Begrunnelsen med Språkmodellteksten (story 4.2)", () => {
+  const k = kort(1, { rad: "onsker", merke: "ok", tekst: "utsikt ✓", detalj: [] });
+  const NY = "Kort fortalt: passer tiden din (1 t 32 min av 2 t), værdata mangler, utsikt.";
+  const begrunnelser = (html: string) => html.split('data-testid="begrunnelse"').length - 1;
+
+  it.each([
+    ["PC", {}],
+    ["i Stokken", { iStokken: true }],
+    ["Alternativkortet, begge formene", { alternativ: true }],
+  ])("%s: teksten byttes, og resten av kortet er likt", (_navn, valg) => {
+    const for_ = renderToString(<Turkort kort={k} antall={2} {...valg} />);
+    const etter = renderToString(<Turkort kort={k} antall={2} begrunnelse={NY} {...valg} />);
+    expect(for_).toContain(`«${k.regeltekst}»`);
+    expect(for_).not.toContain(NY);
+    expect(etter).toContain(`«${NY}»`);
+    expect(etter).not.toContain(`«${k.regeltekst}»`);
+    expect(etter.split(`«${NY}»`).length - 1).toBe(begrunnelser(for_));
+    expect(begrunnelser(for_)).toBe("alternativ" in valg ? 2 : 1);
+    expect(etter.replaceAll(NY, k.regeltekst)).toBe(for_);
+  });
+
+  it("Resultatet uten tekster viser Regelteksten", () => {
+    expect(html).toContain(`«${kort(1, k.kriterier[2]).regeltekst}»`);
+    expect(html).not.toContain("Kort fortalt");
   });
 });

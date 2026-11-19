@@ -80,3 +80,34 @@ export async function sendSok(sok: Sok, signal?: AbortSignal): Promise<SokSvar> 
     signal?.removeEventListener("abort", avbrytUtenfra);
   }
 }
+
+/** `/api/begrunnelse`, med `?demo=` når siden er i Demomodus, som `/api/sok`. */
+export function begrunnelseUrl(demoId: string | null): string {
+  return demoId === null ? "/api/begrunnelse" : `/api/begrunnelse?${new URLSearchParams({ demo: demoId })}`;
+}
+
+/**
+ * Ber om Språkmodellteksten for Turforslaget `turId` i Resultatet for `sok` (story 4.2, AD-12). Klienten
+ * sender aldri tekst, bare `{ sok, turId }`. Gir teksten, eller `null` ved `{ tekst: null }`, et svar som
+ * ikke er 200, et ugyldig svar, en nettverksfeil og når `signal` avbryter kallet.
+ */
+export async function sendBegrunnelse(
+  sok: Sok,
+  turId: string,
+  demoId: string | null,
+  signal: AbortSignal,
+): Promise<string | null> {
+  try {
+    const svar = await fetch(begrunnelseUrl(demoId), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sok, turId }),
+      signal,
+    });
+    if (svar.status !== 200) return null;
+    const data: unknown = await svar.json();
+    return erObjekt(data) && typeof data.tekst === "string" && data.tekst !== "" ? data.tekst : null;
+  } catch {
+    return null;
+  }
+}

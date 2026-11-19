@@ -77,9 +77,14 @@ const VANSKELIGHETSGRADER = (["G", "B", "R"] as const).map((verdi) => ({
   etikett: VANSKELIGHETSGRAD[verdi],
 }));
 
-type Props = Pick<Sidedata, "skjema" | "startpunkter" | "telletekst">;
+type Props = Pick<Sidedata, "skjema" | "startpunkter" | "telletekst"> & {
+  /** Demo-ID-en fra sidedataene, eller `null` uten Demomodus (story 4.2). */
+  demoId: string | null;
+  /** Miljøet har en språkmodell (story 4.2). */
+  sprakmodell: boolean;
+};
 
-export function SokFlate({ skjema, startpunkter, telletekst }: Props) {
+export function SokFlate({ skjema, startpunkter, telletekst, demoId, sprakmodell }: Props) {
   const { turdager, tilgjengeligTid, standardSok } = skjema;
   const pc = usePc();
   const [iDag] = turdager;
@@ -388,6 +393,8 @@ export function SokFlate({ skjema, startpunkter, telletekst }: Props) {
         onEndreTilgjengeligTid={stabilEndreTid}
         onProvIgjen={stabilProvIgjen}
         onBrukBedreTidsvindu={stabilBrukBedreTidsvindu}
+        demoId={demoId}
+        sprakmodell={sprakmodell}
       />
     </>
   );

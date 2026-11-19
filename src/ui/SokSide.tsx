@@ -16,6 +16,8 @@ export function SokSide({ sidedata }: { sidedata: Sidedata }) {
           skjema={sidedata.skjema}
           startpunkter={sidedata.startpunkter}
           telletekst={sidedata.telletekst}
+          demoId={sidedata.demo?.id ?? null}
+          sprakmodell={sidedata.sprakmodell}
         />
       </Side>
     </ToppfeltHandlingKilde>
