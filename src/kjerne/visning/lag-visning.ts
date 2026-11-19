@@ -3,7 +3,7 @@ import { finnBedreTidsvindu } from "../bedre-tidsvindu";
 import { dag, tall, tallord, temperaturTekst, varighet } from "../format";
 import type { Soltider } from "../morke";
 import { OPPLEVELSESPREFERANSER, type VaerGrunnlag } from "../regeltekst";
-import type { NormalisertSok, Sok } from "../sok";
+import { lagStandardSok, type NormalisertSok, type Sok } from "../sok";
 import { kvarterOpp, leggTilDager, osloDato, osloTilUtc } from "../tid";
 import { lagTurkort } from "../turkort";
 import { GRADERINGSTEKST, type Tur } from "../turdata/skjema";
@@ -82,16 +82,28 @@ const FRARADET_TID_DETALJ = "Frarådet går foran tid og ønsker.";
 
 /**
  * Overskriften etter State Patterns i EXPERIENCE.md: «Ingen Turforslag» ved frarådet, «Ingen Tur passer
- * 15 min.» med den korteste Turen, og ellers «Tre Turforslag» med «som passer nå» (god og middels),
- * «i dårlig vær» (dårlig) eller «som passer tiden din» (mangler).
+ * 15 min.» med den korteste Turen, og ellers «Tre Turforslag» med «som passer nå» eller «som passer i
+ * morgen fra kl. 14:00» (god og middels), «i dårlig vær» (dårlig) eller «som passer tiden din» (mangler).
  */
-function overskrift(anbefaling: Anbefaling | null, sok: Sok, klasse: Vaerklasse | null): string {
+function overskrift(anbefaling: Anbefaling | null, sok: Sok, na: number, klasse: Vaerklasse | null): string {
   if (anbefaling === null) return INGEN_TURFORSLAG;
   if (anbefaling.type === "kortesteTur") return `Ingen Tur passer ${varighet(sok.tilgjengeligMin)}.`;
   const antall = storForbokstav(tallord(anbefaling.forslag.length));
   if (klasse === null) return `${antall} Turforslag som passer tiden din`;
   if (klasse === "darlig") return `${antall} Turforslag i dårlig vær`;
-  return `${antall} Turforslag som passer nå`;
+  return `${antall} Turforslag som passer ${naar(sok, na)}`;
+}
+
+/**
+ * «nå» når Søket er I dag med Starttidspunktet fra standard-Søket (nå rundet opp til kvarter), og
+ * ellers Turdagen og klokkeslettet: «i dag fra kl. 15:00» eller «i morgen fra kl. 14:00». Søket er
+ * normalisert, så Turdagen er i dag eller i morgen.
+ */
+function naar(sok: Sok, na: number): string {
+  const iDag = osloDato(na);
+  const standard = lagStandardSok(na);
+  if (sok.dato === iDag && standard.dato === iDag && sok.start === standard.start) return "nå";
+  return `${sok.dato === iDag ? "i dag" : "i morgen"} fra kl. ${sok.start}`;
 }
 
 /** Grensene for `klasse` i Værtersklene. Kaster når klassen mangler i tersklene. */
@@ -214,7 +226,7 @@ export function lagVisning(input: VisningInput): Resultatvisning {
   const { resultatId, normalisert, na, anbefaling, bedreTidsvindu, terskler = VAERTERSKLER } = input;
   const { sok, justering } = normalisert;
   const klasse = input.vaer.type === "vurdert" ? input.vaer.vaer.klasse : null;
-  const tittel = overskrift(anbefaling, sok, klasse);
+  const tittel = overskrift(anbefaling, sok, na, klasse);
   const vaeret = vaer(input.vaer, terskler);
   const varsling = vaeret.type === "vurdert" ? vaeret.vaervarsling : undefined;
   return {

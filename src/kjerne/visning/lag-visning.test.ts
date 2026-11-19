@@ -320,6 +320,34 @@ describe("lagVisning med Værklasse", () => {
     expect("bedreTidsvindu" in v).toBe(false);
   });
 
+  it("UJ-2 etter «Bruk 14:00»: god i morgen 14:00 gir «… som passer i morgen fra kl. 14:00»", () => {
+    const v = scenario("uj-2", { ...UJ2_SOK, start: "14:00" });
+    expect(v.vaer).toMatchObject({ type: "vurdert", klasse: "god" });
+    expect(v.overskrift).toBe("Tre Turforslag som passer i morgen fra kl. 14:00");
+    expect(v.liveTekst).toBe(v.overskrift);
+  });
+
+  it("UJ-3 etter «Bruk i morgen 11:00»: «… som passer i morgen fra kl. 11:00»", () => {
+    const v = scenario("uj-3", { ...UJ3_SOK, dato: "2026-11-15", start: "11:00" });
+    expect(v.utfall.type).toBe("turforslag");
+    expect(v.overskrift).toMatch(/^(Tre|To|Ett) Turforslag som passer i morgen fra kl\. 11:00$/);
+  });
+
+  it("god i dag med et senere Starttidspunkt enn nå gir «… som passer i dag fra kl. 14:00»", () => {
+    const v = scenario("uj-1", { ...UJ1_SOK, start: "14:00" });
+    expect(v.vaer).toMatchObject({ type: "vurdert", klasse: "god" });
+    expect(v.overskrift).toBe("Tre Turforslag som passer i dag fra kl. 14:00");
+  });
+
+  it("«nå» er nå rundet opp til kvarter: 13:20 gir «nå» for 13:30 og «i dag fra kl. 13:45» for 13:45", () => {
+    const na = osloTilUtc("2026-11-09", "13:20");
+    const melding = TESTSCENARIOER["uj-1"].vaermelding;
+    expect(visningMedVaer(UJ1_SOK, na, melding).overskrift).toBe("Tre Turforslag som passer nå");
+    expect(visningMedVaer({ ...UJ1_SOK, start: "13:45" }, na, melding).overskrift).toBe(
+      "Tre Turforslag som passer i dag fra kl. 13:45",
+    );
+  });
+
   it("middels: Værsammendraget, «… som passer nå» og ingen Værvarsling", () => {
     const v = visningMedVaer(UJ1_SOK, NA, melding("06:00", 20, { vindMs: 8 }));
     expect(v.vaer).toMatchObject({ type: "vurdert", klasse: "middels" });

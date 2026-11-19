@@ -90,6 +90,7 @@ test.describe("Dårlig med vindu (uj-2)", () => {
     // Det nye Resultatet erstatter det forrige: ingen ny historikkoppføring, og fokus på overskriften.
     expect(await page.evaluate(() => history.length)).toBe(lengde);
     await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Tre Turforslag som passer i morgen fra kl. 14:00");
     // Værklassen fra 14:00 er god, så det er verken Værvarsling eller boks.
     await expect(page.getByTestId("vaervarsling")).toHaveCount(0);
     await expect(page.getByTestId("bedre-tidsvindu-boks")).toHaveCount(0);
@@ -202,6 +203,7 @@ test.describe("Frarådet (uj-3)", () => {
     await expect(page.getByTestId("fraradet-kort")).toHaveCount(0);
     await expect(dittSokFelt(page, "Turdag")).toHaveText("I morgen, søn. 15. nov.");
     await expect(dittSokFelt(page, "Starttidspunkt")).toHaveText("11:00");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Turforslag som passer i morgen fra kl\. 11:00$/);
   });
 
   test("15 min: først frarådet uten den korteste Turen, så Alternativkortet med 16 min", async ({ page }) => {
