@@ -19,19 +19,26 @@ npm install && npm run dev
 Åpne så http://localhost:3000.
 
 - Du trenger ingen `.env`, ingen `ANTHROPIC_API_KEY` og ingen andre nøkler eller betalte kontoer (NFR-3). Uten språkmodellnøkkel virker alt unntatt Språkmodellteksten, og den er ikke bygget ennå (Epic 4).
+- Uten Demomodus henter serveren Værmeldingen fra MET Locationforecast for Værpunktet (400 moh). MET krever ingen nøkkel. Får serveren ikke kontakt med MET, står «Været er ikke vurdert.» i Resultatet, og Turforslagene vises likevel.
 - `.env.example` viser den eneste valgfrie variabelen, `ANTHROPIC_API_KEY`. Den leses bare på serveren. Legg aldri en ekte nøkkel i repoet.
 - Produksjonsbygget startes med `npm run build && npm start`.
-- Appen henter ikke Værmeldingen fra MET ennå (Epic 2), så Resultatet sier «Været er ikke vurdert.» både med og uten Demomodus.
 
 ## Demomodus
 
-Åpne appen med `?demo=uten-vaer`, for eksempel http://localhost:3000/?demo=uten-vaer eller https://g85-friedl.vercel.app/?demo=uten-vaer.
+Med `?demo=<id>` bruker appen et fast «nå» i stedet for klokka, og et lagret Værscenario i stedet for MET (NFR-11). Turene kommer fra det ekte Turdatasettet. Merket «DEMOMODUS» øverst viser Værscenarioet og «nå». Ellers ser alt ut som uten Demomodus.
 
-- Appen bruker da et fast «nå», man. 9. nov. 2026 kl. 13:30, i stedet for klokka, og Værscenarioet «Værmeldingen mangler» i stedet for MET (NFR-11). Turene kommer fra det ekte Turdatasettet.
-- Merket «DEMOMODUS» øverst viser Værscenarioet og «nå». Ellers ser alt ut som uten Demomodus.
-- Med standard-Søket (2 t, Middels) får du tre Turforslag. Med Tilgjengelig tid 15 min passer ingen Tur, og du får Alternativet med den korteste Turen.
+Brukerreisene vises slik. Lenkene går til Production, og lokalt bytter du ut domenet med `http://localhost:3000`.
+
+| Demo | «Nå» | Søk | Det du ser |
+|---|---|---|---|
+| [`?demo=uj-1`](https://g85-friedl.vercel.app/?demo=uj-1) | man. 9. nov. kl. 13:30 | I dag 13:30, 2 t, Middels, utsikt | **Godt vær (UJ-1).** Værsammendraget med «Værklasse god», klarvær, 3–5 °C, og tre Turforslag med Regeltekst. |
+| [`?demo=uj-2`](https://g85-friedl.vercel.app/?demo=uj-2) | søn. 8. nov. kl. 20:00 | I morgen 10:00, 3 t, Krevende, utsikt | **Dårlig vær (UJ-2).** Værvarslingen med nedbør og vind, lavtliggende Turer øverst, og Bedre tidsvindu-boksen «I morgen fra kl. 14:00 er Værklassen god.». «Bruk 14:00» gir et nytt Resultat. |
+| [`?demo=uj-3`](https://g85-friedl.vercel.app/?demo=uj-3) | lør. 14. nov. kl. 10:00 | I dag 10:00, 2 t, Middels | **Frarådet (UJ-3).** Frarådet-kortet med sterk kuling og ingen Turforslag, og Bedre tidsvindu-kortet. «Bruk i morgen 11:00» gir tre Turforslag for søn. 15. nov. 11:00. |
+
+- Skjemaet fyller ut Turdag og Starttidspunkt ut fra «nå». For UJ-2 velger du «I morgen», og Starttidspunktet blir 10:00. For UJ-1 og UJ-2 krysser du av for utsikt. Velg ellers Tilgjengelig tid og Vanskelighetsgrad som i tabellen, og trykk «Finn tur».
+- `?demo=uten-vaer` (man. 9. nov. kl. 13:30, Værscenarioet «Værmeldingen mangler») viser Resultatet uten Værmelding. Med standard-Søket (2 t, Middels) får du tre Turforslag og «Været er ikke vurdert.». Med Tilgjengelig tid 15 min passer ingen Tur, og du får Alternativet med den korteste Turen.
+- `?demo=ingen-bedre` (man. 9. nov. kl. 10:00) har dårlig vær i dag og i morgen, og Bedre tidsvindu-boksen sier at det ikke finnes noe bedre tidsvindu.
 - En ukjent demo-ID, for eksempel `?demo=finnes-ikke`, gir et panel med lenker til de gyldige demoene.
-- Værscenarioene for brukerreisene UJ-1–UJ-3 kommer i Epic 2.
 
 ## Tester
 
@@ -45,9 +52,19 @@ CI=1 npx playwright test   # Playwright mot produksjonsbygget, som i CI
 
 - Første gang Playwright kjøres, må Chromium installeres: `npx playwright install chromium`.
 - `npm run test:e2e` starter `next dev` på port 3100, eller bruker en server som allerede kjører der. Med `CI=1` bygges appen med `npm run build` og startes med `npm start`.
-- Ingen test kaller MET eller Anthropic. Playwright-testene går mot den lokale serveren. De fleste bruker `?demo=uten-vaer`, mens `forside.spec.ts` og `publisering.spec.ts` åpner `/` uten demo. Uten demo mangler Værmeldingen også, fordi MET ikke er koblet til ennå.
-- `e2e/sluttsjekk.spec.ts` er sjekklisten i SM-4 ved 360, 768 og 1440 px. Resultatene fra sluttsjekken av Epic 1 står i `_bmad-output/implementation-artifacts/epic-1-sluttsjekk.md`.
-- `npm run svartid` måler svartiden (NFR-5) mot Production med «Fast 4G»-struping. `npm run svartid -- <url>` måler mot en annen server. Skriptet trenger Chromium fra Playwright.
+- Ingen test kaller MET eller Anthropic. Playwright-testene går mot den lokale serveren med `?demo=`. Vitest-testene for MET-klienten bruker en falsk `fetch`.
+- `e2e/sluttsjekk.spec.ts` er sjekklisten i SM-4 ved 360, 768 og 1440 px. Resultatene står i `_bmad-output/implementation-artifacts/epic-1-sluttsjekk.md` og `epic-2-sluttsjekk.md`.
+- `npm run svartid` måler svartiden (NFR-5) mot Production med «Fast 4G»-struping, med `?demo=uten-vaer`. `npm run svartid -- https://g85-friedl.vercel.app/` måler med ekte MET, og `npm run svartid -- <url>` mot en annen server. Skriptet trenger Chromium fra Playwright.
+
+## Kalibreringen av Værtersklene
+
+Værklassen (god, middels, dårlig, frarådet) settes av tersklene for temperatur, nedbør, vind og værsymbol i `data/vaerterskler.json`. Både appen og kalibreringsskriptet leser den fila (AD-8).
+
+- Tersklene ble kalibrert 10.–17. november 2026 (PRD §10, spørsmål 1). `scripts/kalibrering_vaerlogg.py` hentet Værmeldingen fra MET for to Tidsvinduer om dagen i 7 dager. Vi vurderte selv hvert Tidsvindu uten å se Værklassen.
+- Resultatet var 1 avvik av 14 vurderte Tidsvinduer (10. nov. formiddag: middels, men vi ville valgt en lav Tur). Grensen var 2 avvik, så startverdiene i PRD §4.2 er beholdt.
+- Loggen og fremgangsmåten står i `_bmad-output/planning-artifacts/kalibrering/` (`vaerlogg.csv` og `README.md`).
+- `python3 scripts/kalibrering_vaerlogg.py --oppsummer` teller avvikene på nytt. `--selvtest` sjekker skriptets klassifisering mot `testdata/vaerklasse-fasit.json` uten å kalle MET, og CI kjører den ved hver push. Skriptet bruker bare Pythons standardbibliotek (3.9+).
+- Endres tersklene, endrer du `data/vaerterskler.json` og fasiten sammen, og kjører `--selvtest` og `npm test`.
 
 ## Publisert app
 
