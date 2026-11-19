@@ -98,5 +98,7 @@
 - [ ] 2026-11-19 [story-2-7-vaersammendrag](967-2026-11-19-09-07-14-story-2-7-vaersammendrag.md) — Valgfritt: tallene for UJ-2 i dataene (3,4 mm/t, 5–7 °C) avviker fra eksempelet i EXPERIENCE (3,5 mm/t, 2–4 °C)
 - [ ] 2026-11-19 [story-2-7-vaersammendrag](967-2026-11-19-09-07-14-story-2-7-vaersammendrag.md) — En Værklasse som bare skyldes temperaturen, forklares ikke av værordene i Regelteksten (UX-spørsmål)
 - [ ] 2026-11-19 [story-2-8-resultatmodell-vaer](966-2026-11-19-09-23-47-story-2-8-resultatmodell-vaer.md) — Walkthrough av story 2.8 gjenstår (sprint-status er review)
-- [ ] 2026-11-19 [story-2-8-resultatmodell-vaer](966-2026-11-19-09-23-47-story-2-8-resultatmodell-vaer.md) — Ikke push 2.8 til Production før 2.9 og 2.10 viser været i UI-et
+- [x] 2026-11-19 [story-2-8-resultatmodell-vaer](966-2026-11-19-09-23-47-story-2-8-resultatmodell-vaer.md) — Ikke push 2.8 til Production før 2.9 og 2.10 viser været i UI-et (løst 2026-11-19: 2.10 er committet, så 2.8–2.10 kan pushes sammen)
 - [ ] 2026-11-19 [story-2-9-vaer-delen](965-2026-11-19-10-40-22-story-2-9-vaer-delen.md) — Walkthrough av story 2.9 gjenstår (sprint-status er review)
+- [ ] 2026-11-19 [story-2-10-bedre-tidsvindu-fraradet](964-2026-11-19-10-59-48-story-2-10-bedre-tidsvindu-fraradet.md) — Walkthrough av story 2.10 gjenstår, med designvalgene notert i specen
+- [ ] 2026-11-19 [story-2-10-bedre-tidsvindu-fraradet](964-2026-11-19-10-59-48-story-2-10-bedre-tidsvindu-fraradet.md) — Godkjenn eller rull tilbake de fem nye tokens for bedre-tidsvindu-kort i DESIGN.md
