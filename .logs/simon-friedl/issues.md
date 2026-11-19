@@ -95,3 +95,5 @@
 - [ ] 2026-11-19 [story-1-15-sluttsjekk](972-2026-11-19-01-08-20-story-1-15-sluttsjekk.md) — Største bredde for Resultat over 1440 px krever en ny token i DESIGN.md
 - [ ] 2026-11-19 [story-1-15-sluttsjekk](972-2026-11-19-01-08-20-story-1-15-sluttsjekk.md) — Etikettene i Dagslysstolpen kan overlappe ved smal bredde eller når andelene ligger tett
 - [ ] 2026-11-19 [story-2-4-met](970-2026-11-19-01-34-44-story-2-4-met.md) — Valgfritt: avgjør om `server-only` skal inn som avhengighet, så `met.ts` er skjermet fra nettleseren i bygget
+- [ ] 2026-11-19 [story-2-7-vaersammendrag](967-2026-11-19-09-07-14-story-2-7-vaersammendrag.md) — Valgfritt: tallene for UJ-2 i dataene (3,4 mm/t, 5–7 °C) avviker fra eksempelet i EXPERIENCE (3,5 mm/t, 2–4 °C)
+- [ ] 2026-11-19 [story-2-7-vaersammendrag](967-2026-11-19-09-07-14-story-2-7-vaersammendrag.md) — En Værklasse som bare skyldes temperaturen, forklares ikke av værordene i Regelteksten (UX-spørsmål)
