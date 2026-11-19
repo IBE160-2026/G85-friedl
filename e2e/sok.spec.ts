@@ -282,7 +282,7 @@ test("tokens er lastet og trykkflatene er minst 44 × 44 px ved 360 px", async (
 test("ukjent demo gir panelet med gyldige demoer", async ({ page }) => {
   await page.goto("/?demo=finnes-ikke");
   await expect(page.getByRole("heading", { level: 1, name: "Ukjent demo" })).toBeVisible();
-  await expect(page.getByText("Ukjent demo: «finnes-ikke». Gyldige demoer: uten-vaer.")).toBeVisible();
+  await expect(page.getByText("Ukjent demo: «finnes-ikke». Gyldige demoer: uj-1, uj-2, uj-3, ingen-bedre, uten-vaer.")).toBeVisible();
   await expect(page.getByRole("button", { name: "Finn tur" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Data fra MET Norway" })).toBeVisible();
 

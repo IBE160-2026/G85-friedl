@@ -34,9 +34,8 @@ export async function svarPaSok(sok: Sok, miljo: Miljo): Promise<Resultatvisning
   const normalisert = normaliserSok(sok, miljo.na);
   const sol = soltiderFor(normalisert.sok.dato);
 
-  // Epic 1: værkilden gir alltid `null`, og Resultatet følger FR-13. Værklassen kommer i Epic 2.
-  const vaermelding = await miljo.vaerkilde();
-  if (vaermelding !== null) throw new Error("Værmeldingen kan ikke vurderes ennå (Epic 2).");
+  // Værscenarioene (story 2.3) har en Værmelding, men værkilden kalles ikke ennå: story 2.8 kobler inn
+  // Værklassen. Til da følger Resultatet FR-13 («Været er ikke vurdert.») også i demoene.
   const vaer: VaerGrunnlag = { type: "mangler" };
 
   const visning = lagVisning({

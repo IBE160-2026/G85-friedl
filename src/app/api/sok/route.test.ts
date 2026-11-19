@@ -66,8 +66,10 @@ describe("kontrakt: POST /api/sok for hver demo-ID", () => {
   it.each(DEMO_IDER)("%s gir en Resultatvisning uten snake_case", async (demoId) => {
     const svar = await post(UJ1, demoId);
     const tekst = await svar.clone().text();
-    await resultat(svar);
+    const v = await resultat(svar);
     expect(nokler(JSON.parse(tekst)).filter((k) => k.includes("_"))).toEqual([]);
+    // Fram til story 2.8 kobler inn Værklassen, er været «ikke vurdert» også i demoene med Værmelding.
+    expect(v.vaer.type).toBe("mangler");
   });
 });
 

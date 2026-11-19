@@ -20,11 +20,18 @@ export type Miljo = {
 /** Værkilden uten Værmelding (FR-13). */
 const utenVaermelding: Vaerkilde = async () => null;
 
-/** Værkilden for et scenario. En ny verdi i `vaer` (story 2.3) kompilerer ikke før den er koblet hit. */
-function vaerkildeFor(vaer: Scenario["vaer"]): Vaerkilde {
-  switch (vaer) {
+/**
+ * Værkilden for et scenario. `met` gir scenarioets Værmelding, parset fra met.json ved import.
+ * MET-adapteren og cachen brukes aldri i Demomodus. En ny verdi i `vaer` kompilerer ikke før den er koblet hit.
+ */
+function vaerkildeFor(scenario: Scenario): Vaerkilde {
+  switch (scenario.vaer) {
     case "mangler":
       return utenVaermelding;
+    case "met": {
+      const { vaermelding } = scenario;
+      return async () => vaermelding;
+    }
   }
 }
 
@@ -45,7 +52,7 @@ export function lagMiljo(demoId: string | null): Miljo | UkjentDemoFeil {
 
   return {
     na: Date.parse(scenario.na),
-    vaerkilde: vaerkildeFor(scenario.vaer),
+    vaerkilde: vaerkildeFor(scenario),
     demo: { id: demoId, beskrivelse: scenario.beskrivelse },
   };
 }

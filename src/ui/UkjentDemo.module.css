@@ -11,6 +11,9 @@
 .lenke {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  /* Korte demo-ID-er som «uj-1» trenger også bredden for å nå 44 × 44 px. */
+  min-width: var(--spacing-touch-min);
   min-height: var(--spacing-touch-min);
   text-decoration: underline;
   text-underline-offset: 2px;
