@@ -104,4 +104,4 @@
 - [ ] 2026-11-19 [story-2-10-bedre-tidsvindu-fraradet](964-2026-11-19-10-59-48-story-2-10-bedre-tidsvindu-fraradet.md) — Godkjenn eller rull tilbake de fem nye tokens for bedre-tidsvindu-kort i DESIGN.md
 - [ ] 2026-11-19 [story-2-11-readme-og-provekjoring](963-2026-11-19-11-06-59-story-2-11-readme-og-provekjoring.md) — SM-3: en person utenfor gruppa må følge README på en ren klone og vise UJ-1–UJ-3, og resultatet noteres i epic-2-sluttsjekk.md
 - [ ] 2026-11-19 [story-2-11-readme-og-provekjoring](963-2026-11-19-11-06-59-story-2-11-readme-og-provekjoring.md) — Walkthrough av story 2.11 gjenstår (sprint-status er review)
-- [ ] 2026-11-19 [story-2-11-readme-og-provekjoring](963-2026-11-19-11-06-59-story-2-11-readme-og-provekjoring.md) — Production viser «… som passer nå» etter «Bruk 14:00» til rettelsen 1c6be47 er pushet
+- [x] 2026-11-19 [story-2-11-readme-og-provekjoring](963-2026-11-19-11-06-59-story-2-11-readme-og-provekjoring.md) — Production viser «… som passer nå» etter «Bruk 14:00» til rettelsen 1c6be47 er pushet (løst 2026-11-19: pushet)

@@ -26,3 +26,17 @@ Kjør story 2.11 under målet «kjør alle stories ferdig». README skal ha UJ-1
 - **SM-3:** en person utenfor gruppa må følge README på en ren klone uten hjelp, og resultatet må noteres i `epic-2-sluttsjekk.md`.
 - **Walkthrough av 2.11 gjenstår.**
 - **Production er ikke oppdatert:** den har fortsatt «… som passer nå» etter «Bruk 14:00», til `1c6be47` er pushet.
+
+## 2026-11-19 kl. 11:07 — Simon Friedl
+
+### Oppgave
+Simon ba om push av 2.11 og rettelsen `1c6be47`. Han godkjente også leaflet 1.9.4, react-leaflet 5.0.0 og @types/leaflet for Epic 3.
+
+### Plan
+- Push `main`.
+
+### Resultat
+- Pushet til `main`. Production får overskriften med Turdag og klokkeslett.
+
+### Åpne punkter
+- Ingen nye.
