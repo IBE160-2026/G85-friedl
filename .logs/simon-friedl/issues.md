@@ -112,3 +112,6 @@
 - [ ] 2026-11-19 [story-3-4-flisfeil](959-2026-11-19-16-55-16-story-3-4-flisfeil.md) — Walkthrough av story 3.4 gjenstår (plassering av pillen, meldingen to ganger på mobil, grensen på 3 feil og 8 s)
 - [ ] 2026-11-19 [story-4-1-kontroll-sprakmodelltekst](958-2026-11-19-20-42-53-story-4-1-kontroll-sprakmodelltekst.md) — Walkthrough av story 4.1 gjenstår («en min …» avvises, og bindestrek foran siffer tolkes som minus)
 - [ ] 2026-11-19 [story-3-5-velg-turforslag](957-2026-11-19-20-57-09-story-3-5-velg-turforslag.md) — Walkthrough av story 3.5 gjenstår (animasjon der kortet senkes, etikett på mobil, tokens for Kartinfoboksen i DESIGN.md)
+- [ ] 2026-11-19 [story-4-2-begrunnelse-endepunkt](956-2026-11-19-21-15-16-story-4-2-begrunnelse-endepunkt.md) — Walkthrough av story 4.2 gjenstår
+- [ ] 2026-11-19 [story-4-2-begrunnelse-endepunkt](956-2026-11-19-21-15-16-story-4-2-begrunnelse-endepunkt.md) — /api/begrunnelse har ingen grense for antall forespørsler, og bare utgiftsgrensen begrenser misbruk når Claude er koblet til
+- [ ] 2026-11-19 [story-4-2-begrunnelse-endepunkt](956-2026-11-19-21-15-16-story-4-2-begrunnelse-endepunkt.md) — e2e/vaer.spec.ts:73 kan være ustabil (venter ikke på at værikonet er lastet)
