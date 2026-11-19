@@ -3,7 +3,8 @@ import { varighet } from "./format";
 // Regelteksten (FR-20, Regeltekst-mønsteret i EXPERIENCE.md). Delene står i fast rekkefølge,
 // skilt med «, », med liten forbokstav og uten punktum til slutt. Teksten nevner bare regler som
 // slo inn, og samme input gir samme tekst. Delene for dårlig vær (lavtliggende tur, egnet i dårlig
-// vær) og værordene kommer i story 2.5 og 2.7.
+// vær) og værordene kommer i story 2.7. Story 2.5 la bare `lavtliggende` og `egnetDarligVaer` til i
+// `RangertTur`.
 
 /** Opplevelsespreferansene i fast rekkefølge (FR-5). */
 export const OPPLEVELSESPREFERANSER = ["utsikt", "vann"] as const;

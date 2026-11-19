@@ -36,7 +36,7 @@ function visning(s: Sok, na = NA): Resultatvisning {
     resultatId: "test",
     normalisert,
     na,
-    anbefaling: anbefal(turer, normalisert.sok, sol),
+    anbefaling: anbefal(turer, normalisert.sok, sol, "mangler"),
     soltider: sol,
     geometri,
     vaer: { type: "mangler" },
@@ -79,7 +79,7 @@ describe("lagVisning", () => {
     // To Turforslag kan ikke nås med testdataene i hele kvarter (16, 33 og 43 min), så Anbefalingen kuttes.
     const s = sok({ tilgjengeligMin: 120 });
     const sol: Soltider = { [s.dato]: soltider(s.dato) };
-    const tre = anbefal(turer, s, sol);
+    const tre = anbefal(turer, s, sol, "mangler");
     if (tre.type !== "turforslag") throw new Error("Forventet Turforslag.");
     const to = lagVisning({
       resultatId: "test",
@@ -132,7 +132,7 @@ describe("lagVisning", () => {
         resultatId: "test",
         normalisert: { sok: s },
         na: NA,
-        anbefaling: anbefal(turer, s, sol),
+        anbefaling: anbefal(turer, s, sol, "mangler"),
         soltider: sol,
         geometri,
         vaer: { type: "mangler" },

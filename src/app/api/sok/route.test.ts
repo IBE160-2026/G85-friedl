@@ -1,7 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { anbefal } from "@/kjerne/anbefaling";
+import { soltider } from "@/kjerne/sol";
 import { lagStandardSok, type Sok } from "@/kjerne/sok";
 import { ApiFeilSkjema, UgyldigSokFeilSkjema, UkjentDemoFeilSkjema } from "@/kjerne/visning/feil";
 import { type Resultatvisning, ResultatvisningSkjema } from "@/kjerne/visning/skjema";
+import { TURER } from "@/server/data";
 import { DEMO_IDER } from "@/server/vaer/scenarioer";
 import { POST } from "./route";
 
@@ -95,6 +98,13 @@ describe("I/O-matrisen (story 1.10)", () => {
     if (v.utfall.type !== "turforslag") return;
     expect(v.utfall.kort.map((k) => k.kart.nummer)).toEqual([1, 2, 3]);
     expect(v.utfall.kort.every((k) => k.kriterier[1].tekst === "ikke vurdert")).toBe(true);
+    // Uten Værklasse rangerer serveren som i godt vær. For UJ-1 gir dårlig vær en annen rekkefølge.
+    const ider = (vaerklasse: "god" | "darlig") => {
+      const a = anbefal(TURER, UJ1, { [UJ1.dato]: soltider(UJ1.dato) }, vaerklasse);
+      return a.type === "turforslag" ? a.forslag.map((f) => f.tur.id) : [];
+    };
+    expect(v.utfall.kort.map((k) => k.turId)).toEqual(ider("god"));
+    expect(ider("darlig")).not.toEqual(ider("god"));
     expect(v.resultatId).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
   });
 

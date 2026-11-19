@@ -35,14 +35,15 @@ export async function svarPaSok(sok: Sok, miljo: Miljo): Promise<Resultatvisning
   const sol = soltiderFor(normalisert.sok.dato);
 
   // Værscenarioene (story 2.3) har en Værmelding, men værkilden kalles ikke ennå: story 2.8 kobler inn
-  // Værklassen. Til da følger Resultatet FR-13 («Været er ikke vurdert.») også i demoene.
+  // Værklassen. Til da følger Resultatet FR-13 («Været er ikke vurdert.») også i demoene, og
+  // Anbefalingen får Værklassen `mangler`, som gir rangeringen for godt vær.
   const vaer: VaerGrunnlag = { type: "mangler" };
 
   const visning = lagVisning({
     resultatId: crypto.randomUUID(),
     normalisert,
     na: miljo.na,
-    anbefaling: anbefal(TURER, normalisert.sok, sol),
+    anbefaling: anbefal(TURER, normalisert.sok, sol, "mangler"),
     soltider: sol,
     geometri: GEOMETRI,
     vaer,

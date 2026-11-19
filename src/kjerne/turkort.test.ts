@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import rutegeometriJson from "../../data/rutegeometri.geojson";
 import turerJson from "../../testdata/turer.json";
-import { anbefal, type Alternativ, type RangertTur } from "./anbefaling";
+import { anbefal, erLavtliggende, type Alternativ, type RangertTur } from "./anbefaling";
 import { vurderMorke, type Soltider } from "./morke";
 import { soltider as beregnSoltider } from "./sol";
 import type { Sok } from "./sok";
@@ -47,6 +47,8 @@ function rangert(id: string, s: Sok, soltider: Soltider = SOLTIDER): RangertTur 
     turtidMin: tid,
     morkevarsel: vurderMorke(s, tid, soltider),
     treff: (s.utsikt && t.utsikt ? 1 : 0) + (s.vann && t.vann ? 1 : 0),
+    lavtliggende: erLavtliggende(t),
+    egnetDarligVaer: t.egnet_darlig_vaer,
   };
 }
 
@@ -195,7 +197,7 @@ describe("I/O-matrisen (story 1.9)", () => {
 
   it("Alternativ (UJ-3): 15 min, Storlihytta fra Vardeveien", () => {
     const s = sok({ tilgjengeligMin: 15 });
-    const anbefaling = anbefal(turer, s, SOLTIDER);
+    const anbefaling = anbefal(turer, s, SOLTIDER, "mangler");
     if (anbefaling.type !== "kortesteTur") throw new Error("Ventet den korteste Turen.");
     const kort = lagTurkort(anbefaling.alternativ, input(s));
     expect(kort.turId).toBe("storlihytta-fra-vardeveien");
@@ -320,7 +322,7 @@ describe("hele testdatasettet over et rutenett av Søk", { timeout: 30_000 }, ()
         for (const vanskelighetsgrad of GRADER) {
           for (const pref of PREFERANSER) {
             const s = sok({ dato, start, tilgjengeligMin, vanskelighetsgrad, ...pref });
-            const anbefaling = anbefal(turer, s, soltider);
+            const anbefaling = anbefal(turer, s, soltider, "mangler");
             const kandidater = anbefaling.type === "turforslag" ? anbefaling.forslag : [anbefaling.alternativ];
             kandidater.forEach((kandidat, i) => {
               const inn = input(s, { soltider, nummer: i + 1, antall: kandidater.length });

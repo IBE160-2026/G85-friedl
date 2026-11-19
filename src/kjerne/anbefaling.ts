@@ -3,16 +3,23 @@ import { vurderMorke, type Morkevarsel, type Soltider } from "./morke";
 import type { Sok } from "./sok";
 import type { Tur } from "./turdata/skjema";
 import { turtidMin } from "./turtid";
+import type { VindusKlasse } from "./vaer/typer";
+import { VAERPUNKT } from "./vaerpunkt";
 
-// Anbefaling (FR-16–FR-18) ved god eller middels Værklasse og når Værmeldingen mangler.
-// Rangeringen ved dårlig vær (lavtliggende, Egnet i dårlig vær) kommer i story 2.5.
+// Anbefaling (FR-15–FR-18). Værklassen for Tidsvinduet avgjør bare rangeringen: ved dårlig eller
+// frarådet vær rangeres lave og skjermede Turer øverst (FR-15). Ved god, middels og mangler er
+// rangeringen den samme. Været fjerner aldri Turer, så filtreringen får ikke Værklassen.
 // Alt er deterministisk: samme Søk, soltider og Turer gir samme svar, også i stokket rekkefølge.
 
 /** Det rangeringen og Turkortet trenger om en Tur. */
 export type RangertTur = TurMedTid & {
   morkevarsel: Morkevarsel | null;
-  /** Antall av brukerens Opplevelsespreferanser Turen treffer. */
+  /** Antall av brukerens Opplevelsespreferanser Turen treffer, med utsikt. Det Turkortet viser. */
   treff: number;
+  /** Høyeste punkt er under Værpunktets høyde (Lavtliggende tur). */
+  lavtliggende: boolean;
+  /** Egnet i dårlig vær fra Turdatasettet. `null` er ukjent. */
+  egnetDarligVaer: boolean | null;
 };
 
 export type Alternativ = TurMedTid & {
@@ -36,19 +43,69 @@ function treff(tur: Tur, sok: Pick<Sok, "utsikt" | "vann">): number {
   return (sok.utsikt && tur.utsikt ? 1 : 0) + (sok.vann && tur.vann ? 1 : 0);
 }
 
+/** Treff uten utsikt, som rangeringen i dårlig vær bruker: bare vann teller. */
+function treffUtenUtsikt(tur: Tur, sok: Pick<Sok, "vann">): number {
+  return sok.vann && tur.vann ? 1 : 0;
+}
+
+/** Lavtliggende tur: høyeste punkt under `VAERPUNKT.hoydeMoh`, høyden Værmeldingen gjelder for. */
+export function erLavtliggende(tur: Pick<Tur, "hoyeste_punkt_moh">): boolean {
+  return tur.hoyeste_punkt_moh < VAERPUNKT.hoydeMoh;
+}
+
+/** Ved dårlig og frarådet vær brukes rangeringen for dårlig vær (FR-15). Kaster ved ukjent Værklasse. */
+function erDarligVaer(vaerklasse: VindusKlasse): boolean {
+  switch (vaerklasse) {
+    case "darlig":
+    case "fraradet":
+      return true;
+    case "god":
+    case "middels":
+    case "mangler":
+      return false;
+    default: {
+      const ukjent: never = vaerklasse;
+      throw new Error(`Ukjent Værklasse: ${String(ukjent)}`);
+    }
+  }
+}
+
+/** Egnet i dårlig vær: ja før ukjent før nei. */
+const egnetRang = (egnet: boolean | null) => (egnet === true ? 0 : egnet === null ? 1 : 2);
+
 /**
- * Rangerer Turene som passer (FR-16): uten Mørkevarsel først, så flest treff på
- * Opplevelsespreferanser, så Turtid nærmest Tilgjengelig tid, og til slutt ID alfabetisk.
- * Ingen Turer fjernes. `passer` skal ha gått gjennom `filtrerTurer`, så Turtid ≤ Tilgjengelig tid
- * og «nærmest» betyr minst ledig tid.
+ * Rangerer Turene som passer (FR-15, FR-16). Ingen Turer fjernes. `passer` skal ha gått gjennom
+ * `filtrerTurer`, så Turtid ≤ Tilgjengelig tid og «nærmest» betyr minst ledig tid.
+ *
+ * Ved god, middels og mangler: uten Mørkevarsel først, så flest treff på Opplevelsespreferanser,
+ * så Turtid nærmest Tilgjengelig tid, og til slutt ID i kodepunktrekkefølge.
+ *
+ * Ved dårlig og frarådet: uten Mørkevarsel først, så Lavtliggende tur, så Egnet i dårlig vær
+ * (ja, ukjent, nei), så flest treff uten utsikt, så Turtid nærmest Tilgjengelig tid, og til slutt ID.
  */
-export function rangerTurer(passer: readonly TurMedTid[], sok: SokForAnbefaling, soltider: Soltider): RangertTur[] {
+export function rangerTurer(
+  passer: readonly TurMedTid[],
+  sok: SokForAnbefaling,
+  soltider: Soltider,
+  vaerklasse: VindusKlasse,
+): RangertTur[] {
+  const darlig = erDarligVaer(vaerklasse);
   return passer
-    .map((t) => ({ ...t, morkevarsel: vurderMorke(sok, t.turtidMin, soltider), treff: treff(t.tur, sok) }))
+    .map((t) => ({
+      ...t,
+      morkevarsel: vurderMorke(sok, t.turtidMin, soltider),
+      treff: treff(t.tur, sok),
+      lavtliggende: erLavtliggende(t.tur),
+      egnetDarligVaer: t.tur.egnet_darlig_vaer,
+    }))
     .sort(
       (a, b) =>
         Number(a.morkevarsel !== null) - Number(b.morkevarsel !== null) ||
-        b.treff - a.treff ||
+        (darlig
+          ? Number(b.lavtliggende) - Number(a.lavtliggende) ||
+            egnetRang(a.egnetDarligVaer) - egnetRang(b.egnetDarligVaer) ||
+            treffUtenUtsikt(b.tur, sok) - treffUtenUtsikt(a.tur, sok)
+          : b.treff - a.treff) ||
         Math.abs(sok.tilgjengeligMin - a.turtidMin) - Math.abs(sok.tilgjengeligMin - b.turtidMin) ||
         etterId(a.tur.id, b.tur.id),
     );
@@ -95,9 +152,17 @@ export function kortesteTur(turer: readonly Tur[], sok: SokForAnbefaling, soltid
   };
 }
 
-/** Turforslagene, eller den korteste Turen som Alternativ når ingen Tur passer. */
-export function anbefal(turer: readonly Tur[], sok: SokForAnbefaling, soltider: Soltider): Anbefaling {
+/**
+ * Turforslagene, eller den korteste Turen som Alternativ når ingen Tur passer. `vaerklasse` er
+ * Værklassen for Tidsvinduet og påvirker bare rangeringen.
+ */
+export function anbefal(
+  turer: readonly Tur[],
+  sok: SokForAnbefaling,
+  soltider: Soltider,
+  vaerklasse: VindusKlasse,
+): Anbefaling {
   const passer = filtrerTurer(turer, sok);
   if (passer.length === 0) return { type: "kortesteTur", alternativ: kortesteTur(turer, sok, soltider) };
-  return { type: "turforslag", forslag: velgTurforslag(rangerTurer(passer, sok, soltider)) };
+  return { type: "turforslag", forslag: velgTurforslag(rangerTurer(passer, sok, soltider, vaerklasse)) };
 }
