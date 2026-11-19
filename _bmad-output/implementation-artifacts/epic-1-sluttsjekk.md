@@ -7,12 +7,12 @@ Story 1.15 (AR-25, NFR-1, NFR-3, NFR-5, NFR-8, SM-4, UX-DR46, UX-DR47). Sjekket 
 | Krav | Resultat |
 |---|---|
 | README (AR-25, NFR-3) | Bestått. Kom i gang, Demomodus, Tester og konverteringsskriptet er med, og README sier at appen virker uten `ANTHROPIC_API_KEY`. |
-| Ren klone uten `.env` (NFR-3) | Gjøres på nytt etter commit. Første kjøring før commit, på `e4ed5af`, var bestått (se under). |
+| Ren klone uten `.env` (NFR-3) | Bestått på `01ccb5c` (storyens commit). `npm install && npm run dev` slik README sier, uten `.env`, gir tre Turforslag med «Været er ikke vurdert.». |
 | NFR-5 med «Fast 4G» | Bestått. Median 212 ms og maks 219 ms mot Production, grensen er 3 s. Funksjonen var varm i de fem målingene, og CPU-en var ikke strupet. Oppvarmingen tok 1032 ms, trolig med kaldstart. |
 | SM-4 ved 360, 768 og 1440 px (NFR-1) | Bestått. 15 av 15 sjekker grønne i `e2e/sluttsjekk.spec.ts` (5 visninger × 3 bredder), pluss Kriterieradene ved 180 og 360 px. |
 | Forbudene (UX-DR46) | Bestått. `src/ui/forbud.test.ts` er grønn. |
 | Ordbruken (UX-DR47, NFR-8) | Bestått. Ingen avvik funnet. |
-| Testene | Bestått. `npm test`, `npm run lint`, `npx tsc --noEmit` og `CI=1 npx playwright test` var grønne i første runde. Etter gjennomgangen er bare testene for de endrede filene kjørt på nytt: `src/ui/forbud.test.ts` (11) og `e2e/sluttsjekk.spec.ts` (17). |
+| Testene | Bestått etter gjennomgangen. `npm test` gir 1008/1008, `npm run lint` og `npx tsc --noEmit` er rene, og `CI=1 npx playwright test` gir 88/88. |
 
 ## README
 
@@ -27,9 +27,19 @@ README nevner ingen hemmeligheter. Lenkene til `uj-1`–`uj-3` og kalibreringen 
 
 ## Ren klone
 
-**Gjøres på nytt etter commit**, etter README, og fylles inn her.
+**Etter commit (gjeldende):** 2026-11-19 kl. 01:07, på `01ccb5c`. Repoet ble klonet til en midlertidig mappe, og README ble fulgt ordrett.
 
-Første kjøring var 2026-11-19 ca. kl. 00:55–00:56, rett etter den første NFR-5-målingen. Den brukte en klone fra GitHub på `e4ed5af` i en midlertidig mappe, altså uten endringene fra denne storyen. Mappa hadde ingen `.env`, bare `.env.example`.
+| Steg | Resultat |
+|---|---|
+| `git clone` | OK. Ingen `.env`, bare `.env.example`. |
+| `npm install` | OK, exit 0. |
+| `npm run dev` | OK, «Ready» på `http://localhost:3000`. |
+| `GET /?demo=uten-vaer` | 200 |
+| `POST /api/sok?demo=uten-vaer` (2026-11-09, 13:30, 2 t, Middels, utsikt) | «Tre Turforslag som passer tiden din», `vaer` er `mangler` med «Været er ikke vurdert. Vi fikk ikke hentet Værmeldingen fra MET.», og `utfall` er `turforslag` med 3 kort. |
+
+Serveren ble stoppet, og mappa ble slettet etterpå.
+
+**Første kjøring, før commit (erstattet):** Første kjøring var 2026-11-19 ca. kl. 00:55–00:56, rett etter den første NFR-5-målingen. Den brukte en klone fra GitHub på `e4ed5af` i en midlertidig mappe, altså uten endringene fra denne storyen. Mappa hadde ingen `.env`, bare `.env.example`.
 
 | Steg | Resultat |
 |---|---|
@@ -145,7 +155,6 @@ Ingen avvik funnet, så ingenting ble rettet. «Finner turer …» har liten t, 
 - Etikettene i Dagslysstolpen kan overlappe ved smal bredde eller når andelene ligger tett.
 - NFR-5 er målt med varm funksjon og uten CPU-struping. Kaldstart ble bare sett i oppvarmingen (1032 ms) og er ikke målt for seg.
 - SM-4 i EXPERIENCE.md nevner også 1200 px. Spec-en for 1.15 ber om 360, 768 og 1440 px, så 1200 px er ikke med i sluttsjekken. `e2e/stokk.spec.ts` dekker PC-oppsettet ved 1200 px.
-- Den rene klonen gjøres på nytt etter commit.
 - `npm ci` i en ren klone hopper over installasjonsskriptene til `fsevents` og `unrs-resolver`. Det påvirket ikke bygg eller start i første kjøring.
 - `node scripts/mal-svartid.ts` gir advarselen `MODULE_TYPELESS_PACKAGE_JSON`, fordi `package.json` ikke har `"type"`. Node leser fila som ES-modul, og målingen virker.
 - README mangler fortsatt lenkene til `?demo=uj-1`–`uj-3` og seksjonen om kalibreringen (AR-25). De kommer med Epic 2.
