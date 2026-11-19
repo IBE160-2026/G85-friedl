@@ -94,3 +94,4 @@
 - [x] 2026-11-19 [story-1-14-tilstander](973-2026-11-19-00-40-59-story-1-14-tilstander.md) — Story 1.14: review og sprint-status gjenstår (løst 2026-11-19)
 - [ ] 2026-11-19 [story-1-15-sluttsjekk](972-2026-11-19-01-08-20-story-1-15-sluttsjekk.md) — Største bredde for Resultat over 1440 px krever en ny token i DESIGN.md
 - [ ] 2026-11-19 [story-1-15-sluttsjekk](972-2026-11-19-01-08-20-story-1-15-sluttsjekk.md) — Etikettene i Dagslysstolpen kan overlappe ved smal bredde eller når andelene ligger tett
+- [ ] 2026-11-19 [story-2-4-met](970-2026-11-19-01-34-44-story-2-4-met.md) — Valgfritt: avgjør om `server-only` skal inn som avhengighet, så `met.ts` er skjermet fra nettleseren i bygget
