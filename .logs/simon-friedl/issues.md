@@ -107,3 +107,4 @@
 - [x] 2026-11-19 [story-2-11-readme-og-provekjoring](963-2026-11-19-11-06-59-story-2-11-readme-og-provekjoring.md) — Production viser «… som passer nå» etter «Bruk 14:00» til rettelsen 1c6be47 er pushet (løst 2026-11-19: pushet)
 - [ ] 2026-11-19 [story-3-1-kartet](962-2026-11-19-15-38-06-story-3-1-kartet.md) — Walkthrough av story 3.1 gjenstår (zoomtekstene, stiplede inaktive ruter, tegnforklaring på to linjer på mobil, etiketten ved Alternativet)
 - [ ] 2026-11-19 [story-3-1-kartet](962-2026-11-19-15-38-06-story-3-1-kartet.md) — Se kartet med ekte Kartverket-fliser på Production (kontrast mot ruten). Testene bruker bare stubbede fliser
+- [ ] 2026-11-19 [story-3-2-kartutsnitt](961-2026-11-19-16-10-30-story-3-2-kartutsnitt.md) — Walkthrough av story 3.2 gjenstår (små ruter ved 104 px, Kartverket-merket nederst mot øverst i skissen, stempelet overlapper ikke utsnittet)
