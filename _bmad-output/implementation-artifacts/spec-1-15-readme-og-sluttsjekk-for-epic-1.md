@@ -2,7 +2,7 @@
 title: 'Story 1.15: README og sluttsjekk for Epic 1'
 type: 'chore'
 created: '2026-11-18'
-status: 'in-review'
+status: 'done'
 baseline_commit: 'e4ed5afbe22b8802af42be2cd759ddd06d29ca70'
 route: 'dispatch'
 review_loop_iteration: 0
