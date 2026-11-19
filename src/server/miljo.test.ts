@@ -53,13 +53,23 @@ describe("lagMiljo", () => {
     expect(await miljo.vaerkilde()).toEqual(parseMetCompact(lesJson(`${id}/met.json`)));
   });
 
-  it("uten demo: systemklokka og ingen Værmelding", async () => {
+  it("uten demo: systemklokka, ingen Værmelding og ingen fetch", async () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(Date.UTC(2026, 10, 12, 8, 7));
-    const miljo = lagMiljo(null) as Miljo;
-    expect(miljo.na).toBe(Date.UTC(2026, 10, 12, 8, 7));
-    expect(miljo.demo).toBeNull();
-    await expect(miljo.vaerkilde()).resolves.toBeNull();
+    // MET kobles inn i 2.8. Til da kaller værkilden ikke fetch.
+    const fetch = vi.fn(() => {
+      throw new Error("Værkilden uten demo kalte fetch.");
+    });
+    vi.stubGlobal("fetch", fetch);
+    try {
+      const miljo = lagMiljo(null) as Miljo;
+      expect(miljo.na).toBe(Date.UTC(2026, 10, 12, 8, 7));
+      expect(miljo.demo).toBeNull();
+      await expect(miljo.vaerkilde()).resolves.toBeNull();
+      expect(fetch).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it.each(["finnes-ikke", "", "toString", "__proto__"])("ukjent demo «%s» gir UkjentDemoFeil", (id) => {

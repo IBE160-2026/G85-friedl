@@ -31,6 +31,9 @@ const kjerneBareTyper = {
   message: `${MELDING}: visningen (src/app/ og src/ui/) importerer bare typer fra src/kjerne/. Bruk «import type».`,
 };
 
+// Ingen egen regel for MET-adapteren src/server/vaer/met.ts (AR-10): den er skjermet fra nettleseren
+// av de eksisterende reglene ingentingFraServer (src/ui/ og src/app/), serverUtenomSide
+// (src/app/page.tsx) og kjerneImporterer (src/kjerne/). Testet i lagregler.test.ts.
 const ingentingFraServer = {
   regex: `${FRA_SRC}server(/|$)`,
   message: `${MELDING}: visningen importerer ikke fra src/server/. Bare src/app/page.tsx kan importere src/server/side.`,

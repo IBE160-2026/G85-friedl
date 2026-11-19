@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { join, relative } from "node:path";
 import { ESLint } from "eslint";
 import { beforeAll, describe, expect, it } from "vitest";
 
@@ -243,5 +245,50 @@ describe("lagregler: bare src/kjerne/tid.ts bruker @date-fns/tz (AD-7)", () => {
 
   it("src/kjerne/tid.ts: kjernens andre klokkeregler gjelder fortsatt", async () => {
     await forventBrudd("src/kjerne/tid.ts", "export const na = new Date();");
+  });
+});
+
+describe("lagregler: MET-adapteren er skjermet fra nettleseren (story 2.4, AR-10)", () => {
+  const metImport = (sti: string) => `import { lagMetVaerkilde } from '${sti}';\nexport const f = lagMetVaerkilde;`;
+
+  it.each([
+    ["src/ui/X.tsx", "@/server/vaer/met"],
+    ["src/ui/X.tsx", "../server/vaer/met"],
+    ["src/ui/sok/X.tsx", "../../server/vaer/met"],
+    ["src/app/layout.tsx", "@/server/vaer/met"],
+    ["src/app/x/page.tsx", "../../server/vaer/met"],
+    ["src/app/page.tsx", "@/server/vaer/met"],
+    ["src/kjerne/x.ts", "@/server/vaer/met"],
+    ["src/kjerne/vaer/x.ts", "../../server/vaer/met"],
+  ])("%s: import av %s feiler", async (fil, sti) => {
+    await forventBrudd(fil, metImport(sti));
+  });
+
+  it("src/ui/X.tsx: heller ikke som type", async () => {
+    await forventBrudd("src/ui/X.tsx", "import type { MetFetch } from '@/server/vaer/met';\nexport type F = MetFetch;");
+  });
+
+  it.each([
+    ["src/app/api/sok/route.ts", "@/server/vaer/met"],
+    ["src/server/miljo.ts", "./vaer/met"],
+  ])("%s: import av %s er lov", async (fil, sti) => {
+    await forventOk(fil, metImport(sti));
+  });
+
+  it("bare met.ts, testen for den og kalibreringsskriptet nevner MET-verten i src/, e2e/ og scripts/", () => {
+    const vert = ["api", "met", "no"].join(".");
+    const rot = import.meta.dirname;
+    const filer = ["src", "e2e", "scripts"].flatMap((mappe) =>
+      (readdirSync(join(rot, mappe), { recursive: true, withFileTypes: true }) as import("node:fs").Dirent[])
+        .filter((f) => f.isFile())
+        .map((f) => join(f.parentPath, f.name)),
+    );
+    const treff = filer
+      .filter((f) => readFileSync(f, "utf8").includes(vert))
+      .map((f) => relative(rot, f).split("\\").join("/"));
+    // Kalibreringsskriptet er det navngitte unntaket fra regelen om én MET-klient (epic 2).
+    const lov = new Set(["src/server/vaer/met.ts", "src/server/vaer/met.test.ts", "scripts/kalibrering_vaerlogg.py"]);
+    expect(treff.filter((f) => !lov.has(f))).toEqual([]);
+    expect(treff).toContain("src/server/vaer/met.ts");
   });
 });

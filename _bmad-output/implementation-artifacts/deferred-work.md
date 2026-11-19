@@ -38,3 +38,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-13-stokken-pa-mobil-og-nettbrett.md`
   summary: Turkortene rendres to ganger, én gang for PC-raden og én gang for Stokken, og fokus kan gå tapt når bredden krysser 1200 px.
   evidence: Gjennomgangen av story 1.13 (BH4 og EC4). Den doble renderingen må løses før kartutsnittet kommer inn i Turkort i Epic 3 (story 3.5), med lat lasting eller med ett oppsett etter `matchMedia`.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-4-vaermeldingen-hentes-fra-met.md`
+  summary: MET-adapteren er skjermet fra nettleseren bare med ESLint-regler, ikke med `import "server-only"`.
+  evidence: Gjennomgangen av story 2.4 (BH5). `server-only` er en ny npm-avhengighet og krever Simons godkjenning. Det dekkes av ESLint-reglene `ingentingFraServer` og `serverUtenomSide` og testene i `lagregler.test.ts`.

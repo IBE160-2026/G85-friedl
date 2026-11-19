@@ -1,12 +1,9 @@
-import type { Vaermelding } from "@/kjerne/vaer/typer";
 import type { UkjentDemoFeil } from "@/kjerne/visning/feil";
 import { DEMO_IDER, finnScenario, type Scenario } from "./vaer/scenarioer";
+import type { Vaerkilde } from "./vaer/typer";
 
 // Miljøet for én forespørsel (AD-13): klokka, værkilden og Demomodus. Fila er eneste sted
 // appen leser klokka. Med `?demo=` kommer «nå» og været fra scenarioet, ellers fra systemklokka.
-
-/** Henter Værmeldingen, eller gir `null` når den mangler. MET-adapteren kommer i story 2.4. */
-export type Vaerkilde = () => Promise<Vaermelding | null>;
 
 export type Demo = { id: string; beskrivelse: string };
 
@@ -43,7 +40,8 @@ export function lesDemoId(url: URL | string): string | null {
 /** Miljøet for demo-ID-en, eller `UkjentDemoFeil` med de gyldige ID-ene. */
 export function lagMiljo(demoId: string | null): Miljo | UkjentDemoFeil {
   if (demoId === null) {
-    // Ingen MET-adapter ennå (story 2.4): uten demo mangler Værmeldingen også.
+    // MET-adapteren (src/server/vaer/met.ts) kobles inn her i story 2.8. Til da mangler
+    // Værmeldingen uten demo også, og ingen kall går til MET.
     return { na: Date.now(), vaerkilde: utenVaermelding, demo: null };
   }
 
