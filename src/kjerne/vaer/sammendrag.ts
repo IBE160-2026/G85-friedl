@@ -5,6 +5,7 @@ import { vaerord } from "../vaerord";
 import type { Vaer } from "../visning/skjema";
 import { VAERTERSKLER, type Vaerterskler } from "./terskler";
 import type { Vaerklasse, Vaermelding, Vaertime } from "./typer";
+import { VAERIKONER } from "./vaerikoner";
 import { darligsteKlasse, erBedreKlasse, klasseForTime } from "./vaerklasse";
 
 // Værsammendraget og Værsymbolet (FR-10, FR-20, UX-DR16, UX-DR17). Tidsvinduet oppsummeres over de
@@ -106,6 +107,9 @@ const SYMBOLORD: Record<string, string> = {
   lightssnowshowers: "lette snøbyger",
 };
 
+/** Symbolkodene uten endelse som har et ord. Ikonene i `public/vaerikoner/` sjekkes mot dem. */
+export const SYMBOLKODER: readonly string[] = Object.keys(SYMBOLORD);
+
 /** Endelsene velger bare ikonfil og endrer ikke ordet. */
 const ENDELSE = /_(day|night|polartwilight)$/;
 const TORDEN = "andthunder";
@@ -121,11 +125,14 @@ function symbolord(kode: string): string | null {
 /**
  * Værsymbolet for en `symbol_code`: ordet og stien til METs ikon, navngitt med endelsen
  * («/vaerikoner/clearsky_day.svg»). En ukjent kode og `null` gir `null`: verken ikon eller ord.
+ * Har MET ikke ikon for koden med akkurat den endelsen (`rain_day`, `clearsky`), er `ikonSti` `null`,
+ * og bare ordet vises.
  */
-export function vaersymbol(kode: string | null): { ord: string; ikonSti: string } | null {
+export function vaersymbol(kode: string | null): { ord: string; ikonSti: string | null } | null {
   if (kode === null) return null;
   const ord = symbolord(kode);
-  return ord === null ? null : { ord, ikonSti: `/vaerikoner/${kode}.svg` };
+  if (ord === null) return null;
+  return { ord, ikonSti: VAERIKONER.has(kode) ? `/vaerikoner/${kode}.svg` : null };
 }
 
 /** Værklassen som ord: «god», «middels», «dårlig», «frarådet». */
@@ -156,7 +163,8 @@ export type VaerVurdertInput = {
  * Værsammendraget for Tidsvinduet, grunnlaget Turkortet og Regelteksten bruker, og oppsummeringen
  * (med Værklassen) som Værvarslingen og Frarådet-meldingen trenger. Gir `null` når en av timene mangler
  * i Værmeldingen. Sammendraget er «{symbolord} · {temperatur} · nedbør {X} mm/t · vind opptil {Y} m/s»,
- * uten symbolordet når koden er ukjent.
+ * uten symbolordet når koden er ukjent. `verdier` er det samme uten symbolordet, til Værsammendraget,
+ * der ordet står ved ikonet.
  */
 export function lagVaerVurdert({
   melding,
@@ -169,12 +177,10 @@ export function lagVaerVurdert({
 
   const symbol = vaersymbol(o.symbolKode);
   const temperatur = temperaturTekst(o.minTempC, o.maksTempC);
-  const sammendrag = [
-    ...(symbol ? [symbol.ord] : []),
-    temperatur,
-    `nedbør ${tall(o.maksNedborMmT)} mm/t`,
-    `vind opptil ${tall(o.maksVindMs)} m/s`,
-  ].join(" · ");
+  const verdier = [temperatur, `nedbør ${tall(o.maksNedborMmT)} mm/t`, `vind opptil ${tall(o.maksVindMs)} m/s`].join(
+    " · ",
+  );
+  const sammendrag = symbol ? `${symbol.ord} · ${verdier}` : verdier;
 
   return {
     vaer: {
@@ -183,6 +189,7 @@ export function lagVaerVurdert({
       klasseTekst: klasseTekst(o.klasse),
       symbol,
       sammendrag,
+      verdier,
       tidsvindu: `${klokke(startUtc)}–${klokke(sluttUtc)}`,
       hoydemerknad: HOYDEMERKNAD,
     },

@@ -2,7 +2,8 @@ import { expect, type Page, test } from "@playwright/test";
 import type { Resultatvisning } from "../src/kjerne/visning/skjema";
 
 // Story 1.15: sjekklisten i SM-4 (NFR-1) ved 360, 768 og 1440 px, for Søk, Turforslag (standard-Søk),
-// Alternativ (15 min), Kontaktfeil og panelet for en ukjent demo-ID, mot ?demo=uten-vaer. For hver
+// Alternativ (15 min), Kontaktfeil og panelet for en ukjent demo-ID, mot ?demo=uten-vaer, og fra
+// story 2.9 Værsammendraget (?demo=uj-1) og Værvarslingen (?demo=uj-2). For hver
 // visning og bredde sjekkes det at siden ikke ruller sidelengs, at alle synlige kontroller har en
 // trykkflate på minst 44 × 44 px, og at ingenting krever hover: ingen title-attributter, ingen
 // SVG-<title> og ingen :hover-regel som viser, skjuler eller flytter noe.
@@ -50,6 +51,31 @@ const VISNINGER: { navn: string; url?: string; apne: (page: Page) => Promise<voi
       const visning = await finnTur(page);
       expect(visning.utfall.type).toBe("kortesteTur");
       await expect(page.getByTestId("alternativkort")).toBeVisible();
+    },
+  },
+  {
+    // Story 2.9: Værsammendraget (UJ-1, god).
+    navn: "Værsammendrag (uj-1)",
+    url: "/?demo=uj-1",
+    apne: async (page) => {
+      await page.getByRole("checkbox", { name: "utsikt" }).check();
+      const visning = await finnTur(page);
+      expect(visning.vaer).toMatchObject({ type: "vurdert", klasse: "god" });
+      await expect(page.getByTestId("vaersammendrag")).toBeVisible();
+    },
+  },
+  {
+    // Story 2.9: Værvarslingen (UJ-2, dårlig, i morgen 10:00, 3 t, Krevende).
+    navn: "Værvarsling (uj-2)",
+    url: "/?demo=uj-2",
+    apne: async (page) => {
+      await page.getByRole("radio", { name: "I morgen" }).check();
+      await page.getByRole("combobox", { name: "Tilgjengelig tid" }).selectOption("180");
+      await page.getByRole("radio", { name: "Krevende" }).check();
+      await page.getByRole("checkbox", { name: "utsikt" }).check();
+      const visning = await finnTur(page);
+      expect(visning.vaer).toMatchObject({ type: "vurdert", klasse: "darlig" });
+      await expect(page.getByTestId("vaervarsling")).toBeVisible();
     },
   },
   {

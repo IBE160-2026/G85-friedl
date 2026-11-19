@@ -74,6 +74,7 @@ describe("UJ-1", () => {
       klasseTekst: "Værklasse god",
       symbol: { ord: "klarvær", ikonSti: "/vaerikoner/clearsky_day.svg" },
       sammendrag: "klarvær · 3–5 °C · nedbør 0 mm/t · vind opptil 4,5 m/s",
+      verdier: "3–5 °C · nedbør 0 mm/t · vind opptil 4,5 m/s",
       tidsvindu: "13:30–15:30",
       hoydemerknad: "Værmelding for ca. 400 moh. På toppene kan det være kaldere og mer vind.",
     });
@@ -227,6 +228,15 @@ describe("vaersymbol", () => {
     expect(vaersymbol(kode)).toEqual({ ord, ikonSti: `/vaerikoner/${kode}.svg` });
   });
 
+  it.each([
+    ["rain_day", "regn"],
+    ["clearsky", "klarvær"],
+    ["cloudy_day", "skyet"],
+    ["lightrainandthunder_night", "lett regn og torden"],
+  ])("%s har ord, men ikke noe ikon fra MET", (kode, ord) => {
+    expect(vaersymbol(kode)).toEqual({ ord, ikonSti: null });
+  });
+
   it.each(["ukjent", "andthunder", "clearsky_evening", "constructor", "toString", ""])("%s gir null", (kode) => {
     expect(vaersymbol(kode)).toBeNull();
   });
@@ -242,12 +252,14 @@ describe("lagVaerVurdert", () => {
     const { vaer } = vurdert({ melding: m, startUtc: START, sluttUtc: START + 2 * TIME_MS });
     expect(vaer.symbol).toBeNull();
     expect(vaer.sammendrag).toBe("4 °C · nedbør 0 mm/t · vind opptil 2 m/s");
+    expect(vaer.verdier).toBe(vaer.sammendrag);
   });
 
   it("minus og desimalkomma i sammendraget", () => {
     const m = melding([{ tempC: -2.4, nedborMmT: 0.6, vindMs: 8.3, symbolKode: "lightsnow" }, { tempC: 1.2 }]);
     const { vaer, grunnlag } = vurdert({ melding: m, startUtc: START, sluttUtc: START + 2 * TIME_MS });
     expect(vaer.sammendrag).toBe("lett snø · −2 til 1 °C · nedbør 0,6 mm/t · vind opptil 8,3 m/s");
+    expect(vaer.verdier).toBe("−2 til 1 °C · nedbør 0,6 mm/t · vind opptil 8,3 m/s");
     expect(grunnlag).toEqual({
       type: "vurdert",
       klasse: "middels",

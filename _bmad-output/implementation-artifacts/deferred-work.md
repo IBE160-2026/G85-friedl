@@ -30,9 +30,6 @@
   summary: Når `?demo=` står flere ganger i URL-en, tar `page.tsx` den første verdien, slik `lesDemoId` og `api.ts` gjør, men ingen test sikrer at siden og API-et er enige.
   evidence: Verification-gap-gjennomgangen av story 1.11. Bare en håndskrevet URL treffer dette. En e2e-test for `/?demo=uten-vaer&demo=finnes-ikke` ved siden av testen for ukjent demo lukker det.
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-12-resultat-med-turkort-pa-pc.md`
-  summary: Live-området i Resultat viser `overskrift` og ikke `liveTekst`, og vurdert vær rendres ikke.
-  evidence: Gjennomgangen av story 1.12 (BH4 og EC2). Begge tas i 2.9, når Værsammendraget og Værvarslingen bygges og `liveTekst` kan avvike fra overskriften.
-- source_spec: `_bmad-output/implementation-artifacts/spec-1-12-resultat-med-turkort-pa-pc.md`
   summary: Resultat har ingen største bredde på skjermer bredere enn 1440 px, og etikettene i Dagslysstolpen kan overlappe når andelene ligger tett.
   evidence: Gjennomgangen av story 1.12 (BH10 og EC3). Ingen token for største bredde. Sjekkes i SM-4-gjennomgangen i 1.15.
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-13-stokken-pa-mobil-og-nettbrett.md`

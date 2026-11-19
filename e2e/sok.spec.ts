@@ -131,8 +131,8 @@ test("Finn tur sender standard-Søket og melder overskriften", async ({ page }) 
   expect(new URL(sendt.url()).search).toBe("?demo=uten-vaer");
   expect(sendt.postDataJSON()).toEqual(STANDARD_SOK);
 
-  const live = page.locator('div[aria-live="polite"]');
-  await expect(live.getByRole("heading", { name: "Tre Turforslag som passer tiden din" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Tre Turforslag som passer tiden din" })).toBeVisible();
+  await expect(page.locator('div[aria-live="polite"]')).toHaveText("Tre Turforslag som passer tiden din");
 
   // Søket står aldri i URL-en, og knappen er ikke låst når Søk kommer tilbake.
   expect(new URL(page.url()).search).toBe("?demo=uten-vaer");

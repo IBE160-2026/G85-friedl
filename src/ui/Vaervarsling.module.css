@@ -1,0 +1,86 @@
+/*
+ * Panelet med `vaervarsling`-flate: merket og tittelen i rust øverst, og under dem verdiene, symbolet,
+ * forklaringen og Høydemerknaden, innrykket til teksten i tittelen. Bedre tidsvindu-boksen (story 2.10)
+ * får plassen til høyre på PC og under på mobil.
+ */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-5);
+  border: 1px solid var(--components-vaervarsling-border-color);
+  border-radius: var(--components-vaervarsling-rounded);
+  background: var(--components-vaervarsling-background);
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+  color: var(--colors-ink-primary);
+  overflow-wrap: anywhere;
+}
+
+.innhold {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  min-width: 0;
+}
+
+.tittel {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  margin: 0;
+  font-weight: 700;
+  color: var(--components-vaervarsling-title-color);
+}
+
+.tittel > svg {
+  width: 24px;
+  height: 24px;
+}
+
+.tekster {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding-left: calc(24px + var(--spacing-3));
+}
+
+.verdier,
+.symbol,
+.forklaring,
+.hoydemerknad {
+  margin: 0;
+}
+
+.verdier {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.forklaring {
+  color: var(--colors-ink-secondary);
+}
+
+.hoydemerknad {
+  font-size: var(--typography-detail-font-size);
+  line-height: var(--typography-detail-line-height);
+  color: var(--colors-ink-secondary);
+}
+
+/* Under 360 px (200 % zoom) får teksten hele bredden. */
+@media (max-width: 359.98px) {
+  .tekster {
+    padding-left: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .panel {
+    flex-direction: row;
+    padding: var(--spacing-6);
+  }
+
+  .innhold {
+    flex: 1 1 auto;
+  }
+}

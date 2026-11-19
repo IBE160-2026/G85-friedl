@@ -1,0 +1,20 @@
+.symbol {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-width: 0;
+}
+
+.ikon {
+  flex: none;
+  display: block;
+  width: var(--components-vaersymbol-size-mobile);
+  height: var(--components-vaersymbol-size-mobile);
+}
+
+@media (min-width: 1200px) {
+  .ikon {
+    width: var(--components-vaersymbol-size);
+    height: var(--components-vaersymbol-size);
+  }
+}

@@ -240,7 +240,10 @@ describe("lagVisning med Værklasse", () => {
     expect(v.vaer).toMatchObject({
       type: "vurdert",
       klasse: "darlig",
-      vaervarsling: { tekst: "Værklasse dårlig i Tidsvinduet 10:00–13:00: nedbør opptil 3,4 mm/t, vind opptil 9,2 m/s, 5–7 °C." },
+      vaervarsling: {
+        tittel: "Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00",
+        tekst: "Nedbør opptil 3,4 mm/t, vind opptil 9,2 m/s, 5–7 °C.",
+      },
     });
     expect(v.bedreTidsvindu).toMatchObject({
       type: "funnet",
@@ -249,7 +252,7 @@ describe("lagVisning med Værklasse", () => {
       knappTekst: "Bruk 14:00",
     });
     expect(v.overskrift).toBe("Tre Turforslag i dårlig vær");
-    expect(v.liveTekst).toBe(v.overskrift);
+    expect(v.liveTekst).toBe("Tre Turforslag i dårlig vær. Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00.");
     if (v.utfall.type !== "turforslag") throw new Error("Forventet Turforslag.");
     expect(v.utfall.kort[0].turId).toBe("moldevatnet-fra-jensgurilia");
     for (const kort of v.utfall.kort) {
@@ -319,6 +322,7 @@ describe("lagVisning med Værklasse", () => {
     const v = visningMedVaer(UJ1_SOK, NA, melding("06:00", 20, { vindMs: 8 }));
     expect(v.vaer).toMatchObject({ type: "vurdert", klasse: "middels" });
     expect(v.overskrift).toBe("Tre Turforslag som passer nå");
+    expect(v.liveTekst).toBe(v.overskrift);
     expect("bedreTidsvindu" in v).toBe(false);
   });
 
@@ -326,22 +330,22 @@ describe("lagVisning med Værklasse", () => {
     const v = visningMedVaer(sok({ tilgjengeligMin: 15 }), NA, melding("06:00", 20, { nedborMmT: 3 }));
     expect(v.vaer).toMatchObject({ type: "vurdert", klasse: "darlig" });
     expect(v.overskrift).toBe("Ingen Tur passer 15 min.");
+    expect(v.liveTekst).toBe("Ingen Tur passer 15 min. Værvarsling: Værklasse dårlig i Tidsvinduet 13:30–13:45.");
     expect(v.utfall.type).toBe("kortesteTur");
     expect(v.bedreTidsvindu?.type).toBe("ingen");
   });
 
   it.each([
-    [{ tempC: -12 }, "Værklasse dårlig i Tidsvinduet 13:30–15:30: −12 °C, nedbør opptil 0 mm/t, vind opptil 2 m/s."],
-    [{ vindMs: 11 }, "Værklasse dårlig i Tidsvinduet 13:30–15:30: vind opptil 11 m/s, nedbør opptil 0 mm/t, 5 °C."],
-    [
-      { vindMs: 11, nedborMmT: 2, tempC: -10.5 },
-      "Værklasse dårlig i Tidsvinduet 13:30–15:30: nedbør opptil 2 mm/t, vind opptil 11 m/s, −11 °C.",
-    ],
+    [{ tempC: -12 }, "−12 °C, nedbør opptil 0 mm/t, vind opptil 2 m/s."],
+    [{ vindMs: 11 }, "Vind opptil 11 m/s, nedbør opptil 0 mm/t, 5 °C."],
+    [{ vindMs: 11, nedborMmT: 2, tempC: -10.5 }, "Nedbør opptil 2 mm/t, vind opptil 11 m/s, −11 °C."],
     // −10 °C er ikke under grensen for dårlig (< −10), så temperaturen står sist.
-    [{ vindMs: 11, tempC: -10 }, "Værklasse dårlig i Tidsvinduet 13:30–15:30: vind opptil 11 m/s, nedbør opptil 0 mm/t, −10 °C."],
-  ])("Værvarslingen setter de utløsende verdiene først (%j)", (verdier, tekst) => {
+    [{ vindMs: 11, tempC: -10 }, "Vind opptil 11 m/s, nedbør opptil 0 mm/t, −10 °C."],
+  ])("Værvarslingen setter de utløsende verdiene først, med stor forbokstav (%j)", (verdier, tekst) => {
     const v = visningMedVaer(UJ1_SOK, NA, melding("06:00", 20, verdier));
-    expect(v.vaer).toMatchObject({ type: "vurdert", klasse: "darlig", vaervarsling: { tekst } });
+    const tittel = "Værvarsling: Værklasse dårlig i Tidsvinduet 13:30–15:30";
+    expect(v.vaer).toMatchObject({ type: "vurdert", klasse: "darlig", vaervarsling: { tittel, tekst } });
+    expect(v.liveTekst).toBe(`${v.overskrift}. ${tittel}.`);
   });
 
   it.each([
@@ -398,7 +402,10 @@ describe("lagVisning med Værklasse", () => {
     expect(v.vaer).toMatchObject({
       type: "vurdert",
       klasse: "darlig",
-      vaervarsling: { tekst: "Værklasse dårlig i Tidsvinduet 13:30–15:30: vind opptil 2 m/s, nedbør opptil 0 mm/t, 5 °C." },
+      vaervarsling: {
+        tittel: "Værvarsling: Værklasse dårlig i Tidsvinduet 13:30–15:30",
+        tekst: "Vind opptil 2 m/s, nedbør opptil 0 mm/t, 5 °C.",
+      },
     });
     expect(v.bedreTidsvindu).toMatchObject({ type: "funnet", nyttSok: { start: "09:00" } });
     if (v.utfall.type !== "turforslag") throw new Error("Forventet Turforslag.");

@@ -1,0 +1,100 @@
+/*
+ * Mobil og nettbrett: klassen og symbolet på første linje, verdiene og Tidsvinduet på neste, og
+ * Høydemerknaden under. Et langt symbolord brytes ved ikonet, og ved 200 % zoom går symbolet ned
+ * på egen linje, så panelet aldri ruller sidelengs.
+ */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4) var(--spacing-5);
+  border: 1px solid var(--components-vaersammendrag-border-color);
+  border-radius: var(--components-vaersammendrag-rounded);
+  background: var(--components-vaersammendrag-background);
+  font-size: var(--typography-body-font-size);
+  line-height: var(--typography-body-line-height);
+  color: var(--colors-ink-primary);
+  overflow-wrap: anywhere;
+}
+
+.linjene {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.forste,
+.andre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+}
+
+.forste {
+  column-gap: var(--spacing-4);
+  row-gap: var(--spacing-1);
+}
+
+.klasse {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-width: 0;
+  font-weight: 600;
+}
+
+.klasse > svg {
+  width: 24px;
+  height: 24px;
+}
+
+.symbol {
+  flex: 1 1 5rem;
+}
+
+.andre {
+  column-gap: var(--spacing-4);
+  justify-content: space-between;
+}
+
+.verdier,
+.tidsvindu {
+  font-variant-numeric: tabular-nums;
+}
+
+.tidsvindu {
+  margin-left: auto;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hoydemerknad {
+  margin: 0;
+  font-size: var(--typography-detail-font-size);
+  line-height: var(--typography-detail-line-height);
+  color: var(--colors-ink-secondary);
+}
+
+/* PC: alt på én linje, med Tidsvinduet helt til høyre og Høydemerknaden under. */
+@media (min-width: 1200px) {
+  .linjene {
+    flex-direction: row;
+    align-items: center;
+    column-gap: var(--spacing-5);
+  }
+
+  .forste {
+    flex-wrap: nowrap;
+    column-gap: var(--spacing-5);
+  }
+
+  .symbol {
+    flex: none;
+  }
+
+  .andre {
+    flex: 1 1 auto;
+    column-gap: var(--spacing-5);
+  }
+}

@@ -21,6 +21,7 @@ import type { BedreTidsvindu, DittSok, Kriterium, Resultatvisning, Utfall, Vaer 
 // og de samme Værtersklene brukes overalt.
 // Tabellen i FR-6: god og middels gir Værsammendraget, dårlig gir også Værvarslingen og Bedre
 // tidsvindu, frarådet gir Frarådet-utfallet og Bedre tidsvindu, og mangler gir oppførselen fra Epic 1.
+// `liveTekst` er overskriften, og ved dårlig vær også tittelen på Værvarslingen, så den meldes (UX-DR19).
 
 /** Været for Tidsvinduet slik visningen får det fra skallet. */
 export type VisningVaer =
@@ -103,12 +104,14 @@ function grenser(terskler: Vaerterskler, klasse: KlasseTerskel["klasse"]): Klass
 const minst = (verdi: number, grense: number | null) => grense !== null && verdi >= grense;
 const under = (verdi: number, grense: number | null) => grense !== null && verdi < grense;
 
+type Vaervarsling = NonNullable<Extract<Vaer, { type: "vurdert" }>["vaervarsling"]>;
+
 /**
- * Værvarslingen ved dårlig vær: «Værklasse dårlig i Tidsvinduet 10:00–13:00: nedbør opptil 3,4 mm/t,
- * vind opptil 9,2 m/s, 5–7 °C.». Verdiene som nådde terskelen for dårlig, står først. Innenfor
- * gruppene står de i rekkefølgen nedbør, vind, temperatur.
+ * Værvarslingen ved dårlig vær. Tittelen er «Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00»,
+ * og teksten er verdiene: «Nedbør opptil 3,4 mm/t, vind opptil 9,2 m/s, 5–7 °C.». Verdiene som nådde
+ * terskelen for dårlig, står først. Innenfor gruppene står de i rekkefølgen nedbør, vind, temperatur.
  */
-function vaervarslingTekst(o: Tidsvinduoppsummering, tidsvindu: string, terskler: Vaerterskler): string {
+function vaervarsling(o: Tidsvinduoppsummering, tidsvindu: string, terskler: Vaerterskler): Vaervarsling {
   const g = grenser(terskler, "darlig");
   const verdier = [
     { tekst: `nedbør opptil ${tall(o.maksNedborMmT)} mm/t`, utlost: minst(o.maksNedborMmT, g.nedbor_mm_t_minst) },
@@ -116,7 +119,10 @@ function vaervarslingTekst(o: Tidsvinduoppsummering, tidsvindu: string, terskler
     { tekst: temperaturTekst(o.minTempC, o.maksTempC), utlost: under(o.minTempC, g.temp_c_under) },
   ];
   const ordnet = [...verdier.filter((v) => v.utlost), ...verdier.filter((v) => !v.utlost)];
-  return `${klasseTekst("darlig")} i Tidsvinduet ${tidsvindu}: ${ordnet.map((v) => v.tekst).join(", ")}.`;
+  return {
+    tittel: `Værvarsling: ${klasseTekst("darlig")} i Tidsvinduet ${tidsvindu}`,
+    tekst: `${storForbokstav(ordnet.map((v) => v.tekst).join(", "))}.`,
+  };
 }
 
 /**
@@ -142,7 +148,7 @@ function vaer(input: VisningVaer, terskler: Vaerterskler): Vaer {
     case "vurdert": {
       const { vaer: vurdert, oppsummering } = input;
       if (vurdert.klasse !== "darlig") return vurdert;
-      return { ...vurdert, vaervarsling: { tekst: vaervarslingTekst(oppsummering, vurdert.tidsvindu, terskler) } };
+      return { ...vurdert, vaervarsling: vaervarsling(oppsummering, vurdert.tidsvindu, terskler) };
     }
   }
 }
@@ -209,14 +215,16 @@ export function lagVisning(input: VisningInput): Resultatvisning {
   const { sok, justering } = normalisert;
   const klasse = input.vaer.type === "vurdert" ? input.vaer.vaer.klasse : null;
   const tittel = overskrift(anbefaling, sok, klasse);
+  const vaeret = vaer(input.vaer, terskler);
+  const varsling = vaeret.type === "vurdert" ? vaeret.vaervarsling : undefined;
   return {
     resultatId,
     sok,
     ...(justering !== undefined ? { justering } : {}),
     overskrift: tittel,
     dittSok: dittSok(sok, na),
-    liveTekst: tittel,
-    vaer: vaer(input.vaer, terskler),
+    liveTekst: varsling ? `${tittel.endsWith(".") ? tittel : `${tittel}.`} ${varsling.tittel}.` : tittel,
+    vaer: vaeret,
     utfall: utfall(input, terskler),
     ...(bedreTidsvindu !== null ? { bedreTidsvindu } : {}),
   };

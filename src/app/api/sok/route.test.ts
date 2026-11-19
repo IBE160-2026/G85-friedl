@@ -138,13 +138,18 @@ describe("I/O-matrisen (story 2.8)", () => {
 
   it("UJ-2: dårlig, Værvarsling, Bedre tidsvindu 14:00 med 5 Turer, og Moldevatnet fra Jensgurilia først", async () => {
     const v = await resultat(await post(UJ2, "uj-2"));
-    expect(v.vaer).toMatchObject({ type: "vurdert", klasse: "darlig", vaervarsling: { tekst: expect.any(String) } });
+    expect(v.vaer).toMatchObject({
+      type: "vurdert",
+      klasse: "darlig",
+      vaervarsling: { tittel: "Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00", tekst: expect.any(String) },
+    });
     expect(v.bedreTidsvindu).toMatchObject({
       type: "funnet",
       nyttSok: { ...UJ2, start: "14:00" },
       antallTekst: "5 Turer passer før mørket.",
     });
     expect(v.overskrift).toBe("Tre Turforslag i dårlig vær");
+    expect(v.liveTekst).toBe("Tre Turforslag i dårlig vær. Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00.");
     if (v.utfall.type !== "turforslag") throw new Error("Forventet Turforslag.");
     expect(v.utfall.kort[0].turId).toBe("moldevatnet-fra-jensgurilia");
   });

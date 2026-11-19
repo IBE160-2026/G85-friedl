@@ -121,8 +121,10 @@ describe("Resultat med Turforslag uten vær", () => {
     );
   });
 
-  it("melder overskriften i et høflig live-område og viser «ingen» uten preferanser", () => {
-    expect(html).toMatch(/<div aria-live="polite"><h1[^>]*tabindex="-1"[^>]*>To Turforslag som passer tiden din<\/h1><\/div>/);
+  it("melder live-teksten i et høflig live-område, med overskriften rett etter, og viser «ingen» uten preferanser", () => {
+    expect(html).toMatch(
+      /<div aria-live="polite"><p class="[^"]*skjult[^"]*" data-testid="live-tekst">To Turforslag som passer tiden din<\/p><\/div><h1[^>]*tabindex="-1"[^>]*>To Turforslag som passer tiden din<\/h1>/,
+    );
     expect(html).toMatch(/<dt[^>]*>Opplevelsespreferanser<\/dt><dd[^>]*>ingen<\/dd>/);
   });
 
@@ -238,6 +240,7 @@ describe("Resultat med Alternativ", () => {
   const alternativ: Resultatvisning = {
     ...visning,
     overskrift: "Ingen Tur passer 15 min.",
+    liveTekst: "Ingen Tur passer 15 min.",
     utfall: {
       type: "kortesteTur",
       kort: alternativkort,
@@ -266,7 +269,7 @@ describe("Resultat med Alternativ", () => {
     expect(html).not.toContain("Visningen av dette Resultatet kommer snart.");
     expect(html).toMatch(/<button[^>]*>Endre Tilgjengelig tid<\/button><p[^>]*>Med 30 min eller mer passer minst én Tur.<\/p>/);
     expect(html.indexOf("Endre Tilgjengelig tid")).toBeLessThan(html.indexOf('data-testid="ansvarsmerknad"'));
-    expect(html).toMatch(/<div aria-live="polite"><h1[^>]*>Ingen Tur passer 15 min.<\/h1><\/div>/);
+    expect(html).toMatch(/<div aria-live="polite"><p[^>]*>Ingen Tur passer 15 min.<\/p><\/div><h1[^>]*>Ingen Tur passer 15 min.<\/h1>/);
   });
 
   it("har begge formene av Begrunnelsen, som CSS bytter ved 1200 px", () => {

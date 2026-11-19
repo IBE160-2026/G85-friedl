@@ -47,7 +47,8 @@ for (const { demo, sok, klasse, utfall, bedre } of [
     expect("vaervarsling" in visning.vaer).toBe(klasse === "darlig");
     expect(visning.utfall.type).toBe(utfall);
     expect(visning.bedreTidsvindu?.type ?? null).toBe(bedre);
-    expect(visning.liveTekst).toBe(visning.overskrift);
+    const varsling = visning.vaer.type === "vurdert" ? visning.vaer.vaervarsling : undefined;
+    expect(visning.liveTekst).toBe(varsling ? `${visning.overskrift}. ${varsling.tittel}.` : visning.overskrift);
   });
 }
 

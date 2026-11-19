@@ -9,22 +9,26 @@ import { Knapp } from "./Knapp";
 import { Kontaktfeil } from "./Kontaktfeil";
 import { Plassholderstokk } from "./Plassholderstokk";
 import stil from "./Resultat.module.css";
+import skjult from "./skjult.module.css";
 import { Stokk } from "./Stokk";
 import { Stokkoversikt } from "./Stokkoversikt";
 import { ENDRE_SOK, ENDRE_TILGJENGELIG_TID, RESULTAT_KOMMER } from "./tekster";
 import { useEndreSokIToppfelt } from "./ToppfeltHandling";
 import { Turkort } from "./Turkort";
 import { Vaermangel } from "./Vaermangel";
+import { Vaersammendrag } from "./Vaersammendrag";
+import { Vaervarsling } from "./Vaervarsling";
 
 // Resultat-flaten (EXPERIENCE.md › Information Architecture og State Patterns). Demomodus-merket står i
 // toppfeltet og Krediteringen i bunnen (Side). Alt innhold kommer ferdig fra Resultatvisningen.
 //
 // Tilstandene:
 // - Venter: Ditt søk og Plassholderstokken der kortene ellers står.
-// - Resultat med Turforslag. PC (fra 1200 px): Ditt søk som panel, Værmangel-linjen, overskriften,
+// - Resultat med Turforslag. PC (fra 1200 px): Ditt søk som panel, vær-delen, overskriften,
 //   Turkortene side om side og Ansvarsmerknaden. Mobil og nettbrett: Ditt søk som én linje med «Endre
-//   søk» i toppfeltet, Værmangel-linjen, overskriften, Stokken med Stokknavigasjon, Stokkoversikten og
+//   søk» i toppfeltet, vær-delen, overskriften, Stokken med Stokknavigasjon, Stokkoversikten og
 //   Ansvarsmerknaden. Begge oppsettene står i DOM-en, og CSS viser ett av dem ved 1200 px.
+//   Vær-delen er Værsammendraget (god og middels), Værvarslingen (dårlig) eller Værmangel-linjen.
 // - Resultat med Alternativ: som over, men med Alternativkortet, «Endre Tilgjengelig tid», teksten
 //   under og Ansvarsmerknaden. Ingen Stokk og ingen Stokkoversikt, og kortet står likt ved alle bredder.
 // - Kontaktfeil: Ditt søk og Kontaktfeil-kortet. Ingen kart, Ansvarsmerknad eller Stokkoversikt.
@@ -33,11 +37,13 @@ import { Vaermangel } from "./Vaermangel";
 // kobles til samme tilstand i story 3.5. Et nytt Søk (ny `resultatId`) setter det tilbake til kort 1.
 //
 // Komponenten står alltid i treet, også på Søk, slik at det høflige live-området overlever byttet
-// mellom flatene. I live-området står overskriften, Plassholderstokken med «Finner turer …» eller
-// Kontaktfeil-kortet, så de meldes når de settes inn. Hver ny tilstand flytter fokus: til overskriften,
-// til tittelen på Kontaktfeil-kortet, eller til Plassholderstokken, og siden ruller dit.
+// mellom flatene. I live-området står `liveTekst` (skjult, bare for skjermlesere), Plassholderstokken med
+// «Finner turer …» eller Kontaktfeil-kortet, så de meldes når de settes inn. `liveTekst` er overskriften,
+// og ved dårlig vær også tittelen på Værvarslingen. Overskriften står rett etter live-området. Hver ny
+// tilstand flytter fokus: til overskriften, til tittelen på Kontaktfeil-kortet, eller til
+// Plassholderstokken, og siden ruller dit.
 //
-// Frarådet får en plassholder til story 2.10. Værsammendrag og Værvarsling kommer i story 2.9.
+// Frarådet får en plassholder til story 2.10.
 
 export type Resultattilstand =
   /** Søket er sendt, og svaret venter. `dittSok` er Søket som ble sendt. */
@@ -119,24 +125,31 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
           <div className={stil.mobil}>
             <DittSokLinje dittSok={dittSok} />
           </div>
-          {visning?.vaer.type === "mangler" && <Vaermangel />}
+          {visning && <Vaerdelen vaer={visning.vaer} />}
         </div>
       )}
 
-      <div aria-live="polite">
+      <div>
+        <div aria-live="polite">
+          {visning && (
+            <p key={visning.resultatId} className={skjult.skjult} data-testid="live-tekst">
+              {visning.liveTekst}
+            </p>
+          )}
+          {tilstand?.type === "venter" && <Plassholderstokk key={tilstand.id} tekstRef={plassholder} />}
+          {tilstand?.type === "kontaktfeil" && (
+            <Kontaktfeil
+              key={tilstand.id}
+              tittelRef={overskrift}
+              onProvIgjen={tilstand.kanProveIgjen ? onProvIgjen : null}
+              onEndreSok={onEndreSok}
+            />
+          )}
+        </div>
         {visning && (
           <h1 key={visning.resultatId} ref={overskrift} tabIndex={-1} className={stil.overskrift}>
             {visning.overskrift}
           </h1>
-        )}
-        {tilstand?.type === "venter" && <Plassholderstokk key={tilstand.id} tekstRef={plassholder} />}
-        {tilstand?.type === "kontaktfeil" && (
-          <Kontaktfeil
-            key={tilstand.id}
-            tittelRef={overskrift}
-            onProvIgjen={tilstand.kanProveIgjen ? onProvIgjen : null}
-            onEndreSok={onEndreSok}
-          />
         )}
       </div>
 
@@ -182,4 +195,16 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
       )}
     </div>
   );
+}
+
+/**
+ * Vær-delen mellom Ditt søk og overskriften: Værsammendraget, Værvarslingen eller Værmangel-linjen.
+ * Den står i toppen, som bare vises når Resultatet har kort (`dittSok`). Ved frarådet vises toppen ikke,
+ * så grenen for frarådet nås ikke her. Story 2.10 flytter den.
+ */
+function Vaerdelen({ vaer }: { vaer: Resultatvisning["vaer"] }) {
+  if (vaer.type === "mangler") return <Vaermangel />;
+  if (vaer.klasse === "darlig") return <Vaervarsling vaer={vaer} />;
+  if (vaer.klasse === "god" || vaer.klasse === "middels") return <Vaersammendrag vaer={vaer} />;
+  return null;
 }

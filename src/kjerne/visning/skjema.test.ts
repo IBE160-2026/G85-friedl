@@ -119,10 +119,16 @@ const vurdert = (klasse: "god" | "middels" | "darlig" | "fraradet", varsling = f
   klasseTekst: `Værklasse ${klasse}`,
   symbol: { ord: "lettskyet", ikonSti: "/vaerikoner/fair_day.svg" },
   sammendrag: "lettskyet · 3–5 °C · nedbør 0 mm/t · vind opptil 4 m/s",
+  verdier: "3–5 °C · nedbør 0 mm/t · vind opptil 4 m/s",
   tidsvindu: "13:30–15:30",
   hoydemerknad: "Værmelding for ca. 400 moh. På toppene kan det være kaldere og mer vind.",
   ...(varsling
-    ? { vaervarsling: { tekst: "Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00" } }
+    ? {
+        vaervarsling: {
+          tittel: "Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00",
+          tekst: "Nedbør opptil 3,4 mm/t, vind opptil 9,2 m/s, 5–7 °C.",
+        },
+      }
     : {}),
 });
 
@@ -375,6 +381,11 @@ describe("ResultatvisningSkjema: FR-6", () => {
 
   it("avviser dårlig vær uten vaervarsling", () => {
     avvist(visning({ vaer: vurdert("darlig"), bedreTidsvindu: FUNNET }));
+  });
+
+  it("avviser en Værvarsling uten tittel (story 2.9)", () => {
+    const utenTittel = { ...vurdert("darlig"), vaervarsling: { tekst: "Nedbør opptil 3,4 mm/t." } };
+    avvist({ ...visning({ vaer: vurdert("darlig", true), bedreTidsvindu: FUNNET }), vaer: utenTittel });
   });
 
   it("avviser mangler med bedreTidsvindu", () => {

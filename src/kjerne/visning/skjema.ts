@@ -132,12 +132,16 @@ export const VaerSkjema = z.discriminatedUnion("type", [
     type: z.literal("vurdert"),
     klasse: VaerklasseSkjema,
     klasseTekst: Tekst,
-    /** `null` for en ukjent symbolkode. */
-    symbol: z.strictObject({ ord: Tekst, ikonSti: Tekst }).nullable(),
+    /** `null` for en ukjent symbolkode. `ikonSti` er `null` når MET ikke har ikon for koden. */
+    symbol: z.strictObject({ ord: Tekst, ikonSti: Tekst.nullable() }).nullable(),
+    /** «klarvær · 3–5 °C · nedbør 0 mm/t · vind opptil 4,5 m/s». */
     sammendrag: Tekst,
+    /** Sammendraget uten symbolordet: «3–5 °C · nedbør 0 mm/t · vind opptil 4,5 m/s». */
+    verdier: Tekst,
     tidsvindu: Tekst,
     hoydemerknad: Tekst,
-    vaervarsling: z.strictObject({ tekst: Tekst }).optional(),
+    /** Bare ved dårlig: tittelen («Værvarsling: Værklasse dårlig i Tidsvinduet …») og verdiene. */
+    vaervarsling: z.strictObject({ tittel: Tekst, tekst: Tekst }).optional(),
   }),
   z.strictObject({
     type: z.literal("mangler"),

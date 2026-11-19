@@ -71,6 +71,13 @@ export const VAERMANGEL = {
   tekst: "Vi fikk ikke hentet Værmeldingen fra MET.",
 } as const;
 
+/** Skjult etikett foran Tidsvinduet i Værsammendraget, for skjermlesere. */
+export const TIDSVINDU = "Tidsvindu";
+
+/** Værvarslingen (UX-DR19): forklaringen om rekkefølgen i Stokken, under verdiene. */
+export const VAERVARSLING_FORKLARING =
+  "Derfor står lavtliggende Turer og Turer som er egnet i dårlig vær øverst i stokken.";
+
 export const PASSER_FORDI = "Passer fordi";
 export const BEGRUNNELSE = "Begrunnelse";
 /** Begrunnelsen ordrett, i anførselstegn. */
