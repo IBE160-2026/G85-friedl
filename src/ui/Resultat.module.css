@@ -77,6 +77,7 @@
 
 /* Plassen til kartet. Kartutsnittet ruller hit, med litt luft over. */
 .kartplass {
+  position: relative;
   border-radius: var(--components-kart-rounded);
   scroll-margin-top: var(--spacing-4);
 }

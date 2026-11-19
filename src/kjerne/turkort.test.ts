@@ -112,7 +112,8 @@ describe("I/O-matrisen (story 1.9)", () => {
       startpunktTekst: "Startpunkt: Parkering ved Damefallet, Vardeveien",
       kartinfoboks: {
         navn: "Tusenårsvarden fra Damefallet",
-        tekst: "5,0 km · Middels · Startpunkt: Parkering ved Damefallet, Vardeveien",
+        tekst: "5,0 km · Middels",
+        startpunkt: "Startpunkt: Parkering ved Damefallet, Vardeveien",
       },
       kilde: { navn: "morotur.no", url: "https://morotur.no/en/tur/tusenaarsvarden-fra-damefallet" },
       tidsstolpe: { fyll: 92 / 120, overGrense: 0 },

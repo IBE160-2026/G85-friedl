@@ -1,7 +1,10 @@
+import type { KeyboardEvent, MouseEvent } from "react";
 import type { Turkort as TurkortData } from "@/kjerne/visning/skjema";
 import { Begrunnelse } from "./Begrunnelse";
 import { Dagslysstolpe } from "./Dagslysstolpe";
+import { Hake } from "./Hake";
 import { Kartutsnitt } from "./Kartutsnitt";
+import { Knapp } from "./Knapp";
 import { Kriterierad } from "./Kriterierad";
 import { Nummerstempel } from "./Nummerstempel";
 import skjult from "./skjult.module.css";
@@ -15,13 +18,14 @@ import {
   SLIK_STAR_DEN,
   stokkNavn,
   TURFORSLAG,
+  VIS_PA_KARTET,
 } from "./tekster";
 import { Tidsstolpe } from "./Tidsstolpe";
 import stil from "./Turkort.module.css";
 
 // Turkortet på PC (DESIGN.md › Turkort), ovenfra: Nummerstempel og «1 av 3», Mål og «fra …»,
 // faktalinjen, Startpunkt, perforeringen, PASSER FORDI med de fire Kriterieradene, Begrunnelse-boksen
-// og foten med kildelenken. «Vis på kartet» på PC kommer i story 3.5.
+// og foten med kildelenken og «Vis på kartet».
 // Kortet er én artikkel med lesetekst fra serveren som navn (UX-DR43).
 // I Stokken (`iStokken`, mobil og nettbrett) er Begrunnelsen én kursiv linje, med kildelenken under.
 //
@@ -33,6 +37,13 @@ import stil from "./Turkort.module.css";
 // Kartutsnittet (story 3.2) står øverst i kortet i Stokken og i Alternativkortet, bare under 1200 px, med
 // merket «Turforslag N av M» eller «Alternativ». Et trykk på det kaller `onVisPaKartet`. Bare kortet som
 // `vises`, får kart i utsnittet. Kortraden på PC har ikke Kartutsnitt.
+//
+// Valg på PC (story 3.5, FR-24, UX-DR43): med `onVelg` er kortet et tabulatorstopp, og et trykk på kortet,
+// eller Enter eller mellomrom når kortet selv har fokus, velger det. Et trykk på kildelenken eller knappen går
+// bare til dem. Det valgte kortet har `aria-current="true"`, skoggrønn kant og skoggrønn fot. Foten har knappen
+// «Vis på kartet» (sekundær), som velger kortet og ruller kartet inn (`onVisPaKartet`). Når kortet er valgt,
+// står «Vises på kartet» med haken på den tonede knappen. Knappen kan ikke trykkes «av», så den har ingen
+// `aria-pressed`: valget står i `aria-current` på kortet. Det er samme knapp, så fokuset blir stående. Kortene i Stokken og Alternativkortet har ikke `onVelg`, og ikke knappen.
 
 type Props = {
   kort: TurkortData;
@@ -43,7 +54,19 @@ type Props = {
   onVisPaKartet?: () => void;
   /** Kortet vises, så Kartutsnittet får kart. Kortene bak i Stokken har bare den tomme flaten. */
   vises?: boolean;
+  /** PC: kortet er det valgte. */
+  valgt?: boolean;
+  /** PC: velg kortet. Gir kortet tabulatorstopp og knappen «Vis på kartet» i foten. */
+  onVelg?: () => void;
 };
+
+/** Et trykk i kortet på en lenke eller knapp, eller etter at teksten er markert, velger ikke kortet. */
+function treffVelger(e: MouseEvent<HTMLElement>) {
+  const mal = e.target as Element;
+  const kontroll = mal.closest("a, button");
+  if (kontroll && e.currentTarget.contains(kontroll)) return false;
+  return !window.getSelection()?.toString();
+}
 
 export function Turkort({
   kort,
@@ -52,14 +75,30 @@ export function Turkort({
   alternativ = false,
   onVisPaKartet,
   vises = true,
+  valgt = false,
+  onVelg,
 }: Props) {
   const [tid, vaer, onsker, morke] = kort.kriterier;
   // Plassen kommer fra serveren, så stempelet og «N av M» sier det samme som leseteksten.
   const { nummer } = kort.kart;
+  const klasser = [stil.kort, alternativ ? stil.alternativ : null, onVelg ? stil.velgbart : null]
+    .filter(Boolean)
+    .join(" ");
+
+  function tast(e: KeyboardEvent<HTMLElement>) {
+    if (e.target !== e.currentTarget || (e.key !== "Enter" && e.key !== " ")) return;
+    e.preventDefault();
+    if (!e.repeat) onVelg?.();
+  }
+
   return (
     <article
-      className={alternativ ? `${stil.kort} ${stil.alternativ}` : stil.kort}
+      className={klasser}
       aria-label={kort.lesetekst}
+      aria-current={onVelg && valgt ? "true" : undefined}
+      tabIndex={onVelg ? 0 : undefined}
+      onClick={onVelg ? (e) => treffVelger(e) && onVelg() : undefined}
+      onKeyDown={onVelg ? tast : undefined}
       data-testid={alternativ ? "alternativkort" : "turkort"}
     >
       {(iStokken || alternativ) && onVisPaKartet && (
@@ -133,6 +172,20 @@ export function Turkort({
           {`${KILDE} ${kort.kilde.navn}`}
           <span className={skjult.skjult}>{NY_FANE}</span>
         </a>
+        {onVelg && (
+          <Knapp
+            variant={valgt ? "tonet" : "sekundaer"}
+            className={stil.visPaKartet}
+            onClick={() => {
+              onVelg();
+              onVisPaKartet?.();
+            }}
+            data-testid="vis-pa-kartet"
+          >
+            {valgt && <Hake mellomrom={false} utenTekst />}
+            {valgt ? VIS_PA_KARTET.valgt : VIS_PA_KARTET.velg}
+          </Knapp>
+        )}
       </div>
     </article>
   );

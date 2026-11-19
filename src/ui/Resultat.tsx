@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Sok } from "@/kjerne/sok";
 import type { DittSok as DittSokData, Resultatvisning } from "@/kjerne/visning/skjema";
 import { Ansvarsmerknad } from "./Ansvarsmerknad";
@@ -8,6 +8,7 @@ import { BedreTidsvinduKort } from "./BedreTidsvinduKort";
 import { DittSok } from "./DittSok";
 import { DittSokLinje } from "./DittSokLinje";
 import { FraradetKort } from "./FraradetKort";
+import { Kartinfoboks } from "./Kartinfoboks";
 import { KartLaster } from "./KartLaster";
 import { Knapp } from "./Knapp";
 import { Kontaktfeil } from "./Kontaktfeil";
@@ -49,9 +50,13 @@ import { Vaervarsling } from "./Vaervarsling";
 // «Bruk …» i Bedre tidsvindu-boksen og Bedre tidsvindu-kortet sender `nyttSok` fra serveren med
 // `onBrukBedreTidsvindu`, gjennom samme flyt som «Finn tur», og det nye Resultatet erstatter dette.
 //
-// Valgt kort er én tilstand her (indeks, kort 1 fra start). Stokken viser det valgte kortet, og kartet
-// uthever det. Kartutsnittet i kortet på mobil og nettbrett ruller til kartet (story 3.2). Valg fra kartet
-// og fra kortene på PC kommer i story 3.5. Et nytt Søk (ny `resultatId`) setter det tilbake til kort 1.
+// Valgt kort er én tilstand her (indeks, kort 1 fra start), og den eneste sannheten for kortene på PC,
+// Stokken, Stokkoversikten, Kartutsnittet, kartet og Kartinfoboksen (story 3.5, FR-24). Stokken viser det
+// valgte kortet, kartet uthever det, og Kartinfoboksen viser det. Valget endres av Stokken og
+// Stokkoversikten (mobil og nettbrett), av et trykk på et kort eller «Vis på kartet» (PC), og av et trykk på
+// en rute eller et Startpunkt i kartet, som da blar Stokken til kortet. Kartutsnittet i kortet på mobil og
+// nettbrett ruller til kartet (story 3.2). «Vis på kartet» på PC ruller kartet inn bare når det ikke synes
+// helt. Et nytt Søk (ny `resultatId`) setter valget tilbake til kort 1.
 //
 // Komponenten står alltid i treet, også på Søk, slik at det høflige live-området overlever byttet
 // mellom flatene. I live-området står `liveTekst` (skjult, bare for skjermlesere), Plassholderstokken med
@@ -96,7 +101,10 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
   // Valget gjelder Resultatet det ble gjort i. Et nytt Resultat starter på kort 1.
   const [valg, settValg] = useState<{ resultatId: string | null; indeks: number }>({ resultatId, indeks: 0 });
   const valgt = valg.resultatId === resultatId ? valg.indeks : 0;
-  const velg = (indeks: number) => settValg({ resultatId, indeks });
+  const velg = useCallback((indeks: number) => settValg({ resultatId, indeks }), [resultatId]);
+  /** Kartinfoboksen på PC, som kartet holder rutene klar av. */
+  const infoboks = useRef<HTMLDivElement>(null);
+  const finnInfoboks = useCallback(() => infoboks.current, []);
 
   // Fokus og rulling ved hver ny tilstand. Overskriften i Resultatet og tittelen på Kontaktfeil-kortet
   // deler `overskrift`. Mens svaret venter, får «Finner turer …» fokus, og siden ruller til toppen av
@@ -143,6 +151,23 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
     const element = kartet.current;
     if (!element) return;
     element.focus({ preventScroll: true });
+    const rolig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    element.scrollIntoView({ block: "start", behavior: rolig ? "auto" : "smooth" });
+  }
+
+  /**
+   * «Vis på kartet» på PC: rull kartet inn når det ikke synes helt. Siden ruller ikke når kartet synes helt,
+   * eller når det er høyere enn vinduet og allerede fyller det (fra rullemargen øverst til bunnen av vinduet).
+   * Fokuset blir stående på knappen.
+   */
+  function rullInnKartet() {
+    const element = kartet.current;
+    if (!element) return;
+    const r = element.getBoundingClientRect();
+    const marg = parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
+    const synesHelt = r.top >= 0 && r.bottom <= window.innerHeight;
+    const fyller = r.top <= marg && r.bottom >= window.innerHeight;
+    if (synesHelt || fyller) return;
     const rolig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     element.scrollIntoView({ block: "start", behavior: rolig ? "auto" : "smooth" });
   }
@@ -205,14 +230,24 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
             <Stokk ref={stokk} kort={turforslag} valgt={valgt} onVelg={velg} onVisPaKartet={visPaKartet} />
           </div>
           <div ref={kartet} className={stil.kartplass} {...KARTOMRADE}>
-            <KartLaster kort={turforslag} valgt={valgt} />
+            {turforslag[valgt] && (
+              <Kartinfoboks ref={infoboks} kort={turforslag[valgt]} antall={turforslag.length} live />
+            )}
+            <KartLaster kort={turforslag} valgt={valgt} onVelg={velg} infoboks={finnInfoboks} />
           </div>
           <div className={stil.mobil}>
             <Stokkoversikt kort={turforslag} valgt={valgt} onVelg={velgFraOversikt} />
           </div>
           <div className={`${stil.pc} ${stil.kortene}`} data-testid="kortraden">
-            {turforslag.map((kort) => (
-              <Turkort key={kort.turId} kort={kort} antall={turforslag.length} />
+            {turforslag.map((kort, i) => (
+              <Turkort
+                key={kort.turId}
+                kort={kort}
+                antall={turforslag.length}
+                valgt={i === valgt}
+                onVelg={() => velg(i)}
+                onVisPaKartet={rullInnKartet}
+              />
             ))}
           </div>
           <Ansvarsmerknad />
@@ -222,8 +257,9 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
       {visning && alternativ && (
         <div key={`bunn-${visning.resultatId}`} className={stil.bunn}>
           {alternativKart && (
-            <div className={`${stil.pc} ${stil.alternativKart}`}>
-              <KartLaster kort={alternativKart} valgt={0} />
+            <div className={`${stil.pc} ${stil.alternativKart} ${stil.kartplass}`}>
+              <Kartinfoboks ref={infoboks} kort={alternativ.kort} antall={1} alternativ />
+              <KartLaster kort={alternativKart} valgt={0} infoboks={finnInfoboks} />
             </div>
           )}
           <div className={stil.alternativ}>
@@ -239,6 +275,7 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
           </div>
           {alternativKart && (
             <div ref={kartet} className={`${stil.mobil} ${stil.alternativKart} ${stil.kartplass}`} {...KARTOMRADE}>
+              <Kartinfoboks kort={alternativ.kort} antall={1} alternativ />
               <KartLaster kort={alternativKart} valgt={0} />
             </div>
           )}

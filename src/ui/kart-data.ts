@@ -1,3 +1,4 @@
+import type { FitBoundsOptions } from "leaflet";
 import type { Kart } from "@/kjerne/visning/skjema";
 
 // Rene hjelpere for kartet (story 3.1). Kartet får `kart` fra kortene i Resultatet og tegner ruter,
@@ -12,8 +13,11 @@ import type { Kart } from "@/kjerne/visning/skjema";
 export const KARTFLISER_URL =
   "https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png";
 
-/** Et kort slik kartet trenger det. Turkort og Alternativkort passer. */
-export type Kartkort = { turId: string; kart: Kart };
+/**
+ * Et kort slik kartet trenger det. Turkort og Alternativkort passer. `mal` og `fra` gir navnet på
+ * Startpunkt-markøren når kartet er interaktivt (story 3.5).
+ */
+export type Kartkort = { turId: string; kart: Kart; mal?: string; fra?: string };
 
 /** Et punkt i WGS84. */
 export type Punkt = Kart["startpunkt"];
@@ -43,6 +47,64 @@ export function grupperStartpunkter(kort: readonly Kartkort[]): Startgruppe[] {
     grupper.set(nokkel, gruppe);
   });
   return [...grupper.values()];
+}
+
+/**
+ * Det tilgjengelige navnet på et kort i kartet (story 3.5, UX-DR44): «Turforslag N: {mal} {fra}». `fra` fra
+ * kjernen er allerede «fra …». Uten `mal` er navnet bare «Turforslag N».
+ */
+export function kortnavn({ kart, mal, fra }: Kartkort): string {
+  const tur = [mal, fra].filter((t) => t !== undefined && t.length > 0).join(" ");
+  return tur.length > 0 ? `Turforslag ${kart.nummer}: ${tur}` : `Turforslag ${kart.nummer}`;
+}
+
+/** Navnet på en Startpunkt-markør. Et delt Startpunkt nevner alle kortene, i rekkefølge, skilt med « og ». */
+export const markornavn = (kort: readonly Kartkort[], gruppe: Startgruppe) =>
+  gruppe.kort.map(({ indeks }) => kortnavn(kort[indeks])).join(" og ");
+
+/**
+ * Kortet et trykk på en Startpunkt-markør velger (story 3.5). Er ingen av kortene i gruppen valgt, velges
+ * det første. Er ett av dem valgt, velges det neste i gruppen, og etter det siste kommer det første igjen.
+ * Et Startpunkt med ett kort velger alltid det kortet. Gir indeksen i Resultatet.
+ */
+export function velgIGruppe(gruppe: Startgruppe, valgt: number): number {
+  const plass = gruppe.kort.findIndex((k) => k.indeks === valgt);
+  return gruppe.kort[(plass + 1) % gruppe.kort.length].indeks;
+}
+
+/** Startpunktet i kartet: sirkelen er 29 px med ringen. */
+export const PIN = 29;
+
+/**
+ * Margen rundt rutene når kartet zoomer til dem, eller rundt en markør som får fokus (story 3.5). Til venstre
+ * står zoomknappene, og nederst står tegnforklaringen, som er `forklaring` px høy. Til sidene er margen minst
+ * halve den bredeste Startpunkt-markøren, så en delt markør i kanten ikke klippes. Etiketten «omtrentlig rute»
+ * peker inn mot kartet (se `etikettTilVenstre`) og trenger ikke egen marg. Står teksten om bakgrunnskartet
+ * øverst, er `feilBunn` bunnen av den i px, og innholdet holdes under den. Dekker Kartinfoboksen `infoboks` px
+ * fra høyre kant (PC), holdes innholdet til venstre for den.
+ */
+export function kartmarg(forklaring: number, bredesteMarkor: number, feilBunn = 0, infoboks = 0): FitBoundsOptions {
+  const side = bredesteMarkor / 2 + 8;
+  const topp = Math.max(24, PIN / 2 + 8, feilBunn > 0 ? feilBunn + PIN / 2 + 4 : 0);
+  return {
+    paddingTopLeft: [Math.max(64, side), topp],
+    paddingBottomRight: [Math.max(24, side, infoboks > 0 ? infoboks + side : 0), forklaring + 24],
+    maxZoom: 16,
+    animate: false,
+  };
+}
+
+/** En boks målt i px i vinduet, som fra `getBoundingClientRect`. */
+export type Rekt = { left: number; right: number; top: number; bottom: number };
+
+/**
+ * Bredden i px som `boks` dekker av kartflaten `flate` fra høyre kant, eller 0 når boksen står utenfor kartet
+ * eller ikke har størrelse (story 3.5). Kartinfoboksen ligger over kartet på PC og over det, utenfor, på mobil.
+ */
+export function dekketHoyre(flate: Rekt, boks: Rekt | null): number {
+  if (!boks || boks.right <= boks.left) return 0;
+  const over = boks.left < flate.right && boks.right > flate.left && boks.top < flate.bottom && boks.bottom > flate.top;
+  return over ? flate.right - boks.left : 0;
 }
 
 /** Grensene for alle ruter, Startpunkter og Mål. `null` når det ikke er noen kort. */

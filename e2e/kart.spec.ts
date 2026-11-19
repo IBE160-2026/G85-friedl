@@ -7,7 +7,7 @@ import { BAKGRUNNSKART, BAKGRUNNSKART_FEIL } from "../src/ui/tekster";
 
 // Story 3.1: kartet i Resultatet, på PC (1440 px), nettbrett (768 px) og mobil (360 px). Kartflisene er stubbet av
 // fixtures.ts, så ingen test kaller Kartverket. Alle Søk går med `?demo=`. Testene sjekker tilstand,
-// antall og plassering, aldri Turnavn (AR-26). Kartet er ikke interaktivt ennå (story 3.5).
+// antall og plassering, aldri Turnavn (AR-26). Valg i kartet og Kartinfoboksen (story 3.5) står i valg.spec.ts.
 //
 // Story 3.2: Kartutsnittet øverst i kortene på mobil og nettbrett, og det statiske kartet over Moldemarka
 // på Frarådet-kortet.
@@ -112,6 +112,25 @@ async function ventPaZoom(kart: Locator, z: number) {
   await expect(kart.locator(".leaflet-zoom-anim")).toHaveCount(0);
 }
 
+/**
+ * Story 3.5: i markørlaget er Startpunktene knapper med navn, og alt annet (Mål og etiketten «omtrentlig rute»)
+ * er skjult for skjermlesere.
+ */
+async function sjekkMarkorlaget(kart: Locator) {
+  const lag = await kart.locator(".leaflet-marker-pane > *").evaluateAll((ikoner) =>
+    ikoner.map((el) => ({
+      knapp: el.getAttribute("role") === "button" && (el.getAttribute("aria-label") ?? "").startsWith("Turforslag "),
+      skjult: el.getAttribute("aria-hidden") === "true",
+      mal: el.querySelector('[data-testid="kart-mal"]') !== null,
+      etikett: el.querySelector('[data-testid="kart-etikett"]') !== null,
+    })),
+  );
+  expect(lag.filter((i) => i.knapp).length).toBeGreaterThan(0);
+  expect(lag.filter((i) => !i.knapp && !i.skjult), "pynt som ikke er skjult").toEqual([]);
+  expect(lag.filter((i) => (i.mal || i.etikett) && !i.skjult)).toEqual([]);
+  expect(lag.some((i) => i.etikett)).toBe(true);
+}
+
 /** Venter litt, så en forespørsel som ikke skal komme, rekker å komme. */
 const ventLitt = (page: Page) => page.waitForTimeout(500);
 
@@ -178,19 +197,24 @@ test.describe("Turforslag på PC", () => {
     expect(kartfliser.every((u) => u.startsWith(prefiks))).toBe(true);
   });
 
-  test("Tab fra overskriften går bare til zoomknappene og krediteringen i kartet, som alle har navn", async ({
+  test("Tab fra overskriften går til Startpunkt-markørene, zoomknappene og krediteringen i kartet, som alle har navn", async ({
     page,
   }) => {
     await page.goto("/?demo=uten-vaer");
-    await finnTur(page);
+    const kort = turforslag(await finnTur(page));
     const d = deler(page);
     await expect(d.stier).toHaveCount(6);
     await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
 
-    // Selve kartflaten er ikke et tabulatorstopp, og den er skjult for skjermlesere.
+    // Selve kartflaten er ikke et tabulatorstopp. Story 3.5: kartlaget er ikke lenger skjult for skjermlesere,
+    // men flisene og rutene er det.
     const leaflet = d.kart.locator(".leaflet-container");
     await expect(leaflet).not.toHaveAttribute("tabindex");
-    await expect(d.kart.locator('[aria-hidden="true"] > .leaflet-container')).toHaveCount(1);
+    await expect(d.kart.locator('[aria-hidden="true"] > .leaflet-container')).toHaveCount(0);
+    for (const lag of [".leaflet-tile-pane", ".leaflet-overlay-pane", ".leaflet-kart-treff-pane"]) {
+      await expect(d.kart.locator(lag)).toHaveAttribute("aria-hidden", "true");
+    }
+    await sjekkMarkorlaget(d.kart);
 
     const navn: string[] = [];
     for (let i = 0; i < 12; i++) {
@@ -204,7 +228,9 @@ test.describe("Turforslag på PC", () => {
       await expect(fokus).toHaveAccessibleName(/\S/);
       navn.push((await fokus.getAttribute("aria-label")) ?? (await fokus.innerText()));
     }
-    expect(navn).toEqual(["Zoom inn", "Zoom ut", expect.stringContaining("© Kartverket")]);
+    // Markørene står først i kartet, ett tabulatorstopp per Startpunkt, med «Turforslag N: …» som navn.
+    const markorer = grupperStartpunkter(kort).map((g) => expect.stringMatching(`^Turforslag ${g.kort[0].nummer}: `));
+    expect(navn).toEqual([...markorer, "Zoom inn", "Zoom ut", expect.stringContaining("© Kartverket")]);
   });
 
   test("zoomer inn og ut med knappene på 44 × 44 px, og «Zoom inn» er inaktiv ved største zoom", async ({
@@ -277,6 +303,9 @@ test.describe("Turforslag på PC", () => {
       expect(b.x + b.width).toBeLessThanOrEqual(kart.x + kart.width);
       expect(b.y + b.height).toBeLessThanOrEqual(kart.y + kart.height);
     }
+
+    // Story 3.5: Mål er pynt for skjermlesere, og bare Startpunktene er knapper i markørlaget.
+    await sjekkMarkorlaget(d.kart);
 
     // Tegnforklaringen viser Mål.
     await expect(d.forklaring.getByTestId("tegnforklaring-mal")).toBeVisible();

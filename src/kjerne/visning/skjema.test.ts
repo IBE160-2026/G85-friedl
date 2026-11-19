@@ -66,7 +66,8 @@ const kort = (nummer: number, endring: Partial<Turkort> = {}): Turkort => ({
   regeltekst: "passer tiden din (1 t 32 min av 2 t), oppholdsvær og lite vind, utsikt",
   kartinfoboks: {
     navn: "Tusenårsvarden fra Damefallet",
-    tekst: "4,2 km · Middels · Startpunkt: Parkering ved Damefallet, Vardeveien",
+    tekst: "4,2 km · Middels",
+    startpunkt: "Startpunkt: Parkering ved Damefallet, Vardeveien",
   },
   stokkoversiktRad: "1 t 32 min uten pauser · tilbake 15:02",
   lesetekst: "Turforslag 1 av 3: Tusenårsvarden fra Damefallet.",

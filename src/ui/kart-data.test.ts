@@ -5,14 +5,19 @@ import {
   etikettTilVenstre,
   grenser,
   grupperStartpunkter,
+  dekketHoyre,
   harMal,
+  kartmarg,
   type Kartkort,
+  kortnavn,
+  markornavn,
   midtpunkt,
   MOLDEMARKA,
   punktgrenser,
   SOK_PRIKK,
   sokflate,
   sokMarg,
+  velgIGruppe,
 } from "./kart-data";
 
 // Story 3.1: grupperingen av Startpunkter, grensene kartet zoomer til, punktet for «omtrentlig rute»
@@ -56,6 +61,74 @@ describe("grupperStartpunkter", () => {
   it("gir én gruppe med nummer 1 for Alternativet", () => {
     const alternativ = kort(1, MUSEET, [[[7.13, 62.735], [7.12, 62.75]]]);
     expect(grupperStartpunkter([alternativ])).toEqual([{ punkt: MUSEET, kort: [{ indeks: 0, nummer: 1 }] }]);
+  });
+});
+
+// Story 3.5: navnet på Startpunkt-markørene og valget ved et trykk på et delt Startpunkt.
+describe("kortnavn og markornavn", () => {
+  const navngitt = tre.map((k) => ({ ...k, mal: `Mål ${k.kart.nummer}`, fra: "fra Damefallet" }));
+
+  it("gir «Turforslag N: Mål fra …»", () => {
+    expect(kortnavn(navngitt[1])).toBe("Turforslag 2: Mål 2 fra Damefallet");
+  });
+
+  it("gir bare «Turforslag N» uten Mål og fra", () => {
+    expect(kortnavn(tre[0])).toBe("Turforslag 1");
+  });
+
+  it("nevner alle kortene i et delt Startpunkt, i rekkefølge", () => {
+    const [delt, alene] = grupperStartpunkter(navngitt);
+    expect(markornavn(navngitt, delt)).toBe(
+      "Turforslag 1: Mål 1 fra Damefallet og Turforslag 3: Mål 3 fra Damefallet",
+    );
+    expect(markornavn(navngitt, alene)).toBe("Turforslag 2: Mål 2 fra Damefallet");
+  });
+});
+
+describe("dekketHoyre", () => {
+  const flate = { left: 100, right: 1400, top: 300, bottom: 640 };
+
+  it("gir bredden fra venstre kant av boksen til høyre kant av kartet når boksen ligger over kartet", () => {
+    expect(dekketHoyre(flate, { left: 1028, right: 1388, top: 312, bottom: 420 })).toBe(372);
+  });
+
+  it("gir 0 når boksen står over kartet, utenfor det (mobil), eller mangler størrelse", () => {
+    expect(dekketHoyre(flate, { left: 100, right: 1400, top: 180, bottom: 288 })).toBe(0);
+    expect(dekketHoyre(flate, { left: 1200, right: 1200, top: 312, bottom: 312 })).toBe(0);
+    expect(dekketHoyre(flate, null)).toBe(0);
+  });
+});
+
+describe("kartmarg", () => {
+  it("holder innholdet klar av zoomknappene, tegnforklaringen og en bred markør", () => {
+    expect(kartmarg(32, 55)).toMatchObject({ paddingTopLeft: [64, 24], paddingBottomRight: [35.5, 56] });
+  });
+
+  it("holder innholdet under teksten om bakgrunnskartet", () => {
+    expect(kartmarg(32, 29, 40).paddingTopLeft).toEqual([64, 40 + 29 / 2 + 4]);
+  });
+
+  it("holder innholdet til venstre for Kartinfoboksen, med halve markøren i tillegg", () => {
+    expect(kartmarg(32, 29, 0, 372).paddingBottomRight).toEqual([372 + 29 / 2 + 8, 56]);
+    expect(kartmarg(32, 29, 0, 0).paddingBottomRight).toEqual([24, 56]);
+  });
+});
+
+describe("velgIGruppe", () => {
+  const [delt, alene] = grupperStartpunkter(tre);
+
+  it("velger det første kortet i gruppen når ingen av dem er valgt", () => {
+    expect(velgIGruppe(delt, 1)).toBe(0);
+  });
+
+  it("velger det neste kortet i gruppen, og går rundt etter det siste", () => {
+    expect(velgIGruppe(delt, 0)).toBe(2);
+    expect(velgIGruppe(delt, 2)).toBe(0);
+  });
+
+  it("et Startpunkt med ett kort velger alltid det kortet", () => {
+    expect(velgIGruppe(alene, 0)).toBe(1);
+    expect(velgIGruppe(alene, 1)).toBe(1);
   });
 });
 

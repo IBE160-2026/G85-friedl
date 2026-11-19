@@ -1,0 +1,75 @@
+/*
+ * Kartinfoboksen (DESIGN.md › Kartinfoboks): papirfelt med skoggrønn kant og et lite Nummerstempel
+ * (components.nummerstempel.sizeSmall). På mobil og nettbrett står den over kartet.
+ *
+ * DESIGN.md har ingen egne tokens for Kartinfoboksen. Kanten (2 px skoggrønt) er den samme som på Bedre
+ * tidsvindu-boksen, det andre papirfeltet med skoggrønn kant, og hjørnene er rounded.md som de andre panelene.
+ * Navnet er 17 px som card-from, men i vekt 600 som i skissen pc-2. Faktalinjen (14 px, 500) og tallet i det
+ * lille stempelet (17 px) er tatt fra skissen pc-2, fordi typografiskalaen ikke har de størrelsene.
+ */
+.boks {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4);
+  border: var(--components-bedre-tidsvindu-boks-border-width) solid var(--colors-forest);
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-card);
+  overflow-wrap: anywhere;
+}
+
+.stempel {
+  width: var(--components-nummerstempel-size-small);
+  height: var(--components-nummerstempel-size-small);
+  font-size: 17px;
+}
+
+.stempel svg {
+  width: 17px;
+  height: 17px;
+}
+
+.tekst {
+  min-width: 0;
+}
+
+.navn {
+  margin: 0;
+  font-size: var(--typography-card-from-font-size);
+  font-weight: var(--typography-label-font-weight);
+  line-height: 1.3;
+  color: var(--colors-ink-primary);
+}
+
+.fakta {
+  margin: 2px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--colors-ink-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.startpunkt {
+  margin: 2px 0 0;
+  font-size: var(--typography-detail-font-size);
+  line-height: var(--typography-detail-line-height);
+  color: var(--colors-ink-secondary);
+}
+
+/*
+ * PC: øverst til høyre over kartet, med fast bredde, så kartet kan holde rutene til venstre for den uten å
+ * zoome på nytt når valget endres. Den tar ikke imot pekeren, så kartet under kan dras.
+ */
+@media (min-width: 1200px) {
+  .boks {
+    position: absolute;
+    top: var(--spacing-3);
+    right: var(--spacing-3);
+    z-index: 1;
+    width: min(360px, 40%);
+    margin: 0;
+    pointer-events: none;
+  }
+}

@@ -1,5 +1,5 @@
 import type { Locator, Page } from "@playwright/test";
-import { expect, test } from "./fixtures";
+import { expect, liveOmrade, test } from "./fixtures";
 import type { Resultatvisning, Turkort } from "../src/kjerne/visning/skjema";
 
 // Story 1.12: Resultat med Turkort på PC mot ?demo=uten-vaer, der «nå» er man. 9. nov. 2026 kl. 13:30.
@@ -60,7 +60,7 @@ test("UJ-1 uten vær på PC: tilstand og rekkefølge", async ({ page }) => {
 
   // Værmangel-linjen står i tekster.ts og skal si det samme som kjernen.
   await expect(vaermangel).toHaveText(visning.vaer.type === "mangler" ? visning.vaer.tekst : "");
-  await expect(page.locator('div[aria-live="polite"]')).toContainText("Tre Turforslag som passer tiden din");
+  await expect(liveOmrade(page)).toContainText("Tre Turforslag som passer tiden din");
   await expect(artikler).toHaveCount(3);
   await expect(ansvarsmerknad).toHaveText(
     "Du har selv ansvaret for å vurdere forholdene. Værvurderingen er veiledende og vurderer ikke føre (snø, is, gjørme). Følg MET sine farevarsler.",

@@ -103,11 +103,28 @@
     calc(var(--components-kart-route-inactive-width) * 1.6);
 }
 
-/* Startpunktet: nummerert sirkel med papirring. Delt Startpunkt gir numrene side om side. */
+/*
+ * Startpunktet: nummerert sirkel med papirring. Delt Startpunkt gir numrene side om side. Markøren er minst
+ * 44 × 44 px (SM-4), med sirklene i midten. I det interaktive kartet er den en knapp, og fokusringen følger
+ * den avrundede formen.
+ */
 .startpunkt {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: var(--rounded-full);
+}
+
+/*
+ * Trefflinjen langs ruten i det interaktive kartet (story 3.5): usynlig og 24 px bred, så ruten er lett å
+ * treffe. Den tar imot pekeren fordi streken ikke er `none`.
+ */
+.treff {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 24px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .pinner {

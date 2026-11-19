@@ -65,4 +65,10 @@ export async function blokkerFliser(page: Page, maate: "503" | "avbryt" = "503")
   return urler;
 }
 
+/**
+ * Live-området i Resultatet, som melder overskriften. Kartinfoboksen (story 3.5) er også et live-område på PC,
+ * men ikke dette.
+ */
+export const liveOmrade = (page: Page) => page.locator('div[aria-live="polite"]:not([data-testid="kartinfoboks"])');
+
 export { expect, KARTFLISER_URL };

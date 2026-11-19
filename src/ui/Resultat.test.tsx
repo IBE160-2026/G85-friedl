@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { Resultatvisning, Turkort as TurkortData } from "@/kjerne/visning/skjema";
 import { Dagslysstolpe } from "./Dagslysstolpe";
 import { medHake } from "./Hake";
+import { Kartinfoboks } from "./Kartinfoboks";
 import { Resultat, type Resultattilstand } from "./Resultat";
 import { Tidsstolpe } from "./Tidsstolpe";
 
@@ -37,7 +38,7 @@ function kort(nummer: number, onsker: TurkortData["kriterier"][2]): TurkortData 
       solOpp: null,
     },
     regeltekst: "passer tiden din (1 t 32 min av 2 t), værdata mangler, utsikt",
-    kartinfoboks: { navn: `Mål ${nummer}`, tekst: "5,0 km · Middels" },
+    kartinfoboks: { navn: `Mål ${nummer}`, tekst: "5,0 km · Middels", startpunkt: "Startpunkt: Parkering" },
     stokkoversiktRad: "1 t 32 min uten pauser · tilbake 15:02",
     lesetekst: `Turforslag ${nummer} av 2: Mål ${nummer}. Turtid: 1 t 32 min av 2 t, gangtid uten pauser.`,
     kilde: { navn: "morotur.no", url: "https://www.morotur.no/tur" },
@@ -145,6 +146,50 @@ describe("Resultat med Turforslag uten vær", () => {
     expect(html).toContain("--andel:0.77");
     expect(html).toContain("--fra:0.8;--til:1");
     expect(html).toContain("--andel:0.62");
+  });
+});
+
+// Story 3.5: valget på PC og Kartinfoboksen. Kort 1 er valgt fra start.
+describe("Valg og Kartinfoboks", () => {
+  const knapper = [...pc.matchAll(/<button[^>]*data-testid="vis-pa-kartet"[^>]*>.*?<\/button>/g)].map((m) => m[0]);
+
+  it("kortene på PC er tabulatorstopp, og bare kort 1 har aria-current", () => {
+    expect(artikler.every((a) => a.includes('tabindex="0"'))).toBe(true);
+    expect(artikler[0]).toContain('aria-current="true"');
+    expect(artikler[1]).not.toContain("aria-current");
+  });
+
+  it("foten har «Vises på kartet» med haken på det valgte kortet og «Vis på kartet» på det andre", () => {
+    expect(knapper).toHaveLength(2);
+    // Knappen kan ikke trykkes «av», så den har ingen aria-pressed. Valget står i aria-current på kortet.
+    expect(knapper.some((k) => k.includes("aria-pressed") || k.includes("disabled"))).toBe(false);
+    expect(knapper[0]).toMatch(/<svg[^>]*aria-hidden="true"[^>]*>.*<\/svg>Vises på kartet<\/button>$/);
+    expect(knapper[0]).not.toContain(": ja");
+    expect(knapper[1]).toMatch(/>Vis på kartet<\/button>$/);
+  });
+
+  it("kortene i Stokken er ikke tabulatorstopp og har ingen knapp i foten", () => {
+    const stokk = stokkDel(html);
+    expect(stokk).not.toMatch(/<article[^>]*tabindex/);
+    expect(stokk).not.toContain("aria-current");
+    expect(stokk).not.toContain('data-testid="vis-pa-kartet"');
+  });
+
+  it("har én Kartinfoboks med kort 1 i kartområdet, før kartet, med Startpunktet på egen linje", () => {
+    expect(html.match(/data-testid="kartinfoboks"/g)).toHaveLength(1);
+    const kartomrade = del(html, 'role="region" aria-label="Kart"', 'data-testid="kart-laster"');
+    expect(kartomrade).toMatch(/data-testid="nummerstempel">1<\/span>/);
+    expect(kartomrade).toMatch(
+      /<span class="[^"]*skjult[^"]*">Turforslag 1 av 2: <\/span>Mål 1<\/p><p[^>]*>5,0 km · Middels<\/p><p[^>]*>Startpunkt: Parkering<\/p>/,
+    );
+  });
+
+  it("Kartinfoboksen er ikke et live-område på serveren: det settes på PC etter hydreringen (e2e)", () => {
+    expect(html).not.toMatch(/aria-live="polite"[^>]*data-testid="kartinfoboks"/);
+    const k = kort(2, { rad: "onsker", merke: "ingen", tekst: "ingen valgt", detalj: [] });
+    const boks = renderToString(<Kartinfoboks kort={k} antall={3} live />);
+    expect(boks).toContain("Turforslag 2 av 3: ");
+    expect(boks).not.toContain("aria-live");
   });
 });
 
@@ -293,10 +338,23 @@ describe("Resultat med Alternativ", () => {
     const pc = html.indexOf('data-testid="kart-laster"');
     const mobil = html.lastIndexOf('data-testid="kart-laster"');
     expect(pc).toBeLessThan(html.indexOf('data-testid="alternativkort"'));
-    expect(html.slice(0, pc)).toMatch(/<div class="[^"]*pc[^"]*alternativKart[^"]*"><div[^>]*$/);
+    // Kartplassen rundt kartet: den siste med alternativKart før kartet. Kartinfoboksen står først i den.
+    const plass = (i: number) => html.slice(html.lastIndexOf('<div class="', html.lastIndexOf("alternativKart", i)), i);
+    expect(plass(pc)).toMatch(/^<div class="[^"]*pc[^"]*alternativKart[^"]*"><div[^>]*data-testid="kartinfoboks"/);
     expect(mobil).toBeGreaterThan(html.indexOf('data-testid="passer-med"'));
-    expect(html.slice(0, mobil)).toMatch(/<div class="[^"]*mobil[^"]*alternativKart[^"]*"[^>]*><div[^>]*$/);
+    expect(plass(mobil)).toMatch(/^<div class="[^"]*mobil[^"]*alternativKart[^"]*"[^>]*><div[^>]*data-testid="kartinfoboks"/);
     expect(mobil).toBeLessThan(html.indexOf('data-testid="ansvarsmerknad"'));
+  });
+
+  it("har Kartinfoboksen med den korteste Turen og stempelet «→» over begge kartene (story 3.5)", () => {
+    const bokser = [...html.matchAll(/data-testid="kartinfoboks".*?<\/p><\/div><\/div>/g)].map((m) => m[0]);
+    expect(bokser).toHaveLength(2);
+    for (const boks of bokser) {
+      // Kopiene ved Alternativet endrer seg aldri, så de er ikke live-områder.
+      expect(boks).not.toContain("aria-live");
+      expect(boks).toContain('data-testid="stempel-pil"');
+      expect(boks).toMatch(/<span class="[^"]*skjult[^"]*">Alternativ: <\/span>Mål 1<\/p>/);
+    }
   });
 
   it("har begge formene av Begrunnelsen, som CSS bytter ved 1200 px", () => {

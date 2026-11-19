@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import { expect, test } from "./fixtures";
+import { expect, liveOmrade, test } from "./fixtures";
 
 // Story 1.11: Søk-flaten mot ?demo=uten-vaer, der «nå» er man. 9. nov. 2026 kl. 13:30.
 // Testene sjekker tilstand, felt og navn, aldri Turnavn.
@@ -133,7 +133,7 @@ test("Finn tur sender standard-Søket og melder overskriften", async ({ page }) 
   expect(sendt.postDataJSON()).toEqual(STANDARD_SOK);
 
   await expect(page.getByRole("heading", { level: 1, name: "Tre Turforslag som passer tiden din" })).toBeVisible();
-  await expect(page.locator('div[aria-live="polite"]')).toHaveText("Tre Turforslag som passer tiden din");
+  await expect(liveOmrade(page)).toHaveText("Tre Turforslag som passer tiden din");
 
   // Søket står aldri i URL-en, og knappen er ikke låst når Søk kommer tilbake.
   expect(new URL(page.url()).search).toBe("?demo=uten-vaer");

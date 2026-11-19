@@ -165,7 +165,7 @@ function kort(vaer: TurkortData["kriterier"][1]): TurkortData {
     tidsstolpe: { fyll: 0.5, overGrense: 0 },
     dagslysstolpe: { startTekst: "10:00", slutt: { andel: 0.3, tekst: "tilbake 11:33" }, skumring: 0.9, solNed: null, solOpp: null },
     regeltekst: "passer tiden din (1 t 33 min av 3 t), nedbør opptil 3,4 mm/t og frisk vind",
-    kartinfoboks: { navn: "Mål 1", tekst: "5,0 km · Krevende" },
+    kartinfoboks: { navn: "Mål 1", tekst: "5,0 km · Krevende", startpunkt: "Startpunkt: Parkering" },
     stokkoversiktRad: "1 t 33 min uten pauser · tilbake 11:33",
     lesetekst: "Turforslag 1 av 1: Mål 1.",
     kilde: { navn: "morotur.no", url: "https://www.morotur.no/tur" },

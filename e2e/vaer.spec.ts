@@ -1,5 +1,5 @@
 import type { Locator, Page } from "@playwright/test";
-import { expect, KARTFLISER, test } from "./fixtures";
+import { expect, KARTFLISER, liveOmrade, test } from "./fixtures";
 import { HOYDEMERKNAD } from "../src/kjerne/vaer/sammendrag";
 import type { Resultatvisning, Vaer } from "../src/kjerne/visning/skjema";
 import { VAERVARSLING_FORKLARING } from "../src/ui/tekster";
@@ -92,7 +92,7 @@ for (const [navn, viewport] of [
 
       await expect(page.getByTestId("vaermangel")).toHaveCount(0);
       await expect(page.getByTestId("vaervarsling")).toHaveCount(0);
-      await expect(page.locator('div[aria-live="polite"]')).toHaveText(visning.overskrift);
+      await expect(liveOmrade(page)).toHaveText(visning.overskrift);
 
       // Mellom Ditt søk og overskriften.
       const dittSok = page.getByTestId(navn === "PC" ? "ditt-sok" : "ditt-sok-linje").filter({ visible: true });
@@ -183,7 +183,7 @@ for (const [navn, viewport] of [
 
     test("live-området melder overskriften og Værvarslingen", async ({ page }) => {
       await uj2(page);
-      await expect(page.locator('div[aria-live="polite"]')).toHaveText(
+      await expect(liveOmrade(page)).toHaveText(
         "Tre Turforslag i dårlig vær. Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–13:00.",
       );
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Tre Turforslag i dårlig vær");
@@ -206,7 +206,7 @@ test.describe("UJ-2 med 15 min", () => {
     await expect(alternativ).toBeVisible();
     expect((await boks(varsling)).y).toBeLessThan((await boks(overskrift)).y);
     expect((await boks(overskrift)).y).toBeLessThan((await boks(alternativ)).y);
-    await expect(page.locator('div[aria-live="polite"]')).toHaveText(
+    await expect(liveOmrade(page)).toHaveText(
       "Ingen Tur passer 15 min. Værvarsling: Værklasse dårlig i Tidsvinduet 10:00–10:15.",
     );
   });
@@ -222,6 +222,6 @@ test.describe("uten-vaer", () => {
     await expect(page.getByTestId("vaermangel")).toHaveText("Været er ikke vurdert. Vi fikk ikke hentet Værmeldingen fra MET.");
     await expect(page.getByTestId("vaersammendrag")).toHaveCount(0);
     await expect(page.getByTestId("vaervarsling")).toHaveCount(0);
-    await expect(page.locator('div[aria-live="polite"]')).toHaveText("Tre Turforslag som passer tiden din");
+    await expect(liveOmrade(page)).toHaveText("Tre Turforslag som passer tiden din");
   });
 });

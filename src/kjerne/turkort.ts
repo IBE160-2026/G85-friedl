@@ -337,7 +337,8 @@ export function lagTurkort(kandidat: Kandidat, input: KortInput): Turkort {
     regeltekst: lagRegeltekst({ turtidMin, tilgjengeligMin: sok.tilgjengeligMin, vaer, treff: pref.treff, ...turen }),
     kartinfoboks: {
       navn: tur.navn,
-      tekst: `${km(tur.lengde_km_totalt)} · ${tur.gradering_tekst} · ${startpunkt}`,
+      tekst: `${km(tur.lengde_km_totalt)} · ${tur.gradering_tekst}`,
+      startpunkt,
     },
     stokkoversiktRad: `${varighet(turtidMin)} uten pauser · tilbake ${tilbake}`,
     lesetekst: lesetekst(tur, kandidat, input, kriterier, pref),

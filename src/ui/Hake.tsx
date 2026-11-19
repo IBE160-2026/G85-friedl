@@ -6,8 +6,11 @@ import { HAKE_TEKST } from "./tekster";
 // Haken (✓) som SVG-ikon, fordi Nunito Sans mangler tegnet (DESIGN.md › Ikoner). Inne i en tekstlinje
 // er ikonet like høyt som en stor bokstav og har tekstens farge. Skjermlesere får «: ja».
 
-/** `mellomrom`: teksten hadde et mellomrom foran ✓, som blir en marg på ikonet. */
-export function Hake({ mellomrom = true }: { mellomrom?: boolean }) {
+/**
+ * `mellomrom`: teksten hadde et mellomrom foran ✓, som blir en marg på ikonet. `utenTekst`: ikonet er bare
+ * pynt, fordi teksten ved siden av bærer meningen («Vises på kartet»), så skjermlesere får ingen «: ja».
+ */
+export function Hake({ mellomrom = true, utenTekst = false }: { mellomrom?: boolean; utenTekst?: boolean }) {
   return (
     <>
       <svg
@@ -25,7 +28,7 @@ export function Hake({ mellomrom = true }: { mellomrom?: boolean }) {
           strokeLinejoin="round"
         />
       </svg>
-      <span className={skjult.skjult}>{HAKE_TEKST}</span>
+      {!utenTekst && <span className={skjult.skjult}>{HAKE_TEKST}</span>}
     </>
   );
 }

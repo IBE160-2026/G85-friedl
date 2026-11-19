@@ -1,5 +1,5 @@
 import type { Page, Route } from "@playwright/test";
-import { expect, test } from "./fixtures";
+import { expect, liveOmrade, test } from "./fixtures";
 import type { Sok } from "../src/kjerne/sok";
 import type { Resultatvisning } from "../src/kjerne/visning/skjema";
 
@@ -27,7 +27,6 @@ async function finnTur(page: Page): Promise<Resultatvisning> {
   return visning;
 }
 
-const liveOmrade = (page: Page) => page.locator(`div[aria-live="polite"]`);
 const sokOverskrift = (page: Page) => page.getByRole("heading", { level: 1, name: SOK_OVERSKRIFT });
 const kontaktfeil = (page: Page) => page.getByTestId("kontaktfeil");
 const historikklengde = (page: Page) => page.evaluate(() => history.length);

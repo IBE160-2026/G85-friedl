@@ -1,6 +1,15 @@
 "use client";
 
-import { divIcon, type FitBoundsOptions, type Map as LeafletKart } from "leaflet";
+import {
+  divIcon,
+  type FitBoundsOptions,
+  type GeoJSON as LeafletGeoJSON,
+  type LeafletEventHandlerFnMap,
+  type LeafletKeyboardEvent,
+  type Map as LeafletKart,
+  type Marker as LeafletMarker,
+  type Path,
+} from "leaflet";
 import {
   Fragment,
   type ReactNode,
@@ -13,22 +22,28 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { GeoJSON, MapContainer, Marker, TileLayer } from "react-leaflet";
+import { GeoJSON, MapContainer, Marker, Pane, TileLayer } from "react-leaflet";
 import {
   etikettTilVenstre,
   type Grenser,
   grenser,
   grupperStartpunkter,
   harMal,
+  dekketHoyre,
   KARTFLISER_URL,
+  kartmarg as marg,
   type Kartkort,
+  markornavn,
   midtpunkt,
   type NavngittPunkt,
+  PIN,
   punktgrenser,
   SOK_PRIKK,
   type Sokflate,
   sokflate,
   sokMarg,
+  type Startgruppe,
+  velgIGruppe,
 } from "./kart-data";
 import { Bakgrunnsfeil, flisvakt } from "./Bakgrunnsfeil";
 import stil from "./Kart.module.css";
@@ -44,8 +59,19 @@ import { BAKGRUNNSKART, KART, NY_FANE, ZOOM_INN, ZOOM_UT } from "./tekster";
 // trekant. «omtrentlig rute» står ved midten av den valgte ruten. Kartet zoomer slik at alle ruter og
 // Startpunkter synes. Zoom og panorering med mus og berøring er Leaflets standard.
 //
-// Ruter og markører er ikke interaktive ennå: valg fra kartet kommer i story 3.5. Selve kartflaten,
-// markørene og tegnforklaringen er skjult for skjermlesere, fordi alt kartet viser, står i kortene.
+// Med `onVelg` (story 3.5, FR-24, UX-DR44) er rutene og Startpunkt-markørene interaktive, og et trykk velger
+// kortet. Hver rute har en bred, usynlig trefflinje i et eget lag (`TREFFLAG`) over rutene og under
+// markørene. Markørene er knapper (`role="button"`, `tabIndex={0}`, fra Leaflets `keyboard`) med navnet
+// «Turforslag N: {mal} fra …» (`markornavn`), 44 px høye, og Enter eller mellomrom velger. Et delt
+// Startpunkt velger det første kortet i gruppen som ikke er valgt, og hvert nytt trykk det neste, rundt i
+// gruppen (`velgIGruppe`). Rutene har ingen egen tabulatorstopp: markøren gir samme valg. Markørene står
+// fast mens valget endres (bare ikonet byttes), så fokuset blir stående på markøren. Kartet zoomer ikke på
+// nytt når valget endres. Da er bare dekoren skjult for skjermlesere: flisene, rutene, trefflinjene, Mål og
+// etiketten. Uten `onVelg` (Alternativet) er markørene ikke interaktive, og hele kartlaget er skjult.
+//
+// Kartinfoboksen (Kartinfoboks.tsx) står utenfor kartet, i Resultatet. På PC ligger den over kartet øverst
+// til høyre, og kartet holder rutene til venstre for den (`infoboks`). Tegnforklaringen er skjult for
+// skjermlesere, fordi alt kartet viser, står i kortene.
 // Kartflaten er heller ikke et tabulatorstopp (`keyboard={false}`): zoomknappene er egne knapper på
 // 44 × 44 px med navn, fordi Leaflets knapper har title-attributter og er mindre. Med «Reduser bevegelse»
 // zoomer og panorerer kartet uten animasjon.
@@ -73,26 +99,19 @@ import { BAKGRUNNSKART, KART, NY_FANE, ZOOM_INN, ZOOM_UT } from "./tekster";
 const MIN_ZOOM = 9;
 const MAKS_ZOOM = 17;
 
-/** Startpunktet: sirkelen er 29 px med ringen, og sirklene i en gruppe overlapper 3 px. */
-const PIN = 29;
+/** Sirklene i et delt Startpunkt overlapper 3 px (sirkelen er `PIN`, 29 px). */
 const PIN_STEG = 26;
+/** Startpunkt-markøren er en knapp på minst 44 × 44 px (SM-4), med sirklene i midten. */
+const MARKOR = 44;
 
-/**
- * Margen rundt rutene når kartet zoomer til dem. Til venstre står zoomknappene, og nederst står
- * tegnforklaringen, som er `forklaring` px høy. Til sidene er margen minst halve den bredeste
- * Startpunkt-markøren, så en delt markør i kanten ikke klippes. Etiketten «omtrentlig rute» peker inn
- * mot kartet (se `etikettTilVenstre`) og trenger ikke egen marg. Står teksten om bakgrunnskartet øverst,
- * er `feilBunn` bunnen av den i px, og innholdet holdes under den.
- */
-const marg = (forklaring: number, bredesteMarkor: number, feilBunn = 0): FitBoundsOptions => {
-  const side = bredesteMarkor / 2 + 8;
-  const topp = Math.max(24, PIN / 2 + 8, feilBunn > 0 ? feilBunn + PIN / 2 + 4 : 0);
-  return {
-    paddingTopLeft: [Math.max(64, side), topp],
-    paddingBottomRight: [Math.max(24, side), forklaring + 24],
-    maxZoom: 16,
-    animate: false,
-  };
+/** Laget med de usynlige trefflinjene langs rutene, over rutene (400) og under markørene (600). */
+const TREFFLAG = "kart-treff";
+const TREFFLAG_STIL = { zIndex: "450" };
+/** Trefflinjene er bare for pekeren, ikke for skjermlesere. */
+const skjulLag = (lag: HTMLElement | null) => lag?.setAttribute("aria-hidden", "true");
+/** Mål og etiketten «omtrentlig rute» er pynt i markørlaget, som ellers har Startpunkt-knappene. */
+const SKJULT_IKON: LeafletEventHandlerFnMap = {
+  add: (e) => (e.target as LeafletMarker).getElement()?.setAttribute("aria-hidden", "true"),
 };
 
 /**
@@ -207,18 +226,33 @@ export type KartProps = {
    * da den skjulte teksten for skjermlesere (story 3.4).
    */
   onBakgrunnFeil?: (feilet: boolean) => void;
+  /**
+   * Interaktivt kart (story 3.5): et trykk på en rute eller en Startpunkt-markør, eller Enter og mellomrom på
+   * markøren, velger kortet med indeksen.
+   */
+  onVelg?: (indeks: number) => void;
+  /**
+   * Kartinfoboksen. Ligger den over kartflaten (PC), holder kartet rutene til venstre for den. Bredden måles
+   * når kartet zoomer til rutene, ikke når valget endres.
+   */
+  infoboks?: () => Element | null;
 };
+
+/** Bredden i px som `boks` dekker av kartflaten fra høyre kant (`dekketHoyre` i kart-data.ts). */
+const dekket = (flate: Element, boks: Element | null | undefined) =>
+  dekketHoyre(flate.getBoundingClientRect(), boks?.getBoundingClientRect() ?? null);
 
 function startikon(numre: readonly { nummer: number; valgt: boolean }[]) {
   const bredde = PIN + (numre.length - 1) * PIN_STEG;
+  const flate = Math.max(MARKOR, bredde);
   const html = numre
     .map(({ nummer, valgt }) => `<span class="${stil.pin}${valgt ? ` ${stil.pinValgt}` : ""}">${nummer}</span>`)
     .join("");
   return divIcon({
     className: stil.startpunkt,
     html: `<span class="${stil.pinner}" aria-hidden="true" data-testid="kart-startpunkt">${html}</span>`,
-    iconSize: [bredde, PIN],
-    iconAnchor: [bredde / 2, PIN / 2],
+    iconSize: [flate, MARKOR],
+    iconAnchor: [flate / 2, MARKOR / 2],
   });
 }
 
@@ -243,6 +277,15 @@ const etikettikon = (tilVenstre: boolean) =>
     iconSize: [0, 0],
   });
 const ETIKETT = { hoyre: etikettikon(false), venstre: etikettikon(true) };
+
+/** Trefflinjen til en rute får nummeret til kortet, så testene kan finne den. */
+function merkTreff(lag: LeafletGeoJSON, nummer: number) {
+  lag.eachLayer((l) => {
+    const sti = (l as Path).getElement();
+    sti?.setAttribute("data-testid", "kart-rute-treff");
+    sti?.setAttribute("data-nummer", String(nummer));
+  });
+}
 
 /** Zoomnivået, oppdatert etter hver zoom. `null` før kartet er klart. */
 function useZoom(kart: LeafletKart | null): number | null {
@@ -280,7 +323,10 @@ export function Kart({
   omrade: fastOmrade,
   merker,
   onBakgrunnFeil,
+  onVelg,
+  infoboks,
 }: KartProps) {
+  const interaktiv = !statisk && onVelg !== undefined;
   // Kartutsnittet viser bare kortets egen rute og Startpunkt (UX-DR38), ikke Mål.
   const kort = useMemo(
     () => (statisk ? alleKort.map((k) => ({ ...k, kart: { ...k.kart, malpunkt: undefined } })) : alleKort),
@@ -300,7 +346,7 @@ export function Kart({
     const andre = [...kort.keys()].filter((i) => i !== valgt);
     // Den valgte ruten tegnes sist, så den ligger øverst.
     const rekkefolge = kort[valgt] ? [...andre, valgt] : andre;
-    const ruter = rekkefolge.map((i) => ({ kort: kort[i], valgt: i === valgt }));
+    const ruter = rekkefolge.map((i) => ({ kort: kort[i], indeks: i, valgt: i === valgt }));
     const mal = rekkefolge.flatMap((i) => {
       const punkt = kort[i].kart.malpunkt;
       return punkt ? [{ turId: kort[i].turId, punkt, ikon: malikon(i === valgt) }] : [];
@@ -311,6 +357,8 @@ export function Kart({
         nokkel: `${gruppe.punkt.lat},${gruppe.punkt.lon}`,
         punkt: gruppe.punkt,
         harValgt,
+        gruppe,
+        navn: markornavn(kort, gruppe),
         ikon: startikon(gruppe.kort.map((k) => ({ nummer: k.nummer, valgt: k.indeks === valgt }))),
       };
     });
@@ -354,7 +402,8 @@ export function Kart({
         else if (statisk) tilpassStatisk(kart, omrade, kort, merker?.() ?? []);
         else {
           const hoyde = forklaring.current?.offsetHeight ?? FORKLARING_EN_LINJE;
-          kart.fitBounds(omrade, marg(hoyde, bredesteMarkor, bunnAv(feil.current)));
+          const dekketAv = dekket(flate, infoboks?.());
+          kart.fitBounds(omrade, marg(hoyde, bredesteMarkor, bunnAv(feil.current), dekketAv));
         }
       } finally {
         egen = false;
@@ -370,7 +419,67 @@ export function Kart({
       observator.disconnect();
       kart.off("dragstart zoomstart", merkBruker);
     };
-  }, [kart, omrade, kort, bredesteMarkor, statisk, fastOmrade, merker]);
+  }, [kart, omrade, kort, bredesteMarkor, statisk, fastOmrade, merker, infoboks]);
+
+  // Det interaktive kartet: bare dekoren er skjult for skjermlesere, og markørene er tilgjengelige.
+  useEffect(() => {
+    if (!kart || !interaktiv) return;
+    for (const navn of ["tilePane", "shadowPane", "overlayPane", "tooltipPane", "popupPane"]) {
+      skjulLag(kart.getPane(navn) ?? null);
+    }
+  }, [kart, interaktiv]);
+
+  /** Hendelsene til en Startpunkt-markør: navnet, trykk, og Enter eller mellomrom. */
+  /**
+   * En markør som får fokus, flyttes inn i den synlige delen av kartet: innenfor zoomknappene,
+   * tegnforklaringen og teksten om bakgrunnskartet, og til venstre for Kartinfoboksen på PC. Nettleseren ruller
+   * Leaflet-flaten selv for å vise et fokusert element utenfor den, så rullingen settes tilbake først.
+   */
+  const visMarkor = useCallback(
+    (markor: LeafletMarker) => {
+      if (!kart) return;
+      const flate = kart.getContainer();
+      flate.scrollTop = 0;
+      flate.scrollLeft = 0;
+      const hoyde = forklaring.current?.offsetHeight ?? FORKLARING_EN_LINJE;
+      const { paddingTopLeft, paddingBottomRight } = marg(
+        hoyde,
+        bredesteMarkor,
+        bunnAv(feil.current),
+        dekket(flate, infoboks?.()),
+      );
+      kart.panInside(markor.getLatLng(), { paddingTopLeft, paddingBottomRight, animate: !rolig });
+    },
+    [kart, bredesteMarkor, infoboks, rolig],
+  );
+  // Fokuslytteren settes når markøren legges til, så den kaller alltid den siste `visMarkor`.
+  const visMarkorRef = useRef(visMarkor);
+  useEffect(() => {
+    visMarkorRef.current = visMarkor;
+  }, [visMarkor]);
+
+  const markorhendelser = useCallback(
+    (gruppe: Startgruppe, navn: string): LeafletEventHandlerFnMap | undefined => {
+      if (!interaktiv || !onVelg) return undefined;
+      const velg = () => onVelg(velgIGruppe(gruppe, valgt));
+      return {
+        add: (e) => {
+          const markor = e.target as LeafletMarker;
+          const element = markor.getElement();
+          element?.setAttribute("aria-label", navn);
+          element?.addEventListener("focus", () => visMarkorRef.current(markor));
+        },
+        click: velg,
+        keydown: (e) => {
+          const tast = (e as LeafletKeyboardEvent).originalEvent;
+          if (tast.key !== "Enter" && tast.key !== " ") return;
+          tast.preventDefault();
+          if (!tast.repeat) velg();
+        },
+      };
+    },
+    [interaktiv, onVelg, valgt],
+  );
 
   // Det statiske kartet melder feilen til kortet, og trekker den tilbake når kartet fjernes.
   useEffect(() => {
@@ -387,7 +496,7 @@ export function Kart({
       className={bakgrunnFeilet ? `${flateklasse} ${stil.flisfeil}` : flateklasse}
       data-testid={statisk ? "kart-statisk" : "kart"}
     >
-      <div className={stil.kartlag} aria-hidden="true">
+      <div className={stil.kartlag} aria-hidden={interaktiv ? undefined : "true"}>
         <MapContainer
           ref={settKart}
           className={stil.kartet}
@@ -431,16 +540,13 @@ export function Kart({
               );
             })}
             {lag.mal.map(({ turId, punkt, ikon }) => (
-              <Marker key={turId} position={[punkt.lat, punkt.lon]} icon={ikon} interactive={false} keyboard={false} />
-            ))}
-            {lag.starter.map(({ nokkel, punkt, harValgt, ikon }) => (
               <Marker
-                key={nokkel}
+                key={turId}
                 position={[punkt.lat, punkt.lon]}
                 icon={ikon}
                 interactive={false}
                 keyboard={false}
-                zIndexOffset={harValgt ? 1000 : 0}
+                eventHandlers={SKJULT_IKON}
               />
             ))}
             {lag.etikett && (
@@ -449,9 +555,39 @@ export function Kart({
                 icon={lag.etikett.ikon}
                 interactive={false}
                 keyboard={false}
+                eventHandlers={SKJULT_IKON}
               />
             )}
           </Fragment>
+          {/* Trefflinjene langs rutene: et trykk velger kortet. Den valgte ligger øverst, som ruten. */}
+          {interaktiv && onVelg && (
+            <Pane name={TREFFLAG} ref={skjulLag} style={TREFFLAG_STIL}>
+              {lag.ruter.map(({ kort: k, indeks }) => (
+                <GeoJSON
+                  key={`${k.turId}-${indeks === valgt}`}
+                  data={k.kart.rute}
+                  style={{ className: stil.treff }}
+                  eventHandlers={{
+                    add: (e) => merkTreff(e.target as LeafletGeoJSON, k.kart.nummer),
+                    click: () => onVelg(indeks),
+                  }}
+                />
+              ))}
+            </Pane>
+          )}
+          {/* Markørene står fast når valget endres, så fokuset blir stående. Bare ikonet byttes. */}
+          {lag.starter.map(({ nokkel, punkt, harValgt, ikon, gruppe, navn }) => (
+            <Marker
+              key={nokkel}
+              position={[punkt.lat, punkt.lon]}
+              icon={ikon}
+              interactive={interaktiv}
+              keyboard={interaktiv}
+              autoPanOnFocus={false}
+              zIndexOffset={harValgt ? 1000 : 0}
+              eventHandlers={markorhendelser(gruppe, navn)}
+            />
+          ))}
         </MapContainer>
       </div>
 

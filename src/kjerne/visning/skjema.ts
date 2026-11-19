@@ -118,7 +118,8 @@ export const TurkortSkjema = z.strictObject({
   tidsstolpe: TidsstolpeSkjema,
   dagslysstolpe: DagslysstolpeSkjema,
   regeltekst: Tekst,
-  kartinfoboks: z.strictObject({ navn: Tekst, tekst: Tekst }),
+  /** Kartinfoboksen (FR-24): navnet, «lengde · Vanskelighetsgrad», og «Startpunkt: …» på egen linje. */
+  kartinfoboks: z.strictObject({ navn: Tekst, tekst: Tekst, startpunkt: Tekst }),
   stokkoversiktRad: Tekst,
   lesetekst: Tekst,
   kilde: z.strictObject({ navn: Tekst, url: z.url({ protocol: /^https?$/ }) }),

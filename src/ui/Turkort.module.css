@@ -5,12 +5,15 @@
  */
 .kort {
   --kort-pad: var(--components-turkort-padding-mobile);
+  /* Kanten, som hakkene i perforeringen også bruker. Det valgte kortet på PC har tykkere, skoggrønn kant. */
+  --kant: var(--components-turkort-border-width);
+  --kantfarge: var(--components-turkort-border-color);
   position: relative;
   display: flex;
   flex-direction: column;
   min-width: 0;
   padding: var(--kort-pad);
-  border: var(--components-turkort-border-width) solid var(--components-turkort-border-color);
+  border: var(--kant) solid var(--kantfarge);
   border-radius: var(--components-turkort-rounded);
   background: var(--components-turkort-background);
   box-shadow: 0 var(--components-turkort-base-offset) 0 var(--components-turkort-base-color);
@@ -89,19 +92,19 @@
   top: 0;
   width: calc(2 * var(--components-perforering-notch-radius));
   height: calc(2 * var(--components-perforering-notch-radius));
-  border: var(--components-turkort-border-width) solid var(--components-turkort-border-color);
+  border: var(--kant) solid var(--kantfarge);
   border-radius: 50%;
   background: var(--colors-surface-base);
 }
 
 /* Bare halvdelen inne i kortet vises. Den dekker også kortkanten der hakket er. */
 .perforering::before {
-  left: calc(-1 * var(--components-perforering-notch-radius) - var(--components-turkort-border-width) / 2);
+  left: calc(-1 * var(--components-perforering-notch-radius) - var(--kant) / 2);
   clip-path: inset(-2px -2px -2px calc(50% - 1px));
 }
 
 .perforering::after {
-  right: calc(-1 * var(--components-perforering-notch-radius) - var(--components-turkort-border-width) / 2);
+  right: calc(-1 * var(--components-perforering-notch-radius) - var(--kant) / 2);
   clip-path: inset(-2px calc(50% - 1px) -2px -2px);
 }
 
@@ -213,4 +216,41 @@
   .bareMobil {
     display: none;
   }
+}
+
+/*
+ * Valg på PC (story 3.5): kortet kan trykkes. Det valgte kortet har skoggrønn kant og hviler på den skoggrønne
+ * foten (components.turkort.*Selected). Den tykkere kanten trekkes fra den innvendige luften, så innholdet
+ * ikke flytter seg når valget endres. Fokusringen legges utenpå foten, så foten synes også med fokus.
+ */
+.velgbart {
+  cursor: pointer;
+}
+
+.velgbart[aria-current="true"] {
+  --kant: var(--components-turkort-border-width-selected);
+  --kantfarge: var(--components-turkort-border-color-selected);
+  padding: calc(
+    var(--kort-pad) - var(--components-turkort-border-width-selected) + var(--components-turkort-border-width)
+  );
+  box-shadow: 0 var(--components-turkort-base-offset) 0 var(--components-turkort-base-color-selected);
+}
+
+.velgbart:focus-visible {
+  box-shadow:
+    0 var(--components-turkort-base-offset) 0 var(--components-turkort-base-color),
+    var(--fokusring);
+}
+
+.velgbart[aria-current="true"]:focus-visible {
+  box-shadow:
+    0 var(--components-turkort-base-offset) 0 var(--components-turkort-base-color-selected),
+    var(--fokusring);
+}
+
+/* «Vis på kartet» står til høyre i foten, med kildelenken til venstre (skissen pc-2). */
+.visPaKartet {
+  margin-left: auto;
+  padding: 0 var(--spacing-5);
+  font-size: 15px;
 }

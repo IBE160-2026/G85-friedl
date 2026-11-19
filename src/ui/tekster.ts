@@ -90,6 +90,12 @@ export const plassTekst = (nummer: number, antall: number) => `${nummer} av ${an
 /** Foran kildens navn i kildelenken: «Kilde: morotur.no». */
 export const KILDE = "Kilde:";
 
+/**
+ * Knappen i foten på Turkortet på PC (story 3.5, DESIGN.md › Turkort punkt 10): «Vis på kartet» velger kortet,
+ * og når kortet er valgt, står «Vises på kartet» med haken.
+ */
+export const VIS_PA_KARTET = { velg: "Vis på kartet", valgt: "Vises på kartet" } as const;
+
 /** De korte etikettene på Kriterieradene, som får plass ved 360 px. */
 export const RADETIKETT = { tid: "Tid", vaer: "Vær", onsker: "Ønsker", morke: "Mørke" } as const;
 /** Det tilgjengelige navnet på Kriterieradene, med PRD-begrepene (EXPERIENCE.md › Voice and Tone). */

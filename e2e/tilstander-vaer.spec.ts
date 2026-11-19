@@ -1,5 +1,5 @@
 import type { Locator, Page } from "@playwright/test";
-import { expect, test } from "./fixtures";
+import { expect, liveOmrade, test } from "./fixtures";
 import type { Resultatvisning } from "../src/kjerne/visning/skjema";
 
 // Story 2.10: Bedre tidsvindu og Frarådet i Resultatet, mot tabellen under FR-6. Bedre tidsvindu-boksen
@@ -244,7 +244,7 @@ test.describe("Frarådet (uj-3)", () => {
 
   test("live-området har «Ingen Turforslag»", async ({ page }) => {
     await uj3(page);
-    await expect(page.locator('div[aria-live="polite"]')).toHaveText("Ingen Turforslag");
+    await expect(liveOmrade(page)).toHaveText("Ingen Turforslag");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Ingen Turforslag");
     await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
   });
