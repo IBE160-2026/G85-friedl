@@ -161,7 +161,26 @@ export const KONTAKTFEIL = {
   provIgjen: "Prøv igjen",
 } as const;
 
+// --- Kartet ---
+
+/** Tegnforklaringen og etiketten ved den valgte ruten (UX-DR36). */
+export const KART = {
+  startpunkt: "Startpunkt",
+  mal: "Mål",
+  omtrentligRute: "omtrentlig rute",
+} as const;
+/** Tilgjengelige navn på zoomknappene i kartet. */
+export const ZOOM_INN = "Zoom inn";
+export const ZOOM_UT = "Zoom ut";
+
 // --- Kreditering og bunntekst ---
+
+/** Krediteringen for bakgrunnskartet. Kartet viser «© Kartverket» som lenke i en pille nede til høyre. */
+export const BAKGRUNNSKART = {
+  etikett: "Bakgrunnskart:",
+  tekst: "© Kartverket",
+  lenke: "https://www.kartverket.no/",
+} as const;
 
 /**
  * Krediteringen (FR-29): «Værdata: Data fra MET Norway · Turstier: Turrutebasen, Kartverket ·
@@ -175,7 +194,7 @@ export const KREDITERING: readonly {
   { etikett: "Værdata:", tekst: "Data fra MET Norway", lenke: "https://www.met.no/" },
   { etikett: "Turstier:", tekst: "Turrutebasen, Kartverket" },
   { etikett: "Turer:", tekst: "morotur.no og Fjord Norway" },
-  { etikett: "Bakgrunnskart:", tekst: "© Kartverket", lenke: "https://www.kartverket.no/" },
+  BAKGRUNNSKART,
 ];
 
 /** Skjult tekst i lenker som åpner i ny fane, for skjermlesere. */

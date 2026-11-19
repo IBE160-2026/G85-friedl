@@ -1,4 +1,5 @@
-import { expect, type Locator, type Page, test } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import type { Resultatvisning, Turkort } from "../src/kjerne/visning/skjema";
 
 // Story 1.13: Stokken på mobil og nettbrett mot ?demo=uten-vaer, der «nå» er man. 9. nov. 2026 kl. 13:30.

@@ -20,6 +20,7 @@ npm install && npm run dev
 
 - Du trenger ingen `.env`, ingen `ANTHROPIC_API_KEY` og ingen andre nøkler eller betalte kontoer (NFR-3). Uten språkmodellnøkkel virker alt unntatt Språkmodellteksten, og den er ikke bygget ennå (Epic 4).
 - Uten Demomodus henter serveren Værmeldingen fra MET Locationforecast for Værpunktet (400 moh). MET krever ingen nøkkel. Får serveren ikke kontakt med MET, står «Været er ikke vurdert.» i Resultatet, og Turforslagene vises likevel.
+- Bakgrunnskartet i Resultatet er Kartverkets gråtonekart. Nettleseren henter kartflisene direkte fra `cache.kartverket.no`, uten nøkkel. Kartverket får da brukerens IP-adresse og hvilket kartutsnitt som vises. Ellers kontakter nettleseren bare appens egen server (AR-20).
 - `.env.example` viser den eneste valgfrie variabelen, `ANTHROPIC_API_KEY`. Den leses bare på serveren. Legg aldri en ekte nøkkel i repoet.
 - Produksjonsbygget startes med `npm run build && npm start`.
 
@@ -52,7 +53,7 @@ CI=1 npx playwright test   # Playwright mot produksjonsbygget, som i CI
 
 - Første gang Playwright kjøres, må Chromium installeres: `npx playwright install chromium`.
 - `npm run test:e2e` starter `next dev` på port 3100, eller bruker en server som allerede kjører der. Med `CI=1` bygges appen med `npm run build` og startes med `npm start`.
-- Ingen test kaller MET eller Anthropic. Playwright-testene går mot den lokale serveren med `?demo=`. Vitest-testene for MET-klienten bruker en falsk `fetch`.
+- Ingen test kaller MET, Anthropic eller Kartverket. Playwright-testene går mot den lokale serveren med `?demo=`, og `e2e/fixtures.ts` stubber kartflisene fra `cache.kartverket.no` med en grå PNG. Vitest-testene for MET-klienten bruker en falsk `fetch`.
 - `e2e/sluttsjekk.spec.ts` er sjekklisten i SM-4 ved 360, 768 og 1440 px. Resultatene står i `_bmad-output/implementation-artifacts/epic-1-sluttsjekk.md` og `epic-2-sluttsjekk.md`.
 - `npm run svartid` måler svartiden (NFR-5) mot Production med «Fast 4G»-struping, med `?demo=uten-vaer`. `npm run svartid -- https://g85-friedl.vercel.app/` måler med ekte MET, og `npm run svartid -- <url>` mot en annen server. Skriptet trenger Chromium fra Playwright.
 
@@ -73,6 +74,7 @@ Appen er publisert på Vercel: **https://g85-friedl.vercel.app**
 - Push til `main` publiseres til Production. Push til andre greiner gir en Preview-URL.
 - Vercels egen Git-kobling deployer. CI-workflowen deployer ikke.
 - Funksjonene kjører i regionen `arn1` (Stockholm), satt i `vercel.json`. Siden rendres dynamisk per forespørsel.
+- Kartflisene går ikke via Vercel: nettleseren henter dem direkte fra `cache.kartverket.no` (uten nøkkel), og Kartverket ser IP-adressen og kartutsnittet. I Playwright er flisene stubbet.
 - Tilgang (avklart 2026-11-18): Vercel-appen var allerede installert i GitHub-organisasjonen IBE160-2026 med tilgang til alle repoer, så ingen godkjenning trengtes. Reserven med deploy fra GitHub Actions og `VERCEL_TOKEN` brukes ikke.
 
 ## Rutegeometri og konverteringsskriptet

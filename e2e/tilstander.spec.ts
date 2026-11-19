@@ -1,4 +1,5 @@
-import { expect, type Page, type Route, test } from "@playwright/test";
+import type { Page, Route } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import type { Sok } from "../src/kjerne/sok";
 import type { Resultatvisning } from "../src/kjerne/visning/skjema";
 

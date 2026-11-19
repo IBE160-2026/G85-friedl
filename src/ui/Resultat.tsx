@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Sok } from "@/kjerne/sok";
 import type { DittSok as DittSokData, Resultatvisning } from "@/kjerne/visning/skjema";
 import { Ansvarsmerknad } from "./Ansvarsmerknad";
@@ -8,6 +8,7 @@ import { BedreTidsvinduKort } from "./BedreTidsvinduKort";
 import { DittSok } from "./DittSok";
 import { DittSokLinje } from "./DittSokLinje";
 import { FraradetKort } from "./FraradetKort";
+import { KartLaster } from "./KartLaster";
 import { Knapp } from "./Knapp";
 import { Kontaktfeil } from "./Kontaktfeil";
 import { Plassholderstokk } from "./Plassholderstokk";
@@ -27,14 +28,19 @@ import { Vaervarsling } from "./Vaervarsling";
 //
 // Tilstandene:
 // - Venter: Ditt søk og Plassholderstokken der kortene ellers står.
-// - Resultat med Turforslag. PC (fra 1200 px): Ditt søk som panel, vær-delen, overskriften,
+// - Resultat med Turforslag. PC (fra 1200 px): Ditt søk som panel, vær-delen, overskriften, kartet,
 //   Turkortene side om side og Ansvarsmerknaden. Mobil og nettbrett: Ditt søk som én linje med «Endre
-//   søk» i toppfeltet, vær-delen, overskriften, Stokken med Stokknavigasjon, Stokkoversikten og
-//   Ansvarsmerknaden. Begge oppsettene står i DOM-en, og CSS viser ett av dem ved 1200 px.
+//   søk» i toppfeltet, vær-delen, overskriften, Stokken med Stokknavigasjon, kartet, Stokkoversikten og
+//   Ansvarsmerknaden. Begge oppsettene står i DOM-en, og CSS viser ett av dem ved 1200 px. Kartet står
+//   én gang, mellom Stokken og Stokkoversikten. På PC er de skjult, så kartet står over kortene uten at
+//   rekkefølgen i DOM-en endres (UX-DR13).
 //   Vær-delen er Værsammendraget (god og middels), Værvarslingen med Bedre tidsvindu-boksen (dårlig)
 //   eller Værmangel-linjen.
 // - Resultat med Alternativ: som over, men med Alternativkortet, «Endre Tilgjengelig tid», teksten
 //   under og Ansvarsmerknaden. Ingen Stokk og ingen Stokkoversikt, og kortet står likt ved alle bredder.
+//   Kartet viser ruten til den korteste Turen, i samme bredde som kortet. Det står over kortet på PC og
+//   etter det på mobil og nettbrett. Begge plassene står i DOM-en, og CSS viser én, så rekkefølgen i
+//   DOM-en er den samme som på skjermen ved alle bredder. Det skjulte kartet tilpasses når det vises.
 // - Frarådet: Ditt søk med «Endre søk», overskriften «Ingen Turforslag», Frarådet-kortet og Bedre
 //   tidsvindu-kortet, ved siden av hverandre på PC og under hverandre på mobil. Ingen vær-del, kart,
 //   Ansvarsmerknad eller Turkort.
@@ -44,7 +50,7 @@ import { Vaervarsling } from "./Vaervarsling";
 // `onBrukBedreTidsvindu`, gjennom samme flyt som «Finn tur», og det nye Resultatet erstatter dette.
 //
 // Valgt kort er én tilstand her (indeks, kort 1 fra start). Stokken viser det valgte kortet, og kartet
-// kobles til samme tilstand i story 3.5. Et nytt Søk (ny `resultatId`) setter det tilbake til kort 1.
+// uthever det. Valg fra kartet og fra kortene på PC kommer i story 3.5. Et nytt Søk (ny `resultatId`) setter det tilbake til kort 1.
 //
 // Komponenten står alltid i treet, også på Søk, slik at det høflige live-området overlever byttet
 // mellom flatene. I live-området står `liveTekst` (skjult, bare for skjermlesere), Plassholderstokken med
@@ -100,6 +106,7 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
 
   const turforslag = visning?.utfall.type === "turforslag" ? visning.utfall.kort : null;
   const alternativ = visning?.utfall.type === "kortesteTur" ? visning.utfall : null;
+  const alternativKart = useMemo(() => (alternativ ? [alternativ.kort] : null), [alternativ]);
   // Frarådet: utfallet og Værklassen smalnes én gang. Skjemaet krever vurdert vær og Bedre tidsvindu ved
   // frarådet. Mangler været likevel, står Ditt søk med «Endre søk» og overskriften, så siden aldri er tom.
   // Mangler Bedre tidsvindu, står Frarådet-kortet alene.
@@ -175,14 +182,17 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
 
       {visning && turforslag && (
         <div key={`bunn-${visning.resultatId}`} className={stil.bunn}>
+          <div className={stil.mobil}>
+            <Stokk ref={stokk} kort={turforslag} valgt={valgt} onVelg={velg} />
+          </div>
+          <KartLaster kort={turforslag} valgt={valgt} />
+          <div className={stil.mobil}>
+            <Stokkoversikt kort={turforslag} valgt={valgt} onVelg={velgFraOversikt} />
+          </div>
           <div className={`${stil.pc} ${stil.kortene}`} data-testid="kortraden">
             {turforslag.map((kort) => (
               <Turkort key={kort.turId} kort={kort} antall={turforslag.length} />
             ))}
-          </div>
-          <div className={`${stil.mobil} ${stil.stokkdel}`}>
-            <Stokk ref={stokk} kort={turforslag} valgt={valgt} onVelg={velg} />
-            <Stokkoversikt kort={turforslag} valgt={valgt} onVelg={velgFraOversikt} />
           </div>
           <Ansvarsmerknad />
         </div>
@@ -190,6 +200,11 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
 
       {visning && alternativ && (
         <div key={`bunn-${visning.resultatId}`} className={stil.bunn}>
+          {alternativKart && (
+            <div className={`${stil.pc} ${stil.alternativKart}`}>
+              <KartLaster kort={alternativKart} valgt={0} />
+            </div>
+          )}
           <div className={stil.alternativ}>
             <Turkort kort={alternativ.kort} antall={1} alternativ />
             <div className={stil.alternativHandling}>
@@ -201,6 +216,11 @@ export function Resultat({ tilstand, onEndreSok, onEndreTilgjengeligTid, onProvI
               </p>
             </div>
           </div>
+          {alternativKart && (
+            <div className={`${stil.mobil} ${stil.alternativKart}`}>
+              <KartLaster kort={alternativKart} valgt={0} />
+            </div>
+          )}
           <Ansvarsmerknad />
         </div>
       )}

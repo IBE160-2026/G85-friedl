@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import { ResultatvisningSkjema } from "../src/kjerne/visning/skjema";
 
 // Story 1.10: POST /api/sok mot den ekte Next-serveren, så route handleren og den statiske importen

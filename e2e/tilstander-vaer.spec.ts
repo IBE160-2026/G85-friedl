@@ -1,4 +1,5 @@
-import { expect, type Locator, type Page, test } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import type { Resultatvisning } from "../src/kjerne/visning/skjema";
 
 // Story 2.10: Bedre tidsvindu og Frarådet i Resultatet, mot tabellen under FR-6. Bedre tidsvindu-boksen

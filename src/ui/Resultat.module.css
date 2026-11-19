@@ -39,10 +39,9 @@
   display: none;
 }
 
-.stokkdel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-10);
+/* Stokkoversikten står ikke ved ett kort. Da tar den tomme plassen ikke noe mellomrom. */
+.mobil:empty {
+  display: none;
 }
 
 /*
@@ -74,6 +73,12 @@
   font-size: var(--typography-body-font-size);
   line-height: var(--typography-body-line-height);
   color: var(--colors-ink-secondary);
+}
+
+/* Kartet ved Alternativet er like bredt som Alternativkortet. */
+.alternativKart {
+  width: 100%;
+  max-width: var(--spacing-text-max-width);
 }
 
 @media (min-width: 768px) {

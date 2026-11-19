@@ -1,0 +1,271 @@
+/*
+ * Kartet i Resultatet (DESIGN.md › Kart, UX-DR36). Kartflaten er 250 px høy på mobil og nettbrett og
+ * 340 px på PC. Plassholderen mens Leaflet laster, har samme klasse, så siden ikke hopper.
+ * `isolation` holder Leaflets lag (z-index 400–700) inne i flaten. Zoomknappene, tegnforklaringen og
+ * krediteringspillen står over kartet, utenfor Leaflet-flaten, så et trykk på dem ikke flytter kartet.
+ */
+.flate {
+  position: relative;
+  isolation: isolate;
+  height: var(--spacing-map-height-mobile);
+  border: 1.4px solid var(--colors-border-card);
+  border-radius: var(--components-kart-rounded);
+  background: var(--colors-surface-base);
+}
+
+@media (min-width: 1200px) {
+  .flate {
+    height: var(--spacing-map-height-desktop);
+  }
+}
+
+/* Laget rundt Leaflet-flaten er skjult for skjermlesere og fyller kartflaten. */
+.kartlag {
+  width: 100%;
+  height: 100%;
+}
+
+/* Leaflet-flaten fyller kartflaten. To klasser, så regelen vinner over leaflet.css. */
+.flate .kartet {
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--components-kart-rounded) - 1.4px);
+  background: var(--colors-surface-base);
+  font: inherit;
+}
+
+/*
+ * Rutene: en papirhalo under og linjen over. Alle ruter er stiplet som i skissene. Strekene i
+ * `route-dash` (2.2 1.6) er ganger bredden, som i skissegeneratoren, og står derfor som calc her.
+ */
+.halo,
+.linje {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.halo {
+  stroke: var(--components-kart-route-halo-color);
+  opacity: 0.9;
+}
+
+.halo.valgt {
+  stroke-width: calc(var(--components-kart-route-width) + var(--components-kart-route-halo-width));
+}
+
+.halo.inaktiv {
+  stroke-width: calc(var(--components-kart-route-inactive-width) + var(--components-kart-route-halo-width));
+}
+
+.linje.valgt {
+  stroke: var(--components-kart-route-color);
+  stroke-width: var(--components-kart-route-width);
+  stroke-dasharray: calc(var(--components-kart-route-width) * 2.2) calc(var(--components-kart-route-width) * 1.6);
+}
+
+.linje.inaktiv {
+  stroke: var(--components-kart-route-inactive-color);
+  stroke-width: var(--components-kart-route-inactive-width);
+  stroke-dasharray: calc(var(--components-kart-route-inactive-width) * 2.2)
+    calc(var(--components-kart-route-inactive-width) * 1.6);
+}
+
+/* Startpunktet: nummerert sirkel med papirring. Delt Startpunkt gir numrene side om side. */
+.startpunkt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pinner {
+  display: flex;
+}
+
+.pin {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  border: 2.5px solid var(--components-kart-start-pin-ring);
+  border-radius: var(--rounded-full);
+  background: var(--colors-ink-secondary);
+  color: var(--colors-on-forest);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.pin + .pin {
+  margin-left: -3px;
+}
+
+.pinValgt {
+  background: var(--components-kart-start-pin-color);
+}
+
+/* Den lille sirkelen i tegnforklaringen. */
+.pinLiten {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  font-size: 11px;
+}
+
+/* Mål: trekant med papirkant. */
+.mal {
+  overflow: visible;
+  fill: var(--colors-ink-secondary);
+  stroke: var(--components-kart-start-pin-ring);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.malValgt {
+  fill: var(--components-kart-goal-pin-color);
+}
+
+/* «omtrentlig rute» i kursiv ved midten av den valgte ruten, med papirhalo. */
+.etikett {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 12.5px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--components-kart-label-color);
+  text-shadow:
+    0 0 2px var(--colors-surface-card),
+    0 0 2px var(--colors-surface-card),
+    0 0 3px var(--colors-surface-card);
+}
+
+/* Til venstre for punktet når midten av ruten ligger i den østre halvdelen av kartet. */
+.etikettVenstre {
+  left: auto;
+  right: 10px;
+}
+
+/* Zoomknappene øverst til venstre, 44 × 44 px (SM-4). */
+.zoom {
+  position: absolute;
+  top: var(--spacing-3);
+  left: var(--spacing-3);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.zoomknapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-touch-min);
+  height: var(--spacing-touch-min);
+  padding: 0;
+  border: 1px solid var(--colors-border-card);
+  background: var(--colors-surface-card);
+  color: var(--colors-forest);
+  cursor: pointer;
+}
+
+.zoomknapp:first-child {
+  border-radius: var(--rounded-sm) var(--rounded-sm) 0 0;
+}
+
+.zoomknapp:last-child {
+  margin-top: -1px;
+  border-radius: 0 0 var(--rounded-sm) var(--rounded-sm);
+}
+
+/* Inaktiv ved største eller minste zoom. Knappen kan fortsatt få fokus. */
+.zoomknapp[aria-disabled="true"] {
+  color: var(--colors-ink-muted);
+  cursor: default;
+}
+
+.zoomikon {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+/*
+ * Tegnforklaringen nede til venstre i en papirpille. Den gir plass til krediteringspillen til høyre, og
+ * brytes til flere linjer på smale skjermer.
+ */
+.forklaring {
+  position: absolute;
+  bottom: var(--spacing-3);
+  left: var(--spacing-3);
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-1) var(--spacing-4);
+  max-width: calc(100% - 2 * var(--spacing-3) - 112px);
+  padding: 6px var(--spacing-3);
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-card);
+  color: var(--colors-ink-secondary);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.forklaringsdel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.forklaringsmal {
+  width: 14px;
+  height: 14px;
+}
+
+.strek {
+  width: 28px;
+  height: 8px;
+  stroke: var(--components-kart-route-color);
+  stroke-width: 3.5;
+  stroke-dasharray: 7 5;
+  stroke-linecap: round;
+}
+
+/*
+ * Krediteringspillen nede til høyre: «© Kartverket» som lenke i ny fane (FR-29). Lenken er 44 px høy
+ * (NFR-1), og pillen står nederst i den.
+ */
+.kreditering {
+  position: absolute;
+  right: var(--spacing-2);
+  bottom: 2px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  min-width: var(--spacing-touch-min);
+  min-height: var(--spacing-touch-min);
+  padding: 0 var(--spacing-1);
+  text-decoration: none;
+}
+
+.pille {
+  padding: 3px 10px;
+  border-radius: var(--rounded-full);
+  background: var(--colors-surface-card);
+  color: var(--colors-forest);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test("forsiden er Søk-flaten, på bokmål i Nunito Sans", async ({ page }) => {
   await page.goto("/");

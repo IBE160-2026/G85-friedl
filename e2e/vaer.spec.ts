@@ -1,4 +1,5 @@
-import { expect, type Locator, type Page, test } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
+import { expect, KARTFLISER, test } from "./fixtures";
 import { HOYDEMERKNAD } from "../src/kjerne/vaer/sammendrag";
 import type { Resultatvisning, Vaer } from "../src/kjerne/visning/skjema";
 import { VAERVARSLING_FORKLARING } from "../src/ui/tekster";
@@ -53,7 +54,7 @@ async function uj2(page: Page, tilgjengeligMin = 180): Promise<Resultatvisning> 
   return finnTur(page);
 }
 
-/** Alle foresporsler siden gjør, så testen kan sjekke at nettleseren bare kontakter vår egen server. */
+/** Alle foresporsler siden gjør, så testen kan sjekke hvem nettleseren kontakter. */
 function foresporsler(page: Page): URL[] {
   const urler: URL[] = [];
   page.on("request", (r) => urler.push(new URL(r.url())));
@@ -122,9 +123,10 @@ for (const [navn, viewport] of [
         expect(verdier.y).toBeGreaterThanOrEqual(klasse.y + klasse.height - 1);
       }
 
-      // Nettleseren kontakter bare vår egen server, og ikonet ligger lokalt.
-      const egen = new URL(baseURL!).origin;
-      expect(urler.filter((u) => u.protocol.startsWith("http") && u.origin !== egen).map(String)).toEqual([]);
+      // Nettleseren kontakter bare vår egen server og kartflisene (AR-20), og ikonet ligger lokalt.
+      // Kartflisene er stubbet av fixtures.ts.
+      const tillatt = [new URL(baseURL!).origin, KARTFLISER];
+      expect(urler.filter((u) => u.protocol.startsWith("http") && !tillatt.includes(u.origin)).map(String)).toEqual([]);
     });
   });
 

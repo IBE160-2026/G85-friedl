@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 // Story 1.2 (AD-14, NFR-6): forsiden rendres per forespørsel og har verken informasjonskapsler
 // eller skript fra andre origins. Lokalt går testen mot `next dev`, som også svarer `no-store`;

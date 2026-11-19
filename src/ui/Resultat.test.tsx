@@ -93,10 +93,10 @@ function del(html: string, fra: string, til: string): string {
   if (start < 0 || slutt < 0) throw new Error(`Fant ikke ${start < 0 ? fra : til} i HTML-en`);
   return html.slice(start, slutt);
 }
-/** Kortraden på PC: fra `kortraden` til Stokken. */
-const pcDel = (html: string) => del(html, 'data-testid="kortraden"', 'data-testid="stokk"');
-/** Stokken, Stokknavigasjonen og Stokkoversikten: fra Stokken til Ansvarsmerknaden. */
-const stokkDel = (html: string) => del(html, 'data-testid="stokk"', 'data-testid="ansvarsmerknad"');
+/** Kortraden på PC: fra `kortraden` til Ansvarsmerknaden. */
+const pcDel = (html: string) => del(html, 'data-testid="kortraden"', 'data-testid="ansvarsmerknad"');
+/** Stokken, Stokknavigasjonen, kartet og Stokkoversikten: fra Stokken til kortraden på PC. */
+const stokkDel = (html: string) => del(html, 'data-testid="stokk"', 'data-testid="kortraden"');
 
 const html = renderToString(<Resultat tilstand={som(visning)} {...handlinger} />);
 const pc = pcDel(html);
@@ -202,6 +202,17 @@ describe("Stokken på mobil og nettbrett", () => {
     expect(stokkDel(lag(3))).toContain(">Alle tre i stokken</h2>");
   });
 
+  it("har kartet én gang, som en tom flate på serveren, mellom Stokken og Stokkoversikten (UX-DR13)", () => {
+    expect(html.match(/data-testid="kart-laster"/g)).toHaveLength(1);
+    expect(html).not.toContain("leaflet");
+    const kart = stokk.indexOf('data-testid="kart-laster"');
+    expect(kart).toBeGreaterThan(stokk.indexOf('data-testid="stokknavigasjon"'));
+    expect(kart).toBeLessThan(stokk.indexOf('data-testid="stokkoversikt"'));
+    // Kortraden på PC står etter kartet, så kartet står over kortene.
+    expect(html.indexOf('data-testid="kart-laster"')).toBeLessThan(html.indexOf('data-testid="kortraden"'));
+    expect(lag(1).match(/data-testid="kart-laster"/g)).toHaveLength(1);
+  });
+
   it("har verken Stokknavigasjon eller Stokkoversikt ved ett kort", () => {
     const ett = lag(1);
     expect(ett).toMatch(/<section[^>]*aria-label="Turforslag 1 av 1"[^>]*data-testid="stokk"/);
@@ -277,6 +288,17 @@ describe("Resultat med Alternativ", () => {
     expect(html).toMatch(/<div aria-live="polite"><p[^>]*>Ingen Tur passer 15 min.<\/p><\/div><h1[^>]*>Ingen Tur passer 15 min.<\/h1>/);
   });
 
+  it("har kartet over Alternativkortet for PC og etter kortet og teksten for mobil, før Ansvarsmerknaden", () => {
+    expect(html.match(/data-testid="kart-laster"/g)).toHaveLength(2);
+    const pc = html.indexOf('data-testid="kart-laster"');
+    const mobil = html.lastIndexOf('data-testid="kart-laster"');
+    expect(pc).toBeLessThan(html.indexOf('data-testid="alternativkort"'));
+    expect(html.slice(0, pc)).toMatch(/<div class="[^"]*pc[^"]*alternativKart[^"]*"><div[^>]*$/);
+    expect(mobil).toBeGreaterThan(html.indexOf('data-testid="passer-med"'));
+    expect(html.slice(0, mobil)).toMatch(/<div class="[^"]*mobil[^"]*alternativKart[^"]*"><div[^>]*$/);
+    expect(mobil).toBeLessThan(html.indexOf('data-testid="ansvarsmerknad"'));
+  });
+
   it("har begge formene av Begrunnelsen, som CSS bytter ved 1200 px", () => {
     expect(html).toContain(">Begrunnelse<");
     expect(html).toContain("Begrunnelse: «passer tiden din");
@@ -305,6 +327,7 @@ describe("Resultat mens svaret venter", () => {
     expect(html).toMatch(/<\/div><p tabindex="-1"[^>]*data-testid="plassholder">Finner turer …<\/p><\/div><\/div>/);
     expect(html).not.toContain("<h1");
     expect(html).not.toContain("ansvarsmerknad");
+    expect(html).not.toContain("kart-laster");
   });
 });
 
@@ -327,6 +350,7 @@ describe("Resultat ved Kontaktfeil", () => {
     expect(html.match(/>Endre søk</g)).toHaveLength(1);
     expect(html).not.toContain("ansvarsmerknad");
     expect(html).not.toContain("<article");
+    expect(html).not.toContain("kart-laster");
   });
 
   it("har bare «Endre søk» når serveren avviste Søket", () => {
@@ -432,7 +456,16 @@ describe("Resultat ved frarådet", () => {
     expect(html).toContain('data-testid="ditt-sok"');
     expect(html).toMatch(/<button[^>]*>Endre søk<\/button>/);
     expect(html).toMatch(/<div aria-live="polite"><p[^>]*data-testid="live-tekst">Ingen Turforslag<\/p><\/div><h1[^>]*>Ingen Turforslag<\/h1>/);
-    for (const testid of ["vaersammendrag", "vaervarsling", "vaermangel", "ansvarsmerknad", "turkort", "alternativkort", "stokk"]) {
+    for (const testid of [
+      "vaersammendrag",
+      "vaervarsling",
+      "vaermangel",
+      "ansvarsmerknad",
+      "turkort",
+      "alternativkort",
+      "stokk",
+      "kart-laster",
+    ]) {
       expect(html).not.toContain(`data-testid="${testid}"`);
     }
     expect(html.indexOf("<h1")).toBeLessThan(html.indexOf('data-testid="fraradet-kort"'));

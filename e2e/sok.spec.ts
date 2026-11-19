@@ -1,4 +1,5 @@
-import { expect, type Page, test } from "@playwright/test";
+import type { Page } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 // Story 1.11: Søk-flaten mot ?demo=uten-vaer, der «nå» er man. 9. nov. 2026 kl. 13:30.
 // Testene sjekker tilstand, felt og navn, aldri Turnavn.
