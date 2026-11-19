@@ -92,6 +92,5 @@
 - [x] 2026-11-19 [story-1-14-tilstander](973-2026-11-19-00-40-59-story-1-14-tilstander.md) — Avklar fokus etter «Endre Tilgjengelig tid»: matrisen i specen sier minusknappen, beslutningen sier plussknappen når minus er inaktiv (alltid ved 15 min). Plussknappen er valgt (løst 2026-11-19: beslutningen i specen gjelder)
 - [ ] 2026-11-19 [story-1-14-tilstander](973-2026-11-19-00-40-59-story-1-14-tilstander.md) — Ditt søk mens svaret venter og ved Kontaktfeil viser «I dag», ikke «I dag, man. 9. nov.» som i Resultatet
 - [x] 2026-11-19 [story-1-14-tilstander](973-2026-11-19-00-40-59-story-1-14-tilstander.md) — Story 1.14: review og sprint-status gjenstår (løst 2026-11-19)
-
 - [ ] 2026-11-19 [story-1-15-sluttsjekk](972-2026-11-19-01-08-20-story-1-15-sluttsjekk.md) — Største bredde for Resultat over 1440 px krever en ny token i DESIGN.md
 - [ ] 2026-11-19 [story-1-15-sluttsjekk](972-2026-11-19-01-08-20-story-1-15-sluttsjekk.md) — Etikettene i Dagslysstolpen kan overlappe ved smal bredde eller når andelene ligger tett
