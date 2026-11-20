@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, type KeyboardEvent, type PointerEvent, type Ref, useRef } from "react";
+import { type CSSProperties, type DragEvent, type KeyboardEvent, type PointerEvent, type Ref, useRef } from "react";
 import type { Turkort as TurkortData } from "@/kjerne/visning/skjema";
 import stil from "./Stokk.module.css";
 import { Stokknavigasjon } from "./Stokknavigasjon";
@@ -93,6 +93,12 @@ export function Stokk({ kort, valgt, onVelg, onVisPaKartet, begrunnelser, ref }:
     sveip.current = null;
   }
 
+  // Et sveip som starter på markert tekst, en lenke eller et bilde, ville ellers startet nettleserens
+  // dra-og-slipp. Da kommer `pointercancel` i stedet for slippet, og sveipet blar ikke (Chromium på Linux).
+  function hindreDra(e: DragEvent<HTMLElement>) {
+    e.preventDefault();
+  }
+
   return (
     <div className={stil.stokkomrade}>
       <section
@@ -107,6 +113,7 @@ export function Stokk({ kort, valgt, onVelg, onVisPaKartet, begrunnelser, ref }:
         onPointerUp={opp}
         onPointerCancel={avbryt}
         onLostPointerCapture={avbryt}
+        onDragStart={hindreDra}
         data-testid="stokk"
       >
         {Array.from({ length: kanter }, (_, k) => (
