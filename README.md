@@ -21,6 +21,7 @@ npm run dev
 
 - Appen virker uten noen nøkler, uten `.env`-fil og uten betalte kontoer (NFR-3). Det eneste du mister uten nøkkel, er Språkmodellteksten. Da er Begrunnelsen Regelteksten.
 - Produksjonsbygget startes med `npm run build && npm start`.
+- `npm install` kan advare om at `fsevents` og `unrs-resolver` har install-skript som ikke er godkjent (`allowScripts`), og `npm audit` melder 7 moderate funn i `minimatch` (bare utviklingsavhengigheter). Begge deler kan ignoreres. Appen, ESLint og Vitest virker uten noe mer.
 
 ## API-nøkler og eksterne tjenester
 
@@ -88,11 +89,12 @@ Brukerreisene vises slik. Lenkene går til Production, og lokalt bytter du ut do
 ```sh
 npm test               # Vitest: regelkjernen, kontraktene, Turdatasettet, lagreglene og UI-et
 npm run lint           # ESLint, med lagreglene
-npx tsc --noEmit       # typesjekk
+npx next typegen && npx tsc --noEmit   # typesjekk
 npm run test:e2e       # Playwright mot utviklingsserveren
 CI=1 npx playwright test   # Playwright mot produksjonsbygget, som i CI
 ```
 
+- `next typegen` lager typene `PageProps` og `LayoutProps`. På en ny klone finnes de ikke før `next dev`, `next build` eller `next typegen` har kjørt, og da feiler `tsc` med «Cannot find name 'PageProps'».
 - Første gang Playwright kjøres, må Chromium installeres: `npx playwright install chromium`.
 - `npm run test:e2e` starter `next dev` på port 3100, eller bruker en server som allerede kjører der. Med `CI=1` bygges appen med `npm run build` og startes med `npm start`.
 - Ingen test kaller MET, Anthropic eller Kartverket. Playwright-testene går mot den lokale serveren med `?demo=`, og `e2e/fixtures.ts` stubber kartflisene fra `cache.kartverket.no` med en grå PNG. Vitest-testene for MET-klienten bruker en falsk `fetch`.
