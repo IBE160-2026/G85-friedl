@@ -13,25 +13,54 @@ Repoet inneholder gruppens applikasjon og dokumentasjon av utvikling, testing og
 Du trenger Node.js 26 (`"engines": { "node": "26.x" }` i `package.json`) og npm. Repoet har ingen `.nvmrc`.
 
 ```sh
-npm install && npm run dev
+npm install
+npm run dev
 ```
 
-Åpne så http://localhost:3000.
+Åpne så http://localhost:3000. Prøv for eksempel http://localhost:3000/?demo=uj-1 (se «Demomodus» under).
 
-- Du trenger ingen `.env`, ingen `ANTHROPIC_API_KEY` og ingen andre nøkler eller betalte kontoer (NFR-3). Uten språkmodellnøkkel virker alt unntatt Språkmodellteksten (se «Språkmodellteksten» under).
-- Uten Demomodus henter serveren Værmeldingen fra MET Locationforecast for Værpunktet (400 moh). MET krever ingen nøkkel. Får serveren ikke kontakt med MET, står «Været er ikke vurdert.» i Resultatet, og Turforslagene vises likevel.
-- Bakgrunnskartet i Resultatet er Kartverkets gråtonekart. Nettleseren henter kartflisene direkte fra `cache.kartverket.no`, uten nøkkel. Kartverket får da brukerens IP-adresse og hvilket kartutsnitt som vises. Ellers kontakter nettleseren bare appens egen server (AR-20).
-- `.env.example` viser den eneste valgfrie variabelen, `ANTHROPIC_API_KEY`. Den leses bare på serveren. Legg aldri en ekte nøkkel i repoet.
+- Appen virker uten noen nøkler, uten `.env`-fil og uten betalte kontoer (NFR-3). Det eneste du mister uten nøkkel, er Språkmodellteksten. Da er Begrunnelsen Regelteksten.
 - Produksjonsbygget startes med `npm run build && npm start`.
+
+## API-nøkler og eksterne tjenester
+
+| Tjeneste | Brukes til | Nøkkel | Hva du må gjøre |
+|---|---|---|---|
+| Anthropic (Claude Haiku) | Språkmodellteksten, altså Begrunnelsen i mer naturlig språk | `ANTHROPIC_API_KEY`, **valgfri** | Ingenting for å kjøre appen. Se under hvis du vil prøve Språkmodellteksten. |
+| MET Norway (Locationforecast, samme data som Yr) | Værmeldingen for Værpunktet (400 moh) | Ingen | Ingenting. Serveren sender en identifiserende `User-Agent`, som MET krever. Den må ha internett. |
+| Kartverket (`cache.kartverket.no`) | Bakgrunnskartet (gråtonekart) | Ingen | Ingenting. Nettleseren henter kartflisene direkte og må ha internett. |
+
+### `ANTHROPIC_API_KEY` (valgfri)
+
+1. Lag en nøkkel i Anthropic-konsollen: https://console.anthropic.com/ → **API Keys** → **Create Key**. Kontoen må ha kreditt, og sett gjerne en lav utgiftsgrense i konsollen.
+2. Kopier eksempelfila og lim inn nøkkelen:
+   ```sh
+   cp .env.example .env.local
+   ```
+   ```sh
+   # .env.local
+   ANTHROPIC_API_KEY=sk-ant-...
+   ```
+3. Start `npm run dev` på nytt. Next.js leser `.env.local` bare ved oppstart.
+
+- `.env.local` er git-ignorert (`.env.*` i `.gitignore`). Commit aldri en ekte nøkkel. `.env.example` er den eneste env-fila i repoet, og verdien der er tom.
+- Gi aldri nøkkelen `NEXT_PUBLIC_`-prefiks. Da havner den i JavaScript-koden som sendes til nettleseren. Den leses bare på serveren.
+- **Demomodus virker uten nøkkel.** Med `?demo=` brukes alltid en falsk språkmodell, også når nøkkelen er satt, så demoene gir samme resultat hver gang.
+- Uten nøkkel, eller med en tom verdi, virker alt annet som før.
+- På Vercel settes nøkkelen som miljøvariabel for Production (Settings → Environment Variables).
+
+### Uten internett
+
+- Uten kontakt med MET står «Været er ikke vurdert.» i Resultatet, og Turforslagene vises likevel. Demomodus bruker lagrede Værscenarioer og trenger ikke MET.
+- Uten kontakt med Kartverket blir kartet papirfarget med ruter og Startpunkter, og teksten «Bakgrunnskartet kunne ikke lastes.» vises.
+- Kartverket får brukerens IP-adresse og hvilket kartutsnitt som vises. Ellers kontakter nettleseren bare appens egen server (AR-20).
 
 ## Språkmodellteksten
 
 Med `ANTHROPIC_API_KEY` satt på serveren skriver Claude Haiku (`claude-haiku-5-5`) Begrunnelsen om i mer naturlig språk. Teksten brukes bare hvis den består kontrollen og kommer innen 5 s. Ellers står Regelteksten (FR-22).
 
-- Nøkkelen er valgfri. Uten den, eller med en tom verdi, virker alt annet som før, og Begrunnelsen er Regelteksten.
-- Med `?demo=` brukes alltid den falske språkmodellen, også når nøkkelen er satt.
-- Nøkkelen settes bare i Production på Vercel, under test og demo, og med en lav utgiftsgrense i Anthropic-konsollen. Lokalt og i CI trengs den ikke.
-- Gi den aldri `NEXT_PUBLIC_`-prefiks. Da havner den i JavaScript-koden som sendes til nettleseren.
+- Nøkkelen er valgfri, og oppsettet står under «API-nøkler og eksterne tjenester». Uten den er Begrunnelsen Regelteksten.
+- Testene og CI trenger ikke nøkkelen. Playwright starter serveren med en tom `ANTHROPIC_API_KEY`. En dev-server som allerede kjører på port 3100, brukes som den er.
 - `src/server/sprakmodell/claude.ts` er eneste fil som bruker `@anthropic-ai/sdk`, og ESLint sperrer pakken andre steder. Ingen test kaller Anthropic.
 
 ## Demomodus
