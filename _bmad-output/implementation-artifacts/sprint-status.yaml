@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 11-16-2026 09:01
-last_updated: 11-20-2026 09:58
+last_updated: 11-20-2026 09:59
 project: turplanlegger-app
 project_key: NOKEY
 tracking_system: file-system
@@ -53,9 +53,9 @@ development_status:
   1-15-readme-og-sluttsjekk-for-epic-1: done
   epic-1-retrospective: optional
 
-  epic-2: in-progress
+  epic-2: done
   2-1-værtersklene-og-værklassen: done
-  2-2-kalibrering-av-værtersklene: review
+  2-2-kalibrering-av-værtersklene: done
   2-3-værscenarioer-for-demomodus-og-tester: done
   2-4-værmeldingen-hentes-fra-met: done
   2-5-rangering-i-dårlig-vær: done
@@ -64,19 +64,19 @@ development_status:
   2-8-resultatmodell-for-dårlig-og-frarådet-vær: done
   2-9-vær-delen-i-resultatet: done
   2-10-bedre-tidsvindu-og-frarådet-i-resultatet: done
-  2-11-readme-og-prøvekjøring-for-sensor: review
+  2-11-readme-og-prøvekjøring-for-sensor: done
   epic-2-retrospective: optional
 
-  epic-3: in-progress
-  3-1-kartet-viser-turforslagene: review
-  3-2-kartutsnitt-i-kortene: review
-  3-3-søk-kartet-på-pc: review
-  3-4-når-bakgrunnskartet-ikke-laster: review
-  3-5-velg-turforslag-i-listen-eller-på-kartet: review
+  epic-3: done
+  3-1-kartet-viser-turforslagene: done
+  3-2-kartutsnitt-i-kortene: done
+  3-3-søk-kartet-på-pc: done
+  3-4-når-bakgrunnskartet-ikke-laster: done
+  3-5-velg-turforslag-i-listen-eller-på-kartet: done
   epic-3-retrospective: optional
 
-  epic-4: in-progress
-  4-1-kontroll-av-språkmodellteksten: review
-  4-2-begrunnelse-endepunktet-og-den-falske-språkmodellen: review
-  4-3-claude-haiku-som-språkmodell: review
+  epic-4: done
+  4-1-kontroll-av-språkmodellteksten: done
+  4-2-begrunnelse-endepunktet-og-den-falske-språkmodellen: done
+  4-3-claude-haiku-som-språkmodell: done
   epic-4-retrospective: optional
