@@ -32,7 +32,10 @@ npm run dev
 
 ### `ANTHROPIC_API_KEY` (valgfri)
 
-1. Lag en nøkkel i Anthropic-konsollen: https://console.anthropic.com/ → **API Keys** → **Create Key**. Kontoen må ha kreditt, og sett gjerne en lav utgiftsgrense i konsollen.
+1. Lag en nøkkel i Anthropic-konsollen: https://console.anthropic.com/. Velg menyen **API Keys** (**Nøkler** på norsk) og **Create Key**, eller trykk **Hent API-nøkkel** på forsiden.
+   - API-et krever forhåndskjøpt kreditt, minst 5 USD, under **Billing**. Uten kreditt avviser API-et kallene, og appen viser Regelteksten i stedet for Språkmodellteksten.
+   - Et Claude Pro-abonnement dekker ikke API-bruk. API-et faktureres for seg.
+   - Sett gjerne en lav utgiftsgrense i konsollen.
 2. Kopier eksempelfila og lim inn nøkkelen:
    ```sh
    cp .env.example .env.local
