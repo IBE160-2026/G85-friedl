@@ -8,7 +8,7 @@ Story 2.11 (AR-25, SM-3, SM-4, NFR-5). Sjekket 2026-11-19.
 |---|---|
 | README (AR-25) | Bestått. Lenkene til `?demo=uj-1`, `uj-2` og `uj-3` står i en tabell med «nå», Søk og hva du ser. README har også en ny seksjon om kalibreringen. Setningene om at MET ikke er koblet til, er fjernet. Committet i `b2edf2d`. |
 | Prøvekjøring fra ren klone (SM-3, forberedelse) | Bestått etter en rettelse. Kjørt av Claude, ikke av en person utenfor gruppa. Prøven fant at overskriften sa «som passer nå» etter «Bruk 14:00». Feilen er rettet i `1c6be47`, og prøven ble kjørt på nytt. |
-| SM-3 med en person utenfor gruppa | **Gjenstår.** Må gjøres av et menneske utenfor gruppa. |
+| SM-3 med en person utenfor gruppa | **Ikke målt.** Bevisst beslutning 2026-11-20: tiden før innlevering er begrenset, og verken publisering eller brukertest er krav fra faglærer. |
 | NFR-5 med ekte MET og «Fast 4G» | Bestått. Median 208 ms og maks 209 ms mot Production. Grensen er 3 s. |
 | SM-4 ved 360, 768 og 1440 px | Bestått. `e2e/sluttsjekk.spec.ts` gir 29 av 29. Det er 9 visninger × 3 bredder, pluss Kriterieradene ved 180 og 360 px. |
 | Testene | Bestått. `npm test` gir 1484/1484, `npm run lint` og `npx tsc --noEmit` er rene, og `CI=1 npx playwright test` gir 129/129. |
