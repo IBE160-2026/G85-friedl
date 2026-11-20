@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import type { Kart } from "@/kjerne/visning/skjema";
 import turdatasett from "../../data/turer-moldemarka.json";
 import {
+  ETIKETT_AVSTAND,
+  etikettrekt,
   etikettTilVenstre,
   grenser,
   grupperStartpunkter,
@@ -13,10 +15,12 @@ import {
   markornavn,
   midtpunkt,
   MOLDEMARKA,
+  plasserEtiketter,
   punktgrenser,
   SOK_PRIKK,
   sokflate,
   sokMarg,
+  somHtml,
   velgIGruppe,
 } from "./kart-data";
 
@@ -298,5 +302,113 @@ describe("MOLDEMARKA", () => {
       [Math.min(...lat), Math.min(...lon)],
       [Math.max(...lat), Math.max(...lon)],
     ]);
+  });
+});
+
+describe("plasserEtiketter (Søk-kartet, navnene ved prikkene)", () => {
+  const flate = { bredde: 600, hoyde: 400 };
+  const r = SOK_PRIKK / 2 + ETIKETT_AVSTAND;
+
+  it("etikettrekt for alle fire plassene", () => {
+    expect(etikettrekt(100, 100, 50, 10, "hoyre")).toEqual({ x: 100 + r, y: 95, bredde: 50, hoyde: 10 });
+    expect(etikettrekt(100, 100, 50, 10, "venstre")).toEqual({ x: 100 - r - 50, y: 95, bredde: 50, hoyde: 10 });
+    expect(etikettrekt(100, 100, 50, 10, "over")).toEqual({ x: 75, y: 100 - r - 10, bredde: 50, hoyde: 10 });
+    expect(etikettrekt(100, 100, 50, 10, "under")).toEqual({ x: 75, y: 100 + r, bredde: 50, hoyde: 10 });
+    const h = SOK_PRIKK / 2;
+    expect(etikettrekt(100, 100, 50, 10, "overHoyre")).toEqual({ x: 100 + h, y: 100 - h - 10, bredde: 50, hoyde: 10 });
+    expect(etikettrekt(100, 100, 50, 10, "underHoyre")).toEqual({ x: 100 + h, y: 100 + h, bredde: 50, hoyde: 10 });
+    expect(etikettrekt(100, 100, 50, 10, "overVenstre")).toEqual({ x: 50 - h, y: 100 - h - 10, bredde: 50, hoyde: 10 });
+    expect(etikettrekt(100, 100, 50, 10, "underVenstre")).toEqual({ x: 50 - h, y: 100 + h, bredde: 50, hoyde: 10 });
+  });
+
+  it("til høyre når det er plass, som i pc-1", () => {
+    expect(plasserEtiketter([{ x: 100, y: 100, bredde: 80, hoyde: 16 }], flate)).toEqual(["hoyre"]);
+  });
+
+  it("til venstre ved høyre kant", () => {
+    expect(plasserEtiketter([{ x: 560, y: 100, bredde: 80, hoyde: 16 }], flate)).toEqual(["venstre"]);
+  });
+
+  it("diagonalt når de fire rette plassene er tatt", () => {
+    // Prikker til høyre og venstre, og bokser rett over og rett under. Ned til høyre er ledig.
+    const punkter = [
+      { x: 200, y: 200, bredde: 60, hoyde: 16 },
+      { x: 240, y: 200, bredde: 10, hoyde: 10 },
+      { x: 160, y: 200, bredde: 10, hoyde: 10 },
+    ];
+    const bokser = [
+      { x: 185, y: 170, bredde: 30, hoyde: 18 },
+      { x: 185, y: 212, bredde: 30, hoyde: 18 },
+    ];
+    expect(plasserEtiketter(punkter, flate, bokser)[0]).toBe("underHoyre");
+  });
+
+  it("over eller under når begge sidene er for trange", () => {
+    expect(plasserEtiketter([{ x: 300, y: 300, bredde: 400, hoyde: 16 }], flate)).toEqual(["over"]);
+  });
+
+  it("unngår navnet som alt er plassert og prikken ved siden av", () => {
+    // B står 30 px til høyre for A på samme høyde. A kan ikke stå til høyre, for der er prikken til B.
+    const plasser = plasserEtiketter(
+      [
+        { x: 200, y: 200, bredde: 80, hoyde: 16 },
+        { x: 230, y: 200, bredde: 80, hoyde: 16 },
+      ],
+      flate,
+    );
+    expect(plasser).toEqual(["venstre", "hoyre"]);
+  });
+
+  it("unngår hindringer som Omradeboksen", () => {
+    const boks = { x: 0, y: 0, bredde: 300, hoyde: 150 };
+    // Til høyre og over treffer boksen, og til venstre er utenfor kartet.
+    expect(plasserEtiketter([{ x: 100, y: 150, bredde: 80, hoyde: 16 }], flate, [boks])).toEqual(["under"]);
+  });
+
+  it("uten ledig plass vinner den med minst overlapp, og ved likt overlapp den første", () => {
+    // Navnet er bredere enn kartet. Til høyre og til venstre har like mye utenfor, og mindre enn over og under.
+    const smal = { bredde: 100, hoyde: 30 };
+    expect(plasserEtiketter([{ x: 50, y: 15, bredde: 200, hoyde: 16 }], smal)).toEqual(["hoyre"]);
+  });
+
+  it("et tidlig navn viker når et senere punkt ellers ikke har plass", () => {
+    // A står først og tar høyre. B har bare venstre: høyre er utenfor kartet, og over og under er det
+    // boksene. Da må A flytte til venstre, så begge får plass.
+    const smal = { bredde: 250, hoyde: 200 };
+    const bokser = [
+      { x: 180, y: 60, bredde: 70, hoyde: 30 },
+      { x: 180, y: 110, bredde: 70, hoyde: 30 },
+    ];
+    const punkter = [
+      { x: 115, y: 100, bredde: 100, hoyde: 16 },
+      { x: 237, y: 100, bredde: 100, hoyde: 16 },
+    ];
+    expect(plasserEtiketter(punkter, smal, bokser)).toEqual(["venstre", "venstre"]);
+  });
+
+  it("plasserte navn overlapper ikke hverandre når det er plass", () => {
+    const punkter = [
+      // Tre prikker tett, som rundt Molde sentrum.
+      { x: 200, y: 200, bredde: 120, hoyde: 16 },
+      { x: 230, y: 200, bredde: 120, hoyde: 16 },
+      { x: 215, y: 225, bredde: 120, hoyde: 16 },
+    ];
+    const plasser = plasserEtiketter(punkter, flate);
+    const rekter = punkter.map((p, i) => etikettrekt(p.x, p.y, p.bredde, p.hoyde, plasser[i]));
+    for (let i = 0; i < rekter.length; i++) {
+      for (let j = i + 1; j < rekter.length; j++) {
+        const a = rekter[i];
+        const b = rekter[j];
+        const over = a.x < b.x + b.bredde && b.x < a.x + a.bredde && a.y < b.y + b.hoyde && b.y < a.y + a.hoyde;
+        expect(over, `${i} og ${j}`).toBe(false);
+      }
+    }
+  });
+});
+
+describe("somHtml (navnet i divIcon på Søk-kartet)", () => {
+  it("gjør & < > \" og ' om til entiteter, og lar annen tekst stå", () => {
+    expect(somHtml(`Bakke & Bru <"x"> 'y'`)).toBe("Bakke &amp; Bru &lt;&quot;x&quot;&gt; &#39;y&#39;");
+    expect(somHtml("Hatlelitunnelen (Grua)")).toBe("Hatlelitunnelen (Grua)");
   });
 });

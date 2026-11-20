@@ -87,7 +87,7 @@ Dette dokumentet deler kravene fra PRD-en, UX-kontrakten (DESIGN.md og EXPERIENC
 - FR-25: Brukeren kan zoome og panorere med mus og berøring. Bakgrunnskartet krever ingen nøkkel, og krediteringen synes.
 
 **Turdatasett (§4.6)**
-- FR-26: Hver Tur har ID, navn, Mål, Startpunkt (navn, koordinater og koordinatkilde), retning, lengde totalt, høydemeter med kontrollmerking, høyeste punkt, Vanskelighetsgrad, utsikt, vann, Egnet i dårlig vær, Rutesegmenter (rutenummer og rutenavn), kilde og eventuell Adkomst.
+- FR-26: Hver Tur har ID, navn, Mål, Startpunkt (navn, kortnavn til Søk-kartet, koordinater og koordinatkilde), retning, lengde totalt, høydemeter med kontrollmerking, høyeste punkt, Vanskelighetsgrad, utsikt, vann, Egnet i dårlig vær, Rutesegmenter (rutenummer og rutenavn), kilde og eventuell Adkomst.
   - Lengde totalt gjelder hele turen.
   - Turer som starter på samme sted, har identisk Startpunkt.
   - Adkomst er påkrevd når Startpunktet ligger over 200 m fra Rutesegmentene.

@@ -30,7 +30,7 @@ function turIdFraSti(data: unknown, sti: readonly PropertyKey[]): string | undef
 }
 
 function startpunktLikt(a: Tur["startpunkt"], b: Tur["startpunkt"]): boolean {
-  return a.navn === b.navn && a.lat === b.lat && a.lon === b.lon && a.koordinatkilde === b.koordinatkilde;
+  return a.navn === b.navn && a.kortnavn === b.kortnavn && a.lat === b.lat && a.lon === b.lon && a.koordinatkilde === b.koordinatkilde;
 }
 
 export function validerTurdatasett(data: unknown, geometri: Rutegeometri): Avvik[] {
@@ -116,6 +116,14 @@ export function validerTurdatasett(data: unknown, geometri: Rutegeometri): Avvik
           regel: "ulikt-startpunkt",
           turId: forste[j].id,
           melding: `Startpunktene «${a.navn}» og «${b.navn}» ligger ${meter(d)} fra hverandre, men har ulike navn.`,
+        });
+      } else if (a.kortnavn === b.kortnavn) {
+        // Kortnavnet står ved prikken på Søk-kartet, så to ulike Startpunkter kan ikke dele det. Ligger de så
+        // nær at de trolig er samme sted, er det allerede meldt over.
+        avvik.push({
+          regel: "ulikt-startpunkt",
+          turId: forste[j].id,
+          melding: `Startpunktene «${a.navn}» og «${b.navn}» har samme kortnavn «${a.kortnavn}».`,
         });
       }
     }

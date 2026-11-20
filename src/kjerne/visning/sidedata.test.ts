@@ -50,8 +50,8 @@ const sidedata = (endring: Partial<Sidedata> = {}): Sidedata => ({
     },
   },
   startpunkter: [
-    { navn: "Damefallet", lat: 62.7465, lon: 7.1484 },
-    { navn: "Romsdalsmuseet", lat: 62.7381, lon: 7.1428 },
+    { navn: "Parkering ved Damefallet", kortnavn: "Damefallet", lat: 62.7465, lon: 7.1484 },
+    { navn: "Parkering ved Romsdalsmuseet", kortnavn: "Romsdalsmuseet", lat: 62.7381, lon: 7.1428 },
   ],
   telletekst: "12 Turer fra 8 Startpunkter",
   ...endring,
@@ -107,7 +107,10 @@ describe("SidedataSkjema", () => {
     expect(SidedataSkjema.safeParse({ ...sidedata(), ekstra: 1 }).success).toBe(false);
     expect(SidedataSkjema.safeParse(sidedata({ telletekst: "" })).success).toBe(false);
     expect(SidedataSkjema.safeParse(sidedata({ demo: { id: "x", beskrivelse: "x", na_tekst: "x" } as never })).success).toBe(false);
-    expect(SidedataSkjema.safeParse(sidedata({ startpunkter: [{ navn: "x", lat: 91, lon: 7 }] })).success).toBe(false);
+    expect(SidedataSkjema.safeParse(sidedata({ startpunkter: [{ navn: "x", kortnavn: "x", lat: 91, lon: 7 }] })).success).toBe(false);
+    expect(SidedataSkjema.safeParse(sidedata({ startpunkter: [{ navn: "x", kortnavn: "", lat: 62, lon: 7 }] })).success).toBe(false);
+    const utenKortnavn = { navn: "x", lat: 62, lon: 7 } as Sidedata["startpunkter"][number];
+    expect(SidedataSkjema.safeParse(sidedata({ startpunkter: [utenKortnavn] })).success).toBe(false);
     const enTurdag = sidedata();
     (enTurdag.skjema as { turdager: Turdag[] }).turdager = [iDag()];
     expect(SidedataSkjema.safeParse(enTurdag).success).toBe(false);

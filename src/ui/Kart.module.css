@@ -170,6 +170,74 @@
   background: var(--colors-ink-secondary);
 }
 
+/* Markøren på Søk-kartet: prikken, med navnet plassert rundt den. */
+.startpunkt {
+  pointer-events: none;
+}
+
+/*
+ * Det korte navnet ved prikken på Søk-kartet, som i skissen pc-1: 12 px, halvfet, blekk med papirhalo.
+ * DESIGN.md har ingen token for kartnavn, så størrelsen er fra skissen. Avstanden til prikken er 4 px
+ * (`ETIKETT_AVSTAND` i kart-data.ts), og `data-plass` settes av `plasserEtiketter`.
+ */
+.startnavn {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  color: var(--colors-ink-primary);
+  text-shadow:
+    0 0 2px var(--colors-surface-card),
+    0 0 2px var(--colors-surface-card),
+    0 0 3px var(--colors-surface-card);
+}
+
+.startnavn[data-plass="hoyre"] {
+  top: 50%;
+  left: calc(100% + 4px);
+  transform: translateY(-50%);
+}
+
+.startnavn[data-plass="venstre"] {
+  top: 50%;
+  right: calc(100% + 4px);
+  transform: translateY(-50%);
+}
+
+.startnavn[data-plass="over"] {
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.startnavn[data-plass="under"] {
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* De diagonale plassene: hjørnet av navnet mot hjørnet av prikken. */
+.startnavn[data-plass="overHoyre"] {
+  bottom: 100%;
+  left: 100%;
+}
+
+.startnavn[data-plass="underHoyre"] {
+  top: 100%;
+  left: 100%;
+}
+
+.startnavn[data-plass="overVenstre"] {
+  right: 100%;
+  bottom: 100%;
+}
+
+.startnavn[data-plass="underVenstre"] {
+  top: 100%;
+  right: 100%;
+}
+
 /* Den lille sirkelen i tegnforklaringen. */
 .pinLiten {
   width: 20px;

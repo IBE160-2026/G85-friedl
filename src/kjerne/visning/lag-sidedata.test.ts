@@ -79,6 +79,10 @@ describe("byggSidedata", () => {
     const s = sidedata(osloTilUtc("2026-11-09", "13:30"));
     expect(s.startpunkter).toHaveLength(8);
     expect(new Set(s.startpunkter.map((p) => p.navn)).size).toBe(8);
+    expect(new Set(s.startpunkter.map((p) => p.kortnavn)).size).toBe(8);
+    expect(s.startpunkter.find((p) => p.navn === "Parkering ved Tusten skisenter (mulig avgift)")?.kortnavn).toBe(
+      "Tusten skisenter",
+    );
     expect(s.telletekst).toBe("12 Turer fra 8 Startpunkter");
     expect(byggSidedata({ na: 0, turer: turer.slice(0, 1), demo: null, sprakmodell: false }).telletekst).toBe("1 Tur fra 1 Startpunkt");
   });

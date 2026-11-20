@@ -35,13 +35,16 @@ import {
   type Kartkort,
   markornavn,
   midtpunkt,
+  type Flatrekt,
   type NavngittPunkt,
   PIN,
+  plasserEtiketter,
   punktgrenser,
   SOK_PRIKK,
   type Sokflate,
   sokflate,
   sokMarg,
+  somHtml,
   type Startgruppe,
   velgIGruppe,
 } from "./kart-data";
@@ -86,8 +89,10 @@ import { BAKGRUNNSKART, KART, NY_FANE, ZOOM_INN, ZOOM_UT } from "./tekster";
 // Søk-kartet på PC (`Startpunktkart`, story 3.3, UX-DR40) er samme interaktive kart uten ruter, Mål og
 // etikett. Det viser de 8 Startpunktene fra sidedataene som prikker uten nummer, som i skissen pc-1, og
 // zoomer slik at alle synes. Øverst til venstre står «Moldemarka» og telleteksten (Omradeboks), med
-// zoomknappene under. Tegnforklaringen viser bare Startpunkt. Prikkene har ingen etikett: skissen har
-// ingen etikett ved hover eller fokus, og ingenting skal kreve hover (EXPERIENCE.md › Interaction).
+// zoomknappene under. Tegnforklaringen viser bare Startpunkt. Ved hver prikk står det korte navnet
+// (`kortnavn`) fast, som i pc-1. `plasserEtiketter` setter det til høyre, til venstre, over eller under, der
+// det ikke dekker andre navn, prikker eller overleggene, og plasseringen gjøres på nytt etter zoom, panorering
+// og endret størrelse. Navnene er dekor for skjermlesere. Søk-flaten har en skjult liste med de fulle navnene.
 //
 // Laster ikke kartflisene (flisvakten i Bakgrunnsfeil.tsx, story 3.4, UX-DR39), fjernes flislaget, og flaten
 // blir papirfarget. Ruter, Startpunkter, Mål og kontrollene står som før. Det interaktive kartet og Søk-kartet
@@ -605,12 +610,24 @@ export function Kart({
   );
 }
 
-const PRIKKIKON = divIcon({
-  className: "",
-  html: `<span class="${stil.prikk}" aria-hidden="true" data-testid="sok-kart-startpunkt"></span>`,
-  iconSize: [SOK_PRIKK, SOK_PRIKK],
-  iconAnchor: [SOK_PRIKK / 2, SOK_PRIKK / 2],
-});
+/** Prikken på Søk-kartet med det korte navnet ved siden av. Navnet står til høyre til det er plassert. */
+const prikkikon = (kortnavn: string) =>
+  divIcon({
+    className: stil.startpunkt,
+    html:
+      `<span class="${stil.prikk}" aria-hidden="true" data-testid="sok-kart-startpunkt"></span>` +
+      `<span class="${stil.startnavn}" aria-hidden="true" data-testid="sok-kart-startnavn" data-plass="hoyre">` +
+      `${somHtml(kortnavn)}</span>`,
+    iconSize: [SOK_PRIKK, SOK_PRIKK],
+    iconAnchor: [SOK_PRIKK / 2, SOK_PRIKK / 2],
+  });
+
+/** Et element målt i px fra øverste venstre hjørne av `flate`, eller `null` når det ikke har størrelse. */
+function iFlaten(el: HTMLElement | null, flate: DOMRect): Flatrekt | null {
+  const r = el?.getBoundingClientRect();
+  if (!r || r.width === 0 || r.height === 0) return null;
+  return { x: r.left - flate.left, y: r.top - flate.top, bredde: r.width, hoyde: r.height };
+}
 
 /**
  * Søk-kartet zoomer i halve trinn, så de 8 Startpunktene fyller det høye kartet bedre. Flisene skaleres da
@@ -663,6 +680,56 @@ export function Startpunktkart({ startpunkter, telletekst }: StartpunktkartProps
   const [bakgrunnFeilet, flis] = useBakgrunnFeil();
   const [rolig] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   const omrade = useMemo(() => punktgrenser(startpunkter), [startpunkter]);
+  const ikoner = useMemo(() => startpunkter.map((p) => prikkikon(p.kortnavn)), [startpunkter]);
+  const markorer = useRef<(LeafletMarker | null)[]>([]);
+
+  // Navnene ved prikkene plasseres etter zoom og panorering, når kartflaten eller overleggene endrer
+  // størrelse, når en markør legges til, og når skrifta er lastet (bredden endres da). Flere hendelser i
+  // samme bilde gir én plassering.
+  const planlegg = useRef<() => void>(() => {});
+  const markorhendelser = useMemo<LeafletEventHandlerFnMap>(() => ({ add: () => planlegg.current() }), []);
+
+  useEffect(() => {
+    if (!kart) return;
+    let bilde = 0;
+    let aktiv = true;
+    const plasser = () => {
+      bilde = 0;
+      const boks = kart.getContainer().getBoundingClientRect();
+      const navn = startpunkter.map(
+        (_, i) => markorer.current[i]?.getElement()?.querySelector<HTMLElement>("[data-plass]") ?? null,
+      );
+      const punkter = startpunkter.map((p, i) => {
+        const { x, y } = kart.latLngToContainerPoint([p.lat, p.lon]);
+        return { x, y, bredde: navn[i]?.offsetWidth ?? 0, hoyde: navn[i]?.offsetHeight ?? 0 };
+      });
+      const overlegg = [hjornegruppe.current, feil.current, forklaring.current, kreditering.current];
+      const hindringer = overlegg.map((el) => iFlaten(el, boks)).filter((r): r is Flatrekt => r !== null);
+      const valgte = plasserEtiketter(punkter, { bredde: boks.width, hoyde: boks.height }, hindringer);
+      navn.forEach((el, i) => el?.setAttribute("data-plass", valgte[i]));
+    };
+    const p = () => {
+      if (aktiv && bilde === 0) bilde = requestAnimationFrame(plasser);
+    };
+    planlegg.current = p;
+    kart.on("zoomend moveend resize", p);
+    const observator = new ResizeObserver(p);
+    for (const el of [flate.current, hjornegruppe.current, feil.current, forklaring.current, kreditering.current]) {
+      if (el) observator.observe(el);
+    }
+    // En skrift som lastes senere, endrer bredden på navnene.
+    void document.fonts?.ready.then(p);
+    document.fonts?.addEventListener("loadingdone", p);
+    p();
+    return () => {
+      aktiv = false;
+      planlegg.current = () => {};
+      kart.off("zoomend moveend resize", p);
+      document.fonts?.removeEventListener("loadingdone", p);
+      observator.disconnect();
+      cancelAnimationFrame(bilde);
+    };
+  }, [kart, startpunkter]);
 
   // Kartet zoomer til Startpunktene på nytt når kartflaten, boksen, tegnforklaringen eller krediteringen
   // endrer størrelse. Har brukeren dratt eller zoomet, beholdes utsnittet hennes, til kartflaten selv får en
@@ -748,13 +815,17 @@ export function Startpunktkart({ startpunkter, telletekst }: StartpunktkartProps
           {!bakgrunnFeilet && (
             <TileLayer url={KARTFLISER_URL} minZoom={MIN_ZOOM} maxZoom={MAKS_ZOOM} eventHandlers={flis} />
           )}
-          {startpunkter.map((p) => (
+          {startpunkter.map((p, i) => (
             <Marker
               key={`${p.navn}|${p.lat},${p.lon}`}
+              ref={(m) => {
+                markorer.current[i] = m;
+              }}
               position={[p.lat, p.lon]}
-              icon={PRIKKIKON}
+              icon={ikoner[i]}
               interactive={false}
               keyboard={false}
+              eventHandlers={markorhendelser}
             />
           ))}
         </MapContainer>

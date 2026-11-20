@@ -45,7 +45,7 @@ function startpunkter(turer: readonly Tur[]): Sidedata["startpunkter"] {
   const etterNavn = new Map<string, Sidedata["startpunkter"][number]>();
   for (const { startpunkt } of turer) {
     if (!etterNavn.has(startpunkt.navn)) {
-      etterNavn.set(startpunkt.navn, { navn: startpunkt.navn, lat: startpunkt.lat, lon: startpunkt.lon });
+      etterNavn.set(startpunkt.navn, { navn: startpunkt.navn, kortnavn: startpunkt.kortnavn, lat: startpunkt.lat, lon: startpunkt.lon });
     }
   }
   return [...etterNavn.values()];

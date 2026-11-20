@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Sok } from "@/kjerne/sok";
 import type { DittSok as DittSokData, Resultatvisning } from "@/kjerne/visning/skjema";
 import { Ansvarsmerknad } from "./Ansvarsmerknad";
+import { usePc } from "./brytepunkt";
 import { BedreTidsvinduKort } from "./BedreTidsvinduKort";
 import { useBegrunnelser } from "./begrunnelser";
 import { DittSok } from "./DittSok";
@@ -149,15 +150,24 @@ export function Resultat({
   // «Endre søk» står i toppfeltet på mobil og nettbrett ved et Resultat, også ved frarådet.
   useEndreSokIToppfelt(visning ? onEndreSok : null);
 
-  /** Stokkoversikten: velg kortet, og gå tilbake til Stokken med fokus. */
-  function velgFraOversikt(indeks: number) {
-    velg(indeks);
-    const element = stokk.current;
-    if (!element) return;
-    element.focus({ preventScroll: true });
-    const rolig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    element.scrollIntoView({ block: "start", behavior: rolig ? "auto" : "smooth" });
-  }
+  /** Velg kortet, og gå tilbake til Stokken med fokus, så skjermleseren leser «Turforslag N av M». */
+  const velgIStokken = useCallback(
+    (indeks: number) => {
+      velg(indeks);
+      const element = stokk.current;
+      if (!element) return;
+      element.focus({ preventScroll: true });
+      const rolig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      element.scrollIntoView({ block: "start", behavior: rolig ? "auto" : "smooth" });
+    },
+    [velg],
+  );
+
+  // Et trykk på en rute eller et Startpunkt i hovedkartet. På PC står kortene under kartet, og valget er nok.
+  // Under 1200 px står kartet under Stokken, så siden ruller opp til kortet som ble valgt, som fra
+  // Stokkoversikten (rettelse etter walkthrough av story 3.5).
+  const pc = usePc();
+  const velgFraKartet = pc ? velg : velgIStokken;
 
   /**
    * Kartutsnittet i kortet: rull til kartet, og flytt fokus til kartområdet, så tastatur og skjermleser
@@ -257,10 +267,10 @@ export function Resultat({
             {turforslag[valgt] && (
               <Kartinfoboks ref={infoboks} kort={turforslag[valgt]} antall={turforslag.length} live />
             )}
-            <KartLaster kort={turforslag} valgt={valgt} onVelg={velg} infoboks={finnInfoboks} />
+            <KartLaster kort={turforslag} valgt={valgt} onVelg={velgFraKartet} infoboks={finnInfoboks} />
           </div>
           <div className={stil.mobil}>
-            <Stokkoversikt kort={turforslag} valgt={valgt} onVelg={velgFraOversikt} />
+            <Stokkoversikt kort={turforslag} valgt={valgt} onVelg={velgIStokken} />
           </div>
           <div className={`${stil.pc} ${stil.kortene}`} data-testid="kortraden">
             {turforslag.map((kort, i) => (

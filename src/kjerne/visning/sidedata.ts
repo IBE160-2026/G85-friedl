@@ -29,6 +29,8 @@ const TilgjengeligTidValgSkjema = z.strictObject({
 
 const StartpunktSkjema = z.strictObject({
   navn: Tekst,
+  /** Navnet ved prikken på Søk-kartet (story 3.3). */
+  kortnavn: Tekst,
   lat: z.number().min(-90).max(90),
   lon: z.number().min(-180).max(180),
 });

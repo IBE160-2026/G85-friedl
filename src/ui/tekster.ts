@@ -178,6 +178,8 @@ export const KART = {
   startpunkt: "Startpunkt",
   mal: "Mål",
   omtrentligRute: "omtrentlig rute",
+  /** Navnet på den skjulte listen over Startpunktene på Søk-kartet, for skjermlesere. */
+  startpunkter: "Startpunkter",
 } as const;
 /** Teksten på kartet når flisene til bakgrunnskartet ikke laster (story 3.4, UX-DR39). */
 export const BAKGRUNNSKART_FEIL = "Bakgrunnskartet kunne ikke lastes.";

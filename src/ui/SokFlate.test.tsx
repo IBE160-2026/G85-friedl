@@ -46,8 +46,8 @@ function skjema(iDagLast: boolean): Sidedata["skjema"] {
 /** Startpunktene og telleteksten fra sidedataene (story 3.3). Søk-kartet viser dem bare på PC i nettleseren. */
 const SOKKART = {
   startpunkter: [
-    { navn: "Startpunkt A", lat: 62.74, lon: 7.15 },
-    { navn: "Startpunkt B", lat: 62.76, lon: 7.27 },
+    { navn: "Startpunkt A", kortnavn: "A", lat: 62.74, lon: 7.15 },
+    { navn: "Startpunkt B", kortnavn: "B", lat: 62.76, lon: 7.27 },
   ],
   telletekst: "3 Turer fra 2 Startpunkter",
 };

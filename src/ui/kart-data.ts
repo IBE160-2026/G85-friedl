@@ -23,10 +23,10 @@ export type Kartkort = { turId: string; kart: Kart; mal?: string; fra?: string }
 export type Punkt = Kart["startpunkt"];
 
 /**
- * Et Startpunkt på Søk-kartet, fra sidedataene (story 3.3). Navnet vises med vilje ikke på kartet: skissen
- * pc-1 har ingen etikett ved hover eller fokus, og ingenting skal kreve hover. Det brukes som nøkkel.
+ * Et Startpunkt på Søk-kartet, fra sidedataene (story 3.3). `kortnavn` står ved prikken, som i skissen pc-1.
+ * Det fulle `navn` står i den skjulte listen for skjermlesere og brukes som nøkkel.
  */
-export type NavngittPunkt = Punkt & { navn: string };
+export type NavngittPunkt = Punkt & { navn: string; kortnavn: string };
 
 /** Grenser som Leaflet tar imot: [[sør, vest], [nord, øst]]. */
 export type Grenser = [[number, number], [number, number]];
@@ -230,3 +230,158 @@ export const MOLDEMARKA: Grenser = [
   [62.73451, 7.14728],
   [62.76412, 7.27154],
 ];
+
+const HTML_TEGN: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+/** Tekst som trygt kan settes inn i HTML-en til en `divIcon` (navnet ved prikken på Søk-kartet). */
+export const somHtml = (tekst: string) => tekst.replace(/[&<>"']/g, (t) => HTML_TEGN[t]);
+
+/** Et rektangel i px i kartflaten, med øverste venstre hjørne i (`x`, `y`). */
+export type Flatrekt = { x: number; y: number; bredde: number; hoyde: number };
+
+/** Hvor navnet står i forhold til prikken på Søk-kartet. */
+export type Etikettplass =
+  | "hoyre"
+  | "venstre"
+  | "over"
+  | "under"
+  | "overHoyre"
+  | "underHoyre"
+  | "overVenstre"
+  | "underVenstre";
+
+/**
+ * Rekkefølgen plassene prøves i. Til høyre er som i skissen pc-1. De diagonale plassene kommer sist og har
+ * hjørnet mot hjørnet av prikken. De trengs der prikkene står tett, som rundt Vardeveien når kartet er zoomet ut.
+ */
+export const ETIKETTPLASSER: readonly Etikettplass[] = [
+  "hoyre",
+  "venstre",
+  "over",
+  "under",
+  "underHoyre",
+  "overHoyre",
+  "underVenstre",
+  "overVenstre",
+];
+
+/** Avstanden i px mellom kanten av prikken og navnet. */
+export const ETIKETT_AVSTAND = 4;
+
+/** Rektangelet til et navn som er `bredde` × `hoyde` px, ved prikken med midtpunkt i (`x`, `y`). */
+export function etikettrekt(x: number, y: number, bredde: number, hoyde: number, plass: Etikettplass): Flatrekt {
+  const r = SOK_PRIKK / 2 + ETIKETT_AVSTAND;
+  switch (plass) {
+    case "hoyre":
+      return { x: x + r, y: y - hoyde / 2, bredde, hoyde };
+    case "venstre":
+      return { x: x - r - bredde, y: y - hoyde / 2, bredde, hoyde };
+    case "over":
+      return { x: x - bredde / 2, y: y - r - hoyde, bredde, hoyde };
+    case "under":
+      return { x: x - bredde / 2, y: y + r, bredde, hoyde };
+    case "overHoyre":
+      return { x: x + SOK_PRIKK / 2, y: y - SOK_PRIKK / 2 - hoyde, bredde, hoyde };
+    case "underHoyre":
+      return { x: x + SOK_PRIKK / 2, y: y + SOK_PRIKK / 2, bredde, hoyde };
+    case "overVenstre":
+      return { x: x - SOK_PRIKK / 2 - bredde, y: y - SOK_PRIKK / 2 - hoyde, bredde, hoyde };
+    case "underVenstre":
+      return { x: x - SOK_PRIKK / 2 - bredde, y: y + SOK_PRIKK / 2, bredde, hoyde };
+  }
+}
+
+/** Arealet der to rektangler overlapper. */
+function overlapp(a: Flatrekt, b: Flatrekt): number {
+  const b0 = Math.min(a.x + a.bredde, b.x + b.bredde) - Math.max(a.x, b.x);
+  const h0 = Math.min(a.y + a.hoyde, b.y + b.hoyde) - Math.max(a.y, b.y);
+  return b0 > 0 && h0 > 0 ? b0 * h0 : 0;
+}
+
+/** Største antall forbedringsrunder i `plasserEtiketter`. Hver runde gjør minst ett navn bedre. */
+const MAKS_RUNDER = 20;
+
+/**
+ * Plassene til navnene på Søk-kartet (rettelse etter walkthrough av story 3.3). Et navn bør stå helt inne i
+ * kartflaten og ikke overlappe andre prikker, andre navn eller `hindringer` (Omradeboksen, zoomknappene,
+ * tegnforklaringen, krediteringen og teksten om bakgrunnskartet). Kostnaden til en plass er arealet som
+ * overlapper, der areal utenfor kartflaten teller som overlapp.
+ *
+ * Først tas punktene i en rekkefølge, og hvert får den første plassen i `ETIKETTPLASSER` med lavest kostnad mot
+ * navnene som alt er plassert. Så går forbedringsrundene: hvert navn flyttes til plassen med lavest kostnad mot
+ * alle de andre, men bare når det blir strengt bedre, til en runde ikke endrer noe. Dette prøves med flere
+ * rekkefølger, så et tidlig valg kan vike for et senere punkt som ellers ikke hadde plass. Ved likt overlapp
+ * vinner den første plassen og den første rekkefølgen.
+ */
+export function plasserEtiketter(
+  punkter: readonly { x: number; y: number; bredde: number; hoyde: number }[],
+  flate: { bredde: number; hoyde: number },
+  hindringer: readonly Flatrekt[] = [],
+): Etikettplass[] {
+  const prikker = punkter.map(({ x, y }) => ({
+    x: x - SOK_PRIKK / 2,
+    y: y - SOK_PRIKK / 2,
+    bredde: SOK_PRIKK,
+    hoyde: SOK_PRIKK,
+  }));
+  const hele: Flatrekt = { x: 0, y: 0, bredde: flate.bredde, hoyde: flate.hoyde };
+  const rekt = (i: number, plass: Etikettplass) => {
+    const { x, y, bredde, hoyde } = punkter[i];
+    return etikettrekt(x, y, bredde, hoyde, plass);
+  };
+  /** Kostnaden for navn `i` på `plass`, mot de andre navnene i `andre`. */
+  const kost = (i: number, plass: Etikettplass, andre: readonly (Flatrekt | null)[]) => {
+    const r = rekt(i, plass);
+    const utenfor = r.bredde * r.hoyde - overlapp(r, hele);
+    const mot = (liste: readonly (Flatrekt | null)[]) =>
+      liste.reduce((sum, b, j) => (b === null || j === i ? sum : sum + overlapp(r, b)), 0);
+    return utenfor + mot(prikker) + mot(andre) + hindringer.reduce((sum, h) => sum + overlapp(r, h), 0);
+  };
+  const beste = (i: number, andre: readonly (Flatrekt | null)[]) => {
+    let valgt = ETIKETTPLASSER[0];
+    let lavest = Infinity;
+    for (const plass of ETIKETTPLASSER) {
+      const k = kost(i, plass, andre);
+      if (k < lavest) [valgt, lavest] = [plass, k];
+      if (k === 0) break;
+    }
+    return { plass: valgt, kost: lavest };
+  };
+
+  /** Grådig plassering i `rekkefolge`, så forbedringsrundene. Gir plassene og den samlede kostnaden. */
+  const forsok = (rekkefolge: readonly number[]) => {
+    const plasser: Etikettplass[] = punkter.map(() => ETIKETTPLASSER[0]);
+    const rekter: (Flatrekt | null)[] = punkter.map(() => null);
+    for (const i of rekkefolge) {
+      plasser[i] = beste(i, rekter).plass;
+      rekter[i] = rekt(i, plasser[i]);
+    }
+    for (let runde = 0; runde < MAKS_RUNDER; runde++) {
+      let endret = false;
+      for (const i of rekkefolge) {
+        const na = kost(i, plasser[i], rekter);
+        if (na === 0) continue;
+        const ny = beste(i, rekter);
+        if (ny.kost < na) {
+          plasser[i] = ny.plass;
+          rekter[i] = rekt(i, ny.plass);
+          endret = true;
+        }
+      }
+      if (!endret) break;
+    }
+    const samlet = rekkefolge.reduce((sum, i) => sum + kost(i, plasser[i], rekter), 0);
+    return { plasser, samlet };
+  };
+
+  // Flere startrekkefølger, fordi ett navn om gangen ikke kan bytte plass med et annet: som gitt, baklengs,
+  // fra vest og fra øst. Den første med lavest samlet kostnad vinner, så resultatet er stabilt.
+  const gitt = punkter.map((_, i) => i);
+  const fraVest = [...gitt].sort((a, b) => punkter[a].x - punkter[b].x);
+  let best: { plasser: Etikettplass[]; samlet: number } | null = null;
+  for (const rekkefolge of [gitt, [...gitt].reverse(), fraVest, [...fraVest].reverse()]) {
+    const r = forsok(rekkefolge);
+    if (best === null || r.samlet < best.samlet) best = r;
+    if (r.samlet === 0) break;
+  }
+  return best?.plasser ?? [];
+}

@@ -340,8 +340,13 @@ test.describe("Valg på PC", () => {
     const b = await boks(m);
     expect(b.width).toBeGreaterThanOrEqual(44);
     expect(b.height).toBeGreaterThanOrEqual(44);
+    await m.scrollIntoViewIfNeeded();
+    const rullFor = await page.evaluate(() => window.scrollY);
     await m.click();
     await sjekkValgtPc(page, kort, velgIGruppe(gruppe, 0));
+    // På PC står kortene under kartet, så siden ruller ikke, og fokuset blir på markøren.
+    expect(await page.evaluate(() => window.scrollY)).toBe(rullFor);
+    await expect(m).toBeFocused();
 
     // Tilbake til kort 1 med kortet, og så rute 3 på kartet.
     await d.kortene.nth(0).getByTestId("faktalinje").click();
@@ -423,6 +428,23 @@ test.describe("Delt Startpunkt (UJ-1 med utsikt)", () => {
 /** Kortet som vises i Stokken. */
 const iStokken = (page: Page) => page.getByTestId("stokk-valgt").getByRole("article");
 
+/**
+ * Et valg i hovedkartet under 1200 px ruller opp til Stokken og gir den fokus, som et valg i Stokkoversikten
+ * (rettelse etter walkthrough av story 3.5). Før valget er toppen av Stokken rullet ut av vinduet.
+ */
+async function sjekkRulletTilStokken(page: Page) {
+  const stokk = page.getByTestId("stokk");
+  await expect(stokk).toBeFocused();
+  await expect.poll(async () => (await boks(stokk)).y).toBeGreaterThanOrEqual(-1);
+  expect((await boks(stokk)).y).toBeLessThan(page.viewportSize()!.height / 2);
+}
+
+/** Rull hovedkartet inn, så toppen av Stokken er utenfor vinduet. */
+async function rullTilKartet(page: Page, kart: Locator) {
+  await kart.evaluate((el) => el.scrollIntoView({ block: "end" }));
+  expect((await boks(page.getByTestId("stokk"))).y, "Stokken er rullet ut av vinduet").toBeLessThan(0);
+}
+
 for (const [navn, viewport] of [
   ["mobil", MOBIL],
   ["nettbrett", NETTBRETT],
@@ -445,10 +467,25 @@ for (const [navn, viewport] of [
 
       const gruppe = grupperStartpunkter(kort).find((g) => g.kort.some((k) => k.indeks === 1))!;
       const forventet = velgIGruppe(gruppe, 0);
+      await rullTilKartet(page, d.kart);
       await markor(d.kart, 2).click();
       await expect(iStokken(page)).toHaveAttribute("aria-label", new RegExp(`^Turforslag ${forventet + 1} av 3`));
+      await sjekkRulletTilStokken(page);
       await sjekkInfoboks(d.infoboks, kort[forventet], `Turforslag ${forventet + 1} av 3`);
       await expect.poll(() => sirkelfarge(d.startpunkter, forventet + 1)).toBe(FOREST);
+    });
+
+    test("et trykk på ruten i hovedkartet blar Stokken til kortet og ruller opp til den", async ({ page }) => {
+      await page.goto("/?demo=uten-vaer");
+      const kort = turforslag(await finnTur(page));
+      const d = deler(page);
+      await expect(d.linjer).toHaveCount(6);
+      await rullTilKartet(page, d.kart);
+      const p = await punktPaRute(d.kart, 3);
+      await page.mouse.click(p.x, p.y);
+      await expect(iStokken(page)).toHaveAttribute("aria-label", /^Turforslag 3 av 3/);
+      await sjekkInfoboks(d.infoboks, kort[2], "Turforslag 3 av 3");
+      await sjekkRulletTilStokken(page);
     });
   });
 }
@@ -493,16 +530,23 @@ test.describe("Valg på mobil", () => {
     await expect(iStokken(page)).toHaveAttribute("aria-label", /^Turforslag 3 av 3/);
   });
 
-  test("et trykk på ruten i hovedkartet blar Stokken til kortet", async ({ page }) => {
+  test("Tab til markør 2 i hovedkartet og Enter velger kortet og flytter fokus til Stokken", async ({ page }) => {
     await page.goto("/?demo=uten-vaer");
     const kort = turforslag(await finnTur(page));
     const d = deler(page);
     await expect(d.linjer).toHaveCount(6);
-    await d.kart.scrollIntoViewIfNeeded();
-    const p = await punktPaRute(d.kart, 3);
-    await page.mouse.click(p.x, p.y);
-    await expect(iStokken(page)).toHaveAttribute("aria-label", /^Turforslag 3 av 3/);
-    await sjekkInfoboks(d.infoboks, kort[2], "Turforslag 3 av 3");
+    const m = markor(d.kart, 2);
+    for (let i = 0; i < 40 && !(await m.evaluate((el) => el === document.activeElement)); i++) {
+      await page.keyboard.press("Tab");
+    }
+    await expect(m, "Tab nådde markør 2 innen 40 trykk").toBeFocused();
+    await rullTilKartet(page, d.kart);
+    await page.keyboard.press("Enter");
+    const gruppe = grupperStartpunkter(kort).find((g) => g.kort.some((k) => k.indeks === 1))!;
+    const forventet = velgIGruppe(gruppe, 0);
+    await expect(iStokken(page)).toHaveAttribute("aria-label", new RegExp(`^Turforslag ${forventet + 1} av 3`));
+    await sjekkInfoboks(d.infoboks, kort[forventet], `Turforslag ${forventet + 1} av 3`);
+    await sjekkRulletTilStokken(page);
   });
 });
 

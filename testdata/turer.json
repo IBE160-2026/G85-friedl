@@ -9,6 +9,7 @@
       "mal": "Varden",
       "startpunkt": {
         "navn": "Kaia i Molde sentrum",
+        "kortnavn": "Kaia i Molde sentrum",
         "lat": 62.73451,
         "lon": 7.15585,
         "koordinatkilde": "Kartverkets stedsnavnregister: Storkaia, ved Scandic Hotel Alexandra der skiltingen starter (kilden har ingen koordinater)"
@@ -54,6 +55,7 @@
       "mal": "Storlihytta",
       "startpunkt": {
         "navn": "Parkering ved Romsdalsmuseet",
+        "kortnavn": "Romsdalsmuseet",
         "lat": 62.73973,
         "lon": 7.14728,
         "koordinatkilde": "morotur.no: første punkt i sporet (api/v2/geojson/1280)"
@@ -92,6 +94,7 @@
       "mal": "Storlihytta",
       "startpunkt": {
         "navn": "HC-parkering ved Vardeveien",
+        "kortnavn": "HC-parkering Vardeveien",
         "lat": 62.75124,
         "lon": 7.1476,
         "koordinatkilde": "morotur.no: GPS-koordinatene på turpagen (32V 405383E 6959233N)"
@@ -130,6 +133,7 @@
       "mal": "Skihytta",
       "startpunkt": {
         "navn": "Parkering ved Damefallet, Vardeveien",
+        "kortnavn": "Damefallet",
         "lat": 62.75326,
         "lon": 7.16193,
         "koordinatkilde": "morotur.no: første punkt i sporet for Skihytta fra Damefallet (api/v2/geojson/1413)"
@@ -164,6 +168,7 @@
       "mal": "Tusenårsvarden",
       "startpunkt": {
         "navn": "Parkering ved Damefallet, Vardeveien",
+        "kortnavn": "Damefallet",
         "lat": 62.75326,
         "lon": 7.16193,
         "koordinatkilde": "morotur.no: første punkt i sporet for Skihytta fra Damefallet (api/v2/geojson/1413)"
@@ -206,6 +211,7 @@
       "mal": "Tusenårsvarden",
       "startpunkt": {
         "navn": "Parkering ved Hatlelitunnelen (Grua)",
+        "kortnavn": "Hatlelitunnelen (Grua)",
         "lat": 62.7428,
         "lon": 7.15096,
         "koordinatkilde": "morotur.no: første punkt i sporet for Frænavarden (api/v2/geojson/1948)"
@@ -252,6 +258,7 @@
       "mal": "Tusenårsvarden",
       "startpunkt": {
         "navn": "Fjellbrudammen",
+        "kortnavn": "Fjellbrudammen",
         "lat": 62.75371,
         "lon": 7.17102,
         "koordinatkilde": "morotur.no: første punkt i sporet (api/v2/geojson/1589)"
@@ -306,6 +313,7 @@
       "mal": "Frænavarden",
       "startpunkt": {
         "navn": "Parkering ved Hatlelitunnelen (Grua)",
+        "kortnavn": "Hatlelitunnelen (Grua)",
         "lat": 62.7428,
         "lon": 7.15096,
         "koordinatkilde": "morotur.no: første punkt i sporet for Frænavarden (api/v2/geojson/1948)"
@@ -352,6 +360,7 @@
       "mal": "Moldevatnet",
       "startpunkt": {
         "navn": "Turparkering i Jensgurilia, Nordbyen",
+        "kortnavn": "Jensgurilia",
         "lat": 62.75497,
         "lon": 7.2049,
         "koordinatkilde": "morotur.no: første punkt i sporet for Moldevatnet fra Jensgurilia (api/v2/geojson/198)"
@@ -394,6 +403,7 @@
       "mal": "Midtveishuken",
       "startpunkt": {
         "navn": "Turparkering i Jensgurilia, Nordbyen",
+        "kortnavn": "Jensgurilia",
         "lat": 62.75497,
         "lon": 7.2049,
         "koordinatkilde": "morotur.no: første punkt i sporet for Moldevatnet fra Jensgurilia (api/v2/geojson/198)"
@@ -432,6 +442,7 @@
       "mal": "Bergsvatnet",
       "startpunkt": {
         "navn": "Turparkering i Jensgurilia, Nordbyen",
+        "kortnavn": "Jensgurilia",
         "lat": 62.75497,
         "lon": 7.2049,
         "koordinatkilde": "morotur.no: første punkt i sporet for Moldevatnet fra Jensgurilia (api/v2/geojson/198)"
@@ -474,6 +485,7 @@
       "mal": "Tusten",
       "startpunkt": {
         "navn": "Parkering ved Tusten skisenter (mulig avgift)",
+        "kortnavn": "Tusten skisenter",
         "lat": 62.76412,
         "lon": 7.27154,
         "koordinatkilde": "morotur.no: første punkt i sporet (api/v2/geojson/1852)"

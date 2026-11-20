@@ -919,8 +919,73 @@ async function sjekkStartpunkter(page: Page) {
   expect(await toppmarg()).toBeLessThan(hjorneBunn - innside.y + KLARING + 2);
 }
 
+/** De korte og de fulle navnene på Startpunktene i Turdatasettet. */
+const KORTNAVN = [...new Set(turdatasett.turer.map(({ startpunkt }) => startpunkt.kortnavn))].sort();
+const FULLE_NAVN = [...new Set(turdatasett.turer.map(({ startpunkt }) => startpunkt.navn))].sort();
+
+/**
+ * Navnene ved prikkene på Søk-kartet (rettelse etter walkthrough av story 3.3): ett kortnavn per prikk. Alle
+ * navn med prikken inne i kartflaten står helt inne i flaten, og ingen overlapper et annet navn, en annen prikk
+ * eller overleggene. Uten bakgrunnskart (`medFliser: false`) kan zoomen ikke leses fra flisene, så testen
+ * venter bare på at plasseringen blir riktig.
+ */
+async function sjekkNavn(page: Page, { medFliser = true } = {}) {
+  const k = sokKart(page);
+  const navn = k.kart.getByTestId("sok-kart-startnavn");
+  await expect(navn).toHaveCount(ANTALL_STARTPUNKTER);
+  expect((await navn.allTextContents()).sort()).toEqual(KORTNAVN);
+  if (medFliser) await rolig(k.kart);
+  const flate = await boks(k.leaflet);
+  const feilpille = k.kart.getByTestId("kart-bakgrunn-feil");
+  const pille = (await feilpille.isVisible()) ? [feilpille] : [];
+  const overlegg = await Promise.all(
+    [k.omradeboks, k.zoomInn, k.zoomUt, k.forklaring, k.kreditering, ...pille].map(boks),
+  );
+  const problemer = async () => {
+    const prikker = await Promise.all((await k.startpunkter.all()).map(boks));
+    const etiketter = await Promise.all((await navn.all()).map(boks));
+    const synlige = etiketter.flatMap((b, i) => (inneI(prikker[i], flate) ? [{ b, i }] : []));
+    const feil: string[] = [];
+    for (const { b, i } of synlige) {
+      if (!inneI(b, flate)) feil.push(`navn ${i} står utenfor kartflaten`);
+      if (overlegg.some((o) => overlapper(b, o))) feil.push(`navn ${i} står under et overlegg`);
+      prikker.forEach((p, j) => j !== i && overlapper(b, p) && feil.push(`navn ${i} dekker prikk ${j}`));
+      for (const annen of synlige) {
+        if (annen.i > i && overlapper(b, annen.b)) feil.push(`navn ${i} og ${annen.i} overlapper`);
+      }
+    }
+    return feil;
+  };
+  await expect.poll(problemer).toEqual([]);
+}
+
 test.describe("Søk-kartet på PC", () => {
   test.use({ viewport: PC });
+
+  test("hver prikk har kortnavnet ved seg, uten overlapp, også etter zoom, og de fulle navnene er en skjult liste", async ({
+    page,
+  }) => {
+    await page.goto("/?demo=uten-vaer");
+    const k = sokKart(page);
+    await sjekkStartpunkter(page);
+    await sjekkNavn(page);
+    // Navnene er dekor. Skjermlesere får de fulle navnene i en liste i kartregionen.
+    await expect(k.kart.getByTestId("sok-kart-startnavn").first()).toHaveAttribute("aria-hidden", "true");
+    const liste = k.kart.getByRole("list", { name: "Startpunkter" });
+    expect((await liste.getByRole("listitem").allTextContents()).sort()).toEqual(FULLE_NAVN);
+
+    const z = await rolig(k.kart);
+    await k.zoomInn.click();
+    await ventPaZoom(k.kart, z + 1);
+    await sjekkNavn(page);
+    await k.zoomUt.click();
+    await ventPaZoom(k.kart, z);
+    await sjekkNavn(page);
+    // Ut forbi startzoomen, der prikkene står tettere, og plasseringen fra start ikke lenger holder.
+    await k.zoomUt.click();
+    await ventPaZoom(k.kart, z - 1);
+    await sjekkNavn(page);
+  });
 
   test("står til høyre for Skjemakortet i 7 av 12 kolonner, med Startpunktene og telleteksten", async ({
     page,
@@ -1402,6 +1467,8 @@ for (const viewport of [PC, { width: 1200, height: 900 }]) {
     const fri = { fra: o.x + o.width, til: flate.x + flate.width };
     expect(Math.abs(p.x + p.width / 2 - (fri.fra + fri.til) / 2), "midt i plassen til høyre").toBeLessThan(8);
     for (const punkt of await k.startpunkter.all()) expect(inneI(await boks(punkt), flate)).toBe(true);
+    // Navnene står ved prikkene som før, klar av teksten om bakgrunnskartet.
+    await sjekkNavn(page, { medFliser: false });
 
     // Skjemaet virker: «Finn tur» gir Resultatet.
     await finnTur(page);

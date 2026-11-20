@@ -415,7 +415,7 @@ describe("Mål og «fra …»", () => {
   });
 
   it("tar bare bort Målet når navnet fortsetter med mellomrom", () => {
-    const startpunkt = { navn: "Kaia i Molde sentrum", lat: 62.74, lon: 7.16, koordinatkilde: "test" };
+    const startpunkt = { navn: "Kaia i Molde sentrum", kortnavn: "Kaia", lat: 62.74, lon: 7.16, koordinatkilde: "test" };
     expect(fraTekst({ navn: "Vardenes rundtur", mal: "Varden", startpunkt })).toBe("fra Kaia i Molde sentrum");
     expect(fraTekst({ navn: "Varden rundt", mal: "Varden", startpunkt })).toBe("rundt");
   });

@@ -238,7 +238,7 @@ Pilene er de eneste lovlige avhengighetene. Kjernen bruker bare rene biblioteker
 - **Binds:** FR-1–FR-5, FR-23, NFR-11; EXPERIENCE.md › Søk-kartet og Demo-merket
 - **Prevents:** `new Date()` i `page.tsx`, et ekstra endepunkt for standardverdier, og en side som ignorerer `?demo`
 - **Rule:** `src/app/page.tsx` kaller bare `lagSidedata(demoId)` fra `src/server/side.ts`. Den returnerer ett av to:
-  - `{ demo: { id, beskrivelse, naTekst } | null, skjema, startpunkter, telletekst }`. `skjema` har valgene for begge Turdagene med etikett og om valget er låst, og standard-Søket.
+  - `{ demo: { id, beskrivelse, naTekst } | null, skjema, startpunkter, telletekst }`. Hvert Startpunkt er `{ navn, kortnavn, lat, lon }`, og `kortnavn` står ved prikken på Søk-kartet (rettelse etter walkthrough av story 3.3, 2026-11-20). `skjema` har valgene for begge Turdagene med etikett og om valget er låst, og standard-Søket.
   - `{ feil: 'ukjent-demo', gyldigeDemoIder }`.
 
   Velger brukeren «I dag» på nytt, settes standardverdien fra `skjema`. Tid som har passert etter sidevisningen, håndteres av AD-17.

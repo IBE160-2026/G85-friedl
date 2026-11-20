@@ -11,6 +11,7 @@ import { Preferansebrikke } from "./Preferansebrikke";
 import { Resultat, type Resultattilstand } from "./Resultat";
 import { Segmentvelger } from "./Segmentvelger";
 import { Skjemakort } from "./Skjemakort";
+import skjult from "./skjult.module.css";
 import stil from "./SokFlate.module.css";
 import {
   ETIKETT,
@@ -377,6 +378,12 @@ export function SokFlate({ skjema, startpunkter, telletekst, demoId, sprakmodell
             <div className={stil.kart}>
               {pc ? (
                 <div className={stil.kartregion} role="region" aria-label={KART.navn} data-testid="sok-kart">
+                  {/* Navnene ved prikkene er dekor. Skjermlesere får de fulle navnene her (kartet er aldri eneste kilde). */}
+                  <ul className={skjult.skjult} aria-label={KART.startpunkter}>
+                    {startpunkter.map((p) => (
+                      <li key={`${p.navn}|${p.lat},${p.lon}`}>{p.navn}</li>
+                    ))}
+                  </ul>
                   <StartpunktkartLaster startpunkter={startpunkter} telletekst={telletekst} />
                 </div>
               ) : (

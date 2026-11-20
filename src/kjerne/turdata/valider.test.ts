@@ -89,6 +89,15 @@ describe("skjema: ugyldig felt eller verdi", () => {
     forventSkjemafeil(valider(data), sti("tusten", "startpunkt"), "tusten");
   });
 
+  it("Startpunktet mangler kortnavn, eller det er tomt", () => {
+    const uten = kopi();
+    delete (tur(uten, "tusten").startpunkt as Record<string, unknown>).kortnavn;
+    forventSkjemafeil(valider(uten), sti("tusten", "startpunkt.kortnavn"), "tusten");
+    const tomt = kopi();
+    tur(tomt, "tusten").startpunkt.kortnavn = "";
+    forventSkjemafeil(valider(tomt), sti("tusten", "startpunkt.kortnavn"), "tusten");
+  });
+
   it("breddegrad utenfor -90–90", () => {
     const data = kopi();
     tur(data, "tusten").startpunkt.lat = 95;
@@ -296,6 +305,18 @@ describe("samme sted, samme Startpunkt", () => {
         melding: expect.stringContaining("skihytta-fra-damefallet"),
       },
     ]);
+  });
+
+  it("to ulike Startpunkter med samme kortnavn", () => {
+    const data = kopi();
+    tur(data, "tusten").startpunkt.kortnavn = tur(data, "bergsvatnet").startpunkt.kortnavn;
+    expect(valider(data).map((a) => [a.regel, a.turId])).toEqual([["ulikt-startpunkt", "tusten"]]);
+  });
+
+  it("samme navn, annet kortnavn", () => {
+    const data = kopi();
+    tur(data, "midtveishuken").startpunkt.kortnavn = "Annet";
+    expect(valider(data).map((a) => [a.regel, a.turId])).toEqual([["ulikt-startpunkt", "midtveishuken"]]);
   });
 
   it("samme navn, annen koordinatkilde", () => {

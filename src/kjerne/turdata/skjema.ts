@@ -23,6 +23,8 @@ const LENGDEFAKTOR = { en_vei: 2, tur_retur: 1, rundtur: 1 } as const;
 
 const StartpunktSkjema = z.strictObject({
   navn: Tekst,
+  /** Det korte navnet ved prikken på Søk-kartet, som i skissen pc-1 («Tusten skisenter»). */
+  kortnavn: Tekst,
   lat: Breddegrad,
   lon: Lengdegrad,
   koordinatkilde: Tekst,
