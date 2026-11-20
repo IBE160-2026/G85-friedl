@@ -27,6 +27,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # Verken Vitest eller ESLint typesjekker. `next typegen` lager PageProps/LayoutProps,
+      # som ellers bare finnes etter `next dev`/`next build`.
+      - name: Typesjekk
+        run: npx next typegen && npx tsc --noEmit
+
       - name: Vitest
         run: npm test
 
